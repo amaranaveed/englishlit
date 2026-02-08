@@ -82,7 +82,7 @@ export default function FlashcardReview({ cards, onComplete }: Props) {
       >
         <div className={`flip-card-inner relative w-full ${flipped ? "flipped" : ""}`} style={{ minHeight: 260 }}>
           {/* Front */}
-          <div className="flip-card-front absolute inset-0 rounded-xl border-2 border-border bg-white p-6 flex flex-col items-center justify-center text-center">
+          <div className="flip-card-front absolute inset-0 rounded-xl border-2 border-border bg-surface p-6 flex flex-col items-center justify-center text-center">
             <p className="font-ui text-xs text-grey uppercase tracking-wider mb-3">Question</p>
             <p className="font-body text-lg text-text leading-relaxed">{card.front}</p>
             <p className="font-ui text-xs text-grey mt-4">Tap to reveal</p>

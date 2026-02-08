@@ -90,7 +90,7 @@ export default function FlashcardList({ cards, onRefresh }: Props) {
           placeholder="Search cards…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="rounded-lg border border-border bg-white px-3 py-2 font-ui text-sm text-text placeholder:text-grey focus:outline-none focus:ring-2 focus:ring-teal/30 flex-1 min-w-[140px]"
+          className="rounded-lg border border-border bg-surface px-3 py-2 font-ui text-sm text-text placeholder:text-grey focus:outline-none focus:ring-2 focus:ring-teal/30 flex-1 min-w-[140px]"
         />
 
         {/* Group by toggle */}
@@ -105,7 +105,7 @@ export default function FlashcardList({ cards, onRefresh }: Props) {
               onClick={() => setGroupBy(opt.value)}
               className={`px-3 py-1.5 rounded-md font-ui text-xs font-semibold transition-colors cursor-pointer ${
                 groupBy === opt.value
-                  ? "bg-white text-teal shadow-sm"
+                  ? "bg-surface text-teal shadow-sm"
                   : "text-grey hover:text-text"
               }`}
             >
@@ -118,7 +118,7 @@ export default function FlashcardList({ cards, onRefresh }: Props) {
         <select
           value={dueFilter}
           onChange={(e) => setDueFilter(e.target.value)}
-          className="rounded-lg border border-border bg-white px-3 py-2 font-ui text-sm text-text focus:outline-none focus:ring-2 focus:ring-teal/30 cursor-pointer"
+          className="rounded-lg border border-border bg-surface px-3 py-2 font-ui text-sm text-text focus:outline-none focus:ring-2 focus:ring-teal/30 cursor-pointer"
         >
           <option value="all">All status</option>
           <option value="due">Due now</option>
@@ -173,7 +173,7 @@ export default function FlashcardList({ cards, onRefresh }: Props) {
                   return (
                     <div
                       key={card.id}
-                      className="rounded-lg border border-border bg-white px-4 py-3 flex items-start gap-3"
+                      className="rounded-lg border border-border bg-surface px-4 py-3 flex items-start gap-3"
                     >
                       {/* Type badge (hide if grouped by type) */}
                       {groupBy !== "type" && (

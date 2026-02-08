@@ -36,11 +36,11 @@ export default function TextsPage() {
                   </>
                 );
                 return active ? (
-                  <Link key={t.slug} href={`/texts/${t.slug}`} className="rounded-xl border border-border bg-white p-5 card-hover">
+                  <Link key={t.slug} href={`/texts/${t.slug}`} className="rounded-xl border border-border bg-surface p-5 card-hover">
                     {inner}
                   </Link>
                 ) : (
-                  <div key={t.slug} className="rounded-xl border border-border bg-white p-5 coming-soon-overlay opacity-60">
+                  <div key={t.slug} className="rounded-xl border border-border bg-surface p-5 coming-soon-overlay opacity-60">
                     {inner}
                   </div>
                 );

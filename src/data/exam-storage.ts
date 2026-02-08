@@ -18,6 +18,14 @@ export function saveExamResponse(response: ExamResponse): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
 }
 
+export function updateExamResponse(id: string, updates: Partial<ExamResponse>): void {
+  const all = getExamResponses();
+  const idx = all.findIndex((r) => r.id === id);
+  if (idx === -1) return;
+  all[idx] = { ...all[idx], ...updates };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+}
+
 export function getExamResponseById(id: string): ExamResponse | undefined {
   return getExamResponses().find((r) => r.id === id);
 }

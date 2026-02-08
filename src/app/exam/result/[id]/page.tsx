@@ -3,13 +3,17 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { getExamResponseById } from "@/data/exam-storage";
+import { getExamResponseById, updateExamResponse } from "@/data/exam-storage";
 import { getTextBySlug } from "@/data/text-registry";
+import { addFlashcard } from "@/data/flashcard-storage";
 import type { ExamResponse } from "@/data/types";
 
 export default function ExamResultPage() {
   const { id } = useParams<{ id: string }>();
   const [response, setResponse] = useState<ExamResponse | null>(null);
+  const [marking, setMarking] = useState(false);
+  const [markError, setMarkError] = useState<string | null>(null);
+  const [mistakesAdded, setMistakesAdded] = useState(false);
 
   useEffect(() => {
     const r = getExamResponseById(id);
@@ -31,6 +35,57 @@ export default function ExamResultPage() {
   const minutes = Math.floor(response.timeSpent / 60);
   const seconds = response.timeSpent % 60;
   const wordCount = response.studentAnswer.trim().split(/\s+/).length;
+
+  async function handleMark() {
+    if (!response || marking) return;
+    setMarking(true);
+    setMarkError(null);
+
+    try {
+      const res = await fetch("/api/mark", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          textName: text?.title ?? response.textSlug,
+          question: response.question,
+          answer: response.studentAnswer,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setMarkError(data.error || `API error ${res.status}`);
+        return;
+      }
+
+      // Save marking to localStorage
+      updateExamResponse(response.id, { marking: data.marking });
+      setResponse({ ...response, marking: data.marking });
+    } catch (err) {
+      setMarkError(err instanceof Error ? err.message : "Network error");
+    } finally {
+      setMarking(false);
+    }
+  }
+
+  function handleAddMistakes() {
+    if (!response?.marking?.mistakes || mistakesAdded) return;
+    const now = new Date().toISOString();
+    for (const m of response.marking.mistakes) {
+      addFlashcard({
+        id: `mistake-${response.id}-${m.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 40)}`,
+        type: "mistake",
+        textSlug: response.textSlug,
+        front: m.topic,
+        back: m.correction,
+        confidence: 0,
+        nextReview: now,
+        createdAt: now,
+      });
+    }
+    setMistakesAdded(true);
+  }
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -54,7 +109,7 @@ export default function ExamResultPage() {
       </div>
 
       {/* Student answer */}
-      <div className="rounded-xl border border-border bg-white p-5 mb-6">
+      <div className="rounded-xl border border-border bg-surface p-5 mb-6">
         <p className="font-ui text-xs font-semibold text-grey uppercase tracking-wider mb-2">
           Your Response
         </p>
@@ -68,15 +123,15 @@ export default function ExamResultPage() {
         <>
           {/* Score card */}
           <div className="grid grid-cols-3 gap-3 mb-6">
-            <div className="rounded-xl border border-border bg-white p-4 text-center">
+            <div className="rounded-xl border border-border bg-surface p-4 text-center">
               <p className="font-ui text-xs text-grey uppercase tracking-wider">Level</p>
               <p className="font-display text-2xl font-bold text-teal">{response.marking.level}</p>
             </div>
-            <div className="rounded-xl border border-border bg-white p-4 text-center">
+            <div className="rounded-xl border border-border bg-surface p-4 text-center">
               <p className="font-ui text-xs text-grey uppercase tracking-wider">Mark</p>
               <p className="font-display text-2xl font-bold text-purple">{response.marking.mark}/30</p>
             </div>
-            <div className="rounded-xl border border-border bg-white p-4 text-center">
+            <div className="rounded-xl border border-border bg-surface p-4 text-center">
               <p className="font-ui text-xs text-grey uppercase tracking-wider">Grade</p>
               <p className="font-display text-2xl font-bold text-blue">{response.marking.grade}</p>
             </div>
@@ -88,11 +143,19 @@ export default function ExamResultPage() {
               const data = response.marking![ao];
               const maxMark = ao === "ao2" ? 18 : 6;
               const labels = { ao1: "AO1 — Response & Quotations", ao2: "AO2 — Analysis & Methods", ao3: "AO3 — Context" };
+              const pct = (data.mark / maxMark) * 100;
               return (
-                <div key={ao} className="rounded-lg border border-border bg-white p-4">
+                <div key={ao} className="rounded-lg border border-border bg-surface p-4">
                   <div className="flex items-center justify-between mb-1">
                     <p className="font-ui text-sm font-semibold text-text">{labels[ao]}</p>
                     <span className="font-ui text-sm font-bold text-teal">{data.mark}/{maxMark}</span>
+                  </div>
+                  {/* Progress bar */}
+                  <div className="h-1.5 rounded-full bg-grey-light overflow-hidden mb-2">
+                    <div
+                      className={`h-full rounded-full ${pct >= 70 ? "bg-green" : pct >= 40 ? "bg-orange" : "bg-red"}`}
+                      style={{ width: `${pct}%` }}
+                    />
                   </div>
                   <p className="font-body text-sm text-text leading-relaxed">{data.feedback}</p>
                 </div>
@@ -124,6 +187,36 @@ export default function ExamResultPage() {
             </div>
           </div>
 
+          {/* Mistakes → Flashcards */}
+          {response.marking.mistakes.length > 0 && (
+            <div className="rounded-xl border border-red bg-red-light p-4 mb-6">
+              <div className="flex items-center justify-between mb-2">
+                <p className="font-ui text-sm font-semibold text-red">
+                  Mistakes to Learn ({response.marking.mistakes.length})
+                </p>
+                <button
+                  onClick={handleAddMistakes}
+                  disabled={mistakesAdded}
+                  className={`font-ui text-xs font-bold px-3 py-1 rounded-full transition-colors cursor-pointer ${
+                    mistakesAdded
+                      ? "bg-green-light text-green"
+                      : "bg-red text-white hover:bg-red/90"
+                  }`}
+                >
+                  {mistakesAdded ? "✓ Added to flashcards" : "Add to flashcards"}
+                </button>
+              </div>
+              <div className="space-y-2">
+                {response.marking.mistakes.map((m, i) => (
+                  <div key={i} className="rounded-lg bg-surface-raised p-3">
+                    <p className="font-ui text-sm font-medium text-text">{m.topic}</p>
+                    <p className="font-ui text-xs text-grey mt-0.5">{m.correction}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Model paragraph */}
           {response.marking.modelParagraph && (
             <div className="rounded-xl border-2 border-teal bg-teal-light p-5 mb-6">
@@ -137,15 +230,44 @@ export default function ExamResultPage() {
           )}
         </>
       ) : (
-        <div className="rounded-xl border-2 border-dashed border-border bg-grey-light p-8 text-center mb-6">
+        /* ─── No marking yet: show "Mark my essay" CTA ─── */
+        <div className="rounded-xl border-2 border-dashed border-border bg-surface p-8 text-center mb-6">
           <span className="text-3xl mb-3 block">🤖</span>
           <p className="font-display text-lg font-bold text-text mb-1">
-            AI Marking Coming Soon
+            AI Examiner
           </p>
-          <p className="font-ui text-sm text-grey max-w-md mx-auto">
-            Your essay has been saved. AI-powered marking with AO breakdown,
-            strengths, improvements, and a model paragraph will be available in a future update.
+          <p className="font-ui text-sm text-grey max-w-md mx-auto mb-5">
+            Get your essay marked by an AI examiner with AO breakdown,
+            strengths, improvements, mistakes to learn, and a model paragraph.
           </p>
+
+          {markError && (
+            <div className="rounded-lg bg-red-light border border-red p-3 mb-4 max-w-md mx-auto text-left">
+              <p className="font-ui text-sm text-red font-semibold mb-0.5">Marking failed</p>
+              <p className="font-ui text-xs text-red/80">{markError}</p>
+            </div>
+          )}
+
+          <button
+            onClick={handleMark}
+            disabled={marking}
+            className={`px-8 py-3 rounded-xl font-ui text-sm font-bold transition-all cursor-pointer ${
+              marking
+                ? "bg-grey-light text-grey"
+                : "bg-teal text-white hover:bg-teal/90 shadow-md hover:shadow-lg"
+            }`}
+          >
+            {marking ? (
+              <span className="flex items-center gap-2">
+                <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeDasharray="31.4 31.4" />
+                </svg>
+                Marking your essay…
+              </span>
+            ) : (
+              "Mark my essay →"
+            )}
+          </button>
         </div>
       )}
 

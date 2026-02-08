@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getTextBySlug } from "@/data/text-registry";
 import { getQuotesByText, getExamQuestions } from "@/data/quotes";
 import { getTextOverview } from "@/data/text-overviews";
+import TextAOGuide from "@/components/TextAOGuide";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -41,7 +42,7 @@ export default async function TextOverviewPage({ params }: Props) {
       <div className="grid sm:grid-cols-2 gap-4 mb-10">
         <Link
           href={`/texts/${slug}/quotes`}
-          className="card-hover rounded-xl border border-border bg-white p-6"
+          className="card-hover rounded-xl border border-border bg-surface p-6"
         >
           <span className="text-2xl mb-2 block">📖</span>
           <p className="font-display font-bold text-lg mb-1">
@@ -54,7 +55,7 @@ export default async function TextOverviewPage({ params }: Props) {
 
         <Link
           href="/exam"
-          className="card-hover rounded-xl border border-border bg-white p-6"
+          className="card-hover rounded-xl border border-border bg-surface p-6"
         >
           <span className="text-2xl mb-2 block">✍️</span>
           <p className="font-display font-bold text-lg mb-1">Exam Practice</p>
@@ -64,12 +65,15 @@ export default async function TextOverviewPage({ params }: Props) {
         </Link>
       </div>
 
+      {/* AO Guide */}
+      <TextAOGuide textSlug={slug} textTitle={text.title} />
+
       {overview && (
         <>
           {/* Context summary */}
           <section className="mb-8">
             <h2 className="font-display text-xl font-bold mb-3">Context</h2>
-            <div className="rounded-xl border border-border bg-white p-5">
+            <div className="rounded-xl border border-border bg-surface p-5">
               <p className="font-body text-text leading-relaxed">
                 {overview.contextSummary}
               </p>
@@ -81,12 +85,13 @@ export default async function TextOverviewPage({ params }: Props) {
             <h2 className="font-display text-xl font-bold mb-3">Key Themes</h2>
             <div className="flex flex-wrap gap-2">
               {overview.themes.map((theme) => (
-                <span
+                <Link
                   key={theme}
-                  className="inline-block rounded-full bg-teal-light text-teal font-ui text-sm font-medium px-3 py-1"
+                  href={`/texts/${slug}/quotes?theme=${encodeURIComponent(theme)}`}
+                  className="inline-block rounded-full bg-teal-light text-teal font-ui text-sm font-medium px-3 py-1 hover:bg-teal hover:text-white transition-colors"
                 >
                   {theme}
-                </span>
+                </Link>
               ))}
             </div>
           </section>
@@ -96,15 +101,16 @@ export default async function TextOverviewPage({ params }: Props) {
             <h2 className="font-display text-xl font-bold mb-3">Characters</h2>
             <div className="grid sm:grid-cols-2 gap-3">
               {overview.characters.map((c) => (
-                <div
+                <Link
                   key={c.name}
-                  className="rounded-xl border border-border bg-white px-4 py-3"
+                  href={`/texts/${slug}/quotes?who=${encodeURIComponent(c.name)}`}
+                  className="card-hover rounded-xl border border-border bg-surface px-4 py-3"
                 >
                   <p className="font-ui font-semibold text-sm text-text">
                     {c.name}
                   </p>
                   <p className="font-ui text-xs text-grey mt-0.5">{c.role}</p>
-                </div>
+                </Link>
               ))}
             </div>
           </section>
@@ -119,7 +125,7 @@ export default async function TextOverviewPage({ params }: Props) {
             <Link
               key={q.id}
               href={`/texts/${slug}/quotes/${q.id}`}
-              className="card-hover rounded-lg border border-border bg-white px-4 py-3 flex items-center gap-3"
+              className="card-hover rounded-lg border border-border bg-surface px-4 py-3 flex items-center gap-3"
             >
               <span className="w-7 h-7 rounded-md bg-teal-light text-teal font-ui font-bold text-xs flex items-center justify-center shrink-0">
                 {q.id}

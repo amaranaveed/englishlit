@@ -1,6 +1,23 @@
 import HighlightedText from "./HighlightedText";
 import type { KeyWord } from "@/data/types";
 
+/* ─── AO Badge ────────────────────────────────── */
+function AOBadge({ ao, label }: { ao: string; label: string }) {
+  const styles: Record<string, string> = {
+    ao1: "bg-teal/10 text-teal border-teal/20",
+    ao2: "bg-purple/10 text-purple border-purple/20",
+    ao3: "bg-blue/10 text-blue border-blue/20",
+  };
+  return (
+    <span
+      className={`inline-flex items-center rounded-full border px-2 py-0.5 font-ui text-[10px] font-bold uppercase tracking-wider ${styles[ao] ?? styles.ao1}`}
+      title={label}
+    >
+      {ao.toUpperCase()}
+    </span>
+  );
+}
+
 export function KeyWords({ words }: { words: KeyWord[] }) {
   if (!words.length) return null;
   return (
@@ -12,7 +29,7 @@ export function KeyWords({ words }: { words: KeyWord[] }) {
         {words.map((w) => (
           <span
             key={w.word}
-            className="inline-flex items-center gap-1 rounded-full bg-white/60 border border-black/10 px-2.5 py-1 font-ui text-xs"
+            className="inline-flex items-center gap-1 rounded-full bg-surface-raised border border-black/10 px-2.5 py-1 font-ui text-xs"
             title={w.def}
           >
             <span className="font-bold text-teal">{w.word}</span>
@@ -37,7 +54,7 @@ function SectionHeader({
   badgeClass: string;
 }) {
   return (
-    <div className="flex items-center gap-2 mb-3">
+    <div className="flex items-center gap-2">
       <span
         className={`w-7 h-7 rounded-full ${badgeClass} font-ui font-bold text-xs flex items-center justify-center`}
       >
@@ -66,7 +83,10 @@ export function KeyQuoteSection({
 }) {
   return (
     <section className="rounded-xl border-2 border-teal bg-teal-light p-6 mb-6">
-      <SectionHeader step={1} title="Key Quote" colour="text-teal" badgeClass="bg-teal text-white" />
+      <div className="flex items-center justify-between mb-3">
+        <SectionHeader step={1} title="Key Quote" colour="text-teal" badgeClass="bg-teal text-white" />
+        <AOBadge ao="ao1" label="AO1 — Response & Quotation" />
+      </div>
       <blockquote className="font-body text-lg italic text-text leading-relaxed mb-3">
         &ldquo;{text}&rdquo;
       </blockquote>
@@ -107,12 +127,15 @@ export function TechniqueSection({
 
   return (
     <section className={`rounded-xl border-2 ${s.border} ${s.bg} p-6 mb-6`}>
-      <SectionHeader
-        step={step}
-        title={`Technique ${step === 2 ? 1 : 2} — ${title}`}
-        colour={s.text}
-        badgeClass={s.badge}
-      />
+      <div className="flex items-center justify-between mb-3">
+        <SectionHeader
+          step={step}
+          title={`Technique ${step === 2 ? 1 : 2} — ${title}`}
+          colour={s.text}
+          badgeClass={s.badge}
+        />
+        <AOBadge ao="ao2" label="AO2 — Language, Form & Structure" />
+      </div>
       <p className="font-body text-text leading-relaxed mb-3">
         <HighlightedText text={analysis} />
       </p>
@@ -143,7 +166,10 @@ export function RADSection({
   const s = RAD_STYLES[label] ?? RAD_STYLES.PROGRESS;
   return (
     <section className={`rounded-xl border-2 ${s.border} ${s.bg} p-6 mb-6`}>
-      <SectionHeader step={3} title={`RAD — ${label}`} colour={s.text} badgeClass={s.badge} />
+      <div className="flex items-center justify-between mb-3">
+        <SectionHeader step={3} title={`RAD — ${label}`} colour={s.text} badgeClass={s.badge} />
+        <AOBadge ao="ao2" label="AO2 — Language, Form & Structure" />
+      </div>
       <p className="font-body text-text leading-relaxed mb-4">
         <HighlightedText text={analysis} />
       </p>
@@ -162,7 +188,10 @@ export function ContextSection({
 }) {
   return (
     <section className="rounded-xl border-2 border-orange bg-orange-light p-6 mb-6">
-      <SectionHeader step={5} title="Context (AO3)" colour="text-orange" badgeClass="bg-orange text-white" />
+      <div className="flex items-center justify-between mb-3">
+        <SectionHeader step={5} title="Context (AO3)" colour="text-orange" badgeClass="bg-orange text-white" />
+        <AOBadge ao="ao3" label="AO3 — Context" />
+      </div>
       <div className="space-y-3 mb-4">
         {points.map((p, i) => (
           <div key={i}>
@@ -190,7 +219,13 @@ export function WOWSection({
 }) {
   return (
     <section className="rounded-xl border-2 border-teal bg-gradient-to-br from-teal-light to-purple-light p-6 mb-8">
-      <SectionHeader step={6} title={`WOW — ${title}`} colour="text-teal" badgeClass="bg-teal text-white" />
+      <div className="flex items-center justify-between mb-3">
+        <SectionHeader step={6} title={`WOW — ${title}`} colour="text-teal" badgeClass="bg-teal text-white" />
+        <div className="flex gap-1">
+          <AOBadge ao="ao1" label="AO1 — Response & Quotation" />
+          <AOBadge ao="ao2" label="AO2 — Language, Form & Structure" />
+        </div>
+      </div>
       <p className="font-body text-text leading-relaxed mb-4">
         <HighlightedText text={analysis} />
       </p>

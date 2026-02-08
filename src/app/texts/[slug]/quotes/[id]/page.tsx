@@ -58,6 +58,21 @@ export default async function QuoteDetailPage({ params }: Props) {
         </div>
       </div>
 
+      {/* Theme badges */}
+      {quote.themes && quote.themes.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-6">
+          <span className="font-ui text-sm font-semibold text-grey mr-1">Themes:</span>
+          {quote.themes.map((theme) => (
+            <span
+              key={theme}
+              className="px-3 py-1 rounded-full bg-teal-light text-teal font-ui text-sm font-medium"
+            >
+              {theme}
+            </span>
+          ))}
+        </div>
+      )}
+
       {/* 6-part analysis */}
       <KeyQuoteSection
         text={quote.keyQuote.text}

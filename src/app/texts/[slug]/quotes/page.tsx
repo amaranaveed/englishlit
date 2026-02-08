@@ -5,6 +5,7 @@ import { getQuotesByText } from "@/data/quotes";
 
 interface Props {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ who?: string; theme?: string }>;
 }
 
 const RAD_COLOURS: Record<string, string> = {
@@ -13,12 +14,22 @@ const RAD_COLOURS: Record<string, string> = {
   STAGNATE: "bg-amber-light text-amber",
 };
 
-export default async function QuoteListPage({ params }: Props) {
+export default async function QuoteListPage({ params, searchParams }: Props) {
   const { slug } = await params;
+  const { who, theme } = await searchParams;
   const text = getTextBySlug(slug);
   if (!text || text.status !== "active") notFound();
 
-  const quotes = getQuotesByText(slug);
+  const allQuotes = getQuotesByText(slug);
+  let quotes = allQuotes;
+  if (who) {
+    quotes = quotes.filter((q) => q.who.toLowerCase() === who.toLowerCase());
+  }
+  if (theme) {
+    quotes = quotes.filter((q) =>
+      q.themes.some((t) => t.toLowerCase() === theme.toLowerCase())
+    );
+  }
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -34,16 +45,37 @@ export default async function QuoteListPage({ params }: Props) {
       <h1 className="font-display text-2xl sm:text-3xl font-bold mb-2">
         {text.title} — Quotes
       </h1>
-      <p className="text-grey font-ui mb-8">
-        {quotes.length} quotes with full 6-part LightUp analysis
+      <p className="text-grey font-ui mb-4">
+        {quotes.length} quote{quotes.length !== 1 ? "s" : ""}{who ? ` by ${who}` : ""}{theme ? ` — ${theme}` : ""} with full 6-part LightUp analysis
       </p>
+
+      {(who || theme) && (
+        <div className="flex items-center gap-2 mb-6">
+          {who && (
+            <span className="inline-block rounded-full bg-teal-light text-teal font-ui text-sm font-medium px-3 py-1">
+              {who}
+            </span>
+          )}
+          {theme && (
+            <span className="inline-block rounded-full bg-teal-light text-teal font-ui text-sm font-medium px-3 py-1">
+              {theme}
+            </span>
+          )}
+          <Link
+            href={`/texts/${slug}/quotes`}
+            className="text-sm text-grey hover:text-teal font-ui transition-colors"
+          >
+            Show all quotes →
+          </Link>
+        </div>
+      )}
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {quotes.map((q) => (
           <Link
             key={q.id}
             href={`/texts/${slug}/quotes/${q.id}`}
-            className="card-hover rounded-xl border border-border bg-white p-5 flex flex-col"
+            className="card-hover rounded-xl border border-border bg-surface p-5 flex flex-col"
           >
             <div className="flex items-center justify-between mb-3">
               <span className="w-8 h-8 rounded-lg bg-teal-light text-teal font-ui font-bold text-sm flex items-center justify-center">

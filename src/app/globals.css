@@ -1,56 +1,131 @@
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Playfair+Display:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 @import "tailwindcss";
 
+/* ── Class-based dark mode ──────────────────────── */
+@variant dark (&:where(.dark, .dark *));
+
+/* ── Light theme ────────────────────────────────── */
+:root {
+  --bg-primary: #F7F7F5;
+  --bg-surface: #FFFFFF;
+  --bg-surface-raised: #FFFFFF;
+  --bg-surface-hover: #F0F0ED;
+  --text-primary: #1D1D1B;
+  --text-secondary: #5F6368;
+  --text-tertiary: #9AA0A6;
+  --border-default: #E0E0DD;
+  --border-subtle: #EBEBEB;
+  --accent-teal: #0E8A7D;
+  --accent-teal-light: #E8F5F3;
+  --accent-purple: #6B4EAA;
+  --accent-purple-light: #F0ECF8;
+  --accent-blue: #3B7DDD;
+  --accent-blue-light: #EBF2FC;
+  --accent-orange: #D46A27;
+  --accent-orange-light: #FDF2E9;
+  --accent-green: #2E8B57;
+  --accent-green-light: #E9F5EF;
+  --accent-red: #C0392B;
+  --accent-red-light: #FBEAEA;
+  --accent-amber: #C89020;
+  --accent-amber-light: #FBF5E4;
+  --overlay-bg: rgba(247, 247, 245, 0.85);
+  --hero-gradient-1: rgba(14, 138, 125, 0.05);
+  --hero-gradient-2: rgba(107, 78, 170, 0.04);
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
+  --card-shadow-hover: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ── Dark theme ─────────────────────────────────── */
+.dark {
+  --bg-primary: #111113;
+  --bg-surface: #1A1A1D;
+  --bg-surface-raised: #222225;
+  --bg-surface-hover: #2A2A2E;
+  --text-primary: #E8E8E6;
+  --text-secondary: #9CA0A5;
+  --text-tertiary: #6B7075;
+  --border-default: #2C2C30;
+  --border-subtle: #232327;
+  --accent-teal: #3BBFB0;
+  --accent-teal-light: rgba(59, 191, 176, 0.12);
+  --accent-purple: #A98EDB;
+  --accent-purple-light: rgba(169, 142, 219, 0.12);
+  --accent-blue: #6CA4EE;
+  --accent-blue-light: rgba(108, 164, 238, 0.12);
+  --accent-orange: #E8944D;
+  --accent-orange-light: rgba(232, 148, 77, 0.12);
+  --accent-green: #5CB886;
+  --accent-green-light: rgba(92, 184, 134, 0.12);
+  --accent-red: #E06B5F;
+  --accent-red-light: rgba(224, 107, 95, 0.12);
+  --accent-amber: #DBA94C;
+  --accent-amber-light: rgba(219, 169, 76, 0.12);
+  --overlay-bg: rgba(17, 17, 19, 0.9);
+  --hero-gradient-1: rgba(59, 191, 176, 0.06);
+  --hero-gradient-2: rgba(169, 142, 219, 0.05);
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  --card-shadow-hover: 0 4px 12px rgba(0,0,0,0.35);
+}
+
+/* ── Tailwind theme ─────────────────────────────── */
 @theme inline {
-  /* Colours */
-  --color-bg: #fafaf5;
-  --color-text: #1a1a1a;
-  --color-teal: #0d9488;
-  --color-teal-light: #e6f7f5;
-  --color-purple: #7c3aed;
-  --color-purple-light: #f3f0ff;
-  --color-blue: #2563eb;
-  --color-blue-light: #eff6ff;
-  --color-orange: #ea580c;
-  --color-orange-light: #fff7ed;
-  --color-green: #16a34a;
-  --color-green-light: #dcfce7;
-  --color-red: #dc2626;
-  --color-red-light: #fce7e7;
-  --color-amber: #d97706;
-  --color-amber-light: #fef3c7;
-  --color-grey: #6b7280;
-  --color-grey-light: #f5f5f5;
-  --color-border: #e5e7eb;
+  --color-bg: var(--bg-primary);
+  --color-surface: var(--bg-surface);
+  --color-surface-raised: var(--bg-surface-raised);
+  --color-surface-hover: var(--bg-surface-hover);
+  --color-text: var(--text-primary);
+  --color-grey: var(--text-secondary);
+  --color-grey-light: var(--bg-surface-hover);
+  --color-border: var(--border-default);
+  --color-border-subtle: var(--border-subtle);
+  --color-teal: var(--accent-teal);
+  --color-teal-light: var(--accent-teal-light);
+  --color-purple: var(--accent-purple);
+  --color-purple-light: var(--accent-purple-light);
+  --color-blue: var(--accent-blue);
+  --color-blue-light: var(--accent-blue-light);
+  --color-orange: var(--accent-orange);
+  --color-orange-light: var(--accent-orange-light);
+  --color-green: var(--accent-green);
+  --color-green-light: var(--accent-green-light);
+  --color-red: var(--accent-red);
+  --color-red-light: var(--accent-red-light);
+  --color-amber: var(--accent-amber);
+  --color-amber-light: var(--accent-amber-light);
   --color-white: #ffffff;
 
-  /* Fonts */
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-body: 'Crimson Text', Georgia, serif;
-  --font-ui: 'DM Sans', system-ui, sans-serif;
+  --font-display: 'Lora', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-ui: 'Inter', system-ui, sans-serif;
 }
 
-body {
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-body);
-}
-
+/* ── Base ─────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
 }
 
-/* Card hover */
-.card-hover {
-  transition: all 0.2s ease;
-}
-.card-hover:hover {
-  border-color: var(--color-teal);
-  box-shadow: 0 4px 20px rgba(13, 148, 136, 0.1);
-  transform: translateY(-1px);
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Flashcard flip */
+/* ── Card hover ──────────────────────────────────── */
+.card-hover {
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  box-shadow: var(--card-shadow);
+}
+.card-hover:hover {
+  box-shadow: var(--card-shadow-hover);
+  border-color: var(--accent-teal);
+  transform: translateY(-2px);
+}
+
+/* ── Flashcard flip ──────────────────────────────── */
 .flip-card {
   perspective: 1000px;
 }
@@ -69,7 +144,7 @@ html {
   transform: rotateY(180deg);
 }
 
-/* Coming soon overlay */
+/* ── Coming soon overlay ─────────────────────────── */
 .coming-soon-overlay {
   position: relative;
   cursor: default !important;
@@ -78,7 +153,12 @@ html {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(250, 250, 245, 0.75);
+  background: var(--overlay-bg);
   border-radius: inherit;
   pointer-events: none;
+}
+
+/* ── Smooth theme switching for cards ────────────── */
+.theme-card {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }

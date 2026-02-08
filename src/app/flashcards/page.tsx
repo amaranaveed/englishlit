@@ -120,7 +120,7 @@ export default function FlashcardsPage() {
         <button
           onClick={() => { setTab("review"); resetReview(); }}
           className={`flex-1 rounded-md py-2 font-ui text-sm font-semibold transition-colors cursor-pointer ${
-            tab === "review" ? "bg-white text-teal shadow-sm" : "text-grey hover:text-text"
+            tab === "review" ? "bg-surface text-teal shadow-sm" : "text-grey hover:text-text"
           }`}
         >
           Review{dueCount > 0 && ` (${dueCount})`}
@@ -128,7 +128,7 @@ export default function FlashcardsPage() {
         <button
           onClick={() => { setTab("list"); refresh(); }}
           className={`flex-1 rounded-md py-2 font-ui text-sm font-semibold transition-colors cursor-pointer ${
-            tab === "list" ? "bg-white text-teal shadow-sm" : "text-grey hover:text-text"
+            tab === "list" ? "bg-surface text-teal shadow-sm" : "text-grey hover:text-text"
           }`}
         >
           All Cards ({totalCount})
@@ -190,7 +190,7 @@ function ReviewSetup({
   return (
     <div className="space-y-6">
       {/* Section 1: Choose text */}
-      <div className="rounded-xl border border-border bg-white p-5">
+      <div className="rounded-xl border border-border bg-surface p-5">
         <h3 className="font-ui text-sm font-semibold text-text mb-3">
           Which text do you want to revise?
         </h3>
@@ -226,7 +226,7 @@ function ReviewSetup({
       </div>
 
       {/* Section 2: Choose card types */}
-      <div className="rounded-xl border border-border bg-white p-5">
+      <div className="rounded-xl border border-border bg-surface p-5">
         <h3 className="font-ui text-sm font-semibold text-text mb-1">
           What do you want to practise?
         </h3>

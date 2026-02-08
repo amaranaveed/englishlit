@@ -106,7 +106,7 @@ export default function ExamPage() {
                 className={`rounded-xl border-2 p-4 text-left transition-colors cursor-pointer ${
                   selectedText === t.slug
                     ? "border-teal bg-teal-light"
-                    : "border-border bg-white hover:border-teal/50"
+                    : "border-border bg-surface hover:border-teal/50"
                 }`}
               >
                 <p className="font-display font-bold text-sm text-text">
@@ -132,7 +132,7 @@ export default function ExamPage() {
                   className={`w-full rounded-lg border-2 px-4 py-3 text-left transition-colors cursor-pointer ${
                     selectedQuestion === q.question
                       ? "border-purple bg-purple-light"
-                      : "border-border bg-white hover:border-purple/50"
+                      : "border-border bg-surface hover:border-purple/50"
                   }`}
                 >
                   <p className="font-body text-sm text-text">{q.question}</p>
@@ -217,7 +217,7 @@ export default function ExamPage() {
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
         placeholder="Start writing your essay response here…"
-        className="w-full min-h-[400px] rounded-xl border-2 border-border bg-white p-5 font-body text-text leading-relaxed resize-y focus:outline-none focus:border-teal transition-colors placeholder:text-grey"
+        className="w-full min-h-[400px] rounded-xl border-2 border-border bg-surface p-5 font-body text-text leading-relaxed resize-y focus:outline-none focus:border-teal transition-colors placeholder:text-grey"
         autoFocus
       />
 

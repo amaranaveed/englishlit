@@ -46,6 +46,7 @@ export interface Quote {
   quote: string;
   who: string;
   act: string;
+  themes: string[];
   keyQuote: KeyQuote;
   technique1: TechniqueSection;
   rad: RADSection;
