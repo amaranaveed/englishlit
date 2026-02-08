@@ -1,65 +1,108 @@
-import Image from "next/image";
+import Link from "next/link";
+import { TEXT_REGISTRY, getActiveTexts } from "@/data/text-registry";
 
-export default function Home() {
+export default function HomePage() {
+  const activeTexts = getActiveTexts();
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      {/* Hero */}
+      <section className="text-center mb-12">
+        <h1 className="font-display text-3xl sm:text-4xl font-bold text-text mb-3">
+          GCSE English Literature
+        </h1>
+        <p className="text-grey font-ui text-base sm:text-lg max-w-xl mx-auto">
+          AQA 8702&ensp;·&ensp;LightUp 6-Part Quote Analysis, Exam Practice,
+          Flashcards&nbsp;&amp;&nbsp;Vocab&nbsp;Quiz
+        </p>
+      </section>
+
+      {/* Quick-start cards */}
+      <section className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-14">
+        <QuickCard href="/texts" icon="📚" label="Texts" sub={`${activeTexts.length} active`} colour="teal" />
+        <QuickCard href="/exam" icon="✍️" label="Exam Practice" sub="Timed essays" colour="purple" />
+        <QuickCard href="/flashcards" icon="🗂️" label="Flashcards" sub="Spaced repetition" colour="blue" />
+        <QuickCard href="/vocab" icon="🔤" label="Vocab Quiz" sub="Key terms" colour="orange" />
+      </section>
+
+      {/* Active texts */}
+      <section className="mb-14">
+        <h2 className="font-display text-xl font-bold mb-4">Your Texts</h2>
+        <div className="grid sm:grid-cols-2 gap-4">
+          {activeTexts.map((t) => (
+            <Link
+              key={t.slug}
+              href={`/texts/${t.slug}`}
+              className="card-hover rounded-xl border border-border bg-white p-5 flex items-start gap-4"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              <span className="w-10 h-10 rounded-lg bg-teal-light text-teal font-display font-bold text-lg flex items-center justify-center shrink-0">
+                {t.title.charAt(0)}
+              </span>
+              <div>
+                <p className="font-display font-bold text-text leading-snug">{t.title}</p>
+                <p className="text-sm text-grey font-ui">{t.author}&ensp;·&ensp;{t.paper} {t.section}</p>
+              </div>
+            </Link>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* All texts grouped */}
+      <section>
+        <h2 className="font-display text-xl font-bold mb-4">All AQA Texts</h2>
+        <div className="space-y-6">
+          {TEXT_REGISTRY.map((group) => (
+            <div key={group.label}>
+              <h3 className="font-ui text-sm font-semibold text-grey uppercase tracking-wider mb-2">
+                {group.paper} {group.section} — {group.label}
+              </h3>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {group.texts.map((t) => {
+                  const active = t.status === "active";
+                  const inner = (
+                    <>
+                      <div>
+                        <p className={`font-semibold ${active ? "text-text" : "text-grey"}`}>{t.title}</p>
+                        <p className="text-xs text-grey">{t.author}</p>
+                      </div>
+                      {active ? (
+                        <span className="text-[10px] font-bold uppercase tracking-wider bg-green-light text-green px-2 py-0.5 rounded-full">Active</span>
+                      ) : (
+                        <span className="text-[10px] font-bold uppercase tracking-wider bg-grey-light text-grey px-2 py-0.5 rounded-full">Soon</span>
+                      )}
+                    </>
+                  );
+                  return active ? (
+                    <Link key={t.slug} href={`/texts/${t.slug}`} className="rounded-lg border border-border bg-white px-4 py-3 font-ui text-sm flex items-center justify-between card-hover cursor-pointer">
+                      {inner}
+                    </Link>
+                  ) : (
+                    <div key={t.slug} className="rounded-lg border border-border bg-white px-4 py-3 font-ui text-sm flex items-center justify-between coming-soon-overlay opacity-60">
+                      {inner}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
-      </main>
+      </section>
     </div>
+  );
+}
+
+function QuickCard({ href, icon, label, sub, colour }: { href: string; icon: string; label: string; sub: string; colour: string }) {
+  const colourMap: Record<string, string> = {
+    teal: "bg-teal-light text-teal",
+    purple: "bg-purple-light text-purple",
+    blue: "bg-blue-light text-blue",
+    orange: "bg-orange-light text-orange",
+  };
+  return (
+    <Link href={href} className="card-hover rounded-xl border border-border bg-white p-4 text-center">
+      <span className="text-2xl mb-1 block">{icon}</span>
+      <p className="font-ui font-semibold text-sm text-text">{label}</p>
+      <p className={`font-ui text-xs mt-0.5 ${colourMap[colour] ?? "text-grey"}`}>{sub}</p>
+    </Link>
   );
 }
