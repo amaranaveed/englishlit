@@ -162,3 +162,55 @@ body {
 .theme-card {
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
+
+/* ── Print styles for A4 printables ──────────────── */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html, body {
+    background: white !important;
+    color: #1D1D1B !important;
+    font-size: 11px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  /* hide app header/nav/footer */
+  header, footer {
+    display: none !important;
+  }
+
+  /* full-width main content */
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  /* mind maps print in landscape via named page */
+  @page mindmap {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+  .mindmap-page {
+    page: mindmap;
+    page-break-inside: avoid;
+  }
+
+  .theme-sheet-page {
+    page-break-inside: avoid;
+  }
+
+  .exam-prep-page {
+    page-break-inside: avoid;
+  }
+}

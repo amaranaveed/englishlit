@@ -12,6 +12,8 @@ const TYPE_BADGES: Record<string, { bg: string; text: string }> = {
   vocab: { bg: "bg-orange-light", text: "text-orange" },
   mistake: { bg: "bg-red-light", text: "text-red" },
   custom: { bg: "bg-grey-light", text: "text-grey" },
+  character: { bg: "bg-amber-100 dark:bg-amber-900/30", text: "text-amber-700 dark:text-amber-400" },
+  theme: { bg: "bg-indigo-100 dark:bg-indigo-900/30", text: "text-indigo-700 dark:text-indigo-400" },
 };
 
 const CONFIDENCE_BUTTONS: { label: string; value: 0 | 1 | 2 | 3; colour: string; hint: string }[] = [

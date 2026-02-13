@@ -60,15 +60,79 @@ export interface ExamQuestion {
   question: string;
 }
 
+// ─── Character Analysis Data Types ───
+
+export interface ThemeLink {
+  name: string;
+  link: string;
+}
+
+export interface CharacterQuote {
+  quote: string;
+  act: string;
+  analysis: string;
+  themes: ThemeLink[];
+}
+
+export interface CharacterRelationship {
+  character: string;
+  nature: string;
+  analysis: string;
+}
+
+export interface CharacterArcStage {
+  title: string;
+  act: string;
+  description: string;
+}
+
+export interface CharacterAnalysis {
+  name: string;
+  textSlug: string;
+  overview: string;
+  themes: ThemeLink[];
+  arc: {
+    label: string;
+    stages: CharacterArcStage[];
+  };
+  keyQuotes: CharacterQuote[];
+  relationships: CharacterRelationship[];
+  writersMethods: string;
+  wow: string;
+  keyWords: KeyWord[];
+  examTip: string;
+}
+
 export interface Flashcard {
   id: string;
-  type: "quote" | "technique" | "rad" | "wow" | "vocab" | "mistake" | "custom";
+  type: "quote" | "technique" | "rad" | "wow" | "vocab" | "mistake" | "custom" | "character" | "theme";
   textSlug: string;
   front: string;
   back: string;
   confidence: number; // 0-3
   nextReview: string; // ISO date
   createdAt: string;
+}
+
+// ─── Theme Sheet Data Types (Printable A4) ───
+
+export interface ThemeSheetQuote {
+  quote: string;
+  who: string;
+  act: string;
+  analysis: string[];
+}
+
+export interface ThemeSheetPoint {
+  description: string;
+  quotes: ThemeSheetQuote[];
+}
+
+export interface ThemeSheet {
+  textSlug: string;
+  theme: string;
+  thesis: string;
+  points: ThemeSheetPoint[];
 }
 
 export interface ExamResponse {

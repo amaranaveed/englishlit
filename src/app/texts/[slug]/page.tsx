@@ -3,6 +3,10 @@ import { notFound } from "next/navigation";
 import { getTextBySlug } from "@/data/text-registry";
 import { getQuotesByText, getExamQuestions } from "@/data/quotes";
 import { getTextOverview } from "@/data/text-overviews";
+import { getCharactersByText, hasCharacterAnalysis } from "@/data/character-analysis";
+import { hasMindMaps, getMindMapsByText } from "@/data/mindmaps";
+import { hasThemeSheets, getThemeSheetsByText } from "@/data/theme-sheets";
+import { hasWritersToolkit, getWritersToolkit } from "@/data/writers-toolkit";
 import TextAOGuide from "@/components/TextAOGuide";
 
 interface Props {
@@ -17,6 +21,14 @@ export default async function TextOverviewPage({ params }: Props) {
   const quotes = getQuotesByText(slug);
   const examQs = getExamQuestions(slug);
   const overview = getTextOverview(slug);
+  const characters = getCharactersByText(slug);
+  const hasCharacters = hasCharacterAnalysis(slug);
+  const mindmaps = getMindMapsByText(slug);
+  const hasMindMapData = hasMindMaps(slug);
+  const themeSheets = getThemeSheetsByText(slug);
+  const hasThemeSheetData = hasThemeSheets(slug);
+  const hasToolkit = hasWritersToolkit(slug);
+  const toolkit = hasToolkit ? getWritersToolkit(slug) : undefined;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -53,6 +65,66 @@ export default async function TextOverviewPage({ params }: Props) {
           </p>
         </Link>
 
+        {hasCharacters && (
+          <Link
+            href={`/texts/${slug}/characters/${encodeURIComponent(characters[0].name)}`}
+            className="card-hover rounded-xl border border-border bg-surface p-6"
+          >
+            <span className="text-2xl mb-2 block">🎭</span>
+            <p className="font-display font-bold text-lg mb-1">
+              Character Analysis
+            </p>
+            <p className="text-sm text-grey font-ui">
+              {characters.length} characters with arcs, quotes &amp; exam tips
+            </p>
+          </Link>
+        )}
+
+        {hasMindMapData && (
+          <Link
+            href={`/texts/${slug}/mindmaps`}
+            className="card-hover rounded-xl border border-border bg-surface p-6"
+          >
+            <span className="text-2xl mb-2 block">🧠</span>
+            <p className="font-display font-bold text-lg mb-1">
+              Mind Maps
+            </p>
+            <p className="text-sm text-grey font-ui">
+              {mindmaps.length} printable A4 character mind maps
+            </p>
+          </Link>
+        )}
+
+        {hasThemeSheetData && (
+          <Link
+            href={`/texts/${slug}/themes`}
+            className="card-hover rounded-xl border border-border bg-surface p-6"
+          >
+            <span className="text-2xl mb-2 block">📝</span>
+            <p className="font-display font-bold text-lg mb-1">
+              Theme Sheets
+            </p>
+            <p className="text-sm text-grey font-ui">
+              {themeSheets.length} printable A4 theme analysis sheets
+            </p>
+          </Link>
+        )}
+
+        {hasToolkit && toolkit && (
+          <Link
+            href={`/texts/${slug}/writers-toolkit`}
+            className="card-hover rounded-xl border border-border bg-surface p-6"
+          >
+            <span className="text-2xl mb-2 block">🛠️</span>
+            <p className="font-display font-bold text-lg mb-1">
+              Writer&rsquo;s Toolkit
+            </p>
+            <p className="text-sm text-grey font-ui">
+              {toolkit.sections.length} sections &middot; {toolkit.sections.reduce((sum, s) => sum + s.rows.length, 0)} techniques &middot; A4 printable
+            </p>
+          </Link>
+        )}
+
         <Link
           href="/exam"
           className="card-hover rounded-xl border border-border bg-surface p-6"
@@ -63,6 +135,21 @@ export default async function TextOverviewPage({ params }: Props) {
             {examQs.length} practice questions with timed writing
           </p>
         </Link>
+
+        {slug === "inspector-calls" && (
+          <Link
+            href={`/texts/${slug}/exam-prep`}
+            className="card-hover rounded-xl border border-teal/30 bg-surface p-6 sm:col-span-2"
+          >
+            <span className="text-2xl mb-2 block">📋</span>
+            <p className="font-display font-bold text-lg mb-1">
+              Exam Preparation Kit
+            </p>
+            <p className="text-sm text-grey font-ui">
+              Grade 9 example essays, annotated extracts, essay plans &amp; templates, practice questions &mdash; all printable
+            </p>
+          </Link>
+        )}
       </div>
 
       {/* AO Guide */}
@@ -100,18 +187,31 @@ export default async function TextOverviewPage({ params }: Props) {
           <section className="mb-8">
             <h2 className="font-display text-xl font-bold mb-3">Characters</h2>
             <div className="grid sm:grid-cols-2 gap-3">
-              {overview.characters.map((c) => (
-                <Link
-                  key={c.name}
-                  href={`/texts/${slug}/quotes?who=${encodeURIComponent(c.name)}`}
-                  className="card-hover rounded-xl border border-border bg-surface px-4 py-3"
-                >
-                  <p className="font-ui font-semibold text-sm text-text">
-                    {c.name}
-                  </p>
-                  <p className="font-ui text-xs text-grey mt-0.5">{c.role}</p>
-                </Link>
-              ))}
+              {overview.characters.map((c) => {
+                const hasAnalysis = characters.some((ca) => ca.name === c.name);
+                const href = hasAnalysis
+                  ? `/texts/${slug}/characters/${encodeURIComponent(c.name)}`
+                  : `/texts/${slug}/quotes?who=${encodeURIComponent(c.name)}`;
+                return (
+                  <Link
+                    key={c.name}
+                    href={href}
+                    className="card-hover rounded-xl border border-border bg-surface px-4 py-3"
+                  >
+                    <div className="flex items-center gap-2">
+                      <p className="font-ui font-semibold text-sm text-text">
+                        {c.name}
+                      </p>
+                      {hasAnalysis && (
+                        <span className="text-xs font-ui font-medium rounded-full bg-teal-light text-teal px-2 py-0.5">
+                          Analysis
+                        </span>
+                      )}
+                    </div>
+                    <p className="font-ui text-xs text-grey mt-0.5">{c.role}</p>
+                  </Link>
+                );
+              })}
             </div>
           </section>
         </>

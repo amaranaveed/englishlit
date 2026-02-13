@@ -13,6 +13,8 @@ const TYPE_BADGES: Record<string, { bg: string; text: string; label: string }> =
   vocab: { bg: "bg-orange-light", text: "text-orange", label: "Vocab" },
   mistake: { bg: "bg-red-light", text: "text-red", label: "Mistake" },
   custom: { bg: "bg-grey-light", text: "text-grey", label: "Custom" },
+  character: { bg: "bg-amber-100 dark:bg-amber-900/30", text: "text-amber-700 dark:text-amber-400", label: "Character" },
+  theme: { bg: "bg-indigo-100 dark:bg-indigo-900/30", text: "text-indigo-700 dark:text-indigo-400", label: "Theme" },
 };
 
 type GroupBy = "none" | "text" | "type";
@@ -59,7 +61,7 @@ export default function FlashcardList({ cards, onRefresh }: Props) {
       });
     }
     if (groupBy === "type") {
-      const order = ["quote", "technique", "rad", "wow", "vocab", "mistake", "custom"];
+      const order = ["quote", "technique", "rad", "wow", "vocab", "mistake", "character", "theme", "custom"];
       const map = new Map<string, Flashcard[]>();
       for (const c of filtered) {
         const arr = map.get(c.type) || [];

@@ -18,6 +18,8 @@ const CARD_TYPES = [
   { value: "wow", label: "WOW", bg: "bg-blue-light", text: "text-blue" },
   { value: "vocab", label: "Vocab", bg: "bg-orange-light", text: "text-orange" },
   { value: "mistake", label: "Mistakes", bg: "bg-red-light", text: "text-red" },
+  { value: "character", label: "Characters", bg: "bg-amber-100 dark:bg-amber-900/30", text: "text-amber-700 dark:text-amber-400" },
+  { value: "theme", label: "Themes", bg: "bg-indigo-100 dark:bg-indigo-900/30", text: "text-indigo-700 dark:text-indigo-400" },
 ] as const;
 
 export default function FlashcardsPage() {
@@ -93,7 +95,7 @@ export default function FlashcardsPage() {
         <span className="text-4xl mb-4 block">🗂️</span>
         <h1 className="font-display text-2xl font-bold mb-2">Flashcards</h1>
         <p className="text-grey font-ui mb-6">
-          No flashcards yet! Go to a quote analysis page and click
+          No flashcards yet! Go to a quote analysis, character, or theme page and click
           <span className="font-semibold text-teal"> Generate Flashcards</span> to get started.
         </p>
         <Link href="/texts" className="font-ui text-sm text-teal hover:underline">
