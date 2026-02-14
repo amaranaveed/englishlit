@@ -120,27 +120,25 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Right-side blended image — SplashLearn style */}
-          <div className="hidden lg:block absolute right-0 bottom-0 w-[48%] xl:w-[44%] h-[75%] animate-fade-in stagger-4 pointer-events-none">
+          {/* Right-side blended image */}
+          <div className="hidden lg:block absolute -right-16 bottom-0 w-[55%] xl:w-[50%] h-[95%] animate-fade-in stagger-4 pointer-events-none overflow-hidden">
             <div
               className="relative w-full h-full"
               style={{
-                maskImage: "linear-gradient(to right, transparent 0%, black 40%), linear-gradient(to top, transparent 5%, black 30%)",
-                WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 40%), linear-gradient(to top, transparent 5%, black 30%)",
+                maskImage: "linear-gradient(to right, transparent 0%, black 45%), linear-gradient(to top, transparent 0%, black 35%), linear-gradient(to bottom, transparent 0%, black 15%), linear-gradient(to left, transparent 0%, black 10%)",
+                WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 45%), linear-gradient(to top, transparent 0%, black 35%), linear-gradient(to bottom, transparent 0%, black 15%), linear-gradient(to left, transparent 0%, black 10%)",
                 maskComposite: "intersect",
                 WebkitMaskComposite: "source-in",
               }}
             >
               <Image
-                src="/images/students-studying.jpg"
-                alt="Students revising together"
+                src="/images/hero-characters.png"
+                alt="GCSE Literature characters"
                 fill
-                className="object-cover object-[center_20%]"
-                sizes="(min-width: 1280px) 44vw, 48vw"
+                className="object-cover object-[40%_center]"
+                sizes="(min-width: 1280px) 50vw, 55vw"
                 priority
               />
-              {/* Colour tint to match hero tone */}
-              <div className="absolute inset-0 bg-[var(--hero-bg)]/20" />
             </div>
           </div>
         </div>
@@ -473,7 +471,7 @@ export default function HomePage() {
       <footer className="bg-bg border-t border-border">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-6 flex items-center justify-between">
           <span className="font-ui text-[13px] text-grey">
-            GCSE Literature &middot; AQA 8702
+            Straight Nines &middot; AQA 8702
           </span>
           <span className="font-ui text-[12px] text-grey/50">
             Made with love for Kinza

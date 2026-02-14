@@ -489,6 +489,62 @@ export const TEXT_OVERVIEWS: TextOverview[] = [
     contextSummary:
       "The AQA Love & Relationships anthology spans from Romantic poetry (Byron, Shelley) through Victorian verse (Browning, Hardy, Mew) to modern and contemporary voices (Heaney, Armitage, Duffy, Sheers, Nagra). The poems collectively explore the many forms of love — romantic passion, familial bonds, memory, loss, and longing. They examine how relationships are shaped by time, distance, power, and social expectation. In the exam (Paper 2, Section B), one poem is printed and students must compare it with another poem of their choice from the anthology.",
   },
+  {
+    slug: "worlds-lives",
+    themes: [
+      "Home, Heritage & Belonging",
+      "Identity & Place",
+      "Migration & Displacement",
+      "Nature & the Environment",
+      "Power & Oppression",
+      "Language & Voice",
+      "Resilience & Hope",
+    ],
+    characters: [
+      { name: "William Wordsworth", role: "Lines Written in Early Spring — laments humanity's destruction while nature thrives in harmony" },
+      { name: "Percy Bysshe Shelley", role: "England in 1819 — attacks political corruption and envisions revolutionary change" },
+      { name: "Emily Brontë", role: "Shall Earth no More Inspire Thee — personifies nature pleading with a disconnected soul" },
+      { name: "George Eliot", role: "In a London Drawingroom — exposes the dehumanising monotony of Victorian urban life" },
+      { name: "James Berry", role: "On an Afternoon Train from Purley to Victoria, 1955 — captures Windrush-era racial misunderstanding" },
+      { name: "Raman Mundair", role: "Name Journeys — traces how migration erodes a name and the identity it carries" },
+      { name: "Shamshad Khan", role: "pot — addresses a museum artefact to expose colonial displacement" },
+      { name: "Seni Seneviratne", role: "A Wider View — connects with an ancestor's experience in industrial Leeds" },
+      { name: "Liz Berry", role: "Homing — celebrates reclaiming a suppressed Black Country dialect as identity" },
+      { name: "Imtiaz Dharker", role: "A Century Later — honours girls who face violence for the right to education" },
+      { name: "Louisa Adjoa Parker", role: "The Jewellery Maker — explores generational craftsmanship and wealth disparity" },
+      { name: "Raymond Antrobus", role: "With Birds You're Never Lonely — reframes deafness as an alternative way of connecting with nature" },
+      { name: "Roger Robinson", role: "A Portable Paradise — carries an internal refuge of Caribbean heritage through diaspora" },
+      { name: "Grace Nichols", role: "Like an Heiress — celebrates Guyanese heritage while mourning environmental destruction" },
+      { name: "Caleb Femi", role: "Thirteen — confronts racial profiling and the destruction of a young boy's potential" },
+    ],
+    contextSummary:
+      "The AQA Worlds & Lives anthology (first examined 2025) spans from Romantic poetry (Wordsworth, Shelley, Brontë) through Victorian verse (Eliot) to predominantly contemporary voices, with two-thirds of the poems published after 2000. The collection is both personal and political, exploring concerns about the world we live in: home, heritage, belonging, migration, identity, and connection. It features mostly living poets from diverse backgrounds — Caribbean, South Asian, West African, d/Deaf, regional English — rooted in the revolutionary spirit of the Romantics. In the exam (Paper 2, Section B), one poem is printed and students must compare it with another poem of their choice from the anthology.",
+  },
+  {
+    slug: "unseen-poetry",
+    themes: [
+      "Nature & the Sublime",
+      "War & Conflict",
+      "Identity & Culture",
+      "Love & Relationships",
+      "Power & Control",
+      "Mortality & Time",
+      "Resilience & Defiance",
+    ],
+    characters: [
+      { name: "William Blake", role: "The Tyger — questions what creator could forge both beauty and terror" },
+      { name: "Wilfred Owen", role: "Dulce et Decorum Est — exposes the horror of WWI and the lie of war propaganda" },
+      { name: "Imtiaz Dharker", role: "Blessing — transforms a burst pipe in a Mumbai slum into a sacred event" },
+      { name: "Vernon Scannell", role: "Nettles — a father's military-tinted grief at his inability to protect his son" },
+      { name: "John Agard", role: "Half-caste / Flag — challenges racial prejudice and exposes the dangerous power of nationalist symbols" },
+      { name: "Ted Hughes", role: "Hawk Roosting — a dramatic monologue of absolute, amoral power" },
+      { name: "Maya Angelou", role: "Still I Rise — triumphant defiance against racial and gender oppression" },
+      { name: "John Keats", role: "To Autumn — a sensory celebration of the season's abundance and mortality" },
+      { name: "Carol Ann Duffy", role: "Valentine — rejects romantic clichés and offers an onion as honest love" },
+    ],
+    contextSummary:
+      "Unseen Poetry (Paper 2, Section C) tests students' ability to analyse poems they have never seen before. This section contains 10 practice poems spanning Romantic (Blake, Keats), WWI (Owen), and contemporary (Angelou, Agard, Duffy, Dharker) poetry. Each poem is analysed using the same 6-part LightUp framework to build confidence in approaching unfamiliar texts. In the exam, students answer one question on a single unseen poem (24 marks) and one comparison question on a second unseen poem (8 marks). No prior knowledge of the poems is required — only analytical skill.",
+  },
 ];
 
 export function getTextOverview(slug: string): TextOverview | undefined {

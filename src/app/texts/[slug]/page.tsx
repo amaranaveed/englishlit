@@ -259,14 +259,14 @@ export default async function TextOverviewPage({ params }: Props) {
           <section className="mb-8">
             <h2 className="font-display text-xl font-bold mb-3">Characters</h2>
             <div className="grid sm:grid-cols-2 gap-3">
-              {overview.characters.map((c) => {
+              {overview.characters.map((c, i) => {
                 const hasAnalysis = characters.some((ca) => ca.name === c.name);
                 const href = hasAnalysis
                   ? `/texts/${slug}/characters/${encodeURIComponent(c.name)}`
                   : `/texts/${slug}/quotes?who=${encodeURIComponent(c.name)}`;
                 return (
                   <Link
-                    key={c.name}
+                    key={`${c.name}-${i}`}
                     href={href}
                     className="card-hover rounded-xl border border-border bg-surface px-4 py-3"
                   >

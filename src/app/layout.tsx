@@ -5,7 +5,7 @@ import AuthProvider from "@/components/AuthProvider";
 import OnboardingModal from "@/components/OnboardingModal";
 
 export const metadata: Metadata = {
-  title: "GCSE Literature — AQA 8702 Revision Platform",
+  title: "Straight Nines — GCSE English Literature Revision",
   description: "6-Part Quote Analysis, Exam Practice, Flashcards & Vocab Quiz for AQA GCSE English Literature",
 };
 

@@ -124,7 +124,7 @@ export default function OnboardingModal({ editMode = false, onClose }: Onboardin
               <div className="space-y-6">
                 <div>
                   <h2 className="font-display font-bold text-[22px] text-text">
-                    {editMode ? "Edit your profile" : "Welcome to GCSE Literature"}
+                    {editMode ? "Edit your profile" : "Welcome to Straight Nines"}
                   </h2>
                   <p className="font-ui text-[14px] text-grey mt-1">
                     {editMode ? "Update your details below." : "Let's personalise your revision experience."}

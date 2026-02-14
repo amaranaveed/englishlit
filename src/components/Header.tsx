@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { TEXT_REGISTRY, TEXT_ICONS } from "@/data/text-registry";
@@ -128,24 +129,24 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
         <div className="flex items-center justify-between h-[60px]">
           {/* Logo */}
-          <Link href="/" className="group flex items-center gap-3 shrink-0">
-            <span className={`w-9 h-9 rounded-xl font-display font-bold text-[16px] flex items-center justify-center transition-all duration-300 ${
+          <Link href="/" className="group flex items-center gap-2.5 shrink-0">
+            <span className={`w-9 h-9 rounded-xl font-display font-extrabold text-[18px] flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
               isHome && !scrolled
-                ? "bg-white/20 text-white shadow-[0_2px_8px_rgba(0,0,0,0.15)]"
-                : "bg-purple text-white shadow-[0_2px_8px_rgba(140,84,244,0.3)]"
-            } group-hover:scale-110`}>
-              L
+                ? "bg-white/15 text-white"
+                : "bg-blue-500 text-white shadow-[0_2px_8px_rgba(33,150,243,0.3)]"
+            }`} style={isHome && !scrolled ? {} : { backgroundColor: "#2196F3" }}>
+              9
             </span>
-            <span className="hidden sm:flex items-baseline gap-2">
-              <span className={`font-display font-bold text-[16px] transition-colors duration-300 ${
+            <span className="hidden sm:flex items-baseline gap-1.5">
+              <span className={`font-display font-bold text-[17px] tracking-tight transition-colors duration-300 ${
                 isHome && !scrolled ? "text-white" : "text-text"
               }`}>
-                GCSE Literature
+                Straight
               </span>
-              <span className={`text-[11px] font-ui font-semibold tracking-wider uppercase transition-colors duration-300 ${
-                isHome && !scrolled ? "text-white/60" : "text-purple"
+              <span className={`font-display font-bold text-[17px] tracking-tight transition-colors duration-300 ${
+                isHome && !scrolled ? "text-[#60B0F4]" : "text-[#2196F3]"
               }`}>
-                AQA 8702
+                Nines
               </span>
             </span>
           </Link>

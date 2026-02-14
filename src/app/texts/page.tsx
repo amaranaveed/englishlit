@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { TEXT_REGISTRY } from "@/data/text-registry";
+import { TEXT_REGISTRY, TEXT_ICONS } from "@/data/text-registry";
 
 const SECTION_IMAGES = [
   "/images/shakespeare-3d.png", // Shakespeare
@@ -66,25 +66,33 @@ export default function TextsPage() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {group.texts.map((t) => {
                 const active = t.status === "active";
+                const icon = TEXT_ICONS[t.slug];
                 const inner = (
-                  <>
-                    <p className={`font-display font-bold mb-1 ${active ? "text-text" : "text-grey"}`}>
-                      {t.title}
-                    </p>
-                    <p className="text-sm text-grey font-ui">{t.author}</p>
-                    <p className="text-xs text-grey font-ui mt-1">{t.year}</p>
-                    <div className="mt-3">
-                      {active ? (
-                        <span className="text-[10px] font-bold uppercase tracking-wider bg-green-light text-green px-2 py-0.5 rounded-full">
-                          Active
-                        </span>
-                      ) : (
-                        <span className="text-[10px] font-bold uppercase tracking-wider bg-grey-light text-grey px-2 py-0.5 rounded-full">
-                          Coming Soon
-                        </span>
-                      )}
+                  <div className="flex items-start gap-4">
+                    {icon && (
+                      <div className="shrink-0 w-14 h-14 rounded-xl overflow-hidden bg-surface-hover">
+                        <Image src={icon} alt="" width={56} height={56} className="w-full h-full object-cover object-[center_30%]" />
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className={`font-display font-bold mb-1 ${active ? "text-text" : "text-grey"}`}>
+                        {t.title}
+                      </p>
+                      <p className="text-sm text-grey font-ui">{t.author}</p>
+                      <p className="text-xs text-grey font-ui mt-1">{t.year}</p>
+                      <div className="mt-3">
+                        {active ? (
+                          <span className="text-[10px] font-bold uppercase tracking-wider bg-green-light text-green px-2 py-0.5 rounded-full">
+                            Active
+                          </span>
+                        ) : (
+                          <span className="text-[10px] font-bold uppercase tracking-wider bg-grey-light text-grey px-2 py-0.5 rounded-full">
+                            Coming Soon
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  </>
+                  </div>
                 );
                 return active ? (
                   <Link key={t.slug} href={`/texts/${t.slug}`} className="rounded-xl border border-border bg-surface p-5 card-hover">

@@ -69,7 +69,7 @@ export const TEXT_REGISTRY: PaperGroup[] = [
     texts: [
       { slug: "love-relationships", title: "Love & Relationships Anthology", author: "Various (15 poems)", year: "", paper: "Paper 2", section: "Section B", status: "active" },
       { slug: "power-conflict", title: "Power & Conflict Anthology", author: "Various (15 poems)", year: "", paper: "Paper 2", section: "Section B", status: "active" },
-      { slug: "worlds-lives", title: "Worlds & Lives Anthology (2025+)", author: "Various (15 poems)", year: "", paper: "Paper 2", section: "Section B", status: "coming-soon" },
+      { slug: "worlds-lives", title: "Worlds & Lives Anthology (2025+)", author: "Various (15 poems)", year: "", paper: "Paper 2", section: "Section B", status: "active" },
     ],
   },
   {
@@ -77,7 +77,7 @@ export const TEXT_REGISTRY: PaperGroup[] = [
     paper: "Paper 2",
     section: "Section C",
     texts: [
-      { slug: "unseen-poetry", title: "Unseen Poetry Practice", author: "N/A", year: "", paper: "Paper 2", section: "Section C", status: "coming-soon" },
+      { slug: "unseen-poetry", title: "Unseen Poetry Practice", author: "Various (10 poems)", year: "", paper: "Paper 2", section: "Section C", status: "active" },
     ],
   },
 ];
