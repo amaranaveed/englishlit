@@ -8,6 +8,7 @@ export async function migrateLocalStorageToSupabase(userId: string): Promise<voi
   if (localStorage.getItem(MIGRATION_KEY)) return;
 
   const sb = createClient();
+  if (!sb) return;
   let migrated = false;
 
   // 1. Migrate flashcards
