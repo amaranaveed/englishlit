@@ -6,10 +6,12 @@ import { useParams } from "next/navigation";
 import { getTextBySlug } from "@/data/text-registry";
 import { getExamQuestions } from "@/data/quotes";
 import { useStorage } from "@/hooks/useStorage";
+import { useAuth } from "@/components/AuthProvider";
 import type { ExamResponse } from "@/data/types";
 
 export default function ExamResultPage() {
   const { id } = useParams<{ id: string }>();
+  const { profile } = useAuth();
   const [response, setResponse] = useState<ExamResponse | null>(null);
   const [marking, setMarking] = useState(false);
   const [markError, setMarkError] = useState<string | null>(null);
@@ -68,6 +70,7 @@ export default function ExamResultPage() {
           question: response.question,
           answer: response.studentAnswer,
           ...(matchedQ?.modelParagraph ? { modelParagraph: matchedQ.modelParagraph } : {}),
+          ...(profile?.targetGrade ? { targetGrade: profile.targetGrade } : {}),
         }),
       });
 

@@ -17,6 +17,8 @@ import { BLOOD_BROTHERS_QUOTES } from "./quotes-blood-brothers";
 import { ANIMAL_FARM_QUOTES } from "./quotes-animal-farm";
 import { LORD_OF_FLIES_QUOTES } from "./quotes-lord-of-flies";
 import { TASTE_OF_HONEY_QUOTES } from "./quotes-taste-of-honey";
+import { POWER_CONFLICT_QUOTES } from "./quotes-power-conflict";
+import { LOVE_RELATIONSHIPS_QUOTES } from "./quotes-love-relationships";
 
 // ─── All Quotes (combined) ───
 export const ALL_QUOTES: Quote[] = [
@@ -38,6 +40,8 @@ export const ALL_QUOTES: Quote[] = [
   ...ANIMAL_FARM_QUOTES,
   ...LORD_OF_FLIES_QUOTES,
   ...TASTE_OF_HONEY_QUOTES,
+  ...POWER_CONFLICT_QUOTES,
+  ...LOVE_RELATIONSHIPS_QUOTES,
 ];
 
 export function getQuotesByText(textSlug: string): Quote[] {
@@ -176,6 +180,28 @@ export const EXAM_QUESTIONS: ExamQuestion[] = [
   { textSlug: "taste-of-honey", question: "How does Delaney present Jo as an unconventional female character?" },
   { textSlug: "taste-of-honey", question: "How does Delaney use Geof to challenge gender stereotypes?" },
   { textSlug: "taste-of-honey", question: "How does Delaney explore the theme of motherhood and neglect?" },
+  // Power & Conflict Anthology
+  { textSlug: "power-conflict", question: "Compare how poets present the power of nature in 'Storm on the Island' and one other poem from the anthology." },
+  { textSlug: "power-conflict", question: "Compare how poets present the effects of conflict on individuals in 'Remains' and one other poem from the anthology." },
+  { textSlug: "power-conflict", question: "Compare how poets present ideas about memory in 'Poppies' and one other poem from the anthology." },
+  { textSlug: "power-conflict", question: "Compare how poets present attitudes to power in 'Ozymandias' and one other poem from the anthology." },
+  { textSlug: "power-conflict", question: "Compare how poets present the reality of war in 'Exposure' and one other poem from the anthology." },
+  { textSlug: "power-conflict", question: "Compare how poets present ideas about identity in 'Checking Out Me History' and one other poem from the anthology." },
+  { textSlug: "power-conflict", question: "Compare how poets present loss and absence in 'The Emigrée' and one other poem from the anthology." },
+  { textSlug: "power-conflict", question: "Compare how poets present the abuse of power in 'My Last Duchess' and one other poem from the anthology." },
+  { textSlug: "power-conflict", question: "Compare how poets present ideas about pride and human arrogance in 'Ozymandias' and one other poem from the anthology." },
+  { textSlug: "power-conflict", question: "Compare how poets present the psychological impact of conflict in 'War Photographer' and one other poem from the anthology." },
+  // Love & Relationships Anthology
+  { textSlug: "love-relationships", question: "Compare how poets present the pain of lost love in 'When We Two Parted' and one other poem from the anthology." },
+  { textSlug: "love-relationships", question: "Compare how poets present desire and longing in 'Love's Philosophy' and one other poem from the anthology." },
+  { textSlug: "love-relationships", question: "Compare how poets present the power of memory in 'Eden Rock' and one other poem from the anthology." },
+  { textSlug: "love-relationships", question: "Compare how poets present the parent-child relationship in 'Follower' and one other poem from the anthology." },
+  { textSlug: "love-relationships", question: "Compare how poets present ideas about distance in relationships in 'Letters from Yorkshire' and one other poem from the anthology." },
+  { textSlug: "love-relationships", question: "Compare how poets present attitudes to love in 'Sonnet 29' and one other poem from the anthology." },
+  { textSlug: "love-relationships", question: "Compare how poets present the theme of letting go in 'Walking Away' and one other poem from the anthology." },
+  { textSlug: "love-relationships", question: "Compare how poets present obsessive or possessive love in 'Porphyria's Lover' and one other poem from the anthology." },
+  { textSlug: "love-relationships", question: "Compare how poets present the breakdown of a relationship in 'Neutral Tones' and one other poem from the anthology." },
+  { textSlug: "love-relationships", question: "Compare how poets present joyful, celebratory love in 'Singh Song!' and one other poem from the anthology." },
 ];
 
 export function getExamQuestions(textSlug: string): ExamQuestion[] {

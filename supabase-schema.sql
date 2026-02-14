@@ -79,3 +79,25 @@ CREATE POLICY "Users can insert own vocab scores"
   ON vocab_quiz_scores FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 CREATE INDEX idx_vocab_scores_user ON vocab_quiz_scores(user_id);
+
+
+-- ─── User Profiles ───
+CREATE TABLE user_profiles (
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  first_name TEXT NOT NULL,
+  year_group INTEGER NOT NULL CHECK (year_group BETWEEN 8 AND 13),
+  target_grade INTEGER NOT NULL CHECK (target_grade BETWEEN 1 AND 9),
+  text_slugs TEXT[] NOT NULL DEFAULT '{}',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  PRIMARY KEY (user_id)
+);
+
+ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can read own profile"
+  ON user_profiles FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Users can insert own profile"
+  ON user_profiles FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Users can update own profile"
+  ON user_profiles FOR UPDATE USING (auth.uid() = user_id);

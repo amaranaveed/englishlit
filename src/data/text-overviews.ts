@@ -427,6 +427,68 @@ export const TEXT_OVERVIEWS: TextOverview[] = [
     contextSummary:
       "Written in 1958 by 18-year-old Shelagh Delaney, the play is a landmark of the 'kitchen sink' realism movement. Set in the working-class terraces of Salford, it broke theatrical taboos by centring an interracial relationship, a gay character, and teenage pregnancy on a mainstream stage. Delaney wrote it after watching a Rattigan play and deciding she could do better — and she did, giving voice to communities and experiences that 1950s theatre largely ignored.",
   },
+  {
+    slug: "power-conflict",
+    themes: [
+      "Power & Pride",
+      "War & Conflict",
+      "Nature's Power",
+      "Memory & Loss",
+      "Identity & Freedom",
+      "The Effects of Conflict",
+      "Individual vs State",
+    ],
+    characters: [
+      { name: "Percy Bysshe Shelley", role: "Ozymandias — explores the transience of political power and human arrogance" },
+      { name: "William Blake", role: "London — exposes the suffering and oppression in industrial city life" },
+      { name: "William Wordsworth", role: "Extract from The Prelude — recounts a transformative encounter with nature's sublime power" },
+      { name: "Robert Browning", role: "My Last Duchess — dramatic monologue revealing a Duke's obsessive control and jealousy" },
+      { name: "Alfred, Lord Tennyson", role: "Charge of the Light Brigade — commemorates soldiers' bravery and questions military authority" },
+      { name: "Wilfred Owen", role: "Exposure — depicts the brutal reality of trench warfare and nature's indifferent violence" },
+      { name: "Seamus Heaney", role: "Storm on the Island — uses a storm as a metaphor for political and natural threat" },
+      { name: "Ted Hughes", role: "Bayonet Charge — captures the terrifying chaos and disillusionment of a soldier in battle" },
+      { name: "Simon Armitage", role: "Remains — explores the psychological trauma and guilt haunting a soldier after killing" },
+      { name: "Jane Weir", role: "Poppies — a mother's grief as her son leaves for war, told through domestic imagery" },
+      { name: "Carol Ann Duffy", role: "War Photographer — examines the moral tension between documenting suffering and feeling it" },
+      { name: "Imtiaz Dharker", role: "Tissue — meditates on the fragility of human structures and the power of light" },
+      { name: "Carol Rumens", role: "The Emigrée — presents a speaker's idealised memory of a homeland lost to conflict" },
+      { name: "John Agard", role: "Checking Out Me History — challenges colonial education and reclaims Caribbean identity" },
+      { name: "Beatrice Garland", role: "Kamikaze — explores a pilot's decision to turn back and the shame imposed by society" },
+    ],
+    contextSummary:
+      "The AQA Power & Conflict anthology spans from Romantic poetry (Shelley, Blake, Wordsworth) through Victorian verse (Browning, Tennyson) to modern and contemporary voices (Owen, Hughes, Heaney, Armitage, Duffy, Dharker, Agard). The poems collectively explore how power is exercised, resisted, and remembered — from the tyranny of ancient kings to the psychological scars of modern warfare, from nature's sublime force to the quiet power of memory and identity. In the exam (Paper 2, Section B), one poem is printed and students must compare it with another poem of their choice from the anthology.",
+  },
+  {
+    slug: "love-relationships",
+    themes: [
+      "Romantic Love",
+      "Family Relationships",
+      "Loss & Memory",
+      "Distance & Separation",
+      "Unrequited & Forbidden Love",
+      "Passage of Time",
+      "Identity & Independence",
+    ],
+    characters: [
+      { name: "Lord Byron", role: "When We Two Parted — explores secret grief, betrayal, and the pain of a lost relationship" },
+      { name: "Percy Bysshe Shelley", role: "Love's Philosophy — uses natural imagery to argue that love demands union and reciprocity" },
+      { name: "Robert Browning", role: "Porphyria's Lover — a disturbing dramatic monologue revealing obsessive, possessive love" },
+      { name: "Elizabeth Barrett Browning", role: "Sonnet 29 — celebrates the transformative, redemptive power of romantic love" },
+      { name: "Thomas Hardy", role: "Neutral Tones — reflects on a relationship's end through bleak, wintry natural imagery" },
+      { name: "Charlotte Mew", role: "The Farmer's Bride — dramatises a farmer's frustrated desire and his wife's fear" },
+      { name: "Cecil Day-Lewis", role: "Walking Away — a father reflects on the pain of letting a child become independent" },
+      { name: "Maura Dooley", role: "Letters from Yorkshire — explores a long-distance connection between contrasting lives" },
+      { name: "Charles Causley", role: "Eden Rock — imagines a reunion with deceased parents at a remembered picnic spot" },
+      { name: "Seamus Heaney", role: "Follower — examines the shifting dynamic between father and son across time" },
+      { name: "Simon Armitage", role: "Mother, any distance — uses an extended tape-measure metaphor for letting go of a parent" },
+      { name: "Carol Ann Duffy", role: "Before You Were Mine — addresses the speaker's mother as a young, glamorous woman before motherhood" },
+      { name: "Owen Sheers", role: "Winter Swans — traces a couple's reconciliation through natural imagery of swans" },
+      { name: "Daljit Nagra", role: "Singh Song! — celebrates joyful, irreverent love that defies cultural expectations" },
+      { name: "Andrew Waterhouse", role: "Climbing My Grandfather — uses an extended climbing metaphor to explore familial love" },
+    ],
+    contextSummary:
+      "The AQA Love & Relationships anthology spans from Romantic poetry (Byron, Shelley) through Victorian verse (Browning, Hardy, Mew) to modern and contemporary voices (Heaney, Armitage, Duffy, Sheers, Nagra). The poems collectively explore the many forms of love — romantic passion, familial bonds, memory, loss, and longing. They examine how relationships are shaped by time, distance, power, and social expectation. In the exam (Paper 2, Section B), one poem is printed and students must compare it with another poem of their choice from the anthology.",
+  },
 ];
 
 export function getTextOverview(slug: string): TextOverview | undefined {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 // ─── AQA Examiner System Prompt ───
-const EXAMINER_SYSTEM_PROMPT = `You are a senior AQA GCSE English Literature examiner with 15+ years experience.
+const BASE_EXAMINER_PROMPT = `You are a senior AQA GCSE English Literature examiner with 15+ years experience.
 
 TASK: Mark the student's response against the AQA mark scheme.
 
@@ -31,8 +31,25 @@ Respond ONLY in this JSON format:
   "mistakes": [
     { "topic": "<what they got wrong>", "correction": "<what they should know>" }
   ],
-  "modelParagraph": "<Write one grade 8/9 example paragraph for this question>"
+  "modelParagraph": "<Write one example paragraph for this question (see MODEL PARAGRAPH GRADE below)>"
 }`;
+
+function buildExaminerPrompt(targetGrade?: number): string {
+  if (!targetGrade) return BASE_EXAMINER_PROMPT + `
+
+MODEL PARAGRAPH GRADE: Write the modelParagraph at Grade 8/9 level.`;
+
+  return BASE_EXAMINER_PROMPT + `
+
+STUDENT CONTEXT:
+This student's target grade is ${targetGrade}. When providing feedback:
+- Frame your feedback relative to what a Grade ${targetGrade} response requires.
+- Clearly state whether they are currently below, at, or above their target.
+- In "improvements", prioritise the specific skills that would help them reach Grade ${targetGrade}.
+- If they are already at or above their target, suggest what would push them to the next grade.
+
+MODEL PARAGRAPH GRADE: Write the modelParagraph at Grade ${targetGrade} level — UNLESS the student's achieved grade is already ${targetGrade} or higher, in which case write it at one grade above their achieved grade (max Grade 9).`;
+}
 
 // ─── Request/Response types ───
 interface MarkRequest {
@@ -40,6 +57,7 @@ interface MarkRequest {
   question: string;
   answer: string;
   modelParagraph?: string;
+  targetGrade?: number;
 }
 
 export async function POST(req: NextRequest) {
@@ -83,7 +101,7 @@ export async function POST(req: NextRequest) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           system_instruction: {
-            parts: [{ text: EXAMINER_SYSTEM_PROMPT }],
+            parts: [{ text: buildExaminerPrompt(body.targetGrade) }],
           },
           contents: [
             { role: "user", parts: [{ text: userMessage }] },
@@ -121,7 +139,7 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           model: process.env.ANTHROPIC_MODEL || "claude-sonnet-4-20250514",
           max_tokens: 2000,
-          system: EXAMINER_SYSTEM_PROMPT,
+          system: buildExaminerPrompt(body.targetGrade),
           messages: [{ role: "user", content: userMessage }],
         }),
       });
@@ -156,7 +174,7 @@ export async function POST(req: NextRequest) {
           max_tokens: 2000,
           response_format: { type: "json_object" },
           messages: [
-            { role: "system", content: EXAMINER_SYSTEM_PROMPT },
+            { role: "system", content: buildExaminerPrompt(body.targetGrade) },
             { role: "user", content: userMessage },
           ],
         }),

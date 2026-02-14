@@ -136,6 +136,15 @@ export interface ThemeSheet {
   points: ThemeSheetPoint[];
 }
 
+export interface UserProfile {
+  firstName: string;
+  yearGroup: 8 | 9 | 10 | 11 | 12 | 13;
+  targetGrade: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+  textSlugs: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface ExamResponse {
   id: string;
   textSlug: string;

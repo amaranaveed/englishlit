@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/client";
-import type { Flashcard, ExamResponse } from "@/data/types";
+import type { Flashcard, ExamResponse, UserProfile } from "@/data/types";
 import type { VocabQuizScore } from "@/data/vocab";
 
 // ─── Helper ───
@@ -401,4 +401,41 @@ export async function saveVocabScore(score: VocabQuizScore, userId?: string): Pr
     correct: score.correct,
     missed: score.missed,
   });
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// USER PROFILE STORAGE
+// ═══════════════════════════════════════════════════════════════════
+
+export async function getUserProfile(userId: string): Promise<UserProfile | null> {
+  const { data, error } = await supabase()
+    .from("user_profiles")
+    .select("*")
+    .eq("user_id", userId)
+    .single();
+
+  if (error || !data) return null;
+
+  return {
+    firstName: data.first_name as string,
+    yearGroup: data.year_group as UserProfile["yearGroup"],
+    targetGrade: data.target_grade as UserProfile["targetGrade"],
+    textSlugs: (data.text_slugs ?? []) as string[],
+    createdAt: new Date(data.created_at).toISOString(),
+    updatedAt: new Date(data.updated_at).toISOString(),
+  };
+}
+
+export async function saveUserProfile(
+  profile: Omit<UserProfile, "createdAt" | "updatedAt">,
+  userId: string
+): Promise<void> {
+  await supabase().from("user_profiles").upsert({
+    user_id: userId,
+    first_name: profile.firstName,
+    year_group: profile.yearGroup,
+    target_grade: profile.targetGrade,
+    text_slugs: profile.textSlugs,
+    updated_at: new Date().toISOString(),
+  }, { onConflict: "user_id" });
 }

@@ -3,7 +3,7 @@
 import { useCallback } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import * as storage from "@/lib/storage";
-import type { Flashcard, ExamResponse } from "@/data/types";
+import type { Flashcard, ExamResponse, UserProfile } from "@/data/types";
 import type { VocabQuizScore } from "@/data/vocab";
 
 export function useStorage() {
@@ -32,5 +32,9 @@ export function useStorage() {
     // Vocab scores
     getVocabScores: useCallback(() => storage.getVocabScores(userId), [userId]),
     saveVocabScore: useCallback((s: VocabQuizScore) => storage.saveVocabScore(s, userId), [userId]),
+
+    // Profile
+    getUserProfile: useCallback(() => userId ? storage.getUserProfile(userId) : Promise.resolve(null), [userId]),
+    saveUserProfile: useCallback((profile: Omit<UserProfile, "createdAt" | "updatedAt">) => userId ? storage.saveUserProfile(profile, userId) : Promise.resolve(), [userId]),
   };
 }
