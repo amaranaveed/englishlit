@@ -67,8 +67,8 @@ export const TEXT_REGISTRY: PaperGroup[] = [
     paper: "Paper 2",
     section: "Section B",
     texts: [
-      { slug: "love-relationships", title: "Love & Relationships Anthology", author: "Various (15 poems)", year: "", paper: "Paper 2", section: "Section B", status: "coming-soon" },
-      { slug: "power-conflict", title: "Power & Conflict Anthology", author: "Various (15 poems)", year: "", paper: "Paper 2", section: "Section B", status: "coming-soon" },
+      { slug: "love-relationships", title: "Love & Relationships Anthology", author: "Various (15 poems)", year: "", paper: "Paper 2", section: "Section B", status: "active" },
+      { slug: "power-conflict", title: "Power & Conflict Anthology", author: "Various (15 poems)", year: "", paper: "Paper 2", section: "Section B", status: "active" },
       { slug: "worlds-lives", title: "Worlds & Lives Anthology (2025+)", author: "Various (15 poems)", year: "", paper: "Paper 2", section: "Section B", status: "coming-soon" },
     ],
   },

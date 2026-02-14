@@ -58,6 +58,7 @@ export interface Quote {
 export interface ExamQuestion {
   textSlug: string;
   question: string;
+  modelParagraph?: string;
 }
 
 // ─── Character Analysis Data Types ───

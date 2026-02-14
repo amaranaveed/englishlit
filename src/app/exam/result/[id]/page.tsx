@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { getTextBySlug } from "@/data/text-registry";
+import { getExamQuestions } from "@/data/quotes";
 import { useStorage } from "@/hooks/useStorage";
 import type { ExamResponse } from "@/data/types";
 
@@ -16,11 +17,22 @@ export default function ExamResultPage() {
 
   const { getExamResponseById, updateExamResponse, addFlashcard } = useStorage();
 
+  const [autoMarkTriggered, setAutoMarkTriggered] = useState(false);
+
   useEffect(() => {
     getExamResponseById(id).then((r) => {
       if (r) setResponse(r);
     });
   }, [id, getExamResponseById]);
+
+  // Auto-mark on page load if no marking exists yet
+  useEffect(() => {
+    if (response && !response.marking && !marking && !autoMarkTriggered && !markError) {
+      setAutoMarkTriggered(true);
+      handleMark();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [response]);
 
   if (!response) {
     return (
@@ -44,6 +56,10 @@ export default function ExamResultPage() {
     setMarkError(null);
 
     try {
+      // Look up curated model paragraph for this question
+      const questions = getExamQuestions(response.textSlug);
+      const matchedQ = questions.find((q) => q.question === response.question);
+
       const res = await fetch("/api/mark", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -51,6 +67,7 @@ export default function ExamResultPage() {
           textName: text?.title ?? response.textSlug,
           question: response.question,
           answer: response.studentAnswer,
+          ...(matchedQ?.modelParagraph ? { modelParagraph: matchedQ.modelParagraph } : {}),
         }),
       });
 
@@ -232,44 +249,48 @@ export default function ExamResultPage() {
           )}
         </>
       ) : (
-        /* ─── No marking yet: show "Mark my essay" CTA ─── */
-        <div className="rounded-xl border-2 border-dashed border-border bg-surface p-8 text-center mb-6">
-          <span className="text-3xl mb-3 block">🤖</span>
-          <p className="font-display text-lg font-bold text-text mb-1">
-            AI Examiner
-          </p>
-          <p className="font-ui text-sm text-grey max-w-md mx-auto mb-5">
-            Get your essay marked by an AI examiner with AO breakdown,
-            strengths, improvements, mistakes to learn, and a model paragraph.
-          </p>
-
-          {markError && (
-            <div className="rounded-lg bg-red-light border border-red p-3 mb-4 max-w-md mx-auto text-left">
-              <p className="font-ui text-sm text-red font-semibold mb-0.5">Marking failed</p>
-              <p className="font-ui text-xs text-red/80">{markError}</p>
-            </div>
+        /* ─── No marking yet: auto-marking loading screen ─── */
+        <div className="rounded-xl border-2 border-teal/30 bg-surface p-10 text-center mb-6">
+          {markError ? (
+            <>
+              <span className="text-3xl mb-3 block">⚠️</span>
+              <p className="font-display text-lg font-bold text-text mb-2">
+                Marking Failed
+              </p>
+              <div className="rounded-lg bg-red-light border border-red p-3 mb-5 max-w-md mx-auto text-left">
+                <p className="font-ui text-xs text-red/80">{markError}</p>
+              </div>
+              <button
+                onClick={() => { setMarkError(null); setAutoMarkTriggered(false); }}
+                className="px-6 py-2.5 rounded-xl bg-teal text-white font-ui text-sm font-bold hover:bg-teal/90 transition-colors cursor-pointer"
+              >
+                Try again
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="flex justify-center mb-4">
+                <div className="relative w-16 h-16">
+                  <svg className="w-16 h-16 animate-spin" viewBox="0 0 50 50" fill="none">
+                    <circle cx="25" cy="25" r="20" stroke="#e5e7eb" strokeWidth="4" />
+                    <circle cx="25" cy="25" r="20" stroke="#0d9488" strokeWidth="4" strokeLinecap="round" strokeDasharray="80 45" />
+                  </svg>
+                  <span className="absolute inset-0 flex items-center justify-center text-xl">🤖</span>
+                </div>
+              </div>
+              <p className="font-display text-lg font-bold text-text mb-1">
+                AI Examiner is marking your essay...
+              </p>
+              <p className="font-ui text-sm text-grey max-w-sm mx-auto mb-4">
+                Analysing your response against AO1, AO2, and AO3. This usually takes around 10 seconds.
+              </p>
+              <div className="flex justify-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-teal animate-bounce" style={{ animationDelay: "0ms" }} />
+                <span className="w-2 h-2 rounded-full bg-teal animate-bounce" style={{ animationDelay: "150ms" }} />
+                <span className="w-2 h-2 rounded-full bg-teal animate-bounce" style={{ animationDelay: "300ms" }} />
+              </div>
+            </>
           )}
-
-          <button
-            onClick={handleMark}
-            disabled={marking}
-            className={`px-8 py-3 rounded-xl font-ui text-sm font-bold transition-all cursor-pointer ${
-              marking
-                ? "bg-grey-light text-grey"
-                : "bg-teal text-white hover:bg-teal/90 shadow-md hover:shadow-lg"
-            }`}
-          >
-            {marking ? (
-              <span className="flex items-center gap-2">
-                <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeDasharray="31.4 31.4" />
-                </svg>
-                Marking your essay…
-              </span>
-            ) : (
-              "Mark my essay →"
-            )}
-          </button>
         </div>
       )}
 

@@ -39,6 +39,7 @@ interface MarkRequest {
   textName: string;
   question: string;
   answer: string;
+  modelParagraph?: string;
 }
 
 export async function POST(req: NextRequest) {
@@ -52,22 +53,63 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Try configured API key (env var)
-    const apiKey = process.env.ANTHROPIC_API_KEY || process.env.OPENAI_API_KEY;
-    const provider = process.env.AI_PROVIDER || (process.env.ANTHROPIC_API_KEY ? "anthropic" : "openai");
+    // Try configured API key (env var) — priority: Gemini > Anthropic > OpenAI
+    const geminiKey = process.env.GEMINI_API_KEY;
+    const apiKey = geminiKey || process.env.ANTHROPIC_API_KEY || process.env.OPENAI_API_KEY;
+    const provider =
+      process.env.AI_PROVIDER ||
+      (geminiKey ? "gemini" : process.env.ANTHROPIC_API_KEY ? "anthropic" : "openai");
 
     if (!apiKey) {
       return NextResponse.json(
-        { error: "No AI API key configured. Set ANTHROPIC_API_KEY or OPENAI_API_KEY in .env.local" },
+        { error: "No AI API key configured. Set GEMINI_API_KEY, ANTHROPIC_API_KEY, or OPENAI_API_KEY in .env.local" },
         { status: 503 }
       );
     }
 
-    const userMessage = `TEXT: ${body.textName}\nQUESTION: ${body.question}\nSTUDENT RESPONSE:\n${body.answer}`;
+    const userMessage = body.modelParagraph
+      ? `TEXT: ${body.textName}\nQUESTION: ${body.question}\n\nHere is a Grade 8/9 model paragraph for reference — use this as the benchmark for quality when marking, and return it as the modelParagraph in your response:\n${body.modelParagraph}\n\nSTUDENT RESPONSE:\n${body.answer}`
+      : `TEXT: ${body.textName}\nQUESTION: ${body.question}\nSTUDENT RESPONSE:\n${body.answer}`;
 
     let marking;
 
-    if (provider === "anthropic") {
+    if (provider === "gemini") {
+      // ─── Google Gemini API ───
+      const model = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          system_instruction: {
+            parts: [{ text: EXAMINER_SYSTEM_PROMPT }],
+          },
+          contents: [
+            { role: "user", parts: [{ text: userMessage }] },
+          ],
+          generationConfig: {
+            responseMimeType: "application/json",
+            maxOutputTokens: 2000,
+          },
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.text();
+        return NextResponse.json(
+          { error: `Gemini API error: ${res.status} ${err}` },
+          { status: 502 }
+        );
+      }
+
+      const data = await res.json();
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!text) {
+        return NextResponse.json({ error: "Empty response from Gemini API" }, { status: 502 });
+      }
+      marking = JSON.parse(text);
+    } else if (provider === "anthropic") {
       // ─── Anthropic Claude API ───
       const res = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
@@ -155,7 +197,12 @@ export async function POST(req: NextRequest) {
     marking.strengths = marking.strengths || [];
     marking.improvements = marking.improvements || [];
     marking.mistakes = marking.mistakes || [];
-    marking.modelParagraph = marking.modelParagraph || "";
+    // Use curated model paragraph if provided, otherwise keep AI-generated one
+    if (body.modelParagraph) {
+      marking.modelParagraph = body.modelParagraph;
+    } else {
+      marking.modelParagraph = marking.modelParagraph || "";
+    }
 
     return NextResponse.json({ marking });
   } catch (err: unknown) {
