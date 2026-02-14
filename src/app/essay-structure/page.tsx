@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import PageBanner from "@/components/PageBanner";
 import {
   PARAGRAPH_STEPS,
   ESSAY_SKELETON,
@@ -72,24 +73,11 @@ export default function EssayStructurePage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      {/* Breadcrumb */}
-      <nav className="font-ui text-sm text-grey mb-6">
-        <Link href="/" className="hover:text-teal transition-colors">
-          Home
-        </Link>
-        <span className="mx-2">&rsaquo;</span>
-        <span className="text-text font-medium">Essay Structure</span>
-      </nav>
-
-      {/* ── Header ───────────────────────────────────── */}
-      <h1 className="font-display text-2xl sm:text-3xl font-bold mb-2">
-        The PETAETACWW Method
-      </h1>
-      <p className="text-grey font-ui text-sm mb-4 max-w-2xl">
-        The proven 10-step paragraph structure used in grade 9 model answers.
-        Two evidence cycles, deep analysis, and writer&apos;s intentions in every
-        paragraph. Learn it, practise it, own it.
-      </p>
+      <PageBanner
+        title="The PETAETACWW Method"
+        subtitle="The proven 10-step paragraph structure used in grade 9 model answers. Learn it, practise it, own it."
+        image="/images/writing.jpg"
+      />
 
       {/* PETAETACWW colour strip */}
       <div className="flex flex-wrap gap-1 mb-4">

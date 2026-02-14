@@ -1,6 +1,6 @@
 /* ────────────────────────────────────────────────────────
    Grade 9 Essay Structure – PETAETACWW
-   Based on the Lightup method used in AQA GCSE classrooms.
+   Based on the method used in AQA GCSE classrooms.
    Data used by /essay-structure
    ──────────────────────────────────────────────────────── */
 
@@ -76,7 +76,7 @@ export const PARAGRAPH_STEPS: StructureStep[] = [
       "The possessive language in \"…\" implies…",
       "The imperative \"…\" reveals…",
     ],
-    tip: "Use Lightup technique — name it precisely, don't just say 'language'.",
+    tip: "Name the technique precisely — don't just say 'language'.",
     doThis:
       "The diction of \"allowed\" conveys control and domination, implying that Eva's survival depended entirely on Gerald's permission rather than her own independence.",
     notThis:
@@ -137,7 +137,7 @@ export const PARAGRAPH_STEPS: StructureStep[] = [
       "By [writer] employing [technique], he/she…",
       "[Writer]'s use of [technique] here…",
     ],
-    tip: "Use Lightup technique — try to identify a different technique from your first one.",
+    tip: "Try to identify a different technique from your first one.",
     doThis:
       "By Priestley using this language of control, he exposes Gerald's dehumanising view of Eva as a passive recipient of his benevolence rather than an equal deserving freedom.",
     notThis:
@@ -310,7 +310,9 @@ export const ESSAY_SKELETON: EssaySection[] = [
   },
 ];
 
-/* ── Full model paragraphs (colour-coded PETAETACWW) ─── */
+/* ── Full model paragraphs (colour-coded PETAETACWW) ───
+   These are teaching exemplars written to demonstrate
+   each step of the method, not real exam responses.    */
 export interface ModelParagraphData {
   id: string;
   textTitle: string;
@@ -328,7 +330,7 @@ export const MODEL_PARAGRAPHS: ModelParagraphData[] = [
     question: "How does Priestley present ideas about social class in An Inspector Calls?",
     segments: [
       {
-        text: "Priestley constructs Gerald as a representative of capitalist exploitation, revealing how the bourgeois class maintains power and control over the working class through financial dominance.",
+        text: "Priestley presents Gerald as a product of the upper class whose treatment of Eva exposes how the wealthy maintain control over the working class through financial power.",
         step: 1, label: "Point", colour: "teal",
       },
       {
@@ -336,35 +338,35 @@ export const MODEL_PARAGRAPHS: ModelParagraphData[] = [
         step: 2, label: "Evidence 1", colour: "green",
       },
       {
-        text: "The diction of \"allowed\" conveys control and domination, implying that Eva's survival depended entirely on Gerald's permission rather than her own independence.",
+        text: "The word \"allowed\" is telling — it's the language of permission, not partnership, implying that Eva's survival depended entirely on Gerald's goodwill rather than her own independence.",
         step: 3, label: "Technique 1", colour: "purple",
       },
       {
-        text: "This creates a sense of economic possession, which illuminates the imbalance of power between classes; because of this, the audience sees how capitalism fosters dependency and reinforces inequality.",
+        text: "This creates a sense of economic possession, which shows the audience how capitalism turns relationships into transactions; Eva isn't Gerald's equal — she's financially dependent on him, and he doesn't even seem to realise how demeaning that is.",
         step: 4, label: "Analysis 1", colour: "orange",
       },
       {
-        text: "Moreover, when Gerald uses the phrase \"I allowed her,\" the possessive affix frames Eva as his property, reducing her to an object under his control.",
+        text: "Moreover, the phrase \"I allowed her\" is significant because the possessive \"I\" centres Gerald as the one with power — Eva is reduced to the object of his generosity, not a person with her own agency.",
         step: 5, label: "Evidence 2", colour: "green",
       },
       {
-        text: "By Priestley using this language of control, he exposes Gerald's dehumanising view of Eva as a passive recipient of his benevolence rather than an equal deserving freedom.",
+        text: "By Priestley using this language of control, he reveals how Gerald views Eva not as an equal but as someone he has the right to provide for or withdraw from — a kind of casual ownership he doesn't question.",
         step: 6, label: "Technique 2", colour: "purple",
       },
       {
-        text: "This creates a portrayal of patronising ownership, which is emblematic of Gerald's alignment with the bourgeois class who sustain their social dominance through the subjugation of the proletariat.",
+        text: "This builds a picture of patronising superiority that isn't unique to Gerald — it represents how the upper class as a whole treat working people as dependants rather than equals, maintaining their social dominance through financial control.",
         step: 7, label: "Analysis 2", colour: "orange",
       },
       {
-        text: "This idea reflects the entrenched Edwardian class system, where the bourgeois maintained economic authority over the working class. It also mirrors 1912 Britain's capitalist policies, which Priestley contrasts with the post-war rise of socialism. This reinforces the moral necessity of dismantling exploitative power structures.",
+        text: "This reflects the rigid Edwardian class system, where the wealthy held enormous economic power over the working class. Writing in 1945, Priestley contrasts this with the post-war push for a fairer society, reinforcing his argument that these exploitative power dynamics need to be dismantled.",
         step: 8, label: "Context", colour: "blue",
       },
       {
-        text: "Furthermore, Priestley uses the Well-Made Play structure to intensify the cause-and-effect exposure of Gerald's role in Eva's downfall. His language choice becomes a catalyst in the chain of events that lead to her death, thereby magnifying Priestley's social critique.",
+        text: "Furthermore, Priestley uses the Well-Made Play structure to make Gerald's role in Eva's downfall feel like an inevitable chain of cause and effect — his language isn't just revealing character, it's driving the plot towards tragedy, which makes Priestley's social critique hit harder.",
         step: 9, label: "WOW", colour: "amber",
       },
       {
-        text: "Thus, Priestley creates a political diatribe to critique the audience about the corrosive impact of capitalist exploitation, urging them to embrace collective social responsibility over individual gain.",
+        text: "Ultimately, Priestley uses Gerald's relationship with Eva as a political critique, exposing how capitalist exploitation damages real lives and urging the audience to choose collective responsibility over individual self-interest.",
         step: 10, label: "Writer's Intentions", colour: "red",
       },
     ],
@@ -378,7 +380,7 @@ export const MODEL_PARAGRAPHS: ModelParagraphData[] = [
     question: "How does Shakespeare present ideas about gender and power in Much Ado About Nothing?",
     segments: [
       {
-        text: "Shakespeare presents Beatrice as a woman who is acutely aware of her own powerlessness within a patriarchal society, using her command of \"Kill Claudio\" to expose the structural exclusion of women from the honour system.",
+        text: "Shakespeare presents Beatrice as a woman who understands exactly how powerless she is in a patriarchal society, using her demand to \"Kill Claudio\" to expose how the honour system completely excludes women.",
         step: 1, label: "Point", colour: "teal",
       },
       {
@@ -386,11 +388,11 @@ export const MODEL_PARAGRAPHS: ModelParagraphData[] = [
         step: 2, label: "Evidence 1", colour: "green",
       },
       {
-        text: "The imperative monosyllables create a brutal brevity that strips away Beatrice's characteristic wit, replacing elaborate wordplay with raw, unadorned command.",
+        text: "The two blunt monosyllables are shocking after Beatrice's usual wit — there's no wordplay, no cleverness, just a raw, unadorned command that strips her character back to pure emotional conviction.",
         step: 3, label: "Technique 1", colour: "purple",
       },
       {
-        text: "This creates a sense of desperate urgency, which illuminates the depth of her moral outrage at Hero's public shaming; because of this, the audience recognises that Beatrice's intellectual armour has been completely abandoned in favour of genuine emotional conviction.",
+        text: "This creates a sense of desperate urgency that shows the audience just how deep her outrage runs at Hero's public shaming; Beatrice's intellectual armour has been completely abandoned, and what's left is genuine moral fury.",
         step: 4, label: "Analysis 1", colour: "orange",
       },
       {
@@ -398,23 +400,23 @@ export const MODEL_PARAGRAPHS: ModelParagraphData[] = [
         step: 5, label: "Evidence 2", colour: "green",
       },
       {
-        text: "By Shakespeare using the hyperbolic metaphor of consuming Claudio's heart publicly, he transforms Beatrice's grief into visceral, animalistic rage that transcends the conventions of feminine speech.",
+        text: "By Shakespeare using this hyperbolic metaphor of consuming Claudio's heart publicly, he pushes Beatrice's grief beyond anything that would be considered acceptable feminine speech — it becomes visceral, almost animalistic rage.",
         step: 6, label: "Technique 2", colour: "purple",
       },
       {
-        text: "This creates a portrayal of a woman trapped between intellectual power and physical disenfranchisement, which amplifies Shakespeare's broader exploration of how the honour code serves men while silencing women — Beatrice can see injustice clearly yet is structurally excluded from acting upon it.",
+        text: "This portrays a woman trapped between intellectual power and physical powerlessness, which amplifies one of the play's central tensions: the honour code is supposed to protect women like Hero, but only men are allowed to use it. Beatrice can see the injustice clearly, but she's structurally locked out of doing anything about it herself.",
         step: 7, label: "Analysis 2", colour: "orange",
       },
       {
-        text: "This idea reflects Elizabethan society's rigid gender hierarchy, where a woman's honour was equated with sexual purity and men alone held the right to defend it through duelling. Hero's public shaming would have constituted social annihilation, yet women like Beatrice were entirely excluded from the martial system that could restore it. This reinforces the systemic inequality at the heart of the play's conflict.",
+        text: "This reflects Elizabethan society's rigid gender hierarchy, where a woman's honour was essentially her sexual purity and only men could defend it through duelling. Hero's public shaming would have been social destruction, yet women like Beatrice had no access to the system that could restore her reputation. This reinforces the systemic inequality at the heart of the play's conflict.",
         step: 8, label: "Context", colour: "blue",
       },
       {
-        text: "Furthermore, Shakespeare's structural placement of this demand at the exact moment Benedick declares his love creates a jarring collision between romance and violence, forcing the audience out of comfortable comedic engagement and into critical reflection on the society that makes such a demand necessary.",
+        text: "Furthermore, Shakespeare places this demand at the exact moment Benedick declares his love, which creates a jarring collision between romance and violence — the audience is pulled out of comfortable comedy and forced to think about the kind of society that makes a woman's first request of her lover a demand for murder.",
         step: 9, label: "WOW", colour: "amber",
       },
       {
-        text: "Thus, Shakespeare creates an allegorical critique to educate the audience about the corrosive impact of patriarchal honour codes that demand women's virtue while denying them any power to defend it.",
+        text: "Ultimately, Shakespeare uses this scene to critique a patriarchal honour code that demands women's virtue while giving them absolutely no power to defend it — exposing a system that claims to protect women but actually silences them.",
         step: 10, label: "Writer's Intentions", colour: "red",
       },
     ],
@@ -428,7 +430,7 @@ export const MODEL_PARAGRAPHS: ModelParagraphData[] = [
     question: "How does Austen present ideas about self-knowledge in Pride and Prejudice?",
     segments: [
       {
-        text: "Austen presents Elizabeth's journey towards self-knowledge as the novel's central moral argument, suggesting that even the most intelligent individuals are vulnerable to the distorting effects of prejudice.",
+        text: "Austen presents Elizabeth's journey towards self-knowledge as the novel's central argument, suggesting that even the most intelligent people are vulnerable to the distorting effects of their own prejudice.",
         step: 1, label: "Point", colour: "teal",
       },
       {
@@ -436,35 +438,35 @@ export const MODEL_PARAGRAPHS: ModelParagraphData[] = [
         step: 2, label: "Evidence 1", colour: "green",
       },
       {
-        text: "The epiphanic monosyllables — almost every word is a single syllable — carry maximum emotional weight through their stark simplicity, stripping away the elaborate wit that has defined Elizabeth throughout the novel.",
+        text: "What's striking about this line is its simplicity — almost every word is a single syllable, which gives it a kind of blunt emotional weight. The elaborate wit that's defined Elizabeth throughout the novel is completely gone.",
         step: 3, label: "Technique 1", colour: "purple",
       },
       {
-        text: "This creates a sense of devastating clarity, which illuminates the gap between Elizabeth's self-image as a rational judge of character and the reality of her own blind spots; because of this, the reader is forced to reassess every confident judgement Elizabeth has made previously.",
+        text: "This creates a moment of devastating clarity that exposes the gap between how Elizabeth sees herself — a rational, perceptive judge of character — and the reality of her own blind spots. Because of this, the reader is forced to look back at every confident judgement Elizabeth has made and question whether she was ever as right as she thought.",
         step: 4, label: "Analysis 1", colour: "orange",
       },
       {
-        text: "Moreover, the verb \"knew\" echoes Austen's broader epistemological concern, as the entire novel interrogates the question of how we can truly know others when we cannot even know ourselves.",
+        text: "Moreover, the verb \"knew\" connects to the broader question Austen is exploring throughout the novel — how can we truly know other people when we don't even know ourselves?",
         step: 5, label: "Evidence 2", colour: "green",
       },
       {
-        text: "By Austen placing this brief, understated confession immediately after Darcy's lengthy letter, she creates a deliberate structural contrast: pages of detailed evidence are condensed into just eight words of self-recognition.",
+        text: "By Austen placing this short, understated confession immediately after Darcy's lengthy letter, she creates a deliberate structural contrast: pages and pages of evidence are condensed into just eight words of self-recognition.",
         step: 6, label: "Technique 2", colour: "purple",
       },
       {
-        text: "This creates a portrayal of genuine intellectual humility, which represents the novel's philosophical core — that the deepest truths require the plainest language, and that self-knowledge demands the courage to abandon one's most cherished assumptions.",
+        text: "This portrays genuine intellectual humility, which gets at the novel's philosophical core — that the deepest truths often require the plainest language, and that real self-knowledge takes the courage to let go of assumptions you've built your identity around.",
         step: 7, label: "Analysis 2", colour: "orange",
       },
       {
-        text: "This idea reflects the Enlightenment's emphasis on rational self-examination, yet Austen subtly critiques its limits: Elizabeth, the novel's most perceptive character, has been blind to her own prejudice. In Regency society, where women were judged on appearance and propriety rather than intellect, Elizabeth's journey towards genuine self-awareness becomes a quietly radical act of internal liberation. This reinforces the moral necessity of looking beyond surface impressions.",
+        text: "This reflects the Enlightenment's emphasis on rational self-examination, but Austen subtly exposes its limits: Elizabeth, the novel's most perceptive character, has been blind to her own prejudice. In Regency society, where women were judged on appearance and propriety rather than intellect, Elizabeth's journey towards genuine self-awareness becomes a quietly radical act. This reinforces the moral importance of looking beyond first impressions.",
         step: 8, label: "Context", colour: "blue",
       },
       {
-        text: "Furthermore, Austen uses this moment as the novel's structural volta — everything before it is defined by misreading, and everything after by growing clarity — mirroring the classical anagnorisis of tragic drama yet repurposing it within a comedic framework where self-knowledge leads to happiness rather than destruction.",
+        text: "Furthermore, this moment works as the novel's turning point — everything before it is defined by misreading, and everything after by growing clarity. It mirrors the classical 'recognition scene' from tragedy, but Austen repurposes it within a comedy where self-knowledge leads to happiness rather than destruction.",
         step: 9, label: "WOW", colour: "amber",
       },
       {
-        text: "Thus, Austen creates a cautionary tale to educate the audience about the dangers of allowing prejudice to masquerade as rational judgement, urging readers to pursue genuine self-knowledge over comfortable self-deception.",
+        text: "Ultimately, Austen uses Elizabeth's story as a cautionary tale about the dangers of letting prejudice disguise itself as good judgement, urging readers to pursue honest self-knowledge rather than settling for comfortable self-deception.",
         step: 10, label: "Writer's Intentions", colour: "red",
       },
     ],

@@ -48,3 +48,7 @@ export function getThemeSheetsByText(slug: string): ThemeSheet[] {
 export function hasThemeSheets(slug: string): boolean {
   return ALL_THEME_SHEETS.some((s) => s.textSlug === slug);
 }
+
+export function getAllThemeSheets(): ThemeSheet[] {
+  return ALL_THEME_SHEETS;
+}

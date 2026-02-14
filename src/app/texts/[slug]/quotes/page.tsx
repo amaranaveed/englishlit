@@ -46,7 +46,7 @@ export default async function QuoteListPage({ params, searchParams }: Props) {
         {text.title} — Quotes
       </h1>
       <p className="text-grey font-ui mb-4">
-        {quotes.length} quote{quotes.length !== 1 ? "s" : ""}{who ? ` by ${who}` : ""}{theme ? ` — ${theme}` : ""} with full 6-part LightUp analysis
+        {quotes.length} quote{quotes.length !== 1 ? "s" : ""}{who ? ` by ${who}` : ""}{theme ? ` — ${theme}` : ""} with full 6-part analysis
       </p>
 
       {(who || theme) && (

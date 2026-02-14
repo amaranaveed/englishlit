@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import PageBanner from "@/components/PageBanner";
 import {
   ASSESSMENT_OBJECTIVES,
   PAPER_AO_BREAKDOWN,
@@ -13,24 +14,11 @@ export default function AOPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      {/* Breadcrumb */}
-      <nav className="font-ui text-sm text-grey mb-6">
-        <Link href="/" className="hover:text-teal transition-colors">
-          Home
-        </Link>
-        <span className="mx-2">›</span>
-        <span className="text-text font-medium">Assessment Objectives</span>
-      </nav>
-
-      {/* Header */}
-      <h1 className="font-display text-2xl sm:text-3xl font-bold mb-2">
-        Assessment Objectives
-      </h1>
-      <p className="text-grey font-ui text-sm mb-8 max-w-2xl">
-        AQA GCSE English Literature (8702) is marked against four Assessment
-        Objectives. Understanding what examiners are looking for is the fastest
-        route to higher marks.
-      </p>
+      <PageBanner
+        title="Assessment Objectives"
+        subtitle="AQA GCSE English Literature (8702) — understanding what examiners are looking for is the fastest route to higher marks."
+        image="/images/student-studying.jpg"
+      />
 
       {/* ── Overview Grid ─────────────────────────────── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-10">

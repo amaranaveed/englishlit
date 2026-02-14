@@ -15,10 +15,10 @@ const SECTION_COLOURS: Record<
   { accent: string; accentBg: string; accentLight: string; border: string; dot: string; headerBg: string }
 > = {
   purple: {
-    accent: "text-purple-700 dark:text-purple-400",
+    accent: "text-purple-700",
     accentBg: "bg-purple-600",
-    accentLight: "bg-purple-100 dark:bg-purple-900/20",
-    border: "border-purple-300 dark:border-purple-700",
+    accentLight: "bg-purple-100",
+    border: "border-purple-300",
     dot: "bg-purple-500",
     headerBg: "bg-purple-600",
   },

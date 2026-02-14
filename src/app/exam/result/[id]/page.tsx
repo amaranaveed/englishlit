@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { getExamResponseById, updateExamResponse } from "@/data/exam-storage";
 import { getTextBySlug } from "@/data/text-registry";
-import { addFlashcard } from "@/data/flashcard-storage";
+import { useStorage } from "@/hooks/useStorage";
 import type { ExamResponse } from "@/data/types";
 
 export default function ExamResultPage() {
@@ -15,10 +14,13 @@ export default function ExamResultPage() {
   const [markError, setMarkError] = useState<string | null>(null);
   const [mistakesAdded, setMistakesAdded] = useState(false);
 
+  const { getExamResponseById, updateExamResponse, addFlashcard } = useStorage();
+
   useEffect(() => {
-    const r = getExamResponseById(id);
-    if (r) setResponse(r);
-  }, [id]);
+    getExamResponseById(id).then((r) => {
+      if (r) setResponse(r);
+    });
+  }, [id, getExamResponseById]);
 
   if (!response) {
     return (
@@ -59,8 +61,8 @@ export default function ExamResultPage() {
         return;
       }
 
-      // Save marking to localStorage
-      updateExamResponse(response.id, { marking: data.marking });
+      // Save marking
+      await updateExamResponse(response.id, { marking: data.marking });
       setResponse({ ...response, marking: data.marking });
     } catch (err) {
       setMarkError(err instanceof Error ? err.message : "Network error");
@@ -69,11 +71,11 @@ export default function ExamResultPage() {
     }
   }
 
-  function handleAddMistakes() {
+  async function handleAddMistakes() {
     if (!response?.marking?.mistakes || mistakesAdded) return;
     const now = new Date().toISOString();
     for (const m of response.marking.mistakes) {
-      addFlashcard({
+      await addFlashcard({
         id: `mistake-${response.id}-${m.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 40)}`,
         type: "mistake",
         textSlug: response.textSlug,

@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useMemo } from "react";
 import type { VocabTerm } from "@/data/vocab";
-import { addFlashcard } from "@/data/flashcard-storage";
 
 type QuizMode = "term-to-def" | "def-to-term";
 

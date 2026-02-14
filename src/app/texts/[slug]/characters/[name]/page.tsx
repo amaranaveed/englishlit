@@ -10,18 +10,18 @@ interface Props {
 }
 
 const ARC_COLOURS: Record<string, string> = {
-  "TRAGIC DECLINE": "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
-  "TRAGIC COLLAPSE": "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
-  "STATIC (CATALYSTS)": "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400",
-  "STATIC (MORAL CATALYST)": "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400",
-  "STATIC (SACRIFICIAL SYMBOL)": "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400",
-  "MORAL STEADFASTNESS (CUT SHORT)": "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
-  "RISING AVENGER": "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
-  "STAGNATE (REFUSES CHANGE)": "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400",
-  "MORAL AWAKENING": "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
-  "PAINFUL AWAKENING": "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
-  "PARTIAL AWAKENING (REVERTS)": "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
-  "VICTIM (TOLD THROUGH OTHERS)": "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
+  "TRAGIC DECLINE": "bg-red-100 text-red-700",
+  "TRAGIC COLLAPSE": "bg-red-100 text-red-700",
+  "STATIC (CATALYSTS)": "bg-zinc-100 text-zinc-600",
+  "STATIC (MORAL CATALYST)": "bg-zinc-100 text-zinc-600",
+  "STATIC (SACRIFICIAL SYMBOL)": "bg-zinc-100 text-zinc-600",
+  "MORAL STEADFASTNESS (CUT SHORT)": "bg-emerald-100 text-emerald-700",
+  "RISING AVENGER": "bg-amber-100 text-amber-700",
+  "STAGNATE (REFUSES CHANGE)": "bg-zinc-100 text-zinc-600",
+  "MORAL AWAKENING": "bg-emerald-100 text-emerald-700",
+  "PAINFUL AWAKENING": "bg-amber-100 text-amber-700",
+  "PARTIAL AWAKENING (REVERTS)": "bg-amber-100 text-amber-700",
+  "VICTIM (TOLD THROUGH OTHERS)": "bg-red-100 text-red-700",
 };
 
 export default async function CharacterDetailPage({ params }: Props) {
@@ -171,7 +171,7 @@ export default async function CharacterDetailPage({ params }: Props) {
                 <span className="font-display font-semibold text-sm text-text">
                   {rel.character}
                 </span>
-                <span className="text-xs font-ui font-medium rounded-full bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 px-2 py-0.5">
+                <span className="text-xs font-ui font-medium rounded-full bg-purple-100 text-purple-700 px-2 py-0.5">
                   {rel.nature}
                 </span>
               </div>
@@ -186,7 +186,7 @@ export default async function CharacterDetailPage({ params }: Props) {
       {/* Writer's methods */}
       <section className="mb-8">
         <h2 className="font-display text-xl font-bold mb-3">Writer&rsquo;s Methods</h2>
-        <div className="rounded-xl border border-purple-200 dark:border-purple-800 bg-purple-50 dark:bg-purple-900/20 p-5">
+        <div className="rounded-xl border border-purple-200 bg-purple-50 p-5">
           <p className="font-body text-sm text-text leading-relaxed">
             <HighlightedText text={character.writersMethods} />
           </p>
@@ -197,11 +197,11 @@ export default async function CharacterDetailPage({ params }: Props) {
       <section className="mb-8">
         <div className="flex items-center gap-2 mb-3">
           <h2 className="font-display text-xl font-bold">Grade 7+ Point</h2>
-          <span className="text-xs font-ui font-bold rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 px-2 py-0.5">
+          <span className="text-xs font-ui font-bold rounded-full bg-amber-100 text-amber-700 px-2 py-0.5">
             WOW
           </span>
         </div>
-        <div className="rounded-xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5">
+        <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
           <p className="font-body text-sm text-text leading-relaxed">
             <HighlightedText text={character.wow} />
           </p>
@@ -228,11 +228,11 @@ export default async function CharacterDetailPage({ params }: Props) {
       <section className="mb-8">
         <div className="flex items-center gap-2 mb-3">
           <h2 className="font-display text-xl font-bold">Exam Tip</h2>
-          <span className="text-xs font-ui font-bold rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 px-2 py-0.5">
+          <span className="text-xs font-ui font-bold rounded-full bg-blue-100 text-blue-700 px-2 py-0.5">
             AO
           </span>
         </div>
-        <div className="rounded-xl border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 p-5">
+        <div className="rounded-xl border border-blue-200 bg-blue-50 p-5">
           <p className="font-body text-sm text-text leading-relaxed">
             <HighlightedText text={character.examTip} />
           </p>

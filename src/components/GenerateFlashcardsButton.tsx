@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import type { Quote } from "@/data/types";
+import { useStorage } from "@/hooks/useStorage";
 
 /**
  * Generates 5-8 flashcards from a quote's 6-part analysis and saves to localStorage.
@@ -10,25 +11,20 @@ import type { Quote } from "@/data/types";
 export default function GenerateFlashcardsButton({ quote }: { quote: Quote }) {
   const [generated, setGenerated] = useState(false);
   const [count, setCount] = useState(0);
+  const { getFlashcards, addFlashcard } = useStorage();
 
   // Check if cards already exist for this quote
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem("flashcards");
-      if (raw) {
-        const cards = JSON.parse(raw) as { id: string }[];
-        const prefix = `${quote.textSlug}-q${quote.id}-`;
-        if (cards.some((c) => c.id.startsWith(prefix))) {
-          setGenerated(true);
-          setCount(cards.filter((c) => c.id.startsWith(prefix)).length);
-        }
+    getFlashcards().then((cards) => {
+      const prefix = `${quote.textSlug}-q${quote.id}-`;
+      if (cards.some((c) => c.id.startsWith(prefix))) {
+        setGenerated(true);
+        setCount(cards.filter((c) => c.id.startsWith(prefix)).length);
       }
-    } catch {
-      // ignore
-    }
-  }, [quote.textSlug, quote.id]);
+    });
+  }, [quote.textSlug, quote.id, getFlashcards]);
 
-  function handleGenerate() {
+  async function handleGenerate() {
     const prefix = `${quote.textSlug}-q${quote.id}`;
     const now = new Date().toISOString();
 
@@ -117,18 +113,12 @@ export default function GenerateFlashcardsButton({ quote }: { quote: Quote }) {
       }
     });
 
-    // Merge with existing, deduplicating by id
-    try {
-      const raw = localStorage.getItem("flashcards");
-      const existing = raw ? (JSON.parse(raw) as { id: string }[]) : [];
-      const existingIds = new Set(existing.map((c) => c.id));
-      const toAdd = newCards.filter((c) => !existingIds.has(c.id));
-      localStorage.setItem("flashcards", JSON.stringify([...existing, ...toAdd]));
-      setGenerated(true);
-      setCount(newCards.length);
-    } catch {
-      // ignore
+    // Save each card (addFlashcard handles deduplication)
+    for (const card of newCards) {
+      await addFlashcard(card);
     }
+    setGenerated(true);
+    setCount(newCards.length);
   }
 
   if (generated) {

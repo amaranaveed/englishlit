@@ -3,9 +3,10 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import PageBanner from "@/components/PageBanner";
 import { getActiveTexts, getTextBySlug } from "@/data/text-registry";
 import { getExamQuestions } from "@/data/quotes";
-import { saveExamResponse } from "@/data/exam-storage";
+import { useStorage } from "@/hooks/useStorage";
 import type { ExamResponse } from "@/data/types";
 
 type Stage = "select" | "writing" | "submitted";
@@ -24,6 +25,7 @@ export default function ExamPage() {
   const [started, setStarted] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimeRef = useRef<number>(0);
+  const { saveExamResponse } = useStorage();
 
   const activeTexts = getActiveTexts();
   const questions = selectedText ? getExamQuestions(selectedText) : [];
@@ -61,7 +63,7 @@ export default function ExamPage() {
     setStarted(true);
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (timerRef.current) clearInterval(timerRef.current);
     const timeSpent = Math.round((Date.now() - startTimeRef.current) / 1000);
     const id = `exam-${Date.now()}`;
@@ -74,7 +76,7 @@ export default function ExamPage() {
       timeSpent,
     };
 
-    saveExamResponse(response);
+    await saveExamResponse(response);
     setStage("submitted");
     router.push(`/exam/result/${id}`);
   }
@@ -83,12 +85,11 @@ export default function ExamPage() {
   if (stage === "select") {
     return (
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <h1 className="font-display text-2xl sm:text-3xl font-bold mb-2">
-          Exam Practice
-        </h1>
-        <p className="text-grey font-ui text-sm mb-8">
-          Choose a text and question, then write a timed essay response.
-        </p>
+        <PageBanner
+          title="Exam Practice"
+          subtitle="Choose a text and question, then write a timed essay response."
+          image="/images/exam-prep.jpg"
+        />
 
         {/* Step 1 — Text */}
         <div className="mb-6">

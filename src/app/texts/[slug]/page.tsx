@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTextBySlug } from "@/data/text-registry";
 import { getQuotesByText, getExamQuestions } from "@/data/quotes";
@@ -8,6 +9,35 @@ import { hasMindMaps, getMindMapsByText } from "@/data/mindmaps";
 import { hasThemeSheets, getThemeSheetsByText } from "@/data/theme-sheets";
 import { hasWritersToolkit, getWritersToolkit } from "@/data/writers-toolkit";
 import TextAOGuide from "@/components/TextAOGuide";
+
+const SECTION_IMAGES: Record<string, string> = {
+  "Paper 1-Section A": "/images/shakespeare-3d.png",
+  "Paper 1-Section B": "/images/19th-century-banner.png",
+  "Paper 2-Section A": "/images/modern-texts-banner.png",
+  "Paper 2-Section B": "/images/poetry-banner.png",
+  "Paper 2-Section C": "/images/unseen-poetry-banner.png",
+};
+
+/* Per-text banner overrides (slug → image) */
+const TEXT_IMAGES: Record<string, string> = {
+  "much-ado": "/images/much-ado-banner.png",
+  "christmas-carol": "/images/christmas-carol-banner.png",
+  "macbeth": "/images/macbeth-banner.png",
+  "romeo-juliet": "/images/romeo-juliet-banner.png",
+  "tempest": "/images/tempest-banner.png",
+  "merchant-venice": "/images/merchant-venice-banner.png",
+  "julius-caesar": "/images/julius-caesar-banner.png",
+  "pride-prejudice": "/images/pride-prejudice-banner.png",
+  "jekyll-hyde": "/images/jekyll-hyde-banner.png",
+  "frankenstein": "/images/frankenstein-banner.png",
+  "jane-eyre": "/images/jane-eyre-banner.png",
+  "sign-of-four": "/images/sign-four-banner.png",
+  "inspector-calls": "/images/inspector-calls-banner.png",
+  "blood-brothers": "/images/blood-brothers-banner.png",
+  "animal-farm": "/images/animal-farm-banner.png",
+  "lord-of-flies": "/images/lord-flies-banner.png",
+  "taste-of-honey": "/images/taste-honey-banner.png",
+};
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -32,23 +62,65 @@ export default async function TextOverviewPage({ params }: Props) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      {/* Breadcrumb */}
-      <nav className="font-ui text-sm text-grey mb-6">
-        <Link href="/texts" className="hover:text-teal transition-colors">
-          Texts
-        </Link>
-        <span className="mx-2">›</span>
-        <span className="text-text font-medium">{text.title}</span>
-      </nav>
+      {/* Breadcrumb above banner (for custom image texts) */}
+      {TEXT_IMAGES[slug] ? (
+        <nav className="font-ui text-[13px] text-grey mb-3">
+          <Link href="/texts" className="hover:text-foreground transition-colors">
+            Texts
+          </Link>
+          <span className="mx-2">›</span>
+          <span className="text-foreground/70">{text.title}</span>
+        </nav>
+      ) : null}
 
-      {/* Title */}
-      <h1 className="font-display text-2xl sm:text-3xl font-bold mb-1">
-        {text.title}
-      </h1>
-      <p className="text-grey font-ui mb-8">
-        {text.author}&ensp;·&ensp;{text.year}&ensp;·&ensp;{text.paper}{" "}
-        {text.section}
-      </p>
+      {/* Hero banner */}
+      <div className="relative rounded-2xl overflow-hidden bg-[#1a1b3a]"
+           style={{ marginBottom: TEXT_IMAGES[slug] ? '0.75rem' : '2rem' }}>
+        <div className={`relative ${TEXT_IMAGES[slug] ? 'h-44 sm:h-52' : 'h-48 sm:h-56'}`}>
+          <Image
+            src={TEXT_IMAGES[slug] ?? SECTION_IMAGES[`${text.paper}-${text.section}`] ?? "/images/library.jpg"}
+            alt={text.title}
+            fill
+            className="object-cover object-center"
+            sizes="900px"
+            priority
+          />
+          {!TEXT_IMAGES[slug] && (
+            <div className="absolute inset-0 bg-gradient-to-r from-[#1a1b3a]/60 via-transparent to-transparent" />
+          )}
+        </div>
+        {!TEXT_IMAGES[slug] && (
+        <div className="absolute inset-0 flex flex-col justify-center px-8 sm:px-10">
+          <nav className="font-ui text-[13px] text-white/50 mb-3">
+            <Link href="/texts" className="hover:text-white/80 transition-colors">
+              Texts
+            </Link>
+            <span className="mx-2">›</span>
+            <span className="text-white/70">{text.title}</span>
+          </nav>
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-white mb-1">
+            {text.title}
+          </h1>
+          <p className="font-ui text-[14px] text-white/60">
+            {text.author}&ensp;·&ensp;{text.year}&ensp;·&ensp;{text.paper}{" "}
+            {text.section}
+          </p>
+        </div>
+        )}
+      </div>
+
+      {/* Title + author below banner (for custom image texts) */}
+      {TEXT_IMAGES[slug] ? (
+        <div className="mb-8">
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-foreground mb-1">
+            {text.title}
+          </h1>
+          <p className="font-ui text-[14px] text-grey">
+            {text.author}&ensp;·&ensp;{text.year}&ensp;·&ensp;{text.paper}{" "}
+            {text.section}
+          </p>
+        </div>
+      ) : null}
 
       {/* Action cards */}
       <div className="grid sm:grid-cols-2 gap-4 mb-10">
@@ -61,7 +133,7 @@ export default async function TextOverviewPage({ params }: Props) {
             6-Part Quote Analysis
           </p>
           <p className="text-sm text-grey font-ui">
-            {quotes.length} quotes with full LightUp analysis
+            {quotes.length} quotes with full 6-part analysis
           </p>
         </Link>
 

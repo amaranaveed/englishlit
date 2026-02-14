@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { Flashcard } from "@/data/types";
-import { reviewCard } from "@/data/flashcard-storage";
+import { useStorage } from "@/hooks/useStorage";
 
 const TYPE_BADGES: Record<string, { bg: string; text: string }> = {
   quote: { bg: "bg-teal-light", text: "text-teal" },
@@ -12,8 +12,8 @@ const TYPE_BADGES: Record<string, { bg: string; text: string }> = {
   vocab: { bg: "bg-orange-light", text: "text-orange" },
   mistake: { bg: "bg-red-light", text: "text-red" },
   custom: { bg: "bg-grey-light", text: "text-grey" },
-  character: { bg: "bg-amber-100 dark:bg-amber-900/30", text: "text-amber-700 dark:text-amber-400" },
-  theme: { bg: "bg-indigo-100 dark:bg-indigo-900/30", text: "text-indigo-700 dark:text-indigo-400" },
+  character: { bg: "bg-amber-100", text: "text-amber-700" },
+  theme: { bg: "bg-indigo-100", text: "text-indigo-700" },
 };
 
 const CONFIDENCE_BUTTONS: { label: string; value: 0 | 1 | 2 | 3; colour: string; hint: string }[] = [
@@ -32,6 +32,7 @@ export default function FlashcardReview({ cards, onComplete }: Props) {
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [reviewed, setReviewed] = useState(0);
+  const { reviewCard } = useStorage();
 
   if (cards.length === 0 || index >= cards.length) {
     return (
@@ -56,8 +57,8 @@ export default function FlashcardReview({ cards, onComplete }: Props) {
   const card = cards[index];
   const badge = TYPE_BADGES[card.type] ?? TYPE_BADGES.custom;
 
-  function handleConfidence(value: 0 | 1 | 2 | 3) {
-    reviewCard(card.id, value);
+  async function handleConfidence(value: 0 | 1 | 2 | 3) {
+    await reviewCard(card.id, value);
     setFlipped(false);
     setReviewed((r) => r + 1);
     // Small delay so flip-back animation plays before moving on

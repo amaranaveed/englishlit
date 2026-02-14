@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
+import PageBanner from "@/components/PageBanner";
 import type { Flashcard } from "@/data/types";
-import { getFlashcards, getDueFlashcards } from "@/data/flashcard-storage";
+import { useStorage } from "@/hooks/useStorage";
 import { getTextBySlug } from "@/data/text-registry";
 import FlashcardReview from "@/components/FlashcardReview";
 import FlashcardList from "@/components/FlashcardList";
@@ -18,8 +19,8 @@ const CARD_TYPES = [
   { value: "wow", label: "WOW", bg: "bg-blue-light", text: "text-blue" },
   { value: "vocab", label: "Vocab", bg: "bg-orange-light", text: "text-orange" },
   { value: "mistake", label: "Mistakes", bg: "bg-red-light", text: "text-red" },
-  { value: "character", label: "Characters", bg: "bg-amber-100 dark:bg-amber-900/30", text: "text-amber-700 dark:text-amber-400" },
-  { value: "theme", label: "Themes", bg: "bg-indigo-100 dark:bg-indigo-900/30", text: "text-indigo-700 dark:text-indigo-400" },
+  { value: "character", label: "Characters", bg: "bg-amber-100", text: "text-amber-700" },
+  { value: "theme", label: "Themes", bg: "bg-indigo-100", text: "text-indigo-700" },
 ] as const;
 
 export default function FlashcardsPage() {
@@ -32,10 +33,14 @@ export default function FlashcardsPage() {
   const [selectedText, setSelectedText] = useState<string>("all");
   const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set());
 
+  const { getFlashcards, getDueFlashcards } = useStorage();
+
   const refresh = useCallback(() => {
-    setAllCards(getFlashcards());
-    setDueCards(getDueFlashcards());
-  }, []);
+    Promise.all([getFlashcards(), getDueFlashcards()]).then(([all, due]) => {
+      setAllCards(all);
+      setDueCards(due);
+    });
+  }, [getFlashcards, getDueFlashcards]);
 
   useEffect(() => {
     refresh();
@@ -107,15 +112,11 @@ export default function FlashcardsPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="font-display text-2xl font-bold">Flashcards</h1>
-          <p className="text-grey font-ui text-sm mt-0.5">
-            {dueCount} due · {totalCount} total
-          </p>
-        </div>
-      </div>
+      <PageBanner
+        title="Flashcards"
+        subtitle={`${dueCount} due · ${totalCount} total`}
+        image="/images/flashcards.jpg"
+      />
 
       {/* Tab toggle */}
       <div className="flex rounded-lg bg-grey-light p-1 mb-6">

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import type { CharacterAnalysis } from "@/data/types";
+import { useStorage } from "@/hooks/useStorage";
 
 /**
  * Generates flashcards from a character analysis and saves to localStorage.
@@ -16,23 +17,18 @@ export default function GenerateCharacterFlashcardsButton({
   const [count, setCount] = useState(0);
 
   const prefix = `${character.textSlug}-char-${character.name.toLowerCase().replace(/\s+/g, "-")}`;
+  const { getFlashcards, addFlashcard } = useStorage();
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem("flashcards");
-      if (raw) {
-        const cards = JSON.parse(raw) as { id: string }[];
-        if (cards.some((c) => c.id.startsWith(prefix))) {
-          setGenerated(true);
-          setCount(cards.filter((c) => c.id.startsWith(prefix)).length);
-        }
+    getFlashcards().then((cards) => {
+      if (cards.some((c) => c.id.startsWith(prefix))) {
+        setGenerated(true);
+        setCount(cards.filter((c) => c.id.startsWith(prefix)).length);
       }
-    } catch {
-      // ignore
-    }
-  }, [prefix]);
+    });
+  }, [prefix, getFlashcards]);
 
-  function handleGenerate() {
+  async function handleGenerate() {
     const now = new Date().toISOString();
 
     type CardType = "character" | "vocab";
@@ -166,18 +162,12 @@ export default function GenerateCharacterFlashcardsButton({
       }
     });
 
-    // Merge with existing, deduplicating by id
-    try {
-      const raw = localStorage.getItem("flashcards");
-      const existing = raw ? (JSON.parse(raw) as { id: string }[]) : [];
-      const existingIds = new Set(existing.map((c) => c.id));
-      const toAdd = newCards.filter((c) => !existingIds.has(c.id));
-      localStorage.setItem("flashcards", JSON.stringify([...existing, ...toAdd]));
-      setGenerated(true);
-      setCount(newCards.length);
-    } catch {
-      // ignore
+    // Save each card (addFlashcard handles deduplication)
+    for (const card of newCards) {
+      await addFlashcard(card);
     }
+    setGenerated(true);
+    setCount(newCards.length);
   }
 
   if (generated) {

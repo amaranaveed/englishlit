@@ -82,6 +82,28 @@ export const TEXT_REGISTRY: PaperGroup[] = [
   },
 ];
 
+// Custom icons for specific texts (slug → image path)
+export const TEXT_ICONS: Record<string, string> = {
+  "christmas-carol": "/images/christmas-carol-globe.png",
+  "much-ado": "/images/much-ado-masks.png",
+  "macbeth": "/images/macbeth-crown.png",
+  "romeo-juliet": "/images/romeo-juliet-balcony.png",
+  "tempest": "/images/tempest-ship.png",
+  "merchant-venice": "/images/merchant-venice-scales.png",
+  "julius-caesar": "/images/julius-caesar-bust.png",
+  "pride-prejudice": "/images/pride-prejudice-icon.png",
+  "great-expectations": "/images/great-expectations-icon.png",
+  "jekyll-hyde": "/images/jekyll-hyde-icon.png",
+  "frankenstein": "/images/frankenstein-icon.png",
+  "inspector-calls": "/images/inspector-calls-icon.png",
+  "animal-farm": "/images/animal-farm-icon.png",
+  "jane-eyre": "/images/jane-eyre-icon.png",
+  "sign-of-four": "/images/sign-of-four-icon.png",
+  "taste-of-honey": "/images/taste-of-honey-icon.png",
+  "blood-brothers": "/images/blood-brothers-icon.png",
+  "lord-of-flies": "/images/lord-of-flies-icon.png",
+};
+
 // Flat list helper
 export function getAllTexts(): TextEntry[] {
   return TEXT_REGISTRY.flatMap((g) => g.texts);

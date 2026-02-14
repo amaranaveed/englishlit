@@ -2,18 +2,17 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
+import PageBanner from "@/components/PageBanner";
 import {
   getUniqueVocabTerms,
   getVocabTermsByText,
   getAllVocabTerms,
   getVocabTextSlugs,
   getVocabTextTitle,
-  saveVocabScore,
-  getVocabScores,
   type VocabTerm,
   type VocabQuizScore,
 } from "@/data/vocab";
-import { addFlashcard } from "@/data/flashcard-storage";
+import { useStorage } from "@/hooks/useStorage";
 import { ALL_QUOTES } from "@/data/quotes";
 import VocabQuiz from "@/components/VocabQuiz";
 
@@ -32,12 +31,14 @@ export default function VocabPage() {
   const [glossarySearch, setGlossarySearch] = useState("");
   const [techniqueSearch, setTechniqueSearch] = useState("");
 
+  const { saveVocabScore, getVocabScores, addFlashcard } = useStorage();
+
   const textSlugs = useMemo(() => getVocabTextSlugs(), []);
   const allTerms = useMemo(() => getUniqueVocabTerms(), []);
 
   useEffect(() => {
-    setScores(getVocabScores());
-  }, []);
+    getVocabScores().then(setScores);
+  }, [getVocabScores]);
 
   const quizTerms = useMemo(() => {
     if (selectedText === "all") return getUniqueVocabTerms();
@@ -54,7 +55,7 @@ export default function VocabPage() {
     setMissedAdded(false);
   }
 
-  function handleComplete(correct: number, total: number, missed: string[]) {
+  async function handleComplete(correct: number, total: number, missed: string[]) {
     const score: VocabQuizScore = {
       id: Date.now().toString(36),
       date: new Date().toISOString(),
@@ -64,13 +65,14 @@ export default function VocabPage() {
       correct,
       missed,
     };
-    saveVocabScore(score);
+    await saveVocabScore(score);
     setResult({ correct, total, missed });
-    setScores(getVocabScores());
+    const updatedScores = await getVocabScores();
+    setScores(updatedScores);
     setStage("results");
   }
 
-  function handleAddMissedToFlashcards() {
+  async function handleAddMissedToFlashcards() {
     if (!result || missedAdded) return;
     const termsByWord = new Map<string, VocabTerm>();
     for (const t of quizTerms) {
@@ -79,7 +81,7 @@ export default function VocabPage() {
     for (const word of result.missed) {
       const term = termsByWord.get(word.toLowerCase());
       if (term) {
-        addFlashcard({
+        await addFlashcard({
           id: `vocab-quiz-${term.id}`,
           type: "vocab",
           textSlug: term.textSlug,
@@ -104,12 +106,11 @@ export default function VocabPage() {
   if (stage === "setup") {
     return (
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="mb-6">
-          <h1 className="font-display text-2xl font-bold">Vocab</h1>
-          <p className="text-grey font-ui text-sm mt-0.5">
-            {allTerms.length} literary terms across {textSlugs.length} text{textSlugs.length !== 1 ? "s" : ""}
-          </p>
-        </div>
+        <PageBanner
+          title="Vocabulary"
+          subtitle={`${allTerms.length} literary terms across ${textSlugs.length} text${textSlugs.length !== 1 ? "s" : ""}`}
+          image="/images/library.jpg"
+        />
 
         {/* Tab toggle */}
         <div className="flex rounded-lg bg-grey-light p-1 mb-6">
