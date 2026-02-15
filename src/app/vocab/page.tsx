@@ -355,6 +355,17 @@ function VocabGlossary({
 }) {
   const allTerms = getAllVocabTerms();
   const q = search.toLowerCase();
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+
+  const toggle = (slug: string) =>
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      next.has(slug) ? next.delete(slug) : next.add(slug);
+      return next;
+    });
+
+  // Auto-expand all when searching
+  const effectiveExpanded = q ? new Set(textSlugs) : expanded;
 
   // Group: text → section → terms (deduped within each section)
   const grouped = useMemo(() => {
@@ -405,60 +416,74 @@ function VocabGlossary({
         </p>
       </motion.div>
 
-      {/* Grouped terms */}
-      <div className="space-y-8">
-        {grouped.map((group) => (
-          <motion.div
-            key={group.slug}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: EASE }}
-          >
-            <section>
-              <div className="flex items-center gap-2 mb-4">
-                <h2 className="font-display text-lg font-bold text-text">{group.title}</h2>
-                <span className="font-ui text-xs text-grey">
-                  {group.totalVisible} term{group.totalVisible !== 1 ? "s" : ""}
-                </span>
-              </div>
+      {/* Grouped terms — collapsible by text */}
+      <div className="space-y-3">
+        {grouped.map((group) => {
+          const isOpen = effectiveExpanded.has(group.slug);
+          return (
+            <div key={group.slug} className="rounded-xl border border-border bg-surface overflow-hidden">
+              <button
+                onClick={() => toggle(group.slug)}
+                className="w-full flex items-center justify-between px-5 py-4 cursor-pointer hover:bg-bg/50 transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <h2 className="font-display text-lg font-bold text-text">{group.title}</h2>
+                  <span className="font-ui text-xs text-grey">
+                    {group.totalVisible} term{group.totalVisible !== 1 ? "s" : ""}
+                  </span>
+                </div>
+                <svg
+                  className={`w-5 h-5 text-grey transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
 
-              <div className="space-y-4">
-                {group.sections.map((sec) => {
-                  const colours = SECTION_COLOURS[sec.section] ?? { bg: "bg-grey-light", text: "text-grey" };
-                  return (
-                    <div key={sec.section}>
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${colours.bg} ${colours.text}`}>
-                          {sec.section}
-                        </span>
-                      </div>
-                      <div className="grid gap-1.5">
-                        {sec.terms.map((term, idx) => (
-                          <motion.div
-                            key={term.id}
-                            initial={{ opacity: 0, x: -12 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.4, ease: EASE, delay: idx * 0.04 }}
-                            className="rounded-lg border border-border bg-surface px-4 py-2.5 flex items-start gap-3"
-                          >
-                            <span className="font-ui text-sm font-semibold text-teal shrink-0 min-w-[120px]">
-                              {term.word}
-                            </span>
-                            <span className="font-ui text-sm text-text">
-                              {term.def}
-                            </span>
-                          </motion.div>
-                        ))}
-                      </div>
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: EASE }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-5 pb-4 space-y-4">
+                      {group.sections.map((sec) => {
+                        const colours = SECTION_COLOURS[sec.section] ?? { bg: "bg-grey-light", text: "text-grey" };
+                        return (
+                          <div key={sec.section}>
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${colours.bg} ${colours.text}`}>
+                                {sec.section}
+                              </span>
+                            </div>
+                            <div className="grid gap-1.5">
+                              {sec.terms.map((term) => (
+                                <div
+                                  key={term.id}
+                                  className="rounded-lg border border-border bg-bg px-4 py-2.5 flex items-start gap-3"
+                                >
+                                  <span className="font-ui text-sm font-semibold text-teal shrink-0 min-w-[120px]">
+                                    {term.word}
+                                  </span>
+                                  <span className="font-ui text-sm text-text">
+                                    {term.def}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
-                  );
-                })}
-              </div>
-            </section>
-          </motion.div>
-        ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
       </div>
 
       {totalCount === 0 && (
@@ -721,6 +746,17 @@ function TechniquesView({
 }) {
   const allTechniques = useMemo(() => extractTechniques(), []);
   const q = search.toLowerCase();
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+
+  const toggle = (slug: string) =>
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      next.has(slug) ? next.delete(slug) : next.add(slug);
+      return next;
+    });
+
+  // Auto-expand all when searching
+  const effectiveExpanded = q ? new Set(textSlugs) : expanded;
 
   const grouped = useMemo(() => {
     return textSlugs.map((slug) => {
@@ -756,53 +792,67 @@ function TechniquesView({
         </p>
       </motion.div>
 
-      <div className="space-y-8">
-        {grouped.map((group) => (
-          <motion.div
-            key={group.slug}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: EASE }}
-          >
-            <section>
-              <div className="flex items-center gap-2 mb-4">
-                <h2 className="font-display text-lg font-bold text-text">{group.title}</h2>
-                <span className="font-ui text-xs text-grey">
-                  {group.techniques.length} technique{group.techniques.length !== 1 ? "s" : ""}
-                </span>
-              </div>
+      <div className="space-y-3">
+        {grouped.map((group) => {
+          const isOpen = effectiveExpanded.has(group.slug);
+          return (
+            <div key={group.slug} className="rounded-xl border border-border bg-surface overflow-hidden">
+              <button
+                onClick={() => toggle(group.slug)}
+                className="w-full flex items-center justify-between px-5 py-4 cursor-pointer hover:bg-bg/50 transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <h2 className="font-display text-lg font-bold text-text">{group.title}</h2>
+                  <span className="font-ui text-xs text-grey">
+                    {group.techniques.length} technique{group.techniques.length !== 1 ? "s" : ""}
+                  </span>
+                </div>
+                <svg
+                  className={`w-5 h-5 text-grey transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
 
-              <div className="space-y-1.5">
-                {group.techniques.map((tech, i) => {
-                  const colours = TECHNIQUE_SECTION_COLOURS[tech.section] ?? { bg: "bg-grey-light", text: "text-grey" };
-                  return (
-                    <motion.div
-                      key={`${tech.textSlug}-${tech.quoteId}-${tech.section}-${i}`}
-                      initial={{ opacity: 0, x: -12 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, ease: EASE, delay: i * 0.04 }}
-                      className="rounded-lg border border-border bg-surface px-4 py-2.5 flex items-start gap-3"
-                    >
-                      <span className={`shrink-0 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mt-0.5 ${colours.bg} ${colours.text}`}>
-                        {tech.section}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <p className={`font-ui text-sm font-bold ${colours.text}`}>
-                          {tech.title}
-                        </p>
-                        <p className="font-ui text-xs text-grey mt-0.5">
-                          {tech.effect}
-                        </p>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </section>
-          </motion.div>
-        ))}
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: EASE }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-5 pb-4 space-y-1.5">
+                      {group.techniques.map((tech, i) => {
+                        const colours = TECHNIQUE_SECTION_COLOURS[tech.section] ?? { bg: "bg-grey-light", text: "text-grey" };
+                        return (
+                          <div
+                            key={`${tech.textSlug}-${tech.quoteId}-${tech.section}-${i}`}
+                            className="rounded-lg border border-border bg-bg px-4 py-2.5 flex items-start gap-3"
+                          >
+                            <span className={`shrink-0 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mt-0.5 ${colours.bg} ${colours.text}`}>
+                              {tech.section}
+                            </span>
+                            <div className="flex-1 min-w-0">
+                              <p className={`font-ui text-sm font-bold ${colours.text}`}>
+                                {tech.title}
+                              </p>
+                              <p className="font-ui text-xs text-grey mt-0.5">
+                                {tech.effect}
+                              </p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
       </div>
 
       {totalCount === 0 && (

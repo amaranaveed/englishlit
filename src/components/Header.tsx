@@ -34,7 +34,7 @@ const NAV_ITEMS = [
   { label: "Essay Structure", href: "/essay-structure" },
   { label: "Exam Practice", href: "/exam" },
   { label: "Flashcards", href: "/flashcards" },
-  { label: "Vocab Quiz", href: "/vocab" },
+  { label: "Vocabulary", href: "/vocab" },
 ];
 
 export default function Header() {
