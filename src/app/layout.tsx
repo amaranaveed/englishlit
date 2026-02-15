@@ -23,7 +23,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
+      <head />
+      <body className="antialiased min-h-screen bg-bg text-text flex flex-col">
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-CJH57NYC0E"
           strategy="afterInteractive"
@@ -36,8 +37,6 @@ export default function RootLayout({
             gtag('config', 'G-CJH57NYC0E');
           `}
         </Script>
-      </head>
-      <body className="antialiased min-h-screen bg-bg text-text flex flex-col">
         <AuthProvider>
           <Header />
           <main className="relative flex-1">
