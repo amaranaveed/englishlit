@@ -2,6 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTextBySlug } from "@/data/text-registry";
 import { INSPECTOR_CALLS_ESSAYS, INSPECTOR_CALLS_EXTRACTS, INSPECTOR_CALLS_ESSAY_PLANS, INSPECTOR_CALLS_EXAM_QUESTIONS } from "@/data/exam-prep-inspector-calls";
+import { MACBETH_ESSAYS } from "@/data/exam-prep-macbeth";
+import { CHRISTMAS_CAROL_ESSAYS } from "@/data/exam-prep-christmas-carol";
+import { JEKYLL_HYDE_ESSAYS } from "@/data/exam-prep-jekyll-hyde";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -15,6 +18,15 @@ function getExamPrepStats(slug: string) {
       plans: INSPECTOR_CALLS_ESSAY_PLANS.length,
       questions: INSPECTOR_CALLS_EXAM_QUESTIONS.length,
     };
+  }
+  if (slug === "macbeth") {
+    return { essays: MACBETH_ESSAYS.length, extracts: 0, plans: 0, questions: 0 };
+  }
+  if (slug === "christmas-carol") {
+    return { essays: CHRISTMAS_CAROL_ESSAYS.length, extracts: 0, plans: 0, questions: 0 };
+  }
+  if (slug === "jekyll-hyde") {
+    return { essays: JEKYLL_HYDE_ESSAYS.length, extracts: 0, plans: 0, questions: 0 };
   }
   return null;
 }

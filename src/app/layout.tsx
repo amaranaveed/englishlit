@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import CookieBanner from "@/components/CookieBanner";
 import AuthProvider from "@/components/AuthProvider";
 import OnboardingModal from "@/components/OnboardingModal";
 
@@ -17,11 +19,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head />
-      <body className="antialiased min-h-screen bg-bg text-text">
+      <body className="antialiased min-h-screen bg-bg text-text flex flex-col">
         <AuthProvider>
           <Header />
-          <main className="relative">{children}</main>
+          <main className="relative flex-1">{children}</main>
+          <Footer />
           <OnboardingModal />
+          <CookieBanner />
         </AuthProvider>
       </body>
     </html>

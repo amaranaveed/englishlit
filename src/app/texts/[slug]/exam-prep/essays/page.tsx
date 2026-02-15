@@ -2,6 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTextBySlug } from "@/data/text-registry";
 import { INSPECTOR_CALLS_ESSAYS } from "@/data/exam-prep-inspector-calls";
+import { MACBETH_ESSAYS } from "@/data/exam-prep-macbeth";
+import { CHRISTMAS_CAROL_ESSAYS } from "@/data/exam-prep-christmas-carol";
+import { JEKYLL_HYDE_ESSAYS } from "@/data/exam-prep-jekyll-hyde";
 import type { TechniqueDissection, ExaminerComment } from "@/data/exam-prep-inspector-calls";
 import PrintButton from "@/components/PrintButton";
 
@@ -11,6 +14,9 @@ interface Props {
 
 function getEssays(slug: string) {
   if (slug === "inspector-calls") return INSPECTOR_CALLS_ESSAYS;
+  if (slug === "macbeth") return MACBETH_ESSAYS;
+  if (slug === "christmas-carol") return CHRISTMAS_CAROL_ESSAYS;
+  if (slug === "jekyll-hyde") return JEKYLL_HYDE_ESSAYS;
   return [];
 }
 

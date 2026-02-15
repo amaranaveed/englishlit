@@ -467,17 +467,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Footer strip ──────────────────────────────── */}
-      <footer className="bg-bg border-t border-border">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-6 flex items-center justify-between">
-          <span className="font-ui text-[13px] text-grey">
-            Straight Nines &middot; AQA 8702
-          </span>
-          <span className="font-ui text-[12px] text-grey/50">
-            Made with love for Kinza
-          </span>
-        </div>
-      </footer>
     </div>
   );
 }
