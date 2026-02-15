@@ -167,8 +167,8 @@ export default function CookiePolicyPage() {
                 For more details about how we handle your data, see our{" "}
                 <Link href="/privacy" className="text-purple hover:underline">Privacy Policy</Link>.
                 For questions, contact us at{" "}
-                <a href="mailto:hello@straightnines.co.uk" className="text-purple hover:underline">
-                  hello@straightnines.co.uk
+                <a href="mailto:hello@straightnines.com" className="text-purple hover:underline">
+                  hello@straightnines.com
                 </a>.
               </p>
             </Section>

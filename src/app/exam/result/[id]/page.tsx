@@ -85,6 +85,9 @@ export default function ExamResultPage() {
       const questions = getExamQuestions(response.textSlug);
       const matchedQ = questions.find((q) => q.question === response.question);
 
+      // Only send curated model paragraph if target grade is 8/9 (curated ones are Grade 8/9 level)
+      const useCurated = matchedQ?.modelParagraph && (!profile?.targetGrade || profile.targetGrade >= 8);
+
       const res = await fetch("/api/mark", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -92,7 +95,7 @@ export default function ExamResultPage() {
           textName: text?.title ?? response.textSlug,
           question: response.question,
           answer: response.studentAnswer,
-          ...(matchedQ?.modelParagraph ? { modelParagraph: matchedQ.modelParagraph } : {}),
+          ...(useCurated ? { modelParagraph: matchedQ.modelParagraph } : {}),
           ...(profile?.targetGrade ? { targetGrade: profile.targetGrade } : {}),
         }),
       });
@@ -343,7 +346,7 @@ export default function ExamResultPage() {
               transition={{ duration: 0.5, ease: EASE }}
             >
               <p className="font-ui text-xs font-semibold text-teal uppercase tracking-wider mb-2">
-                Model Paragraph (Grade 8/9)
+                Model Paragraph (Grade {profile?.targetGrade ?? "8/9"})
               </p>
               <p className="font-body text-text leading-relaxed">
                 {response.marking.modelParagraph}

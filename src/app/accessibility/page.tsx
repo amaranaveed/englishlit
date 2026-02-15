@@ -96,8 +96,8 @@ export default function AccessibilityPage() {
               <ul className="list-disc pl-6 mt-2 space-y-1">
                 <li>
                   Email:{" "}
-                  <a href="mailto:hello@straightnines.co.uk" className="text-purple hover:underline">
-                    hello@straightnines.co.uk
+                  <a href="mailto:hello@straightnines.com" className="text-purple hover:underline">
+                    hello@straightnines.com
                   </a>
                 </li>
               </ul>

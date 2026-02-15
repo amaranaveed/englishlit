@@ -24,9 +24,9 @@ export default function PrivacyPolicyPage() {
           <AnimatedSection delay={0.05}>
             <Section title="1. Who we are">
               <p>
-                Straight Nines (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) operates the website <strong>straightnines.co.uk</strong>, a free revision resource for AQA GCSE English Literature (8702). If you have any questions about this policy, please contact us at{" "}
-                <a href="mailto:hello@straightnines.co.uk" className="text-purple hover:underline">
-                  hello@straightnines.co.uk
+                Straight Nines (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) operates the website <strong>straightnines.com</strong>, a free revision resource for AQA GCSE English Literature (8702). If you have any questions about this policy, please contact us at{" "}
+                <a href="mailto:hello@straightnines.com" className="text-purple hover:underline">
+                  hello@straightnines.com
                 </a>.
               </p>
             </Section>
@@ -128,8 +128,8 @@ export default function PrivacyPolicyPage() {
               </ul>
               <p className="mt-3">
                 To exercise any of these rights, email us at{" "}
-                <a href="mailto:hello@straightnines.co.uk" className="text-purple hover:underline">
-                  hello@straightnines.co.uk
+                <a href="mailto:hello@straightnines.com" className="text-purple hover:underline">
+                  hello@straightnines.com
                 </a>. We will respond within 30 days.
               </p>
             </Section>
@@ -179,8 +179,8 @@ export default function PrivacyPolicyPage() {
             <Section title="12. Contact us">
               <p>
                 For any privacy-related questions, contact us at:{" "}
-                <a href="mailto:hello@straightnines.co.uk" className="text-purple hover:underline">
-                  hello@straightnines.co.uk
+                <a href="mailto:hello@straightnines.com" className="text-purple hover:underline">
+                  hello@straightnines.com
                 </a>
               </p>
             </Section>

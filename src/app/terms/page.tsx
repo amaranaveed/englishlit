@@ -24,7 +24,7 @@ export default function TermsPage() {
           <AnimatedSection delay={0.05}>
             <Section title="1. About these terms">
               <p>
-                These terms and conditions govern your use of the Straight Nines website at <strong>straightnines.co.uk</strong> (&ldquo;the Site&rdquo;). By using the Site, you agree to be bound by these terms. If you do not agree, please do not use the Site.
+                These terms and conditions govern your use of the Straight Nines website at <strong>straightnines.com</strong> (&ldquo;the Site&rdquo;). By using the Site, you agree to be bound by these terms. If you do not agree, please do not use the Site.
               </p>
             </Section>
           </AnimatedSection>
@@ -158,8 +158,8 @@ export default function TermsPage() {
             <Section title="13. Contact">
               <p>
                 Questions about these terms? Contact us at{" "}
-                <a href="mailto:hello@straightnines.co.uk" className="text-purple hover:underline">
-                  hello@straightnines.co.uk
+                <a href="mailto:hello@straightnines.com" className="text-purple hover:underline">
+                  hello@straightnines.com
                 </a>{" "}
                 or visit our <Link href="/contact" className="text-purple hover:underline">Contact page</Link>.
               </p>

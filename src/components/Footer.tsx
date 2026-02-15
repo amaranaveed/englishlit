@@ -102,10 +102,10 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:hello@straightnines.co.uk"
+                  href="mailto:hello@straightnines.com"
                   className="font-ui text-[13px] text-grey hover:text-purple transition-colors"
                 >
-                  hello@straightnines.co.uk
+                  hello@straightnines.com
                 </a>
               </li>
             </ul>
