@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import PageBanner from "@/components/PageBanner";
 import {
   getUniqueVocabTerms,
@@ -15,6 +16,10 @@ import {
 import { useStorage } from "@/hooks/useStorage";
 import { ALL_QUOTES } from "@/data/quotes";
 import VocabQuiz from "@/components/VocabQuiz";
+
+const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
+const staggerContainer = { hidden: {}, visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } } };
+const staggerItem = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } } };
 
 type TopTab = "glossary" | "techniques" | "quiz";
 type Stage = "setup" | "quiz" | "results";
@@ -114,30 +119,33 @@ export default function VocabPage() {
 
         {/* Tab toggle */}
         <div className="flex rounded-lg bg-grey-light p-1 mb-6">
-          <button
+          <motion.button
+            whileTap={{ scale: 0.95 }}
             onClick={() => setTopTab("glossary")}
             className={`flex-1 rounded-md py-2 font-ui text-sm font-semibold transition-colors cursor-pointer ${
               topTab === "glossary" ? "bg-surface text-teal shadow-sm" : "text-grey hover:text-text"
             }`}
           >
             Key Terms
-          </button>
-          <button
+          </motion.button>
+          <motion.button
+            whileTap={{ scale: 0.95 }}
             onClick={() => setTopTab("techniques")}
             className={`flex-1 rounded-md py-2 font-ui text-sm font-semibold transition-colors cursor-pointer ${
               topTab === "techniques" ? "bg-surface text-teal shadow-sm" : "text-grey hover:text-text"
             }`}
           >
             Techniques
-          </button>
-          <button
+          </motion.button>
+          <motion.button
+            whileTap={{ scale: 0.95 }}
             onClick={() => setTopTab("quiz")}
             className={`flex-1 rounded-md py-2 font-ui text-sm font-semibold transition-colors cursor-pointer ${
               topTab === "quiz" ? "bg-surface text-teal shadow-sm" : "text-grey hover:text-text"
             }`}
           >
             Quiz
-          </button>
+          </motion.button>
         </div>
 
         {topTab === "glossary" ? (
@@ -174,15 +182,22 @@ export default function VocabPage() {
   if (stage === "quiz") {
     return (
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="flex items-center justify-between mb-6">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: EASE }}
+          className="flex items-center justify-between mb-6"
+        >
           <h1 className="font-display text-xl font-bold">Vocab Quiz</h1>
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={handleReset}
             className="font-ui text-xs text-grey hover:text-red transition-colors cursor-pointer"
           >
             Quit
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
         <VocabQuiz terms={quizTerms} mode={mode} onComplete={handleComplete} />
       </div>
     );
@@ -200,44 +215,78 @@ export default function VocabPage() {
     return (
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="rounded-xl border border-border bg-surface p-8 text-center">
-          <span className="text-5xl mb-4 block">{emoji}</span>
-          <h2 className="font-display text-2xl font-bold mb-1">{message}</h2>
-          <p className="font-ui text-grey text-sm mb-6">
+          <motion.span
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 400, damping: 15, delay: 0.1 }}
+            className="text-5xl mb-4 block"
+          >
+            {emoji}
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: EASE, delay: 0.2 }}
+            className="font-display text-2xl font-bold mb-1"
+          >
+            {message}
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: EASE, delay: 0.3 }}
+            className="font-ui text-grey text-sm mb-6"
+          >
             You scored{" "}
             <span className={`font-bold ${pct >= 80 ? "text-green" : pct >= 50 ? "text-orange" : "text-red"}`}>
               {result.correct}/{result.total} ({pct}%)
             </span>
-          </p>
+          </motion.p>
 
           {/* Score bar */}
           <div className="max-w-xs mx-auto mb-6">
             <div className="h-3 rounded-full bg-grey-light overflow-hidden">
-              <div
-                className={`h-full rounded-full transition-all duration-500 ${pct >= 80 ? "bg-green" : pct >= 50 ? "bg-orange" : "bg-red"}`}
-                style={{ width: `${pct}%` }}
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${pct}%` }}
+                transition={{ duration: 0.8, ease: EASE, delay: 0.4 }}
+                className={`h-full rounded-full ${pct >= 80 ? "bg-green" : pct >= 50 ? "bg-orange" : "bg-red"}`}
               />
             </div>
           </div>
 
           {/* Missed terms */}
           {result.missed.length > 0 && (
-            <div className="text-left rounded-lg border border-border bg-bg p-4 mb-6">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: EASE, delay: 0.5 }}
+              className="text-left rounded-lg border border-border bg-bg p-4 mb-6"
+            >
               <h3 className="font-ui text-sm font-semibold text-text mb-2">
                 Terms to revise ({result.missed.length})
               </h3>
-              <div className="flex flex-wrap gap-1.5">
+              <motion.div
+                variants={staggerContainer}
+                initial="hidden"
+                animate="visible"
+                className="flex flex-wrap gap-1.5"
+              >
                 {result.missed.map((word) => (
-                  <span
+                  <motion.span
                     key={word}
+                    variants={staggerItem}
                     className="px-2.5 py-1 rounded-full bg-red-light text-red font-ui text-xs font-medium"
                   >
                     {word}
-                  </span>
+                  </motion.span>
                 ))}
-              </div>
+              </motion.div>
 
               {/* Add to flashcards */}
-              <button
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={handleAddMissedToFlashcards}
                 disabled={missedAdded}
                 className={`mt-3 w-full py-2 rounded-lg font-ui text-sm font-semibold transition-all cursor-pointer ${
@@ -249,25 +298,34 @@ export default function VocabPage() {
                 {missedAdded
                   ? `✓ Added ${result.missed.length} term${result.missed.length !== 1 ? "s" : ""} to flashcards`
                   : `Add missed terms to flashcards`}
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
           )}
 
           {/* Actions */}
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <button
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: EASE, delay: 0.6 }}
+            className="flex flex-col sm:flex-row gap-3 justify-center"
+          >
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleReset}
               className="px-6 py-2.5 rounded-xl bg-teal text-white font-ui text-sm font-bold hover:bg-teal/90 transition-colors cursor-pointer"
             >
               Quiz Again
-            </button>
-            <Link
-              href="/flashcards"
-              className="px-6 py-2.5 rounded-xl border border-border bg-surface text-text font-ui text-sm font-bold hover:bg-bg transition-colors text-center"
-            >
-              Review Flashcards
-            </Link>
-          </div>
+            </motion.button>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                href="/flashcards"
+                className="block px-6 py-2.5 rounded-xl border border-border bg-surface text-text font-ui text-sm font-bold hover:bg-bg transition-colors text-center"
+              >
+                Review Flashcards
+              </Link>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     );
@@ -330,58 +388,76 @@ function VocabGlossary({
   return (
     <div>
       {/* Search */}
-      <input
-        type="text"
-        placeholder="Search terms…"
-        value={search}
-        onChange={(e) => onSearchChange(e.target.value)}
-        className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 font-ui text-sm text-text placeholder:text-grey focus:outline-none focus:ring-2 focus:ring-teal/30 mb-2"
-      />
-      <p className="font-ui text-xs text-grey mb-5">
-        {totalCount} term{totalCount !== 1 ? "s" : ""}{search && " matching"}
-      </p>
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: EASE }}
+      >
+        <input
+          type="text"
+          placeholder="Search terms…"
+          value={search}
+          onChange={(e) => onSearchChange(e.target.value)}
+          className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 font-ui text-sm text-text placeholder:text-grey focus:outline-none focus:ring-2 focus:ring-teal/30 mb-2"
+        />
+        <p className="font-ui text-xs text-grey mb-5">
+          {totalCount} term{totalCount !== 1 ? "s" : ""}{search && " matching"}
+        </p>
+      </motion.div>
 
       {/* Grouped terms */}
       <div className="space-y-8">
         {grouped.map((group) => (
-          <section key={group.slug}>
-            <div className="flex items-center gap-2 mb-4">
-              <h2 className="font-display text-lg font-bold text-text">{group.title}</h2>
-              <span className="font-ui text-xs text-grey">
-                {group.totalVisible} term{group.totalVisible !== 1 ? "s" : ""}
-              </span>
-            </div>
+          <motion.div
+            key={group.slug}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: EASE }}
+          >
+            <section>
+              <div className="flex items-center gap-2 mb-4">
+                <h2 className="font-display text-lg font-bold text-text">{group.title}</h2>
+                <span className="font-ui text-xs text-grey">
+                  {group.totalVisible} term{group.totalVisible !== 1 ? "s" : ""}
+                </span>
+              </div>
 
-            <div className="space-y-4">
-              {group.sections.map((sec) => {
-                const colours = SECTION_COLOURS[sec.section] ?? { bg: "bg-grey-light", text: "text-grey" };
-                return (
-                  <div key={sec.section}>
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${colours.bg} ${colours.text}`}>
-                        {sec.section}
-                      </span>
+              <div className="space-y-4">
+                {group.sections.map((sec) => {
+                  const colours = SECTION_COLOURS[sec.section] ?? { bg: "bg-grey-light", text: "text-grey" };
+                  return (
+                    <div key={sec.section}>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${colours.bg} ${colours.text}`}>
+                          {sec.section}
+                        </span>
+                      </div>
+                      <div className="grid gap-1.5">
+                        {sec.terms.map((term, idx) => (
+                          <motion.div
+                            key={term.id}
+                            initial={{ opacity: 0, x: -12 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.4, ease: EASE, delay: idx * 0.04 }}
+                            className="rounded-lg border border-border bg-surface px-4 py-2.5 flex items-start gap-3"
+                          >
+                            <span className="font-ui text-sm font-semibold text-teal shrink-0 min-w-[120px]">
+                              {term.word}
+                            </span>
+                            <span className="font-ui text-sm text-text">
+                              {term.def}
+                            </span>
+                          </motion.div>
+                        ))}
+                      </div>
                     </div>
-                    <div className="grid gap-1.5">
-                      {sec.terms.map((term) => (
-                        <div
-                          key={term.id}
-                          className="rounded-lg border border-border bg-surface px-4 py-2.5 flex items-start gap-3"
-                        >
-                          <span className="font-ui text-sm font-semibold text-teal shrink-0 min-w-[120px]">
-                            {term.word}
-                          </span>
-                          <span className="font-ui text-sm text-text">
-                            {term.def}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
+                  );
+                })}
+              </div>
+            </section>
+          </motion.div>
         ))}
       </div>
 
@@ -426,8 +502,16 @@ function QuizSetup({
         <h3 className="font-ui text-sm font-semibold text-text mb-3">
           Which text?
         </h3>
-        <div className="flex flex-wrap gap-2">
-          <button
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          className="flex flex-wrap gap-2"
+        >
+          <motion.button
+            variants={staggerItem}
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => onSelectText("all")}
             className={`px-4 py-2 rounded-lg font-ui text-sm font-medium transition-all cursor-pointer border ${
               selectedText === "all"
@@ -436,13 +520,16 @@ function QuizSetup({
             }`}
           >
             All texts ({allTerms.length})
-          </button>
+          </motion.button>
           {textSlugs.map((slug) => {
             const title = getVocabTextTitle(slug);
             const count = getVocabTermsByText(slug).length;
             return (
-              <button
+              <motion.button
                 key={slug}
+                variants={staggerItem}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => onSelectText(slug)}
                 className={`px-4 py-2 rounded-lg font-ui text-sm font-medium transition-all cursor-pointer border ${
                   selectedText === slug
@@ -451,10 +538,10 @@ function QuizSetup({
                 }`}
               >
                 {title} ({count})
-              </button>
+              </motion.button>
             );
           })}
-        </div>
+        </motion.div>
       </div>
 
       {/* Choose mode */}
@@ -463,7 +550,9 @@ function QuizSetup({
           Quiz mode
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <button
+          <motion.button
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => onSelectMode("term-to-def")}
             className={`rounded-xl border-2 p-4 text-left transition-all cursor-pointer ${
               mode === "term-to-def"
@@ -475,8 +564,10 @@ function QuizSetup({
             <p className="font-ui text-xs text-grey mt-1">
               See the term, pick the correct definition
             </p>
-          </button>
-          <button
+          </motion.button>
+          <motion.button
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => onSelectMode("def-to-term")}
             className={`rounded-xl border-2 p-4 text-left transition-all cursor-pointer ${
               mode === "def-to-term"
@@ -488,7 +579,7 @@ function QuizSetup({
             <p className="font-ui text-xs text-grey mt-1">
               See the definition, pick the correct term
             </p>
-          </button>
+          </motion.button>
         </div>
       </div>
 
@@ -500,7 +591,9 @@ function QuizSetup({
             : "Need at least 4 terms for multiple choice."
           }
         </p>
-        <button
+        <motion.button
+          whileHover={{ scale: canStart ? 1.02 : 1 }}
+          whileTap={{ scale: canStart ? 0.95 : 1 }}
           onClick={onStart}
           disabled={!canStart}
           className={`px-8 py-3 rounded-xl font-ui text-sm font-bold transition-all cursor-pointer ${
@@ -510,22 +603,38 @@ function QuizSetup({
           }`}
         >
           Start Quiz →
-        </button>
+        </motion.button>
       </div>
 
       {/* Recent scores */}
       {scores.length > 0 && (
-        <div className="rounded-xl border border-border bg-surface p-5">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: EASE }}
+          className="rounded-xl border border-border bg-surface p-5"
+        >
           <h3 className="font-ui text-sm font-semibold text-text mb-3">
             Recent scores
           </h3>
-          <div className="space-y-2">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="space-y-2"
+          >
             {scores.slice(0, 5).map((s) => {
               const pct = Math.round((s.correct / s.total) * 100);
               const textLabel = s.textSlug === "all" ? "All texts" : getVocabTextTitle(s.textSlug);
               const modeLabel = s.mode === "term-to-def" ? "Term→Def" : "Def→Term";
               return (
-                <div key={s.id} className="flex items-center gap-3 text-sm font-ui">
+                <motion.div
+                  key={s.id}
+                  variants={staggerItem}
+                  className="flex items-center gap-3 text-sm font-ui"
+                >
                   <span className={`font-bold ${pct >= 80 ? "text-green" : pct >= 50 ? "text-orange" : "text-red"}`}>
                     {pct}%
                   </span>
@@ -541,11 +650,11 @@ function QuizSetup({
                   <span className="text-grey text-xs ml-auto">
                     {new Date(s.date).toLocaleDateString()}
                   </span>
-                </div>
+                </motion.div>
               );
             })}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
     </div>
   );
@@ -630,51 +739,69 @@ function TechniquesView({
   return (
     <div>
       {/* Search */}
-      <input
-        type="text"
-        placeholder="Search techniques…"
-        value={search}
-        onChange={(e) => onSearchChange(e.target.value)}
-        className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 font-ui text-sm text-text placeholder:text-grey focus:outline-none focus:ring-2 focus:ring-teal/30 mb-2"
-      />
-      <p className="font-ui text-xs text-grey mb-5">
-        {totalCount} technique{totalCount !== 1 ? "s" : ""}{search && " matching"}
-      </p>
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: EASE }}
+      >
+        <input
+          type="text"
+          placeholder="Search techniques…"
+          value={search}
+          onChange={(e) => onSearchChange(e.target.value)}
+          className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 font-ui text-sm text-text placeholder:text-grey focus:outline-none focus:ring-2 focus:ring-teal/30 mb-2"
+        />
+        <p className="font-ui text-xs text-grey mb-5">
+          {totalCount} technique{totalCount !== 1 ? "s" : ""}{search && " matching"}
+        </p>
+      </motion.div>
 
       <div className="space-y-8">
         {grouped.map((group) => (
-          <section key={group.slug}>
-            <div className="flex items-center gap-2 mb-4">
-              <h2 className="font-display text-lg font-bold text-text">{group.title}</h2>
-              <span className="font-ui text-xs text-grey">
-                {group.techniques.length} technique{group.techniques.length !== 1 ? "s" : ""}
-              </span>
-            </div>
+          <motion.div
+            key={group.slug}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: EASE }}
+          >
+            <section>
+              <div className="flex items-center gap-2 mb-4">
+                <h2 className="font-display text-lg font-bold text-text">{group.title}</h2>
+                <span className="font-ui text-xs text-grey">
+                  {group.techniques.length} technique{group.techniques.length !== 1 ? "s" : ""}
+                </span>
+              </div>
 
-            <div className="space-y-1.5">
-              {group.techniques.map((tech, i) => {
-                const colours = TECHNIQUE_SECTION_COLOURS[tech.section] ?? { bg: "bg-grey-light", text: "text-grey" };
-                return (
-                  <div
-                    key={`${tech.textSlug}-${tech.quoteId}-${tech.section}-${i}`}
-                    className="rounded-lg border border-border bg-surface px-4 py-2.5 flex items-start gap-3"
-                  >
-                    <span className={`shrink-0 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mt-0.5 ${colours.bg} ${colours.text}`}>
-                      {tech.section}
-                    </span>
-                    <div className="flex-1 min-w-0">
-                      <p className={`font-ui text-sm font-bold ${colours.text}`}>
-                        {tech.title}
-                      </p>
-                      <p className="font-ui text-xs text-grey mt-0.5">
-                        {tech.effect}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
+              <div className="space-y-1.5">
+                {group.techniques.map((tech, i) => {
+                  const colours = TECHNIQUE_SECTION_COLOURS[tech.section] ?? { bg: "bg-grey-light", text: "text-grey" };
+                  return (
+                    <motion.div
+                      key={`${tech.textSlug}-${tech.quoteId}-${tech.section}-${i}`}
+                      initial={{ opacity: 0, x: -12 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, ease: EASE, delay: i * 0.04 }}
+                      className="rounded-lg border border-border bg-surface px-4 py-2.5 flex items-start gap-3"
+                    >
+                      <span className={`shrink-0 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mt-0.5 ${colours.bg} ${colours.text}`}>
+                        {tech.section}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <p className={`font-ui text-sm font-bold ${colours.text}`}>
+                          {tech.title}
+                        </p>
+                        <p className="font-ui text-xs text-grey mt-0.5">
+                          {tech.effect}
+                        </p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </section>
+          </motion.div>
         ))}
       </div>
 

@@ -7,6 +7,7 @@ import { CHRISTMAS_CAROL_ESSAYS } from "@/data/exam-prep-christmas-carol";
 import { JEKYLL_HYDE_ESSAYS } from "@/data/exam-prep-jekyll-hyde";
 import type { TechniqueDissection, ExaminerComment } from "@/data/exam-prep-inspector-calls";
 import PrintButton from "@/components/PrintButton";
+import { AnimatedDiv, AnimatedSection } from "@/components/AnimatedWrappers";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -47,35 +48,37 @@ export default async function ExamPrepEssaysPage({ params }: Props) {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 print:max-w-none print:px-0 print:py-0">
       {/* Header — hidden on print */}
       <div className="print:hidden">
-        <nav className="font-ui text-sm text-grey mb-6">
-          <Link href="/texts" className="hover:text-teal transition-colors">Texts</Link>
-          <span className="mx-2">&rsaquo;</span>
-          <Link href={`/texts/${slug}`} className="hover:text-teal transition-colors">{text.title}</Link>
-          <span className="mx-2">&rsaquo;</span>
-          <Link href={`/texts/${slug}/exam-prep`} className="hover:text-teal transition-colors">Exam Prep Kit</Link>
-          <span className="mx-2">&rsaquo;</span>
-          <span className="text-text font-medium">Example Essays</span>
-        </nav>
+        <AnimatedDiv>
+          <nav className="font-ui text-sm text-grey mb-6">
+            <Link href="/texts" className="hover:text-teal transition-colors">Texts</Link>
+            <span className="mx-2">&rsaquo;</span>
+            <Link href={`/texts/${slug}`} className="hover:text-teal transition-colors">{text.title}</Link>
+            <span className="mx-2">&rsaquo;</span>
+            <Link href={`/texts/${slug}/exam-prep`} className="hover:text-teal transition-colors">Exam Prep Kit</Link>
+            <span className="mx-2">&rsaquo;</span>
+            <span className="text-text font-medium">Example Essays</span>
+          </nav>
 
-        <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
-          <div>
-            <h1 className="font-display text-2xl sm:text-3xl font-bold">
-              Example Essay Answers
-            </h1>
-            <p className="text-grey font-ui mt-1">
-              {text.title} &mdash; {essays.length} Grade 9 essays with technique dissection &amp; examiner commentary &middot; A4 printable
-            </p>
+          <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+            <div>
+              <h1 className="font-display text-2xl sm:text-3xl font-bold">
+                Example Essay Answers
+              </h1>
+              <p className="text-grey font-ui mt-1">
+                {text.title} &mdash; {essays.length} Grade 9 essays with technique dissection &amp; examiner commentary &middot; A4 printable
+              </p>
+            </div>
+            <PrintButton label="Print / Save as PDF" />
           </div>
-          <PrintButton label="Print / Save as PDF" />
-        </div>
+        </AnimatedDiv>
       </div>
 
       {/* Essays */}
       {essays.map((essay, idx) => (
-        <article
-          key={idx}
-          className="exam-prep-page relative mb-12 last:mb-0 print:mb-0"
-        >
+        <AnimatedSection key={idx}>
+          <article
+            className="exam-prep-page relative mb-12 last:mb-0 print:mb-0"
+          >
           {/* ═══ THE ESSAY ═══ */}
           <div className="bg-surface overflow-hidden border border-border rounded-xl print:border print:border-gray-300 print:rounded-none print:shadow-none print:break-after-page">
             {/* Grade badge + question */}
@@ -107,7 +110,8 @@ export default async function ExamPrepEssaysPage({ params }: Props) {
 
           {/* ═══ TECHNIQUE DISSECTION ═══ */}
           {essay.techniqueDissections && essay.techniqueDissections.length > 0 && (
-            <div className="mt-6 bg-surface overflow-hidden border border-purple/30 rounded-xl print:border print:border-gray-300 print:rounded-none print:mt-0 print:shadow-none print:break-after-page">
+            <AnimatedDiv delay={0.1}>
+              <div className="mt-6 bg-surface overflow-hidden border border-purple/30 rounded-xl print:border print:border-gray-300 print:rounded-none print:mt-0 print:shadow-none print:break-after-page">
               <div className="px-6 py-4 border-b border-purple/20 bg-purple-light print:px-[12mm] print:py-3 print:border-gray-300">
                 <h3 className="font-display font-bold text-lg text-purple print:text-[12px]">
                   Technique Dissection
@@ -159,12 +163,14 @@ export default async function ExamPrepEssaysPage({ params }: Props) {
                   </div>
                 ))}
               </div>
-            </div>
+              </div>
+            </AnimatedDiv>
           )}
 
           {/* ═══ EXAMINER COMMENTARY ═══ */}
           {essay.examinerCommentary && essay.examinerCommentary.length > 0 && (
-            <div className="mt-6 bg-surface overflow-hidden border border-orange/30 rounded-xl print:border print:border-gray-300 print:rounded-none print:mt-0 print:shadow-none print:break-after-page">
+            <AnimatedDiv delay={0.15}>
+              <div className="mt-6 bg-surface overflow-hidden border border-orange/30 rounded-xl print:border print:border-gray-300 print:rounded-none print:mt-0 print:shadow-none print:break-after-page">
               <div className="px-6 py-4 border-b border-orange/20 bg-orange-light print:px-[12mm] print:py-3 print:border-gray-300">
                 <h3 className="font-display font-bold text-lg text-orange print:text-[12px]">
                   Examiner Commentary
@@ -223,9 +229,11 @@ export default async function ExamPrepEssaysPage({ params }: Props) {
                   </p>
                 </div>
               )}
-            </div>
+              </div>
+            </AnimatedDiv>
           )}
-        </article>
+          </article>
+        </AnimatedSection>
       ))}
     </div>
   );

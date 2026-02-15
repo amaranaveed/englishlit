@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import PageBanner from "@/components/PageBanner";
 import {
@@ -8,6 +9,16 @@ import {
   PAPER_AO_BREAKDOWN,
   type AODetail,
 } from "@/data/assessment-objectives";
+
+const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+};
+const staggerItem = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+};
 
 export default function AOPage() {
   const [expandedAO, setExpandedAO] = useState<string | null>("ao2");
@@ -21,7 +32,13 @@ export default function AOPage() {
       />
 
       {/* ── Overview Grid ─────────────────────────────── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
+      <motion.div
+        className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-10"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
         {ASSESSMENT_OBJECTIVES.map((ao) => {
           const colourStyles: Record<string, { bg: string; text: string; border: string }> = {
             teal:   { bg: "bg-teal-light",   text: "text-teal",   border: "border-teal/20" },
@@ -31,10 +48,13 @@ export default function AOPage() {
           };
           const cs = colourStyles[ao.colour] ?? colourStyles.teal;
           return (
-            <button
+            <motion.button
               key={ao.id}
+              variants={staggerItem}
+              whileHover={{ y: -4, boxShadow: "0 8px 24px rgba(0,0,0,0.10)" }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => setExpandedAO(expandedAO === ao.id ? null : ao.id)}
-              className={`rounded-xl border ${cs.border} ${cs.bg} p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-md cursor-pointer ${
+              className={`rounded-xl border ${cs.border} ${cs.bg} p-4 text-left transition-[ring,ring-offset] cursor-pointer ${
                 expandedAO === ao.id ? "ring-2 ring-offset-2 ring-offset-bg " + cs.text.replace("text-", "ring-") : ""
               }`}
             >
@@ -52,19 +72,33 @@ export default function AOPage() {
                   of total GCSE
                 </span>
               </div>
-            </button>
+            </motion.button>
           );
         })}
-      </div>
+      </motion.div>
 
       {/* ── Expanded AO Detail ────────────────────────── */}
-      {expandedAO && <AODetailCard ao={ASSESSMENT_OBJECTIVES.find((a) => a.id === expandedAO)!} />}
+      <AnimatePresence mode="wait">
+        {expandedAO && <AODetailCard key={expandedAO} ao={ASSESSMENT_OBJECTIVES.find((a) => a.id === expandedAO)!} />}
+      </AnimatePresence>
 
       {/* ── Paper & Mark Breakdown Table ───────────────── */}
-      <section className="mt-12 mb-10">
-        <h2 className="font-display text-xl font-bold mb-4">
+      <motion.section
+        className="mt-12 mb-10"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: EASE }}
+      >
+        <motion.h2
+          className="font-display text-xl font-bold mb-4"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: EASE }}
+        >
           Mark Allocation by Paper
-        </h2>
+        </motion.h2>
         <div className="rounded-xl border border-border overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm font-ui">
@@ -78,9 +112,19 @@ export default function AOPage() {
                   <th className="text-center px-3 py-3 font-semibold text-text">Total</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border">
+              <motion.tbody
+                className="divide-y divide-border"
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
                 {PAPER_AO_BREAKDOWN.map((row, i) => (
-                  <tr key={i} className="hover:bg-surface-hover/50 transition-colors">
+                  <motion.tr
+                    key={i}
+                    variants={staggerItem}
+                    className="hover:bg-surface-hover/50 transition-colors"
+                  >
                     <td className="px-4 py-3">
                       <p className="font-medium text-text">{row.questionType}</p>
                       <p className="text-xs text-grey">
@@ -96,23 +140,41 @@ export default function AOPage() {
                       {row.ao4 || <span className="text-grey/40">—</span>}
                     </td>
                     <td className="text-center px-3 py-3 font-bold text-text">{row.totalMarks}</td>
-                  </tr>
+                  </motion.tr>
                 ))}
-              </tbody>
+              </motion.tbody>
             </table>
           </div>
         </div>
         <p className="font-ui text-xs text-grey mt-2">
           AO4 (SPaG) marks are only awarded on the Paper 2 Section A Modern Text question.
         </p>
-      </section>
+      </motion.section>
 
       {/* ── Quick Reference: All Sentence Starters ────── */}
-      <section className="mb-10">
-        <h2 className="font-display text-xl font-bold mb-4">
+      <motion.section
+        className="mb-10"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: EASE }}
+      >
+        <motion.h2
+          className="font-display text-xl font-bold mb-4"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: EASE }}
+        >
           Sentence Starters — Quick Reference
-        </h2>
-        <div className="grid sm:grid-cols-2 gap-4">
+        </motion.h2>
+        <motion.div
+          className="grid sm:grid-cols-2 gap-4"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           {ASSESSMENT_OBJECTIVES.filter((ao) => ao.id !== "ao4").map((ao) => {
             const colourMap: Record<string, string> = {
               teal: "border-teal bg-teal-light",
@@ -127,8 +189,10 @@ export default function AOPage() {
               green: "text-green",
             };
             return (
-              <div
+              <motion.div
                 key={ao.id}
+                variants={staggerItem}
+                whileHover={{ y: -4, boxShadow: "0 8px 24px rgba(0,0,0,0.08)" }}
                 className={`rounded-xl border ${colourMap[ao.colour]} p-4`}
               >
                 <p className={`font-ui text-sm font-bold ${textMap[ao.colour]} mb-2`}>
@@ -144,20 +208,24 @@ export default function AOPage() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
       {/* Back link */}
       <div className="flex items-center justify-between">
-        <Link href="/" className="font-ui text-sm text-teal hover:underline">
-          ← Dashboard
-        </Link>
-        <Link href="/exam" className="font-ui text-sm text-grey hover:text-text transition-colors">
-          Exam Practice →
-        </Link>
+        <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.95 }}>
+          <Link href="/" className="font-ui text-sm text-teal hover:underline">
+            &larr; Dashboard
+          </Link>
+        </motion.div>
+        <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.95 }}>
+          <Link href="/exam" className="font-ui text-sm text-grey hover:text-text transition-colors">
+            Exam Practice &rarr;
+          </Link>
+        </motion.div>
       </div>
     </div>
   );
@@ -176,20 +244,36 @@ function AODetailCard({ ao }: { ao: AODetail }) {
   const cs = colourMap[ao.colour] ?? colourMap.teal;
 
   return (
-    <div className={`rounded-2xl border-2 ${cs.border} bg-surface p-6 sm:p-8 mb-8 animate-in fade-in duration-300`}>
+    <motion.div
+      className={`rounded-2xl border-2 ${cs.border} bg-surface p-6 sm:p-8 mb-8`}
+      initial={{ opacity: 0, y: 20, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -10, scale: 0.98 }}
+      transition={{ duration: 0.4, ease: EASE }}
+    >
       {/* Header */}
       <div className="flex items-start justify-between gap-4 flex-wrap mb-4">
         <div>
-          <h2 className={`font-display text-xl font-bold ${cs.heading}`}>
+          <motion.h2
+            className={`font-display text-xl font-bold ${cs.heading}`}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
+          >
             {ao.label}
-          </h2>
+          </motion.h2>
           <p className="font-ui text-xs text-grey mt-1">
             {ao.weight} of total GCSE &middot; Up to {ao.maxMark} marks per question
           </p>
         </div>
-        <span className={`${cs.badge} font-ui text-xs font-bold px-3 py-1 rounded-full shrink-0`}>
+        <motion.span
+          className={`${cs.badge} font-ui text-xs font-bold px-3 py-1 rounded-full shrink-0`}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4, ease: EASE, delay: 0.15 }}
+        >
           {ao.maxMark} marks
-        </span>
+        </motion.span>
       </div>
 
       {/* What it means */}
@@ -217,9 +301,14 @@ function AODetailCard({ ao }: { ao: AODetail }) {
         <h3 className="font-ui text-sm font-semibold text-text mb-2">
           Top Tips
         </h3>
-        <div className="space-y-2">
+        <motion.div
+          className="space-y-2"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+        >
           {ao.topTips.map((tip, i) => (
-            <div key={i} className="rounded-lg bg-surface-hover p-3">
+            <motion.div key={i} variants={staggerItem} className="rounded-lg bg-surface-hover p-3">
               <p className="font-body text-sm text-text leading-relaxed">
                 <span className={`font-bold ${cs.heading} mr-1`}>{i + 1}.</span>
                 {tip.text}
@@ -229,9 +318,9 @@ function AODetailCard({ ao }: { ao: AODetail }) {
                   e.g. {tip.example}
                 </p>
               )}
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* Common mistakes */}
@@ -239,14 +328,19 @@ function AODetailCard({ ao }: { ao: AODetail }) {
         <h3 className="font-ui text-sm font-semibold text-text mb-2">
           Common Mistakes to Avoid
         </h3>
-        <ul className="space-y-1">
+        <motion.ul
+          className="space-y-1"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+        >
           {ao.commonMistakes.map((m, i) => (
-            <li key={i} className="font-body text-sm text-text flex gap-2">
-              <span className="text-red shrink-0">✕</span>
+            <motion.li key={i} variants={staggerItem} className="font-body text-sm text-text flex gap-2">
+              <span className="text-red shrink-0">&times;</span>
               {m}
-            </li>
+            </motion.li>
           ))}
-        </ul>
+        </motion.ul>
       </div>
 
       {/* Level descriptors (collapsible) */}
@@ -266,27 +360,35 @@ function AODetailCard({ ao }: { ao: AODetail }) {
           </svg>
           Level Descriptors ({ao.levelDescriptors.length} levels)
         </button>
-        {showLevels && (
-          <div className="mt-3 space-y-2 animate-in slide-in-from-top-2 duration-200">
-            {ao.levelDescriptors.map((ld) => (
-              <div
-                key={ld.level}
-                className="rounded-lg border border-border bg-surface px-4 py-2.5 flex items-start gap-3"
-              >
-                <span className={`${cs.badge} font-ui text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5`}>
-                  {ld.level}
-                </span>
-                <div>
-                  <p className="font-ui text-xs font-semibold text-grey">
-                    Marks {ld.range}
-                  </p>
-                  <p className="font-body text-sm text-text">{ld.descriptor}</p>
+        <AnimatePresence>
+          {showLevels && (
+            <motion.div
+              className="mt-3 space-y-2 overflow-hidden"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: EASE }}
+            >
+              {ao.levelDescriptors.map((ld) => (
+                <div
+                  key={ld.level}
+                  className="rounded-lg border border-border bg-surface px-4 py-2.5 flex items-start gap-3"
+                >
+                  <span className={`${cs.badge} font-ui text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5`}>
+                    {ld.level}
+                  </span>
+                  <div>
+                    <p className="font-ui text-xs font-semibold text-grey">
+                      Marks {ld.range}
+                    </p>
+                    <p className="font-body text-sm text-text">{ld.descriptor}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    </div>
+    </motion.div>
   );
 }

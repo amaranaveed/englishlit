@@ -4,6 +4,17 @@ import { getTextBySlug } from "@/data/text-registry";
 import { getWritersToolkit } from "@/data/writers-toolkit";
 import type { ToolkitSection } from "@/data/writers-toolkit";
 import PrintButton from "@/components/PrintButton";
+import {
+  AnimatedDiv,
+  AnimatedSection,
+  AnimatedIcon,
+  AnimatedScaleIn,
+  AnimatedRevealLine,
+  AnimatedListItem,
+  AnimatedInteractiveCard,
+  AnimatedSlideRight,
+  AnimatedWiggle,
+} from "@/components/AnimatedWrappers";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -70,6 +81,7 @@ function SectionTable({ section, textTitle, isLast }: { section: ToolkitSection;
   const c = SECTION_COLOURS[section.colour] ?? FALLBACK;
 
   return (
+    <AnimatedSection>
     <article
       className={`
         toolkit-section relative
@@ -81,34 +93,37 @@ function SectionTable({ section, textTitle, isLast }: { section: ToolkitSection;
       `}
     >
       {/* Section header */}
-      <div className={`${c.headerBg} px-5 py-3 print:px-[10mm] print:py-2`}>
-        <h2 className="font-display font-bold text-lg text-white uppercase tracking-wider print:text-sm">
-          {section.title}
-        </h2>
-      </div>
+      <AnimatedDiv delay={0.05} className="print:!transform-none print:!opacity-100">
+        <div className={`${c.headerBg} px-5 py-3 print:px-[10mm] print:py-2`}>
+          <h2 className="font-display font-bold text-lg text-white uppercase tracking-wider print:text-sm">
+            {section.title}
+          </h2>
+        </div>
+      </AnimatedDiv>
 
       {/* Column headers */}
       <div className="grid grid-cols-[180px_1fr_1fr] print:grid-cols-[130px_1fr_1fr] border-b border-border print:border-gray-300">
         {section.columns.map((col, i) => (
-          <div
-            key={i}
-            className={`
-              px-4 py-2.5 print:px-3 print:py-1.5
-              ${i < 2 ? "border-r border-border print:border-gray-300" : ""}
-              ${i === 0 ? `${c.accentLight}` : ""}
-            `}
-          >
-            <p className={`font-ui font-bold text-xs uppercase tracking-wider ${c.accent} print:text-[8px]`}>
-              {col}
-            </p>
-          </div>
+          <AnimatedDiv key={i} delay={i * 0.06} className="print:!transform-none print:!opacity-100">
+            <div
+              className={`
+                px-4 py-2.5 print:px-3 print:py-1.5
+                ${i < 2 ? "border-r border-border print:border-gray-300" : ""}
+                ${i === 0 ? `${c.accentLight}` : ""}
+              `}
+            >
+              <p className={`font-ui font-bold text-xs uppercase tracking-wider ${c.accent} print:text-[8px]`}>
+                {col}
+              </p>
+            </div>
+          </AnimatedDiv>
         ))}
       </div>
 
       {/* Rows */}
       {section.rows.map((row, rIdx) => (
+        <AnimatedListItem key={rIdx} index={rIdx} className="print:!transform-none print:!opacity-100">
         <div
-          key={rIdx}
           className={`
             grid grid-cols-[180px_1fr_1fr] print:grid-cols-[130px_1fr_1fr]
             ${rIdx < section.rows.length - 1 ? "border-b border-border/50 print:border-gray-200" : ""}
@@ -135,6 +150,7 @@ function SectionTable({ section, textTitle, isLast }: { section: ToolkitSection;
             </p>
           </div>
         </div>
+        </AnimatedListItem>
       ))}
 
       {/* Page label — print only */}
@@ -142,6 +158,7 @@ function SectionTable({ section, textTitle, isLast }: { section: ToolkitSection;
         {textTitle} &mdash; Writer&rsquo;s Toolkit: {section.title} &mdash; GCSE Literature Revision
       </p>
     </article>
+    </AnimatedSection>
   );
 }
 
@@ -156,7 +173,7 @@ export default async function WritersToolkitPage({ params }: Props) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 print:max-w-none print:px-0 print:py-0">
       {/* Header — hidden on print */}
-      <div className="print:hidden">
+      <AnimatedDiv className="print:hidden">
         <nav className="font-ui text-sm text-grey mb-6">
           <Link href="/texts" className="hover:text-teal transition-colors">Texts</Link>
           <span className="mx-2">&rsaquo;</span>
@@ -178,12 +195,14 @@ export default async function WritersToolkitPage({ params }: Props) {
         </div>
 
         {/* Iconic quote banner */}
-        <div className="rounded-xl border border-teal/30 bg-teal-light px-6 py-4 mb-8">
-          <p className="font-display italic text-teal text-center text-lg leading-relaxed">
-            &ldquo;{toolkit.headerQuote}&rdquo;
-          </p>
-        </div>
-      </div>
+        <AnimatedScaleIn delay={0.1} className="print:!transform-none print:!opacity-100">
+          <div className="rounded-xl border border-teal/30 bg-teal-light px-6 py-4 mb-8">
+            <p className="font-display italic text-teal text-center text-lg leading-relaxed">
+              &ldquo;{toolkit.headerQuote}&rdquo;
+            </p>
+          </div>
+        </AnimatedScaleIn>
+      </AnimatedDiv>
 
       {/* Print-only title page header */}
       <div className="hidden print:block print:px-[10mm] print:py-[6mm] print:mb-0 print:break-after-page">

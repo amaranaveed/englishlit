@@ -2,12 +2,25 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import PageBanner from "@/components/PageBanner";
 import type { Flashcard } from "@/data/types";
 import { useStorage } from "@/hooks/useStorage";
 import { getTextBySlug } from "@/data/text-registry";
 import FlashcardReview from "@/components/FlashcardReview";
 import FlashcardList from "@/components/FlashcardList";
+
+const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
+
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+};
 
 type Tab = "review" | "list";
 type ReviewStage = "setup" | "active";
@@ -97,45 +110,78 @@ export default function FlashcardsPage() {
   if (totalCount === 0) {
     return (
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center">
-        <span className="text-4xl mb-4 block">🗂️</span>
-        <h1 className="font-display text-2xl font-bold mb-2">Flashcards</h1>
-        <p className="text-grey font-ui mb-6">
+        <motion.span
+          className="text-4xl mb-4 block"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 400, damping: 15, delay: 0.1 }}
+        >
+          🗂️
+        </motion.span>
+        <motion.h1
+          className="font-display text-2xl font-bold mb-2"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: EASE, delay: 0.2 }}
+        >
+          Flashcards
+        </motion.h1>
+        <motion.p
+          className="text-grey font-ui mb-6"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: EASE, delay: 0.3 }}
+        >
           No flashcards yet! Go to a quote analysis, character, or theme page and click
           <span className="font-semibold text-teal"> Generate Flashcards</span> to get started.
-        </p>
-        <Link href="/texts" className="font-ui text-sm text-teal hover:underline">
-          Browse texts →
-        </Link>
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, ease: EASE, delay: 0.4 }}
+        >
+          <Link href="/texts" className="font-ui text-sm text-teal hover:underline">
+            Browse texts →
+          </Link>
+        </motion.div>
       </div>
     );
   }
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <PageBanner
-        title="Flashcards"
-        subtitle={`${dueCount} due · ${totalCount} total`}
-        image="/images/flashcards.jpg"
-      />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: EASE }}
+      >
+        <PageBanner
+          title="Flashcards"
+          subtitle={`${dueCount} due · ${totalCount} total`}
+          image="/images/flashcards.jpg"
+        />
+      </motion.div>
 
       {/* Tab toggle */}
       <div className="flex rounded-lg bg-grey-light p-1 mb-6">
-        <button
+        <motion.button
+          whileTap={{ scale: 0.95 }}
           onClick={() => { setTab("review"); resetReview(); }}
           className={`flex-1 rounded-md py-2 font-ui text-sm font-semibold transition-colors cursor-pointer ${
             tab === "review" ? "bg-surface text-teal shadow-sm" : "text-grey hover:text-text"
           }`}
         >
           Review{dueCount > 0 && ` (${dueCount})`}
-        </button>
-        <button
+        </motion.button>
+        <motion.button
+          whileTap={{ scale: 0.95 }}
           onClick={() => { setTab("list"); refresh(); }}
           className={`flex-1 rounded-md py-2 font-ui text-sm font-semibold transition-colors cursor-pointer ${
             tab === "list" ? "bg-surface text-teal shadow-sm" : "text-grey hover:text-text"
           }`}
         >
           All Cards ({totalCount})
-        </button>
+        </motion.button>
       </div>
 
       {/* Content */}
@@ -159,7 +205,13 @@ export default function FlashcardsPage() {
           />
         )
       ) : (
-        <FlashcardList cards={allCards} onRefresh={refresh} />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, ease: EASE }}
+        >
+          <FlashcardList cards={allCards} onRefresh={refresh} />
+        </motion.div>
       )}
     </div>
   );
@@ -193,12 +245,26 @@ function ReviewSetup({
   return (
     <div className="space-y-6">
       {/* Section 1: Choose text */}
-      <div className="rounded-xl border border-border bg-surface p-5">
+      <motion.div
+        className="rounded-xl border border-border bg-surface p-5"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: EASE }}
+        whileHover={{ y: -2, boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}
+      >
         <h3 className="font-ui text-sm font-semibold text-text mb-3">
           Which text do you want to revise?
         </h3>
-        <div className="flex flex-wrap gap-2">
-          <button
+        <motion.div
+          className="flex flex-wrap gap-2"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.button
+            variants={staggerItem}
+            whileTap={{ scale: 0.95 }}
             onClick={() => onSelectText("all")}
             className={`px-4 py-2 rounded-lg font-ui text-sm font-medium transition-all cursor-pointer border ${
               selectedText === "all"
@@ -207,13 +273,15 @@ function ReviewSetup({
             }`}
           >
             All texts
-          </button>
+          </motion.button>
           {textSlugs.map((slug) => {
             const t = getTextBySlug(slug);
             const active = selectedText === slug;
             return (
-              <button
+              <motion.button
                 key={slug}
+                variants={staggerItem}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => onSelectText(slug)}
                 className={`px-4 py-2 rounded-lg font-ui text-sm font-medium transition-all cursor-pointer border ${
                   active
@@ -222,27 +290,41 @@ function ReviewSetup({
                 }`}
               >
                 {t?.title ?? slug}
-              </button>
+              </motion.button>
             );
           })}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Section 2: Choose card types */}
-      <div className="rounded-xl border border-border bg-surface p-5">
+      <motion.div
+        className="rounded-xl border border-border bg-surface p-5"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
+        whileHover={{ y: -2, boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}
+      >
         <h3 className="font-ui text-sm font-semibold text-text mb-1">
           What do you want to practise?
         </h3>
         <p className="font-ui text-xs text-grey mb-3">
           Leave all unselected to include everything, or pick specific types.
         </p>
-        <div className="flex flex-wrap gap-2">
+        <motion.div
+          className="flex flex-wrap gap-2"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+        >
           {CARD_TYPES.map((ct) => {
             const selected = selectedTypes.has(ct.value);
             const hasCards = availableTypes.has(ct.value);
             return (
-              <button
+              <motion.button
                 key={ct.value}
+                variants={staggerItem}
+                whileTap={{ scale: 0.9 }}
                 onClick={() => onToggleType(ct.value)}
                 disabled={!hasCards}
                 className={`px-4 py-2 rounded-lg font-ui text-sm font-medium transition-all cursor-pointer border ${
@@ -254,21 +336,32 @@ function ReviewSetup({
                 }`}
               >
                 {ct.label}
-              </button>
+              </motion.button>
             );
           })}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Start button */}
       <div className="text-center pt-2">
-        <p className="font-ui text-sm text-grey mb-3">
-          {filteredCount === 0
-            ? "No cards due with these filters."
-            : `${filteredCount} card${filteredCount !== 1 ? "s" : ""} ready to review`}
-          {filteredCount !== dueCount && filteredCount > 0 && ` (of ${dueCount} total due)`}
-        </p>
-        <button
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={filteredCount}
+            className="font-ui text-sm text-grey mb-3"
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.25, ease: EASE }}
+          >
+            {filteredCount === 0
+              ? "No cards due with these filters."
+              : `${filteredCount} card${filteredCount !== 1 ? "s" : ""} ready to review`}
+            {filteredCount !== dueCount && filteredCount > 0 && ` (of ${dueCount} total due)`}
+          </motion.p>
+        </AnimatePresence>
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.95 }}
           onClick={onStart}
           disabled={filteredCount === 0}
           className={`px-8 py-3 rounded-xl font-ui text-sm font-bold transition-all cursor-pointer ${
@@ -278,7 +371,7 @@ function ReviewSetup({
           }`}
         >
           Start Review →
-        </button>
+        </motion.button>
       </div>
     </div>
   );

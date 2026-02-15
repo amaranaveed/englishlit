@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getTextBySlug } from "@/data/text-registry";
 import { INSPECTOR_CALLS_EXAM_QUESTIONS } from "@/data/exam-prep-inspector-calls";
 import PrintButton from "@/components/PrintButton";
+import { AnimatedDiv, AnimatedSection } from "@/components/AnimatedWrappers";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -35,7 +36,7 @@ export default async function ExamPrepQuestionsPage({ params }: Props) {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 print:max-w-none print:px-0 print:py-0">
       {/* Header — hidden on print */}
-      <div className="print:hidden">
+      <AnimatedDiv className="print:hidden">
         <nav className="font-ui text-sm text-grey mb-6">
           <Link href="/texts" className="hover:text-teal transition-colors">Texts</Link>
           <span className="mx-2">&rsaquo;</span>
@@ -57,15 +58,15 @@ export default async function ExamPrepQuestionsPage({ params }: Props) {
           </div>
           <PrintButton label="Print / Save as PDF" />
         </div>
-      </div>
+      </AnimatedDiv>
 
       {/* Questions */}
       {questions.map((q, idx) => {
         const tc = THEME_COLOURS[q.theme] || DEFAULT_THEME;
 
         return (
+          <AnimatedSection key={idx} delay={idx * 0.1}>
           <article
-            key={idx}
             className={`
               exam-prep-page relative
               mb-8 last:mb-0
@@ -131,6 +132,7 @@ export default async function ExamPrepQuestionsPage({ params }: Props) {
               {text.title} &mdash; Practice Question {idx + 1} &mdash; GCSE Literature Revision
             </p>
           </article>
+          </AnimatedSection>
         );
       })}
     </div>

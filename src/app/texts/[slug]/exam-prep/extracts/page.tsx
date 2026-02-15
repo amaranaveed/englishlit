@@ -4,6 +4,7 @@ import { getTextBySlug } from "@/data/text-registry";
 import { INSPECTOR_CALLS_EXTRACTS } from "@/data/exam-prep-inspector-calls";
 import type { ExtractAnnotation } from "@/data/exam-prep-inspector-calls";
 import PrintButton from "@/components/PrintButton";
+import { AnimatedDiv, AnimatedSection } from "@/components/AnimatedWrappers";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -68,7 +69,7 @@ export default async function ExamPrepExtractsPage({ params }: Props) {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 print:max-w-none print:px-0 print:py-0">
       {/* Header — hidden on print */}
-      <div className="print:hidden">
+      <AnimatedDiv className="print:hidden">
         <nav className="font-ui text-sm text-grey mb-6">
           <Link href="/texts" className="hover:text-teal transition-colors">Texts</Link>
           <span className="mx-2">&rsaquo;</span>
@@ -90,7 +91,7 @@ export default async function ExamPrepExtractsPage({ params }: Props) {
           </div>
           <PrintButton label="Print / Save as PDF" />
         </div>
-      </div>
+      </AnimatedDiv>
 
       {/* Extracts */}
       {extracts.map((ext, idx) => {
@@ -98,8 +99,8 @@ export default async function ExamPrepExtractsPage({ params }: Props) {
         const right = ext.annotations.filter((a) => a.side === "right");
 
         return (
+          <AnimatedSection key={idx} delay={idx * 0.1}>
           <article
-            key={idx}
             className={`
               exam-prep-page relative
               mb-10 last:mb-0
@@ -227,6 +228,7 @@ export default async function ExamPrepExtractsPage({ params }: Props) {
               {text.title} &mdash; Annotated Extract &mdash; GCSE Literature Revision
             </p>
           </article>
+          </AnimatedSection>
         );
       })}
     </div>

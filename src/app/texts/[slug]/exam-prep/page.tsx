@@ -5,6 +5,12 @@ import { INSPECTOR_CALLS_ESSAYS, INSPECTOR_CALLS_EXTRACTS, INSPECTOR_CALLS_ESSAY
 import { MACBETH_ESSAYS } from "@/data/exam-prep-macbeth";
 import { CHRISTMAS_CAROL_ESSAYS } from "@/data/exam-prep-christmas-carol";
 import { JEKYLL_HYDE_ESSAYS } from "@/data/exam-prep-jekyll-hyde";
+import {
+  AnimatedBreadcrumb, AnimatedHero, AnimatedBadge,
+  StaggerGrid, AnimatedSection, AnimatedListItem,
+  AnimatedIcon, AnimatedWiggle, AnimatedRevealLine,
+  AnimatedInteractiveCard, AnimatedBounceIn,
+} from "@/components/AnimatedWrappers";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -131,62 +137,74 @@ export default async function ExamPrepPage({ params }: Props) {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       {/* Breadcrumb */}
-      <nav className="font-ui text-sm text-grey mb-6">
-        <Link href="/texts" className="hover:text-teal transition-colors">Texts</Link>
-        <span className="mx-2">&rsaquo;</span>
-        <Link href={`/texts/${slug}`} className="hover:text-teal transition-colors">{text.title}</Link>
-        <span className="mx-2">&rsaquo;</span>
-        <span className="text-text font-medium">Exam Prep Kit</span>
-      </nav>
+      <AnimatedBreadcrumb>
+        <nav className="font-ui text-sm text-grey mb-6">
+          <Link href="/texts" className="hover:text-teal transition-colors">Texts</Link>
+          <span className="mx-2">&rsaquo;</span>
+          <Link href={`/texts/${slug}`} className="hover:text-teal transition-colors">{text.title}</Link>
+          <span className="mx-2">&rsaquo;</span>
+          <span className="text-text font-medium">Exam Prep Kit</span>
+        </nav>
+      </AnimatedBreadcrumb>
 
       {/* Hero */}
-      <div className="rounded-2xl border border-border bg-surface p-8 mb-8 text-center"
-        style={{ background: "linear-gradient(135deg, var(--hero-gradient-1), var(--hero-gradient-2))" }}
-      >
-        <h1 className="font-display text-3xl sm:text-4xl font-bold mb-2">
-          Exam Preparation Kit
-        </h1>
-        <p className="font-display text-xl text-teal font-semibold italic mb-3">
-          &lsquo;{text.title}&rsquo;
-        </p>
-        <p className="font-ui text-grey max-w-xl mx-auto mb-4">
-          {text.author} &middot; {text.year} &middot; {text.paper} {text.section}
-        </p>
+      <AnimatedHero>
+        <div className="rounded-2xl border border-border bg-surface p-8 mb-8 text-center"
+          style={{ background: "linear-gradient(135deg, var(--hero-gradient-1), var(--hero-gradient-2))" }}
+        >
+          <h1 className="font-display text-3xl sm:text-4xl font-bold mb-2">
+            Exam Preparation Kit
+          </h1>
+          <p className="font-display text-xl text-teal font-semibold italic mb-3">
+            &lsquo;{text.title}&rsquo;
+          </p>
+          <p className="font-ui text-grey max-w-xl mx-auto mb-4">
+            {text.author} &middot; {text.year} &middot; {text.paper} {text.section}
+          </p>
 
-        <div className="flex flex-wrap justify-center gap-3 mb-6">
-          <span className="inline-flex items-center rounded-full bg-teal text-white font-ui font-bold text-sm px-4 py-1.5">
-            Grade 9 Targeted
-          </span>
-          <span className="inline-flex items-center rounded-full bg-surface border border-border text-text font-ui font-medium text-sm px-4 py-1.5">
-            {totalItems} downloadable resources
-          </span>
-          <span className="inline-flex items-center rounded-full bg-surface border border-border text-text font-ui font-medium text-sm px-4 py-1.5">
-            A4 printable
-          </span>
+          <div className="flex flex-wrap justify-center gap-3 mb-6">
+            <AnimatedBadge delay={0.2}>
+              <span className="inline-flex items-center rounded-full bg-teal text-white font-ui font-bold text-sm px-4 py-1.5">
+                Grade 9 Targeted
+              </span>
+            </AnimatedBadge>
+            <AnimatedBadge delay={0.3}>
+              <span className="inline-flex items-center rounded-full bg-surface border border-border text-text font-ui font-medium text-sm px-4 py-1.5">
+                {totalItems} downloadable resources
+              </span>
+            </AnimatedBadge>
+            <AnimatedBadge delay={0.4}>
+              <span className="inline-flex items-center rounded-full bg-surface border border-border text-text font-ui font-medium text-sm px-4 py-1.5">
+                A4 printable
+              </span>
+            </AnimatedBadge>
+          </div>
+
+          <p className="font-body text-sm text-text leading-relaxed max-w-2xl mx-auto">
+            Everything you need to ace your GCSE Literature exam on {text.title}. Click
+            <strong> Download PDF</strong> on any section below to save a printable A4 revision
+            document, or click <strong>Preview</strong> to view the material on screen.
+          </p>
         </div>
-
-        <p className="font-body text-sm text-text leading-relaxed max-w-2xl mx-auto">
-          Everything you need to ace your GCSE Literature exam on {text.title}. Click
-          <strong> Download PDF</strong> on any section below to save a printable A4 revision
-          document, or click <strong>Preview</strong> to view the material on screen.
-        </p>
-      </div>
+      </AnimatedHero>
 
       {/* Section cards */}
-      <div className="grid sm:grid-cols-2 gap-5 mb-10">
+      <StaggerGrid className="grid sm:grid-cols-2 gap-5 mb-10">
         {SECTIONS.map((section) => {
           const count = stats[section.key as keyof typeof stats];
           const c = COLOUR_MAP[section.colour];
 
           return (
-            <div
+            <AnimatedInteractiveCard
               key={section.key}
               className={`rounded-xl border ${c.cardBorder} bg-surface p-6`}
             >
               <div className="flex items-start gap-4">
-                <div className={`${c.iconBg} ${c.iconText} rounded-xl p-3 shrink-0`}>
-                  {section.icon}
-                </div>
+                <AnimatedWiggle>
+                  <div className={`${c.iconBg} ${c.iconText} rounded-xl p-3 shrink-0`}>
+                    {section.icon}
+                  </div>
+                </AnimatedWiggle>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <h2 className="font-display font-bold text-lg text-text">
@@ -231,30 +249,41 @@ export default async function ExamPrepPage({ params }: Props) {
                   </div>
                 </div>
               </div>
-            </div>
+            </AnimatedInteractiveCard>
           );
         })}
-      </div>
+      </StaggerGrid>
 
       {/* How to use */}
-      <div className="rounded-xl border border-border bg-surface p-6">
-        <h2 className="font-display font-bold text-lg mb-3">How It Works</h2>
-        <ol className="space-y-2">
-          {[
-            'Click "Download PDF" on any section above to save an A4-formatted revision document.',
-            "Open the PDF in any viewer — it's ready to read on screen or print.",
-            "Print on A4 paper for revision, annotate digitally, or keep on your device.",
-            "Use the Preview button to browse the material on the website first.",
-          ].map((step, i) => (
-            <li key={i} className="flex items-start gap-3">
-              <span className="shrink-0 w-6 h-6 rounded-full bg-teal text-white font-ui font-bold text-xs flex items-center justify-center">
-                {i + 1}
-              </span>
-              <span className="font-body text-sm text-text leading-relaxed">{step}</span>
-            </li>
-          ))}
-        </ol>
-      </div>
+      <AnimatedSection>
+        <div className="rounded-xl border border-border bg-surface p-6">
+          <h2 className="font-display font-bold text-lg mb-3">How It Works</h2>
+          <ol className="space-y-2">
+            {[
+              'Click "Download PDF" on any section above to save an A4-formatted revision document.',
+              "Open the PDF in any viewer — it's ready to read on screen or print.",
+              "Print on A4 paper for revision, annotate digitally, or keep on your device.",
+              "Use the Preview button to browse the material on the website first.",
+            ].map((step, i, arr) => (
+              <AnimatedListItem key={i} index={i}>
+                <li className="flex items-start gap-3">
+                  <AnimatedBounceIn delay={i * 0.1}>
+                    <span className="shrink-0 w-6 h-6 rounded-full bg-teal text-white font-ui font-bold text-xs flex items-center justify-center">
+                      {i + 1}
+                    </span>
+                  </AnimatedBounceIn>
+                  <span className="font-body text-sm text-text leading-relaxed">{step}</span>
+                </li>
+                {i < arr.length - 1 && (
+                  <div className="ml-3 pl-[9px]">
+                    <AnimatedRevealLine />
+                  </div>
+                )}
+              </AnimatedListItem>
+            ))}
+          </ol>
+        </div>
+      </AnimatedSection>
     </div>
   );
 }

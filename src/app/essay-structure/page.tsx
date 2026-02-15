@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import PageBanner from "@/components/PageBanner";
 import {
@@ -13,6 +14,16 @@ import {
   RAD,
   type StructureStep,
 } from "@/data/essay-structure";
+
+const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+};
+const staggerItem = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+};
 
 /* ── colour helpers ──────────────────────────────────── */
 const BG: Record<string, string> = {
@@ -80,43 +91,88 @@ export default function EssayStructurePage() {
       />
 
       {/* Step colour strip */}
-      <div className="flex flex-wrap gap-1 mb-4">
+      <motion.div
+        className="flex flex-wrap gap-1 mb-4"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
         {PARAGRAPH_STEPS.map((s) => (
-          <span
+          <motion.span
             key={s.number}
+            variants={{
+              hidden: { opacity: 0, scale: 0.8 },
+              visible: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: EASE } },
+            }}
             className={`${BADGE[s.colour]} font-display font-bold text-xs w-7 h-7 rounded-lg flex items-center justify-center`}
             title={s.label}
           >
             {s.letter}
-          </span>
+          </motion.span>
         ))}
-      </div>
+      </motion.div>
 
-      <div className="flex flex-wrap gap-2 mb-10">
-        <span className="font-ui text-xs font-semibold px-3 py-1 rounded-full bg-teal-light text-teal">
+      <motion.div
+        className="flex flex-wrap gap-2 mb-10"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.span
+          variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: EASE } } }}
+          className="font-ui text-xs font-semibold px-3 py-1 rounded-full bg-teal-light text-teal"
+        >
           AO1 — Argument &amp; Evidence
-        </span>
-        <span className="font-ui text-xs font-semibold px-3 py-1 rounded-full bg-purple-light text-purple">
+        </motion.span>
+        <motion.span
+          variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: EASE } } }}
+          className="font-ui text-xs font-semibold px-3 py-1 rounded-full bg-purple-light text-purple"
+        >
           AO2 — Writer&apos;s Methods
-        </span>
-        <span className="font-ui text-xs font-semibold px-3 py-1 rounded-full bg-blue-light text-blue">
+        </motion.span>
+        <motion.span
+          variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: EASE } } }}
+          className="font-ui text-xs font-semibold px-3 py-1 rounded-full bg-blue-light text-blue"
+        >
           AO3 — Context
-        </span>
-      </div>
+        </motion.span>
+      </motion.div>
 
       {/* ── Essay Skeleton ───────────────────────────── */}
-      <section className="mb-14">
-        <h2 className="font-display text-xl font-bold mb-4">
+      <motion.section
+        className="mb-14"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: EASE }}
+      >
+        <motion.h2
+          className="font-display text-xl font-bold mb-4"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: EASE }}
+        >
           Essay Skeleton
-        </h2>
+        </motion.h2>
         <p className="text-grey font-ui text-sm mb-6 max-w-2xl">
           Every literature essay (45 min for Shakespeare/novel, 40 min for modern
           text) should follow this shape. Timing is approximate.
         </p>
-        <div className="space-y-3">
+        <motion.div
+          className="space-y-3"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           {ESSAY_SKELETON.map((section) => (
-            <div
+            <motion.div
               key={section.label}
+              variants={staggerItem}
+              whileHover={{ y: -3, boxShadow: "0 6px 20px rgba(0,0,0,0.06)" }}
               className={`rounded-xl border ${BORDER[section.colour]} ${BG[section.colour]} p-5`}
             >
               <div className="flex items-center justify-between mb-3">
@@ -142,23 +198,41 @@ export default function EssayStructurePage() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           ))}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
       {/* ── The 10 Steps ─────────────────────────────── */}
-      <section className="mb-14">
-        <h2 className="font-display text-xl font-bold mb-2">
+      <motion.section
+        className="mb-14"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: EASE }}
+      >
+        <motion.h2
+          className="font-display text-xl font-bold mb-2"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: EASE }}
+        >
           The 10 Steps
-        </h2>
+        </motion.h2>
         <p className="text-grey font-ui text-sm mb-6 max-w-2xl">
           Every body paragraph hits these ten beats. Click a step to see
           the full guidance, sentence starters, and do/don&apos;t examples.
         </p>
 
         {/* Step cards */}
-        <div className="space-y-3">
+        <motion.div
+          className="space-y-3"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           {PARAGRAPH_STEPS.map((step) => (
             <StepCard
               key={step.number}
@@ -171,17 +245,39 @@ export default function EssayStructurePage() {
               }
             />
           ))}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
       {/* ── Acronym Reference Cards ──────────────────── */}
-      <section className="mb-14">
-        <h2 className="font-display text-xl font-bold mb-4">
+      <motion.section
+        className="mb-14"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: EASE }}
+      >
+        <motion.h2
+          className="font-display text-xl font-bold mb-4"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: EASE }}
+        >
           Key Acronyms
-        </h2>
-        <div className="grid sm:grid-cols-3 gap-4">
+        </motion.h2>
+        <motion.div
+          className="grid sm:grid-cols-3 gap-4"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           {/* RAD */}
-          <div className="rounded-xl border border-orange/20 bg-orange-light p-5">
+          <motion.div
+            variants={staggerItem}
+            whileHover={{ y: -4, boxShadow: "0 8px 24px rgba(0,0,0,0.08)" }}
+            className="rounded-xl border border-orange/20 bg-orange-light p-5"
+          >
             <h3 className="font-display text-lg font-bold text-orange mb-3">
               RAD
             </h3>
@@ -196,15 +292,19 @@ export default function EssayStructurePage() {
                   </span>
                   <div>
                     <span className="font-semibold">{item.word}</span>
-                    <span className="text-grey"> — {item.description}</span>
+                    <span className="text-grey"> &mdash; {item.description}</span>
                   </div>
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Text types */}
-          <div className="rounded-xl border border-red/20 bg-red-light p-5">
+          <motion.div
+            variants={staggerItem}
+            whileHover={{ y: -4, boxShadow: "0 8px 24px rgba(0,0,0,0.08)" }}
+            className="rounded-xl border border-red/20 bg-red-light p-5"
+          >
             <h3 className="font-display text-lg font-bold text-red mb-3">
               Useful Vocabulary: Text Types
             </h3>
@@ -219,15 +319,19 @@ export default function EssayStructurePage() {
                   </span>
                   <div>
                     <span className="font-semibold">{item.word}</span>
-                    <span className="text-grey"> — {item.description}</span>
+                    <span className="text-grey"> &mdash; {item.description}</span>
                   </div>
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Writer's intent */}
-          <div className="rounded-xl border border-amber/20 bg-amber-light p-5">
+          <motion.div
+            variants={staggerItem}
+            whileHover={{ y: -4, boxShadow: "0 8px 24px rgba(0,0,0,0.08)" }}
+            className="rounded-xl border border-amber/20 bg-amber-light p-5"
+          >
             <h3 className="font-display text-lg font-bold text-amber mb-3">
               Useful Vocabulary: Writer&apos;s Intent
             </h3>
@@ -242,13 +346,13 @@ export default function EssayStructurePage() {
                   </span>
                   <div>
                     <span className="font-semibold">{item.word}</span>
-                    <span className="text-grey"> — {item.description}</span>
+                    <span className="text-grey"> &mdash; {item.description}</span>
                   </div>
                 </li>
               ))}
             </ul>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Flexible formula suggestion */}
         <div className="mt-4 rounded-xl border border-border bg-surface-hover p-4">
@@ -264,13 +368,25 @@ export default function EssayStructurePage() {
             This is a useful starting pattern, not a rigid formula. Adapt it to fit your argument naturally.
           </p>
         </div>
-      </section>
+      </motion.section>
 
       {/* ── Interactive Model Paragraph ──────────────── */}
-      <section className="mb-14">
-        <h2 className="font-display text-xl font-bold mb-2">
+      <motion.section
+        className="mb-14"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: EASE }}
+      >
+        <motion.h2
+          className="font-display text-xl font-bold mb-2"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: EASE }}
+        >
           Model Paragraph — See It in Action
-        </h2>
+        </motion.h2>
         <p className="text-grey font-ui text-sm mb-4 max-w-2xl">
           Choose a text, then hover or tap each coloured section to see which
           step it belongs to.
@@ -279,8 +395,9 @@ export default function EssayStructurePage() {
         {/* Text switcher tabs */}
         <div className="flex rounded-lg bg-grey-light p-1 mb-5">
           {MODEL_PARAGRAPHS.map((mp, idx) => (
-            <button
+            <motion.button
               key={mp.id}
+              whileTap={{ scale: 0.95 }}
               onClick={() => { setActiveTextIdx(idx); setHighlightStep(null); }}
               className={`flex-1 rounded-md py-2 px-2 font-ui text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
                 activeTextIdx === idx
@@ -289,7 +406,7 @@ export default function EssayStructurePage() {
               }`}
             >
               {mp.textTitle}
-            </button>
+            </motion.button>
           ))}
         </div>
 
@@ -305,7 +422,8 @@ export default function EssayStructurePage() {
 
         {/* Filter buttons */}
         <div className="flex flex-wrap gap-1.5 mb-4">
-          <button
+          <motion.button
+            whileTap={{ scale: 0.9 }}
             onClick={() => setHighlightStep(null)}
             className={`font-ui text-xs font-semibold px-3 py-1.5 rounded-full border transition-all cursor-pointer ${
               highlightStep === null
@@ -314,10 +432,11 @@ export default function EssayStructurePage() {
             }`}
           >
             All
-          </button>
+          </motion.button>
           {PARAGRAPH_STEPS.map((s) => (
-            <button
+            <motion.button
               key={s.number}
+              whileTap={{ scale: 0.9 }}
               onClick={() =>
                 setHighlightStep(highlightStep === s.number ? null : s.number)
               }
@@ -328,7 +447,7 @@ export default function EssayStructurePage() {
               }`}
             >
               {s.letter}
-            </button>
+            </motion.button>
           ))}
         </div>
 
@@ -378,21 +497,41 @@ export default function EssayStructurePage() {
             </span>
           ))}
         </div>
-      </section>
+      </motion.section>
 
       {/* ── Grade Comparison ─────────────────────────── */}
-      <section className="mb-14">
-        <h2 className="font-display text-xl font-bold mb-2">
+      <motion.section
+        className="mb-14"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: EASE }}
+      >
+        <motion.h2
+          className="font-display text-xl font-bold mb-2"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: EASE }}
+        >
           What Separates the Grades?
-        </h2>
+        </motion.h2>
         <p className="text-grey font-ui text-sm mb-6 max-w-2xl">
           The same quote can score anywhere from grade 5 to grade 9 — it all
           depends on how you handle it.
         </p>
-        <div className="grid sm:grid-cols-3 gap-4">
+        <motion.div
+          className="grid sm:grid-cols-3 gap-4"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           {GRADE_COMPARISONS.map((gc) => (
-            <div
+            <motion.div
               key={gc.grade}
+              variants={staggerItem}
+              whileHover={{ y: -4, boxShadow: "0 8px 24px rgba(0,0,0,0.08)" }}
               className={`rounded-xl border ${BORDER[gc.colour]} ${BG[gc.colour]} p-5`}
             >
               <h3
@@ -410,57 +549,79 @@ export default function EssayStructurePage() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           ))}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
       {/* ── Quick Checklist ──────────────────────────── */}
-      <section className="mb-14">
-        <h2 className="font-display text-xl font-bold mb-4">
+      <motion.section
+        className="mb-14"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: EASE }}
+      >
+        <motion.h2
+          className="font-display text-xl font-bold mb-4"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: EASE }}
+        >
           Before You Submit — Quick Checklist
-        </h2>
+        </motion.h2>
         <div className="rounded-xl border border-border bg-surface p-5 sm:p-6">
-          <ul className="space-y-2.5">
+          <motion.ul
+            className="space-y-2.5"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             {[
               { text: "Point opens with writer's name + argument (not plot retelling).", colour: "teal" },
               { text: "Evidence 1 is embedded into your sentence, not dumped separately.", colour: "green" },
               { text: "Language analysis starts with meaning, not just technique names.", colour: "purple" },
-              { text: "Analysis 1 uses What → How → Why to go deep.", colour: "orange" },
-              { text: "Evidence 2 builds on Evidence 1 with a connective (Moreover…).", colour: "green" },
-              { text: "Second analysis deepens the argument — not just a different technique.", colour: "purple" },
-              { text: "Analysis 2 pushes further — Represent, Amplify, or Develop.", colour: "orange" },
-              { text: "Context is woven in — not bolted on. Explains the writer's choices.", colour: "blue" },
+              { text: "Analysis 1 uses What \u2192 How \u2192 Why to go deep.", colour: "orange" },
+              { text: "Evidence 2 builds on Evidence 1 with a connective (Moreover\u2026).", colour: "green" },
+              { text: "Second analysis deepens the argument \u2014 not just a different technique.", colour: "purple" },
+              { text: "Analysis 2 pushes further \u2014 Represent, Amplify, or Develop.", colour: "orange" },
+              { text: "Context is woven in \u2014 not bolted on. Explains the writer's choices.", colour: "blue" },
               { text: "Structure/form point connects to the bigger picture.", colour: "amber" },
               { text: "Ends by connecting to the writer's overall purpose.", colour: "red" },
             ].map((item, i) => (
-              <li key={i} className="flex items-start gap-3 font-ui text-sm text-text">
+              <motion.li key={i} variants={staggerItem} className="flex items-start gap-3 font-ui text-sm text-text">
                 <span
                   className={`${BADGE[item.colour]} w-5 h-5 rounded-md shrink-0 mt-0.5 flex items-center justify-center text-[10px] font-bold`}
                 >
                   {PARAGRAPH_STEPS[i]?.letter}
                 </span>
                 {item.text}
-              </li>
+              </motion.li>
             ))}
-          </ul>
+          </motion.ul>
         </div>
-      </section>
+      </motion.section>
 
       {/* ── Footer links ─────────────────────────────── */}
       <div className="flex items-center justify-between">
-        <Link
-          href="/"
-          className="font-ui text-sm text-teal hover:underline"
-        >
-          &larr; Dashboard
-        </Link>
-        <Link
-          href="/exam"
-          className="font-ui text-sm text-grey hover:text-text transition-colors"
-        >
-          Practise an Essay &rarr;
-        </Link>
+        <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.95 }}>
+          <Link
+            href="/"
+            className="font-ui text-sm text-teal hover:underline"
+          >
+            &larr; Dashboard
+          </Link>
+        </motion.div>
+        <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.95 }}>
+          <Link
+            href="/exam"
+            className="font-ui text-sm text-grey hover:text-text transition-colors"
+          >
+            Practise an Essay &rarr;
+          </Link>
+        </motion.div>
       </div>
     </div>
   );
@@ -477,8 +638,11 @@ function StepCard({
   onToggle: () => void;
 }) {
   return (
-    <div
-      className={`rounded-xl border ${BORDER[step.colour]} bg-surface transition-all ${
+    <motion.div
+      variants={staggerItem}
+      whileHover={expanded ? undefined : { y: -2, boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}
+      whileTap={expanded ? undefined : { scale: 0.99 }}
+      className={`rounded-xl border ${BORDER[step.colour]} bg-surface transition-[ring,ring-offset] ${
         expanded ? `ring-2 ring-offset-2 ring-offset-bg ${RING[step.colour]}` : ""
       }`}
     >
@@ -525,60 +689,68 @@ function StepCard({
       </button>
 
       {/* Expanded detail */}
-      {expanded && (
-        <div className="px-5 pb-5 pt-0 space-y-4 animate-in fade-in slide-in-from-top-2 duration-200">
-          <p className="font-ui text-sm text-text leading-relaxed">
-            {step.detail}
-          </p>
-
-          {/* Tip */}
-          <div className={`rounded-lg ${BG[step.colour]} border ${BORDER[step.colour]} px-4 py-3`}>
-            <p className={`font-ui text-xs font-bold ${TEXT_CLR[step.colour]} mb-1`}>
-              Quick Tip
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            className="px-5 pb-5 pt-0 space-y-4 overflow-hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: EASE }}
+          >
+            <p className="font-ui text-sm text-text leading-relaxed">
+              {step.detail}
             </p>
-            <p className="font-ui text-sm text-text">
-              {step.tip}
-            </p>
-          </div>
 
-          {/* Sentence starters */}
-          <div>
-            <p className="font-ui text-xs font-bold text-grey uppercase tracking-wider mb-2">
-              Sentence Starters
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {step.starterPhrases.map((sp, i) => (
-                <span
-                  key={i}
-                  className={`font-ui text-xs italic px-3 py-1.5 rounded-lg ${BG[step.colour]} ${TEXT_CLR[step.colour]}`}
-                >
-                  {sp}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Do / Don't */}
-          <div className="grid sm:grid-cols-2 gap-3">
-            <div className="rounded-lg border border-green/20 bg-green-light p-4">
-              <p className="font-ui text-xs font-bold text-green mb-2">
-                Do this
+            {/* Tip */}
+            <div className={`rounded-lg ${BG[step.colour]} border ${BORDER[step.colour]} px-4 py-3`}>
+              <p className={`font-ui text-xs font-bold ${TEXT_CLR[step.colour]} mb-1`}>
+                Quick Tip
               </p>
-              <p className="font-ui text-sm text-text leading-relaxed italic">
-                &ldquo;{step.doThis}&rdquo;
+              <p className="font-ui text-sm text-text">
+                {step.tip}
               </p>
             </div>
-            <div className="rounded-lg border border-red/20 bg-red-light p-4">
-              <p className="font-ui text-xs font-bold text-red mb-2">
-                Not this
+
+            {/* Sentence starters */}
+            <div>
+              <p className="font-ui text-xs font-bold text-grey uppercase tracking-wider mb-2">
+                Sentence Starters
               </p>
-              <p className="font-ui text-sm text-text leading-relaxed italic">
-                &ldquo;{step.notThis}&rdquo;
-              </p>
+              <div className="flex flex-wrap gap-2">
+                {step.starterPhrases.map((sp, i) => (
+                  <span
+                    key={i}
+                    className={`font-ui text-xs italic px-3 py-1.5 rounded-lg ${BG[step.colour]} ${TEXT_CLR[step.colour]}`}
+                  >
+                    {sp}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
-      )}
-    </div>
+
+            {/* Do / Don't */}
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div className="rounded-lg border border-green/20 bg-green-light p-4">
+                <p className="font-ui text-xs font-bold text-green mb-2">
+                  Do this
+                </p>
+                <p className="font-ui text-sm text-text leading-relaxed italic">
+                  &ldquo;{step.doThis}&rdquo;
+                </p>
+              </div>
+              <div className="rounded-lg border border-red/20 bg-red-light p-4">
+                <p className="font-ui text-xs font-bold text-red mb-2">
+                  Not this
+                </p>
+                <p className="font-ui text-sm text-text leading-relaxed italic">
+                  &ldquo;{step.notThis}&rdquo;
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }

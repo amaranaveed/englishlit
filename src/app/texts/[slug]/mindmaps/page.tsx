@@ -4,6 +4,19 @@ import { getTextBySlug } from "@/data/text-registry";
 import { getMindMapsByText } from "@/data/mindmaps";
 import PrintButton from "@/components/PrintButton";
 import HighlightedText from "@/components/HighlightedText";
+import {
+  AnimatedDiv,
+  AnimatedSection,
+  AnimatedIcon,
+  AnimatedWiggle,
+  AnimatedScaleIn,
+  AnimatedBounceIn,
+  AnimatedRevealLine,
+  StaggerGrid,
+  StaggerItem,
+  AnimatedInteractiveCard,
+  AnimatedListItem,
+} from "@/components/AnimatedWrappers";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -57,7 +70,7 @@ export default async function MindMapsPage({ params }: Props) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 print:max-w-none print:px-0 print:py-0">
       {/* Header — hidden on print */}
-      <div className="print:hidden">
+      <AnimatedDiv className="print:hidden">
         <nav className="font-ui text-sm text-grey mb-6">
           <Link href="/texts" className="hover:text-teal transition-colors">
             Texts
@@ -85,12 +98,12 @@ export default async function MindMapsPage({ params }: Props) {
           </div>
           <PrintButton />
         </div>
-      </div>
+      </AnimatedDiv>
 
       {/* Mind map pages */}
       {mindmaps.map((mm, idx) => (
+        <AnimatedSection key={mm.name} delay={idx * 0.1}>
         <article
-          key={mm.name}
           className={`
             mindmap-page
             relative
@@ -104,69 +117,74 @@ export default async function MindMapsPage({ params }: Props) {
           {/* ═══ A4 LANDSCAPE LAYOUT ═══ */}
           <div className="p-5 print:p-[8mm]">
             {/* ── CHARACTER NAME — CENTRE HEADER ── */}
-            <div className="flex flex-col items-center mb-4 print:mb-3">
-              <h2 className="font-display text-2xl font-bold text-teal print:text-xl">
-                {mm.name}
-              </h2>
-              <div className="w-16 h-0.5 bg-teal/40 mt-1 print:w-12" />
-            </div>
+            <AnimatedScaleIn className="print:!transform-none print:!opacity-100">
+              <div className="flex flex-col items-center mb-4 print:mb-3">
+                <h2 className="font-display text-2xl font-bold text-teal print:text-xl">
+                  {mm.name}
+                </h2>
+                <div className="w-16 h-0.5 bg-teal/40 mt-1 print:w-12" />
+              </div>
+            </AnimatedScaleIn>
 
             {/* ── 2×2 TRAIT GRID ── */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 print:grid-cols-2 print:gap-3">
-              {mm.traits.map((trait) => {
+              {mm.traits.map((trait, tIdx) => {
                 const c =
                   TRAIT_COLOURS[trait.colour] ?? FALLBACK_COLOUR;
 
                 return (
-                  <div
-                    key={trait.trait}
-                    className={`rounded-xl border ${c.border} ${c.bg} ${c.print} p-4 print:p-2.5`}
-                  >
-                    {/* Trait header */}
-                    <div className="flex items-center gap-2 mb-2 print:mb-1.5">
-                      <span
-                        className={`w-2.5 h-2.5 rounded-full ${c.dot} print:w-2 print:h-2`}
-                      />
-                      <h3
-                        className={`font-ui font-bold text-sm uppercase tracking-wide ${c.text} print:text-[10px]`}
-                      >
-                        {trait.trait}
-                      </h3>
-                    </div>
-
-                    {/* Quotes within this trait */}
-                    <div className="space-y-2.5 print:space-y-1.5">
-                      {trait.quotes.map((q, qi) => (
-                        <div key={qi}>
-                          {/* Quote text */}
-                          <p className="font-body italic text-sm text-text leading-snug print:text-[9px] print:leading-tight">
-                            &ldquo;{q.quote}&rdquo;
-                            <span className="not-italic font-ui text-xs text-grey ml-1 print:text-[8px]">
-                              {q.who && `— ${q.who}, `}
-                              {q.act}
-                            </span>
-                          </p>
-
-                          {/* Analysis bullet points */}
-                          <ul className="mt-1 space-y-0.5 print:mt-0.5">
-                            {q.points.map((pt, pi) => (
-                              <li
-                                key={pi}
-                                className="flex gap-1.5 items-start print:gap-1"
-                              >
-                                <span
-                                  className={`mt-1.5 w-1 h-1 rounded-full ${c.dot} shrink-0 print:mt-1 print:w-0.5 print:h-0.5`}
-                                />
-                                <span className="font-body text-xs text-text leading-snug print:text-[8px] print:leading-tight">
-                                  <HighlightedText text={pt} />
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
+                  <AnimatedInteractiveCard key={trait.trait} index={tIdx} className="print:!transform-none print:!shadow-none print:!opacity-100">
+                    <div
+                      className={`rounded-xl border ${c.border} ${c.bg} ${c.print} p-4 print:p-2.5`}
+                    >
+                      {/* Trait header */}
+                      <AnimatedDiv delay={tIdx * 0.08} className="print:!transform-none print:!opacity-100">
+                        <div className="flex items-center gap-2 mb-2 print:mb-1.5">
+                          <span
+                            className={`w-2.5 h-2.5 rounded-full ${c.dot} print:w-2 print:h-2`}
+                          />
+                          <h3
+                            className={`font-ui font-bold text-sm uppercase tracking-wide ${c.text} print:text-[10px]`}
+                          >
+                            {trait.trait}
+                          </h3>
                         </div>
-                      ))}
+                      </AnimatedDiv>
+
+                      {/* Quotes within this trait */}
+                      <div className="space-y-2.5 print:space-y-1.5">
+                        {trait.quotes.map((q, qi) => (
+                          <div key={qi}>
+                            {/* Quote text */}
+                            <p className="font-body italic text-sm text-text leading-snug print:text-[9px] print:leading-tight">
+                              &ldquo;{q.quote}&rdquo;
+                              <span className="not-italic font-ui text-xs text-grey ml-1 print:text-[8px]">
+                                {q.who && `— ${q.who}, `}
+                                {q.act}
+                              </span>
+                            </p>
+
+                            {/* Analysis bullet points */}
+                            <ul className="mt-1 space-y-0.5 print:mt-0.5">
+                              {q.points.map((pt, pi) => (
+                                <li
+                                  key={pi}
+                                  className="flex gap-1.5 items-start print:gap-1"
+                                >
+                                  <span
+                                    className={`mt-1.5 w-1 h-1 rounded-full ${c.dot} shrink-0 print:mt-1 print:w-0.5 print:h-0.5`}
+                                  />
+                                  <span className="font-body text-xs text-text leading-snug print:text-[8px] print:leading-tight">
+                                    <HighlightedText text={pt} />
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  </AnimatedInteractiveCard>
                 );
               })}
             </div>
@@ -174,17 +192,19 @@ export default async function MindMapsPage({ params }: Props) {
             {/* ── DRAMATIC ENTRANCES & EXITS ── */}
             {mm.dramaticMoments && mm.dramaticMoments.length > 0 && (
               <div className="mt-5 print:mt-3">
-                <div className="flex items-center gap-2 mb-3 print:mb-2">
-                  <span className="w-5 h-0.5 bg-blue print:w-4" />
-                  <h3 className="font-ui font-bold text-sm uppercase tracking-wide text-blue print:text-[10px]">
-                    Dramatic Entrances &amp; Exits
-                  </h3>
-                  <span className="flex-1 h-0.5 bg-blue/20" />
-                </div>
+                <AnimatedDiv delay={0.15} className="print:!transform-none print:!opacity-100">
+                  <div className="flex items-center gap-2 mb-3 print:mb-2">
+                    <span className="w-5 h-0.5 bg-blue print:w-4" />
+                    <h3 className="font-ui font-bold text-sm uppercase tracking-wide text-blue print:text-[10px]">
+                      Dramatic Entrances &amp; Exits
+                    </h3>
+                    <span className="flex-1 h-0.5 bg-blue/20" />
+                  </div>
+                </AnimatedDiv>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 print:grid-cols-2 print:gap-2">
                   {mm.dramaticMoments.map((dm, di) => (
+                    <AnimatedListItem key={di} index={di} className="print:!transform-none print:!opacity-100">
                     <div
-                      key={di}
                       className="rounded-xl border border-blue/30 bg-blue-light p-3.5 print:p-2 print:bg-blue/5"
                     >
                       {/* Moment header */}
@@ -228,6 +248,7 @@ export default async function MindMapsPage({ params }: Props) {
                         ))}
                       </ul>
                     </div>
+                    </AnimatedListItem>
                   ))}
                 </div>
               </div>
@@ -239,6 +260,7 @@ export default async function MindMapsPage({ params }: Props) {
             </p>
           </div>
         </article>
+        </AnimatedSection>
       ))}
     </div>
   );

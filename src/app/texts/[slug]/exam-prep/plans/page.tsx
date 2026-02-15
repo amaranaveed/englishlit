@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getTextBySlug } from "@/data/text-registry";
 import { INSPECTOR_CALLS_ESSAY_PLANS } from "@/data/exam-prep-inspector-calls";
 import PrintButton from "@/components/PrintButton";
+import { AnimatedDiv, AnimatedSection } from "@/components/AnimatedWrappers";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -39,7 +40,7 @@ export default async function ExamPrepPlansPage({ params }: Props) {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 print:max-w-none print:px-0 print:py-0">
       {/* Header — hidden on print */}
-      <div className="print:hidden">
+      <AnimatedDiv className="print:hidden">
         <nav className="font-ui text-sm text-grey mb-6">
           <Link href="/texts" className="hover:text-teal transition-colors">Texts</Link>
           <span className="mx-2">&rsaquo;</span>
@@ -61,12 +62,12 @@ export default async function ExamPrepPlansPage({ params }: Props) {
           </div>
           <PrintButton label="Print / Save as PDF" />
         </div>
-      </div>
+      </AnimatedDiv>
 
       {/* ═══ COMPLETED ESSAY PLANS ═══ */}
       {plans.map((plan, idx) => (
+        <AnimatedSection key={idx} delay={idx * 0.1}>
         <article
-          key={idx}
           className="exam-prep-page relative mb-10 bg-surface overflow-hidden border border-border rounded-xl print:border print:border-gray-300 print:rounded-none print:mb-0 print:shadow-none print:break-after-page"
         >
           {/* Question banner */}
@@ -147,12 +148,13 @@ export default async function ExamPrepPlansPage({ params }: Props) {
             {text.title} &mdash; Essay Plan &mdash; GCSE Literature Revision
           </p>
         </article>
+        </AnimatedSection>
       ))}
 
       {/* ═══ BLANK ESSAY PLAN TEMPLATES ═══ */}
       {blankTemplates.map((tmpl, idx) => (
+        <AnimatedSection key={`blank-${idx}`} delay={idx * 0.1}>
         <article
-          key={`blank-${idx}`}
           className="exam-prep-page relative mb-10 last:mb-0 bg-surface overflow-hidden border border-border rounded-xl print:border print:border-gray-300 print:rounded-none print:mb-0 print:shadow-none print:break-after-page"
         >
           {/* Question banner */}
@@ -227,6 +229,7 @@ export default async function ExamPrepPlansPage({ params }: Props) {
             {text.title} &mdash; Blank Essay Plan &mdash; GCSE Literature Revision
           </p>
         </article>
+        </AnimatedSection>
       ))}
     </div>
   );

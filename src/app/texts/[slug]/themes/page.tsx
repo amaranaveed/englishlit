@@ -4,6 +4,21 @@ import { getTextBySlug } from "@/data/text-registry";
 import { getThemeSheetsByText } from "@/data/theme-sheets";
 import PrintButton from "@/components/PrintButton";
 import GenerateThemeFlashcardsButton from "@/components/GenerateThemeFlashcardsButton";
+import {
+  AnimatedBreadcrumb,
+  AnimatedDiv,
+  AnimatedSection,
+  AnimatedSlideRight,
+  AnimatedInteractiveCard,
+  AnimatedRevealLine,
+  AnimatedBounceIn,
+  AnimatedListItem,
+  AnimatedIcon,
+  AnimatedWiggle,
+  AnimatedScaleIn,
+  StaggerList,
+  StaggerItem,
+} from "@/components/AnimatedWrappers";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -31,25 +46,31 @@ export default async function ThemeSheetsPage({ params }: Props) {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 print:max-w-none print:px-0 print:py-0">
       {/* Header — hidden on print */}
       <div className="print:hidden">
-        <nav className="font-ui text-sm text-grey mb-6">
-          <Link href="/texts" className="hover:text-teal transition-colors">Texts</Link>
-          <span className="mx-2">&rsaquo;</span>
-          <Link href={`/texts/${slug}`} className="hover:text-teal transition-colors">{text.title}</Link>
-          <span className="mx-2">&rsaquo;</span>
-          <span className="text-text font-medium">Theme Sheets</span>
-        </nav>
+        <AnimatedBreadcrumb>
+          <nav className="font-ui text-sm text-grey mb-6">
+            <Link href="/texts" className="hover:text-teal transition-colors">Texts</Link>
+            <span className="mx-2">&rsaquo;</span>
+            <Link href={`/texts/${slug}`} className="hover:text-teal transition-colors">{text.title}</Link>
+            <span className="mx-2">&rsaquo;</span>
+            <span className="text-text font-medium">Theme Sheets</span>
+          </nav>
+        </AnimatedBreadcrumb>
 
-        <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
-          <div>
-            <h1 className="font-display text-2xl sm:text-3xl font-bold">
-              Theme Analysis Sheets
-            </h1>
-            <p className="text-grey font-ui mt-1">
-              {text.title} &mdash; {sheets.length} themes &middot; A4 printable
-            </p>
+        <AnimatedDiv>
+          <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+            <div>
+              <h1 className="font-display text-2xl sm:text-3xl font-bold">
+                Theme Analysis Sheets
+              </h1>
+              <p className="text-grey font-ui mt-1">
+                {text.title} &mdash; {sheets.length} themes &middot; A4 printable
+              </p>
+            </div>
+            <AnimatedSlideRight delay={0.2}>
+              <PrintButton label="Print A4 Theme Sheets" />
+            </AnimatedSlideRight>
           </div>
-          <PrintButton label="Print A4 Theme Sheets" />
-        </div>
+        </AnimatedDiv>
       </div>
 
       {/* Theme sheets */}
@@ -57,17 +78,18 @@ export default async function ThemeSheetsPage({ params }: Props) {
         const c = SHEET_COLOURS[sheetIdx % SHEET_COLOURS.length];
 
         return (
-          <article
-            key={sheet.theme}
-            className={`
-              theme-sheet-page relative
-              mb-10 last:mb-0
-              bg-surface overflow-hidden
-              border ${c.border} rounded-xl
-              print:border print:border-gray-300 print:rounded-none print:mb-0 print:shadow-none
-              ${sheetIdx < sheets.length - 1 ? "print:break-after-page" : ""}
-            `}
-          >
+          <AnimatedSection key={sheet.theme} delay={sheetIdx * 0.1}>
+            <AnimatedInteractiveCard index={sheetIdx} className="print:!transform-none print:!shadow-none print:!opacity-100">
+            <article
+              className={`
+                theme-sheet-page relative
+                mb-10 last:mb-0
+                bg-surface overflow-hidden
+                border ${c.border} rounded-xl
+                print:border print:border-gray-300 print:rounded-none print:mb-0 print:shadow-none
+                ${sheetIdx < sheets.length - 1 ? "print:break-after-page" : ""}
+              `}
+            >
             {/* ═══ THESIS BANNER ═══ */}
             <div className="px-5 py-3.5 border-b border-border bg-surface print:px-[10mm] print:py-2.5 print:border-gray-300">
               <div className="flex items-center justify-between gap-3">
@@ -80,6 +102,9 @@ export default async function ThemeSheetsPage({ params }: Props) {
                 <GenerateThemeFlashcardsButton sheet={sheet} textTitle={text.title} />
               </div>
             </div>
+
+            {/* ═══ Animated divider between thesis banner and table body ═══ */}
+            <AnimatedRevealLine className={`h-0.5 ${c.accentBg} print:hidden`} delay={sheetIdx * 0.1 + 0.2} />
 
             {/* ═══ TABLE BODY: vertical label + rows ═══ */}
             <div className="flex">
@@ -112,9 +137,11 @@ export default async function ThemeSheetsPage({ params }: Props) {
                   >
                     {/* LEFT: Point description */}
                     <div className={`${c.accentLight} px-4 py-3 border-b md:border-b-0 md:border-r border-border print:px-3 print:py-2 print:border-gray-300`}>
-                      <p className={`font-ui font-bold text-xs uppercase tracking-wider mb-1 ${c.accent} print:text-[8px] print:mb-0.5`}>
-                        Point {pIdx + 1}
-                      </p>
+                      <AnimatedBounceIn delay={pIdx * 0.1} className="print:!transform-none print:!opacity-100">
+                        <p className={`font-ui font-bold text-xs uppercase tracking-wider mb-1 ${c.accent} print:text-[8px] print:mb-0.5`}>
+                          Point {pIdx + 1}
+                        </p>
+                      </AnimatedBounceIn>
                       <p className="font-body text-[13px] text-text leading-snug print:text-[9px] print:leading-tight">
                         {point.description}
                       </p>
@@ -137,12 +164,14 @@ export default async function ThemeSheetsPage({ params }: Props) {
                           {/* Analysis bullets */}
                           <ul className="mt-1.5 space-y-1 print:mt-1 print:space-y-0.5">
                             {q.analysis.map((a, aIdx) => (
-                              <li key={aIdx} className="flex items-start gap-2 print:gap-1">
-                                <span className={`mt-[5px] w-[5px] h-[5px] rounded-full shrink-0 border ${c.border} print:mt-1 print:w-1 print:h-1`} />
-                                <span className="font-body text-[13px] text-text leading-snug print:text-[9px] print:leading-tight">
-                                  {a}
-                                </span>
-                              </li>
+                              <AnimatedListItem key={aIdx} index={aIdx} className="print:!transform-none print:!opacity-100">
+                                <li className="flex items-start gap-2 print:gap-1">
+                                  <span className={`mt-[5px] w-[5px] h-[5px] rounded-full shrink-0 border ${c.border} print:mt-1 print:w-1 print:h-1`} />
+                                  <span className="font-body text-[13px] text-text leading-snug print:text-[9px] print:leading-tight">
+                                    {a}
+                                  </span>
+                                </li>
+                              </AnimatedListItem>
                             ))}
                           </ul>
                         </div>
@@ -157,7 +186,9 @@ export default async function ThemeSheetsPage({ params }: Props) {
             <p className="hidden print:block text-right font-ui text-[7px] text-grey border-t border-gray-300 px-[10mm] py-1">
               {text.title} &mdash; {sheet.theme} &mdash; GCSE Literature Revision
             </p>
-          </article>
+            </article>
+            </AnimatedInteractiveCard>
+          </AnimatedSection>
         );
       })}
     </div>
