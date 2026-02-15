@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { TEXT_REGISTRY, TEXT_ICONS } from "@/data/text-registry";
 import SearchModal from "./SearchModal";
 import OnboardingModal from "./OnboardingModal";
@@ -130,13 +131,17 @@ export default function Header() {
         <div className="flex items-center justify-between h-[60px]">
           {/* Logo */}
           <Link href="/" className="group flex items-center gap-2.5 shrink-0">
-            <span className={`w-9 h-9 rounded-xl font-display font-extrabold text-[18px] flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
+            <motion.span
+              whileHover={{ scale: 1.15, rotate: -5 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className={`w-9 h-9 rounded-xl font-display font-extrabold text-[18px] flex items-center justify-center transition-all duration-300 ${
               isHome && !scrolled
                 ? "bg-white/15 text-white"
                 : "bg-blue-500 text-white shadow-[0_2px_8px_rgba(33,150,243,0.3)]"
             }`} style={isHome && !scrolled ? {} : { backgroundColor: "#2196F3" }}>
               9
-            </span>
+            </motion.span>
             <span className="hidden sm:flex items-baseline gap-1.5">
               <span className={`font-display font-bold text-[17px] tracking-tight transition-colors duration-300 ${
                 isHome && !scrolled ? "text-white" : "text-text"
@@ -177,9 +182,16 @@ export default function Header() {
                   </Link>
 
                   {/* Level 1: Genre groups */}
+                  <AnimatePresence>
                   {textsOpen && (
-                    <div className="absolute top-full left-0 pt-2 z-50">
-                      <div className="bg-bg border border-border rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.12)] py-2 min-w-[240px] animate-slide-down">
+                    <motion.div
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                      className="absolute top-full left-0 pt-2 z-50"
+                    >
+                      <div className="bg-bg border border-border rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.12)] py-2 min-w-[240px]">
                         {activeGroups.map((group) => {
                           const gc = GROUP_COLOURS[group.label] ?? { bg: "bg-purple/10", text: "text-purple" };
                           const icon = GROUP_ICONS[group.label] ?? "?";
@@ -243,8 +255,9 @@ export default function Header() {
                           </Link>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   )}
+                  </AnimatePresence>
                 </div>
               ) : (
                 /* ── Regular nav link ─── */
@@ -259,9 +272,14 @@ export default function Header() {
                 >
                   {item.label}
                   {item.label === "Flashcards" && flashcardsDue > 0 && (
-                    <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-orange text-[#1A1A2E] text-[10px] font-bold flex items-center justify-center shadow-[0_2px_6px_rgba(252,164,76,0.4)]">
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                      className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-orange text-[#1A1A2E] text-[10px] font-bold flex items-center justify-center shadow-[0_2px_6px_rgba(252,164,76,0.4)]"
+                    >
                       {flashcardsDue}
-                    </span>
+                    </motion.span>
                   )}
                 </Link>
               )
@@ -370,8 +388,14 @@ export default function Header() {
       </div>
 
       {/* Mobile menu */}
+      <AnimatePresence>
       {mobileOpen && (
-        <nav className="md:hidden border-t border-border bg-surface/98 backdrop-blur-xl font-ui text-[15px] pb-3 animate-slide-down">
+        <motion.nav
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+          className="md:hidden border-t border-border bg-surface/98 backdrop-blur-xl font-ui text-[15px] pb-3 overflow-hidden">
           {NAV_ITEMS.map((item) => (
             item.hasDropdown ? (
               <div key={item.href}>
@@ -534,8 +558,9 @@ export default function Header() {
               )}
             </div>
           )}
-        </nav>
+        </motion.nav>
       )}
+      </AnimatePresence>
       <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
       {profileOpen && (
         <OnboardingModal editMode onClose={() => setProfileOpen(false)} />

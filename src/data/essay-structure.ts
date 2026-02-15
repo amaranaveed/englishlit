@@ -1,13 +1,15 @@
 /* ────────────────────────────────────────────────────────
-   Grade 9 Essay Structure – PETAETACWW
-   Based on the method used in AQA GCSE classrooms.
+   Grade 9 Essay Structure
+   A scaffold for building analytical paragraphs — not a
+   rigid formula. AQA examiners reward fluent, argued
+   responses, so adapt these steps to your own voice.
    Data used by /essay-structure
    ──────────────────────────────────────────────────────── */
 
-/* ── The 10 steps of a PETAETACWW paragraph ──────────── */
+/* ── The 10 steps of an analytical paragraph ─────────── */
 export interface StructureStep {
   number: number;
-  letter: string;       // the letter in PETAETACWW
+  letter: string;       // step letter code
   label: string;        // short name shown in the step badge
   ao: string;           // which AO this targets
   colour: string;       // theme colour token
@@ -64,23 +66,23 @@ export const PARAGRAPH_STEPS: StructureStep[] = [
   {
     number: 3,
     letter: "T",
-    label: "Technique 1",
+    label: "Analyse Language",
     ao: "AO2",
     colour: "purple",
-    what: "Name the technique used in the quotation.",
+    what: "Zoom into a specific word or phrase and explain what it suggests.",
     detail:
-      "Identify a specific language technique (diction, metaphor, imperative, possessive language, sibilance, etc.). Use the format: 'The [technique] of \"…\"'. This targets AO2 directly.",
+      "Start with what the language MEANS, then name the technique if it adds to your argument. Don't lead with technique names — examiners call this 'feature-spotting'. Instead, explain what the writer's choice reveals, implies, or suggests, and use terminology naturally where it helps.",
     starterPhrases: [
-      "The diction of \"…\" conveys…",
-      "The [technique] of \"…\" suggests…",
+      "The word \"…\" suggests…",
+      "The [technique] of \"…\" conveys…",
       "The possessive language in \"…\" implies…",
       "The imperative \"…\" reveals…",
     ],
-    tip: "Name the technique precisely — don't just say 'language'.",
+    tip: "Lead with meaning, not technique names. 'The word \"allowed\" implies control' beats 'The verb \"allowed\" is diction'.",
     doThis:
-      "The diction of \"allowed\" conveys control and domination, implying that Eva's survival depended entirely on Gerald's permission rather than her own independence.",
+      "The word \"allowed\" is telling — it's the language of permission, not partnership, implying that Eva's survival depended entirely on Gerald's goodwill rather than her own independence.",
     notThis:
-      "The word \"allowed\" is an interesting word choice that shows Gerald is in charge.",
+      "The writer uses diction. The word \"allowed\" is a verb that shows Gerald is in charge.",
   },
   {
     number: 4,
@@ -126,18 +128,18 @@ export const PARAGRAPH_STEPS: StructureStep[] = [
   {
     number: 6,
     letter: "T",
-    label: "Technique 2",
+    label: "Deepen Analysis",
     ao: "AO2",
     colour: "purple",
-    what: "Identify the technique in the second quotation.",
+    what: "Push your analysis further — what does this language reveal about the writer's argument?",
     detail:
-      "Name a different technique or a different aspect of the same technique. Use the format: 'By [writer] using [technique], he/she…'. This shows range in your AO2 analysis.",
+      "Build on your second quotation by explaining what it adds to your argument. You might analyse a different aspect of the writer's language, connect to structure or form, or show how this evidence deepens the point you're making. Use terminology naturally where it helps.",
     starterPhrases: [
-      "By [writer] using this language of [technique]…",
-      "By [writer] employing [technique], he/she…",
-      "[Writer]'s use of [technique] here…",
+      "By [writer] using this language of…, [he/she]…",
+      "[Writer]'s choice of \"…\" here reinforces…",
+      "This language reveals…",
     ],
-    tip: "Try to identify a different technique from your first one.",
+    tip: "Ask yourself: what does this second piece of evidence ADD to the argument?",
     doThis:
       "By Priestley using this language of control, he exposes Gerald's dehumanising view of Eva as a passive recipient of his benevolence rather than an equal deserving freedom.",
     notThis:
@@ -171,64 +173,64 @@ export const PARAGRAPH_STEPS: StructureStep[] = [
     label: "Context",
     ao: "AO3",
     colour: "blue",
-    what: "Link to context, then link context back to the question.",
+    what: "Weave in context to explain WHY the writer made this choice.",
     detail:
-      "State relevant context and connect it to your argument. Don't bolt it on — integrate it. Use the structure: 'This idea reflects… [context]… This reinforces…'. The context should illuminate your analysis, not sit separately.",
+      "Context should illuminate your analysis, not sit in its own separate section. The best responses integrate context naturally — explaining how the historical, social, or cultural background shapes the writer's choices and their effect on the audience. AQA examiners penalise 'bolted-on' context that reads like a history essay. Instead, ask: 'Why did the writer do this HERE? What does this mean for the audience of the time?'",
     starterPhrases: [
-      "This idea reflects…",
+      "This reflects the [period] reality that…",
+      "Writing in [year], [writer] uses this to…",
+      "For the [original audience], this would…",
       "This mirrors the [historical context] of…",
-      "…which reinforces…",
-      "This reinforces the moral necessity of…",
     ],
-    tip: "Link to context → state context → link back to question. Three moves.",
+    tip: "Context explains the writer's purpose, not just the time period. Don't write a history paragraph.",
     doThis:
-      "This idea reflects the entrenched Edwardian class system, where the bourgeois maintained economic authority over the working class. It also mirrors 1912 Britain's capitalist policies, which Priestley contrasts with the post-war rise of socialism. This reinforces the moral necessity of dismantling exploitative power structures.",
+      "This reflects the rigid Edwardian class system, where the wealthy held enormous economic power over the working class. Writing in 1945, Priestley contrasts this with the post-war push for a fairer society, reinforcing his argument that these exploitative power dynamics need to be dismantled.",
     notThis:
       "In 1912 there were rich and poor people. The class system was unfair.",
   },
   {
     number: 9,
     letter: "W",
-    label: "WOW",
+    label: "Structure / Form",
     ao: "AO2",
     colour: "amber",
-    what: "Grade 7+ bonus — add a structural/form point or higher-level connection.",
+    what: "Connect to the bigger picture — how does structure or form reinforce your point?",
     detail:
-      "This is your grade-booster. Use a connecting word like 'Furthermore' and add a point about the writer's use of structure or form (e.g. the Well-Made Play, the three unities, dramatic irony, cyclical structure). Then link it back to the question. This is what separates good from exceptional.",
+      "This is what separates Level 5/6 responses from lower levels. Consider how the writer's structural or formal choices reinforce the point you're making: cyclical structure, dramatic irony, the positioning of this moment in the text, genre conventions, or the relationship between this moment and the rest of the work. Don't force it — only include this if it genuinely strengthens your argument.",
     starterPhrases: [
       "Furthermore, [writer] uses the [structural feature] to…",
       "Moreover, the [form/structure] intensifies…",
-      "This is further reinforced through [writer]'s use of [form]…",
+      "Structurally, [writer] positions this to…",
     ],
-    tip: "Connecting word → WOW (structure/form point) → link back to question.",
+    tip: "Think about WHY this moment is placed HERE in the text. What does the structure do?",
     doThis:
-      "Furthermore, Priestley uses the Well-Made Play structure to intensify the cause-and-effect exposure of Gerald's role in Eva's downfall. His language choice becomes a catalyst in the chain of events that lead to her death, thereby magnifying Priestley's social critique.",
+      "Furthermore, Priestley uses the Well-Made Play structure to intensify the cause-and-effect exposure of Gerald's role in Eva's downfall. His language choice becomes a catalyst in the chain of events that lead to her death, magnifying Priestley's social critique.",
     notThis:
       "Also this links to the play's structure.",
   },
   {
     number: 10,
     letter: "W",
-    label: "Writer's Intentions",
+    label: "Writer's Purpose",
     ao: "AO1",
     colour: "red",
-    what: "What was the writer's aim? Use CAMP + ICE.",
+    what: "End by explaining the writer's purpose — why did they make this choice?",
     detail:
-      "End with the writer's purpose. Use CAMP to identify what the text is (Cautionary tale / Allegorical / Microcosm / Political diatribe) and ICE for what the writer wants to do to the audience (Inform / Criticise / Educate). Format: 'Thus, [writer] creates a [CAMP] to [ICE] the audience about…'.",
+      "Close the paragraph by connecting your analysis back to the writer's overall purpose. What is the writer trying to make the audience think, feel, or do? This is where you show you understand the text as a deliberately constructed argument, not just a story. Use the writer's name and a strong verb: 'Priestley uses…', 'Shakespeare challenges…', 'Austen exposes…'.",
     starterPhrases: [
-      "Thus, [writer] creates a [CAMP] to [ICE] the audience about…",
-      "Ultimately, [writer] constructs a [CAMP] to [ICE]…",
-      "Through this, [writer] fashions a [CAMP] that seeks to [ICE]…",
+      "Ultimately, [writer] uses [character/moment] to…",
+      "Through this, [writer] challenges the audience to…",
+      "[Writer] constructs this as a [warning/critique/argument] about…",
     ],
-    tip: "CAMP = Cautionary tale / Allegorical / Microcosm / Political diatribe. ICE = Inform / Criticise / Educate.",
+    tip: "The writer's purpose is the WHY behind everything. Why did they write this? What do they want the audience to take away?",
     doThis:
-      "Thus, Priestley creates a political diatribe to critique the audience about the corrosive impact of capitalist exploitation, urging them to embrace collective social responsibility over individual gain.",
+      "Ultimately, Priestley uses Gerald's relationship with Eva as a political critique, exposing how capitalist exploitation damages real lives and urging the audience to choose collective responsibility over individual self-interest.",
     notThis:
       "Priestley wanted people to be nicer to each other.",
   },
 ];
 
-/* ── CAMP + ICE reference ────────────────────────────── */
+/* ── Writer's Purpose — useful vocabulary ────────────── */
 export interface AcronymItem {
   letter: string;
   word: string;
@@ -237,15 +239,15 @@ export interface AcronymItem {
 
 export const CAMP: AcronymItem[] = [
   { letter: "C", word: "Cautionary tale", description: "A story that warns the audience about consequences" },
-  { letter: "A", word: "Allegorical", description: "A story with a hidden moral or political meaning" },
-  { letter: "M", word: "Microcosm", description: "A small-scale representation of a wider society/issue" },
-  { letter: "P", word: "Political diatribe", description: "A forceful attack on political/social injustice" },
+  { letter: "A", word: "Allegory", description: "A story with a deeper moral or political meaning" },
+  { letter: "M", word: "Microcosm", description: "A small-scale representation of a wider society or issue" },
+  { letter: "P", word: "Political critique", description: "A challenge to political or social injustice" },
 ];
 
 export const ICE: AcronymItem[] = [
   { letter: "I", word: "Inform", description: "Make the audience aware of an issue" },
-  { letter: "C", word: "Criticise", description: "Challenge and condemn attitudes or behaviour" },
-  { letter: "E", word: "Educate", description: "Teach the audience to think/act differently" },
+  { letter: "C", word: "Challenge", description: "Challenge attitudes, beliefs, or behaviour" },
+  { letter: "E", word: "Educate", description: "Encourage the audience to think or act differently" },
 ];
 
 /* ── RAD reference ───────────────────────────────────── */
@@ -270,7 +272,7 @@ export const ESSAY_SKELETON: EssaySection[] = [
     timing: "~5 min",
     bullets: [
       "Read the question twice — underline the key word (e.g. 'how', 'present', 'explore').",
-      "Jot 3 arguments that directly answer the question — each becomes a PETAETACWW paragraph.",
+      "Jot 3 arguments that directly answer the question — each becomes an analytical paragraph.",
       "For each argument, note two short quotations you'll use.",
       "Decide your overall thesis (your 'big idea' about the question).",
     ],
@@ -291,10 +293,10 @@ export const ESSAY_SKELETON: EssaySection[] = [
     colour: "purple",
     timing: "~30 min",
     bullets: [
-      "Each paragraph follows the full PETAETACWW structure.",
-      "Two evidence + technique + analysis cycles per paragraph gives you double the AO2 marks.",
+      "Each paragraph builds an argument: point → evidence → analysis → context → writer's purpose.",
+      "Two evidence + analysis cycles per paragraph gives you depth and range.",
       "Use connectives between paragraphs ('Furthermore…', 'In contrast…', 'Most significantly…').",
-      "Every paragraph must end with Writer's Intentions using CAMP + ICE.",
+      "Always connect back to the writer's purpose — why did they make this choice?",
     ],
   },
   {
@@ -310,7 +312,7 @@ export const ESSAY_SKELETON: EssaySection[] = [
   },
 ];
 
-/* ── Full model paragraphs (colour-coded PETAETACWW) ───
+/* ── Full model paragraphs (colour-coded by step) ──────
    These are teaching exemplars written to demonstrate
    each step of the method, not real exam responses.    */
 export interface ModelParagraphData {
@@ -339,7 +341,7 @@ export const MODEL_PARAGRAPHS: ModelParagraphData[] = [
       },
       {
         text: "The word \"allowed\" is telling — it's the language of permission, not partnership, implying that Eva's survival depended entirely on Gerald's goodwill rather than her own independence.",
-        step: 3, label: "Technique 1", colour: "purple",
+        step: 3, label: "Analyse Language", colour: "purple",
       },
       {
         text: "This creates a sense of economic possession, which shows the audience how capitalism turns relationships into transactions; Eva isn't Gerald's equal — she's financially dependent on him, and he doesn't even seem to realise how demeaning that is.",
@@ -351,7 +353,7 @@ export const MODEL_PARAGRAPHS: ModelParagraphData[] = [
       },
       {
         text: "By Priestley using this language of control, he reveals how Gerald views Eva not as an equal but as someone he has the right to provide for or withdraw from — a kind of casual ownership he doesn't question.",
-        step: 6, label: "Technique 2", colour: "purple",
+        step: 6, label: "Deepen Analysis", colour: "purple",
       },
       {
         text: "This builds a picture of patronising superiority that isn't unique to Gerald — it represents how the upper class as a whole treat working people as dependants rather than equals, maintaining their social dominance through financial control.",
@@ -363,11 +365,11 @@ export const MODEL_PARAGRAPHS: ModelParagraphData[] = [
       },
       {
         text: "Furthermore, Priestley uses the Well-Made Play structure to make Gerald's role in Eva's downfall feel like an inevitable chain of cause and effect — his language isn't just revealing character, it's driving the plot towards tragedy, which makes Priestley's social critique hit harder.",
-        step: 9, label: "WOW", colour: "amber",
+        step: 9, label: "Structure / Form", colour: "amber",
       },
       {
         text: "Ultimately, Priestley uses Gerald's relationship with Eva as a political critique, exposing how capitalist exploitation damages real lives and urging the audience to choose collective responsibility over individual self-interest.",
-        step: 10, label: "Writer's Intentions", colour: "red",
+        step: 10, label: "Writer's Purpose", colour: "red",
       },
     ],
   },
@@ -389,7 +391,7 @@ export const MODEL_PARAGRAPHS: ModelParagraphData[] = [
       },
       {
         text: "The two blunt monosyllables are shocking after Beatrice's usual wit — there's no wordplay, no cleverness, just a raw, unadorned command that strips her character back to pure emotional conviction.",
-        step: 3, label: "Technique 1", colour: "purple",
+        step: 3, label: "Analyse Language", colour: "purple",
       },
       {
         text: "This creates a sense of desperate urgency that shows the audience just how deep her outrage runs at Hero's public shaming; Beatrice's intellectual armour has been completely abandoned, and what's left is genuine moral fury.",
@@ -401,7 +403,7 @@ export const MODEL_PARAGRAPHS: ModelParagraphData[] = [
       },
       {
         text: "By Shakespeare using this hyperbolic metaphor of consuming Claudio's heart publicly, he pushes Beatrice's grief beyond anything that would be considered acceptable feminine speech — it becomes visceral, almost animalistic rage.",
-        step: 6, label: "Technique 2", colour: "purple",
+        step: 6, label: "Deepen Analysis", colour: "purple",
       },
       {
         text: "This portrays a woman trapped between intellectual power and physical powerlessness, which amplifies one of the play's central tensions: the honour code is supposed to protect women like Hero, but only men are allowed to use it. Beatrice can see the injustice clearly, but she's structurally locked out of doing anything about it herself.",
@@ -413,11 +415,11 @@ export const MODEL_PARAGRAPHS: ModelParagraphData[] = [
       },
       {
         text: "Furthermore, Shakespeare places this demand at the exact moment Benedick declares his love, which creates a jarring collision between romance and violence — the audience is pulled out of comfortable comedy and forced to think about the kind of society that makes a woman's first request of her lover a demand for murder.",
-        step: 9, label: "WOW", colour: "amber",
+        step: 9, label: "Structure / Form", colour: "amber",
       },
       {
         text: "Ultimately, Shakespeare uses this scene to critique a patriarchal honour code that demands women's virtue while giving them absolutely no power to defend it — exposing a system that claims to protect women but actually silences them.",
-        step: 10, label: "Writer's Intentions", colour: "red",
+        step: 10, label: "Writer's Purpose", colour: "red",
       },
     ],
   },
@@ -439,7 +441,7 @@ export const MODEL_PARAGRAPHS: ModelParagraphData[] = [
       },
       {
         text: "What's striking about this line is its simplicity — almost every word is a single syllable, which gives it a kind of blunt emotional weight. The elaborate wit that's defined Elizabeth throughout the novel is completely gone.",
-        step: 3, label: "Technique 1", colour: "purple",
+        step: 3, label: "Analyse Language", colour: "purple",
       },
       {
         text: "This creates a moment of devastating clarity that exposes the gap between how Elizabeth sees herself — a rational, perceptive judge of character — and the reality of her own blind spots. Because of this, the reader is forced to look back at every confident judgement Elizabeth has made and question whether she was ever as right as she thought.",
@@ -451,7 +453,7 @@ export const MODEL_PARAGRAPHS: ModelParagraphData[] = [
       },
       {
         text: "By Austen placing this short, understated confession immediately after Darcy's lengthy letter, she creates a deliberate structural contrast: pages and pages of evidence are condensed into just eight words of self-recognition.",
-        step: 6, label: "Technique 2", colour: "purple",
+        step: 6, label: "Deepen Analysis", colour: "purple",
       },
       {
         text: "This portrays genuine intellectual humility, which gets at the novel's philosophical core — that the deepest truths often require the plainest language, and that real self-knowledge takes the courage to let go of assumptions you've built your identity around.",
@@ -463,11 +465,11 @@ export const MODEL_PARAGRAPHS: ModelParagraphData[] = [
       },
       {
         text: "Furthermore, this moment works as the novel's turning point — everything before it is defined by misreading, and everything after by growing clarity. It mirrors the classical 'recognition scene' from tragedy, but Austen repurposes it within a comedy where self-knowledge leads to happiness rather than destruction.",
-        step: 9, label: "WOW", colour: "amber",
+        step: 9, label: "Structure / Form", colour: "amber",
       },
       {
         text: "Ultimately, Austen uses Elizabeth's story as a cautionary tale about the dangers of letting prejudice disguise itself as good judgement, urging readers to pursue honest self-knowledge rather than settling for comfortable self-deception.",
-        step: 10, label: "Writer's Intentions", colour: "red",
+        step: 10, label: "Writer's Purpose", colour: "red",
       },
     ],
   },
@@ -499,10 +501,10 @@ export const GRADE_COMPARISONS: GradeComparison[] = [
     traits: [
       "Clear argument linked to the question",
       "Short, embedded quotations",
-      "Names techniques and explains their effect",
+      "Analyses language and explains its effect",
       "Context is linked to the analysis",
-      "Some attempt at WOW or structural point",
-      "Two evidence cycles but analysis lacks depth",
+      "Some attempt at a structural or form point",
+      "Two evidence cycles but analysis could go deeper",
     ],
   },
   {
@@ -511,10 +513,10 @@ export const GRADE_COMPARISONS: GradeComparison[] = [
     traits: [
       "Sharp argument with writer's name and critical voice",
       "Two embedded quotes that build on each other",
-      "Deep word-level analysis using What, How, Why + RAD",
+      "Deep word-level analysis — explains What, How, and Why",
       "Context woven in — illuminates, doesn't decorate",
-      "WOW point on structure/form that links back to question",
-      "Ends with Writer's Intentions using CAMP + ICE",
+      "Structural/form analysis that links back to the question",
+      "Ends by connecting to the writer's overall purpose",
     ],
   },
 ];

@@ -163,19 +163,19 @@ export const POWER_CONFLICT_QUOTES: Quote[] = [
   {
     id: 3,
     textSlug: "power-conflict",
-    quote: "a huge peak, black and huge, / As if with voluntary purpose, it / Upreared its head",
+    quote: "a huge peak, black and huge, / As if with voluntary power instinct, / Upreared its head",
     who: "William Wordsworth",
     act: "Extract from The Prelude",
     themes: ["Nature's Power", "Childhood", "Fear & Awe", "The Sublime", "Man vs Nature"],
     keyQuote: {
-      text: '"a huge peak, black and huge, / As if with voluntary purpose, it / Upreared its head"',
-      highlight: "voluntary purpose",
+      text: '"a huge peak, black and huge, / As if with voluntary power instinct, / Upreared its head"',
+      highlight: "voluntary power instinct",
       note: "The mountain appears to possess consciousness and intent — nature is not a passive backdrop but an active, terrifying force that teaches the young poet humility.",
     },
     technique1: {
-      title: "PERSONIFICATION / PATHETIC FALLACY",
+      title: "PERSONIFICATION / SUBLIME AGENCY",
       analysis:
-        "Wordsworth employs powerful **personification** — the mountain 'Upreared its head' as if it were a living creature, deliberately rising to confront the boy. The phrase 'voluntary purpose' attributes **agency** (the ability to act independently) to nature, transforming landscape into a sentient, **punitive** (punishing) force. This is far beyond decorative **pathetic fallacy**: nature is not reflecting the boy's mood but actively **intervening** to teach him.",
+        "Wordsworth employs powerful **personification** — the mountain 'Upreared its head' as if it were a living creature, deliberately rising to confront the boy. The phrase 'voluntary power instinct' — where 'instinct' means 'imbued with' or 'charged with' — attributes **agency** (the ability to act independently) to nature, transforming landscape into a sentient, **punitive** (punishing) force. This is not **pathetic fallacy** (nature reflecting human emotion): nature here has its own independent will, actively **intervening** to teach the boy humility.",
       secondPoint:
         "The repetition of 'huge' — 'a huge peak, black and huge' — mimics the **overwhelmed** perception of a frightened child whose vocabulary cannot contain the experience. The simplicity of the repeated adjective, surrounded by sophisticated blank verse, creates a **rupture** in the poetic register that conveys genuine terror. The mountain is literally too vast for language.",
       keyWords: [

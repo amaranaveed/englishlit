@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { TEXT_REGISTRY, TEXT_ICONS, getActiveTexts } from "@/data/text-registry";
 import { useStorage } from "@/hooks/useStorage";
 
@@ -27,17 +28,63 @@ const GROUP_COLOURS = [
 
 /* ── Banner images for paper group sections ────────── */
 const GROUP_IMAGES = [
-  "/images/shakespeare-3d.png", // Shakespeare
-  "/images/19th-century-banner.png",     // 19th Century Novel
-  "/images/modern-texts-banner.png",   // Modern Texts
-  "/images/poetry-banner.png",       // Poetry
-  "/images/unseen-poetry-banner.png",       // Unseen Poetry
+  "/images/shakespeare-3d.png",
+  "/images/19th-century-banner.png",
+  "/images/modern-texts-banner.png",
+  "/images/poetry-banner.png",
+  "/images/unseen-poetry-banner.png",
 ];
+
+/* ── Framer Motion animation variants ──────────────── */
+const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE, delay: i * 0.1 },
+  }),
+};
+
+const slideInLeft = {
+  hidden: { opacity: 0, x: -40 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: EASE },
+  },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+  },
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: EASE },
+  },
+};
+
+const heroImageFloat = {
+  animate: {
+    y: [0, -12, 0],
+    transition: { duration: 5, ease: "easeInOut" as const, repeat: Infinity },
+  },
+};
 
 export default function HomePage() {
   const activeTexts = getActiveTexts();
   const { getDueCount, getFlashcards, getExamResponses, getVocabScores } = useStorage();
   const [stats, setStats] = useState({ due: 0, totalCards: 0, essays: 0, marked: 0, vocabBest: 0 });
+  const { scrollYProgress } = useScroll();
+  const heroParallax = useTransform(scrollYProgress, [0, 0.3], [0, -60]);
 
   useEffect(() => {
     async function load() {
@@ -84,63 +131,118 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-16 sm:pt-24 pb-20 sm:pb-28">
           <div className="relative z-10 max-w-2xl lg:max-w-[52%]">
             {/* Tagline chip */}
-            <div className="animate-fade-in stagger-1 inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 mb-6 border border-white/10">
-              <span className="w-2 h-2 rounded-full bg-orange animate-pulse" />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease: EASE }}
+              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 mb-6 border border-white/10"
+            >
+              <motion.span
+                animate={{ scale: [1, 1.3, 1] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                className="w-2 h-2 rounded-full bg-orange"
+              />
               <span className="font-ui text-[13px] text-white/80 font-medium tracking-wide">
                 AQA 8702 Revision Platform
               </span>
-            </div>
+            </motion.div>
 
-            <h1 className="animate-fade-up stagger-2 font-display text-[36px] sm:text-[52px] lg:text-[58px] font-extrabold text-white leading-[1.08] tracking-[-0.02em]">
+            <motion.h1
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              custom={1}
+              className="font-display text-[36px] sm:text-[52px] lg:text-[58px] font-extrabold text-white leading-[1.08] tracking-[-0.02em]"
+            >
               Smarter GCSE English{" "}
-              <span className="text-orange">Literature</span>{" "}
+              <motion.span
+                className="text-orange inline-block"
+                initial={{ opacity: 0, rotateX: -90 }}
+                animate={{ opacity: 1, rotateX: 0 }}
+                transition={{ duration: 0.8, delay: 0.4, ease: EASE }}
+              >
+                Literature
+              </motion.span>{" "}
               Revision
-            </h1>
+            </motion.h1>
 
-            <p className="animate-fade-up stagger-3 font-body text-[17px] sm:text-[20px] text-white/70 mt-6 max-w-2xl leading-relaxed">
+            <motion.p
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              custom={2}
+              className="font-body text-[17px] sm:text-[20px] text-white/70 mt-6 max-w-2xl leading-relaxed"
+            >
               Revise your set texts, practise exam questions, and build your
               analytical vocabulary &mdash; all in one place.
-            </p>
+            </motion.p>
 
             {/* CTA buttons */}
-            <div className="animate-fade-up stagger-4 flex flex-wrap items-center gap-4 mt-10">
-              <Link href="/texts" className="btn-pill btn-pill-orange text-[16px] px-8 py-3.5">
-                Start Revising
-                <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
-              </Link>
-              <Link href="/exam" className="btn-pill bg-white/10 text-white border border-white/15 hover:bg-white/18 transition-all duration-200 text-[16px] px-8 py-3.5">
-                Exam Practice
-              </Link>
-            </div>
-
-            <p className="animate-fade-in stagger-5 font-body text-[13px] text-white/30 mt-8 italic">
-              Dedicated to my loving daughter Kinza
-            </p>
-          </div>
-
-          {/* Right-side blended image */}
-          <div className="hidden lg:block absolute -right-16 bottom-0 w-[55%] xl:w-[50%] h-[95%] animate-fade-in stagger-4 pointer-events-none overflow-hidden">
-            <div
-              className="relative w-full h-full"
-              style={{
-                maskImage: "linear-gradient(to right, transparent 0%, black 45%), linear-gradient(to top, transparent 0%, black 35%), linear-gradient(to bottom, transparent 0%, black 15%), linear-gradient(to left, transparent 0%, black 10%)",
-                WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 45%), linear-gradient(to top, transparent 0%, black 35%), linear-gradient(to bottom, transparent 0%, black 15%), linear-gradient(to left, transparent 0%, black 10%)",
-                maskComposite: "intersect",
-                WebkitMaskComposite: "source-in",
-              }}
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              custom={3}
+              className="flex flex-wrap items-center gap-4 mt-10"
             >
-              <Image
-                src="/images/hero-characters.png"
-                alt="GCSE Literature characters"
-                fill
-                className="object-cover object-[40%_center]"
-                sizes="(min-width: 1280px) 50vw, 55vw"
-                priority
-              />
-            </div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+                <Link href="/texts" className="btn-pill btn-pill-orange text-[16px] px-8 py-3.5">
+                  Start Revising
+                  <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                  </svg>
+                </Link>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+                <Link href="/exam" className="btn-pill bg-white/10 text-white border border-white/15 hover:bg-white/18 transition-all duration-200 text-[16px] px-8 py-3.5">
+                  Exam Practice
+                </Link>
+              </motion.div>
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 1.2 }}
+              className="font-body text-[13px] text-white/30 mt-8 italic"
+            >
+              Dedicated to my loving daughter Kinza
+            </motion.p>
           </div>
+
+          {/* Right-side blended image with float + parallax */}
+          <motion.div
+            style={{ y: heroParallax }}
+            className="hidden lg:block absolute -right-16 bottom-0 w-[55%] xl:w-[50%] h-[95%] pointer-events-none overflow-hidden"
+          >
+            <motion.div
+              initial={{ opacity: 0, x: 80, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ duration: 1.2, ease: EASE, delay: 0.3 }}
+              className="relative w-full h-full"
+            >
+              <motion.div
+                variants={heroImageFloat}
+                animate="animate"
+                className="relative w-full h-full"
+                style={{
+                  maskImage: "linear-gradient(to right, transparent 0%, black 45%), linear-gradient(to top, transparent 0%, black 35%), linear-gradient(to bottom, transparent 0%, black 15%), linear-gradient(to left, transparent 0%, black 10%)",
+                  WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 45%), linear-gradient(to top, transparent 0%, black 35%), linear-gradient(to bottom, transparent 0%, black 15%), linear-gradient(to left, transparent 0%, black 10%)",
+                  maskComposite: "intersect",
+                  WebkitMaskComposite: "source-in",
+                }}
+              >
+                <Image
+                  src="/images/hero-characters.png"
+                  alt="GCSE Literature characters"
+                  fill
+                  className="object-cover object-[40%_center]"
+                  sizes="(min-width: 1280px) 50vw, 55vw"
+                  priority
+                />
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
 
       </section>
@@ -161,66 +263,125 @@ export default function HomePage() {
       <section className="relative overflow-hidden bg-[var(--bg-lavender)]">
         {/* Floating grade decorations */}
         <div className="absolute inset-0 pointer-events-none select-none" aria-hidden="true">
-          <span className="float-grade absolute top-6 left-[6%] text-purple/[0.07] font-display font-extrabold text-[72px] leading-none" style={{ "--float-rotate": "-12deg", animationDelay: "0s" } as React.CSSProperties}>A+</span>
-          <span className="float-grade absolute top-10 right-[10%] text-orange/[0.08] font-display font-extrabold text-[56px] leading-none" style={{ "--float-rotate": "10deg", animationDelay: "1.2s" } as React.CSSProperties}>9</span>
-          <span className="float-grade absolute bottom-4 left-[18%] text-pink/[0.06] font-display font-extrabold text-[60px] leading-none" style={{ "--float-rotate": "6deg", animationDelay: "2.4s" } as React.CSSProperties}>A*</span>
-          <span className="float-grade absolute bottom-8 right-[5%] text-teal/[0.07] font-display font-extrabold text-[44px] leading-none" style={{ "--float-rotate": "-8deg", animationDelay: "0.8s" } as React.CSSProperties}>A</span>
-          <span className="float-grade absolute top-2 left-[48%] text-blue/[0.06] font-display font-extrabold text-[38px] leading-none" style={{ "--float-rotate": "18deg", animationDelay: "1.8s" } as React.CSSProperties}>8</span>
-          <span className="float-grade absolute bottom-2 right-[35%] text-purple/[0.05] font-display font-extrabold text-[50px] leading-none hidden sm:block" style={{ "--float-rotate": "-15deg", animationDelay: "3s" } as React.CSSProperties}>A+</span>
+          <motion.span animate={{ y: [0, -15, 0], rotate: [-12, -8, -12] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="absolute top-6 left-[6%] text-purple/[0.07] font-display font-extrabold text-[72px] leading-none">A+</motion.span>
+          <motion.span animate={{ y: [0, -10, 0], rotate: [10, 14, 10] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }} className="absolute top-10 right-[10%] text-orange/[0.08] font-display font-extrabold text-[56px] leading-none">9</motion.span>
+          <motion.span animate={{ y: [0, -12, 0], rotate: [6, 2, 6] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2 }} className="absolute bottom-4 left-[18%] text-pink/[0.06] font-display font-extrabold text-[60px] leading-none">A*</motion.span>
+          <motion.span animate={{ y: [0, -8, 0], rotate: [-8, -12, -8] }} transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }} className="absolute bottom-8 right-[5%] text-teal/[0.07] font-display font-extrabold text-[44px] leading-none">A</motion.span>
+          <motion.span animate={{ y: [0, -10, 0], rotate: [18, 22, 18] }} transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }} className="absolute top-2 left-[48%] text-blue/[0.06] font-display font-extrabold text-[38px] leading-none">8</motion.span>
+          <motion.span animate={{ y: [0, -14, 0], rotate: [-15, -11, -15] }} transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut", delay: 3 }} className="absolute bottom-2 right-[35%] text-purple/[0.05] font-display font-extrabold text-[50px] leading-none hidden sm:block">A+</motion.span>
         </div>
 
         <div className="relative max-w-4xl mx-auto px-6 sm:px-10 text-center py-10 sm:py-14">
-          <h2 className="animate-fade-up stagger-5 font-display text-[22px] sm:text-[28px] font-bold text-text leading-snug">
+          <motion.h2
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            custom={0}
+            className="font-display text-[22px] sm:text-[28px] font-bold text-text leading-snug"
+          >
             Built for <span className="text-purple">GCSE Literature</span> success
-          </h2>
+          </motion.h2>
 
-          <div className="animate-fade-up stagger-6 mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-0">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-0"
+          >
             {/* Stat 1 */}
-            <div className="sm:border-r sm:border-border-subtle sm:pr-8">
+            <motion.div variants={staggerItem} className="sm:border-r sm:border-border-subtle sm:pr-8">
               <p className="font-ui text-[13px] text-grey font-medium">Complete AQA 8702 coverage</p>
-              <p className="font-display font-bold text-[26px] sm:text-[30px] text-text leading-tight mt-1">15+ Set Texts</p>
-            </div>
+              <motion.p
+                initial={{ opacity: 0, scale: 0.5 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
+                className="font-display font-bold text-[26px] sm:text-[30px] text-text leading-tight mt-1"
+              >
+                15+ Set Texts
+              </motion.p>
+            </motion.div>
             {/* Stat 2 */}
-            <div className="sm:border-r sm:border-border-subtle sm:px-8">
+            <motion.div variants={staggerItem} className="sm:border-r sm:border-border-subtle sm:px-8">
               <p className="font-ui text-[13px] text-grey font-medium">All-in-one revision platform</p>
-              <p className="font-display font-bold text-[26px] sm:text-[30px] text-text leading-tight mt-1">6 Revision Tools</p>
-            </div>
+              <motion.p
+                initial={{ opacity: 0, scale: 0.5 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: EASE, delay: 0.35 }}
+                className="font-display font-bold text-[26px] sm:text-[30px] text-text leading-tight mt-1"
+              >
+                6 Revision Tools
+              </motion.p>
+            </motion.div>
             {/* Stat 3 */}
-            <div className="sm:pl-8">
+            <motion.div variants={staggerItem} className="sm:pl-8">
               <p className="font-ui text-[13px] text-grey font-medium">Expert essay structures</p>
-              <p className="font-display font-bold text-[26px] sm:text-[30px] text-text leading-tight mt-1">Grade 9 Method</p>
-            </div>
-          </div>
+              <motion.p
+                initial={{ opacity: 0, scale: 0.5 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: EASE, delay: 0.5 }}
+                className="font-display font-bold text-[26px] sm:text-[30px] text-text leading-tight mt-1"
+              >
+                Grade 9 Method
+              </motion.p>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       <section className="bg-[var(--bg-lavender)]">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-2 sm:pt-4 pb-12 sm:pb-16">
           {/* Progress stats */}
-          <div className="animate-fade-up stagger-5 rounded-2xl border border-border-subtle bg-bg p-6 sm:p-8 mb-12 shadow-[var(--card-shadow)]">
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.97 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, ease: EASE }}
+            className="rounded-2xl border border-border-subtle bg-bg p-6 sm:p-8 mb-12 shadow-[var(--card-shadow)]"
+          >
             <div className="flex items-center gap-3 mb-5">
-              <span className="w-10 h-10 rounded-xl bg-purple/10 text-purple flex items-center justify-center">
+              <motion.span
+                whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
+                transition={{ duration: 0.5 }}
+                className="w-10 h-10 rounded-xl bg-purple/10 text-purple flex items-center justify-center"
+              >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg>
-              </span>
+              </motion.span>
               <span className="font-display font-semibold text-[17px] text-text">Your Progress</span>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="grid grid-cols-2 sm:grid-cols-4 gap-4"
+            >
               <StatCard value={stats.due} label="Cards Due" colour="orange" icon="clock" />
               <StatCard value={stats.totalCards} label="Flashcards" colour="purple" icon="cards" />
               <StatCard value={stats.essays} label={stats.essays === 1 ? "Essay" : "Essays"} colour="pink" icon="essay" />
               <StatCard value={stats.marked} label="Marked" colour="teal" icon="check" />
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Subject tiles — 6 cols at lg for full edge-to-edge feel */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5">
-            <SubjectTile href="/texts" title="Texts" subtitle={`${activeTexts.length} active`} colour="purple" icon={<BookIcon />} stagger={1} image="/images/hero-books.jpg" />
-            <SubjectTile href="/exam" title="Exam Practice" subtitle="Timed essays" colour="pink" icon={<EditIcon />} stagger={2} image="/images/writing.jpg" />
-            <SubjectTile href="/flashcards" title="Flashcards" subtitle={stats.due > 0 ? `${stats.due} due` : "All clear"} colour="blue" icon={<LayersIcon />} stagger={3} image="/images/flashcards.jpg" />
-            <SubjectTile href="/vocab" title="Vocab Quiz" subtitle={stats.vocabBest > 0 ? `Best ${stats.vocabBest}%` : "Key terms"} colour="orange" icon={<ChatIcon />} stagger={4} image="/images/exam-prep.jpg" />
-            <SubjectTile href="/aos" title="AOs" subtitle="Mark schemes" colour="teal" icon={<TargetIcon />} stagger={5} image="/images/student-studying.jpg" />
-            <SubjectTile href="/essay-structure" title="Essay Guide" subtitle="Grade 9 method" colour="amber" icon={<PenIcon />} stagger={6} image="/images/quill-pen.jpg" />
-          </div>
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-30px" }}
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5"
+          >
+            <SubjectTile href="/texts" title="Texts" subtitle={`${activeTexts.length} active`} colour="purple" icon={<BookIcon />} index={0} image="/images/hero-books.jpg" />
+            <SubjectTile href="/exam" title="Exam Practice" subtitle="Timed essays" colour="pink" icon={<EditIcon />} index={1} image="/images/writing.jpg" />
+            <SubjectTile href="/flashcards" title="Flashcards" subtitle={stats.due > 0 ? `${stats.due} due` : "All clear"} colour="blue" icon={<LayersIcon />} index={2} image="/images/flashcards.jpg" />
+            <SubjectTile href="/vocab" title="Vocab Quiz" subtitle={stats.vocabBest > 0 ? `Best ${stats.vocabBest}%` : "Key terms"} colour="orange" icon={<ChatIcon />} index={3} image="/images/exam-prep.jpg" />
+            <SubjectTile href="/aos" title="AOs" subtitle="Mark schemes" colour="teal" icon={<TargetIcon />} index={4} image="/images/student-studying.jpg" />
+            <SubjectTile href="/essay-structure" title="Essay Guide" subtitle="Grade 9 method" colour="amber" icon={<PenIcon />} index={5} image="/images/quill-pen.jpg" />
+          </motion.div>
         </div>
       </section>
 
@@ -241,55 +402,75 @@ export default function HomePage() {
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
 
             {/* Left — heading + CTA */}
-            <div className="lg:w-[38%] shrink-0 animate-fade-up stagger-6">
+            <motion.div
+              variants={slideInLeft}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-80px" }}
+              className="lg:w-[38%] shrink-0"
+            >
               <h2 className="font-display text-[30px] sm:text-[40px] lg:text-[44px] font-extrabold text-text leading-[1.1] tracking-[-0.02em]">
                 Study Smarter,{" "}
-                <span className="text-purple">Not Harder</span>
+                <motion.span
+                  className="text-purple inline-block"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.3, ease: EASE }}
+                >
+                  Not Harder
+                </motion.span>
               </h2>
               <p className="font-body text-[16px] sm:text-[17px] text-grey mt-5 leading-relaxed max-w-md">
                 Every tool is designed around how top students actually revise &mdash; active recall, spaced repetition, and deep analysis.
               </p>
-              <div className="mt-8">
+              <motion.div
+                className="mt-8"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
                 <Link href="/texts" className="btn-pill btn-pill-orange text-[15px] px-7 py-3">
                   Start Revising
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                   </svg>
                 </Link>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Right — 2×2 feature grid */}
-            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-10">
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-80px" }}
+              className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-10"
+            >
               <FeatureItem
                 icon={<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" /></svg>}
                 colour="purple"
                 title="Deep quote analysis"
                 description="Our 6-part method breaks every quote into technique, context, and critical wow-factor insights."
-                stagger={7}
               />
               <FeatureItem
                 icon={<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.745 3.745 0 011.043 3.296A3.745 3.745 0 0121 12z" /></svg>}
                 colour="orange"
                 title="Target what matters"
                 description="Whether it's quotes, characters, themes, or exam technique &mdash; focus exactly where you need help."
-                stagger={8}
               />
               <FeatureItem
                 icon={<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg>}
                 colour="teal"
                 title="See yourself progress"
                 description="Spaced-repetition flashcards, essay marking, and vocab scores keep you motivated and on track."
-                stagger={9}
               />
               <FeatureItem
                 icon={<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>}
                 colour="pink"
                 title="Your revision, your way"
                 description="Timed essays, flashcards, mind maps, or printable theme sheets &mdash; adapt to how you learn best."
-                stagger={10}
               />
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -306,11 +487,21 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════════════ */}
       {activeTexts.length > 0 && (
         <section className="bg-bg">
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12 sm:py-16 animate-fade-up stagger-7">
-            <div className="flex items-center gap-4 mb-8">
-              <span className="w-11 h-11 rounded-xl bg-purple text-white flex items-center justify-center shadow-[0_2px_10px_rgba(79,82,195,0.3)]">
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12 sm:py-16">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, ease: EASE }}
+              className="flex items-center gap-4 mb-8"
+            >
+              <motion.span
+                whileHover={{ rotate: [0, -10, 10, 0] }}
+                transition={{ duration: 0.5 }}
+                className="w-11 h-11 rounded-xl bg-purple text-white flex items-center justify-center shadow-[0_2px_10px_rgba(79,82,195,0.3)]"
+              >
                 <BookIcon />
-              </span>
+              </motion.span>
               <div>
                 <h2 className="font-display text-[24px] sm:text-[30px] font-bold text-text leading-tight">
                   Your Texts
@@ -318,51 +509,72 @@ export default function HomePage() {
                 <p className="font-ui text-[14px] text-grey mt-0.5">{activeTexts.length} set texts ready to revise</p>
               </div>
               <div className="flex-1" />
-              <Link href="/texts" className="hidden sm:inline-flex items-center gap-2 font-ui text-[14px] font-semibold text-purple hover:text-purple-dark transition-colors btn-pill bg-purple-light px-5 py-2">
-                View all
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-              </Link>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <motion.div whileHover={{ scale: 1.05, x: 3 }} whileTap={{ scale: 0.97 }}>
+                <Link href="/texts" className="hidden sm:inline-flex items-center gap-2 font-ui text-[14px] font-semibold text-purple hover:text-purple-dark transition-colors btn-pill bg-purple-light px-5 py-2">
+                  View all
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                </Link>
+              </motion.div>
+            </motion.div>
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-30px" }}
+              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
+            >
               {activeTexts.map((t, i) => {
                 const colours = TEXT_CARD_COLOURS[i % TEXT_CARD_COLOURS.length];
                 return (
-                  <Link
+                  <motion.div
                     key={t.slug}
-                    href={`/texts/${t.slug}`}
-                    className={`group relative rounded-2xl border bg-surface overflow-hidden card-hover ${colours.border}`}
+                    variants={staggerItem}
+                    whileHover={{ scale: 1.02, y: -4 }}
+                    transition={{ duration: 0.25 }}
                   >
-                    <div className={`h-1.5 w-full ${colours.bar}`} />
-                    <div className="px-6 py-5">
-                      <div className="flex items-start gap-4">
-                        {TEXT_ICONS[t.slug] ? (
-                          <img src={TEXT_ICONS[t.slug]} alt="" className="w-20 h-20 rounded-full object-cover object-[center_30%] shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-3deg]" />
-                        ) : (
-                          <span className={`w-14 h-14 rounded-xl ${colours.bg} ${colours.text} font-display font-bold text-[22px] flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-3deg]`}>
-                            {t.title.charAt(0)}
-                          </span>
-                        )}
-                        <div className="min-w-0 flex-1">
-                          <p className="font-display font-semibold text-[17px] text-text leading-snug truncate">
-                            {t.title}
-                          </p>
-                          <p className="font-ui text-[14px] text-grey mt-1">{t.author}</p>
-                          <div className="flex items-center gap-2 mt-3">
-                            <span className={`text-[12px] font-semibold ${colours.text} ${colours.bg} px-3 py-0.5 rounded-full`}>
-                              {t.paper} {t.section}
+                    <Link
+                      href={`/texts/${t.slug}`}
+                      className={`group relative rounded-2xl border bg-surface overflow-hidden block ${colours.border}`}
+                    >
+                      <motion.div
+                        className={`h-1.5 w-full ${colours.bar}`}
+                        initial={{ scaleX: 0 }}
+                        whileInView={{ scaleX: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.05 }}
+                        style={{ transformOrigin: "left" }}
+                      />
+                      <div className="px-6 py-5">
+                        <div className="flex items-start gap-4">
+                          {TEXT_ICONS[t.slug] ? (
+                            <img src={TEXT_ICONS[t.slug]} alt="" className="w-20 h-20 rounded-full object-cover object-[center_30%] shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-3deg]" />
+                          ) : (
+                            <span className={`w-14 h-14 rounded-xl ${colours.bg} ${colours.text} font-display font-bold text-[22px] flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-3deg]`}>
+                              {t.title.charAt(0)}
                             </span>
-                            <span className="text-[12px] text-grey font-medium">{t.year}</span>
+                          )}
+                          <div className="min-w-0 flex-1">
+                            <p className="font-display font-semibold text-[17px] text-text leading-snug truncate">
+                              {t.title}
+                            </p>
+                            <p className="font-ui text-[14px] text-grey mt-1">{t.author}</p>
+                            <div className="flex items-center gap-2 mt-3">
+                              <span className={`text-[12px] font-semibold ${colours.text} ${colours.bg} px-3 py-0.5 rounded-full`}>
+                                {t.paper} {t.section}
+                              </span>
+                              <span className="text-[12px] text-grey font-medium">{t.year}</span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="absolute top-6 right-5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
-                      <svg className={`w-5 h-5 ${colours.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                    </div>
-                  </Link>
+                      <div className="absolute top-6 right-5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
+                        <svg className={`w-5 h-5 ${colours.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                      </div>
+                    </Link>
+                  </motion.div>
                 );
               })}
-            </div>
+            </motion.div>
           </div>
         </section>
       )}
@@ -380,25 +592,45 @@ export default function HomePage() {
       {/* SECTION 3 — All AQA Texts (surface band)           */}
       {/* ═══════════════════════════════════════════════════ */}
       <section className="bg-surface">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12 sm:py-16 animate-fade-up stagger-8">
-          <div className="flex items-center gap-4 mb-10">
-            <span className="w-11 h-11 rounded-xl bg-purple text-white flex items-center justify-center shadow-[0_2px_10px_rgba(79,82,195,0.25)]">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12 sm:py-16">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, ease: EASE }}
+            className="flex items-center gap-4 mb-10"
+          >
+            <motion.span
+              whileHover={{ rotate: [0, -10, 10, 0] }}
+              transition={{ duration: 0.5 }}
+              className="w-11 h-11 rounded-xl bg-purple text-white flex items-center justify-center shadow-[0_2px_10px_rgba(79,82,195,0.25)]"
+            >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" /></svg>
-            </span>
+            </motion.span>
             <div>
               <h2 className="font-display text-[24px] sm:text-[30px] font-bold text-text leading-tight">
                 All AQA Texts
               </h2>
               <p className="font-ui text-[14px] text-grey mt-0.5">Every set text for AQA GCSE English Literature 8702</p>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="space-y-6">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-30px" }}
+            className="space-y-6"
+          >
             {TEXT_REGISTRY.map((group, gi) => {
               const gc = GROUP_COLOURS[gi % GROUP_COLOURS.length];
               const groupImage = GROUP_IMAGES[gi % GROUP_IMAGES.length];
               return (
-                <div key={group.label} className="rounded-2xl border border-border-subtle bg-bg overflow-hidden shadow-[var(--card-shadow)]">
+                <motion.div
+                  key={group.label}
+                  variants={staggerItem}
+                  className="rounded-2xl border border-border-subtle bg-bg overflow-hidden shadow-[var(--card-shadow)]"
+                >
                   {/* Banner image with overlay */}
                   <div className="relative h-36 sm:h-44 w-full overflow-hidden bg-[#1a1b3a]">
                     <Image src={groupImage} alt={group.label} fill className="object-cover object-center" sizes="(max-width: 768px) 100vw, 1200px" />
@@ -424,30 +656,37 @@ export default function HomePage() {
                   </div>
 
                   {/* Cards grid */}
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 p-5 sm:p-6">
+                  <motion.div
+                    variants={staggerContainer}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 p-5 sm:p-6"
+                  >
                     {group.texts.map((t) => {
                       const active = t.status === "active";
                       return active ? (
-                        <Link
-                          key={t.slug}
-                          href={`/texts/${t.slug}`}
-                          className={`group flex items-center gap-4 rounded-xl border ${gc.cardBorder} bg-surface hover:bg-surface-hover px-5 py-4 transition-all duration-200 hover:border-purple/20 hover:shadow-[var(--card-shadow)]`}
-                        >
-                          {TEXT_ICONS[t.slug] ? (
-                            <img src={TEXT_ICONS[t.slug]} alt="" className="w-10 h-10 rounded-full object-cover object-[center_30%] shrink-0 transition-transform duration-200 group-hover:scale-110" />
-                          ) : (
-                            <span className={`w-10 h-10 rounded-lg ${gc.bg} ${gc.text} font-display font-bold text-[16px] flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110`}>
-                              {t.title.charAt(0)}
-                            </span>
-                          )}
-                          <div className="min-w-0 flex-1">
-                            <p className="font-ui text-[15px] font-semibold text-text truncate">{t.title}</p>
-                            <p className="font-ui text-[13px] text-grey mt-0.5">{t.author} &middot; {t.year}</p>
-                          </div>
-                          <svg className={`w-4 h-4 text-border shrink-0 group-hover:${gc.hoverText} group-hover:translate-x-0.5 transition-all duration-200`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-                        </Link>
+                        <motion.div key={t.slug} variants={staggerItem} whileHover={{ scale: 1.02, y: -2 }}>
+                          <Link
+                            href={`/texts/${t.slug}`}
+                            className={`group flex items-center gap-4 rounded-xl border ${gc.cardBorder} bg-surface hover:bg-surface-hover px-5 py-4 transition-all duration-200 hover:border-purple/20 hover:shadow-[var(--card-shadow)]`}
+                          >
+                            {TEXT_ICONS[t.slug] ? (
+                              <img src={TEXT_ICONS[t.slug]} alt="" className="w-10 h-10 rounded-full object-cover object-[center_30%] shrink-0 transition-transform duration-200 group-hover:scale-110" />
+                            ) : (
+                              <span className={`w-10 h-10 rounded-lg ${gc.bg} ${gc.text} font-display font-bold text-[16px] flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110`}>
+                                {t.title.charAt(0)}
+                              </span>
+                            )}
+                            <div className="min-w-0 flex-1">
+                              <p className="font-ui text-[15px] font-semibold text-text truncate">{t.title}</p>
+                              <p className="font-ui text-[13px] text-grey mt-0.5">{t.author} &middot; {t.year}</p>
+                            </div>
+                            <svg className={`w-4 h-4 text-border shrink-0 group-hover:${gc.hoverText} group-hover:translate-x-0.5 transition-all duration-200`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                          </Link>
+                        </motion.div>
                       ) : (
-                        <div key={t.slug} className="flex items-center gap-4 rounded-xl border border-border-subtle/50 bg-surface px-5 py-4 opacity-40">
+                        <motion.div key={t.slug} variants={staggerItem} className="flex items-center gap-4 rounded-xl border border-border-subtle/50 bg-surface px-5 py-4 opacity-40">
                           <span className="w-10 h-10 rounded-lg bg-surface-hover text-grey font-display font-bold text-[16px] flex items-center justify-center shrink-0">
                             {t.title.charAt(0)}
                           </span>
@@ -456,14 +695,14 @@ export default function HomePage() {
                             <p className="font-ui text-[13px] text-grey/50 mt-0.5">{t.author}</p>
                           </div>
                           <span className="text-[10px] font-bold text-grey/40 bg-surface-hover px-2.5 py-1 rounded-full shrink-0">SOON</span>
-                        </div>
+                        </motion.div>
                       );
                     })}
-                  </div>
-                </div>
+                  </motion.div>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -471,7 +710,7 @@ export default function HomePage() {
   );
 }
 
-/* ── Stat card ────────────────────────────────────────── */
+/* ── Stat card with animated counter ─────────────────── */
 function StatCard({ value, label, colour, icon }: { value: number; label: string; colour: string; icon: string }) {
   const colourMap: Record<string, { bg: string; text: string; iconBg: string }> = {
     orange: { bg: "bg-orange-light", text: "text-orange", iconBg: "bg-orange/10" },
@@ -490,26 +729,35 @@ function StatCard({ value, label, colour, icon }: { value: number; label: string
   };
 
   return (
-    <div className={`rounded-xl ${c.bg} px-5 py-4 flex items-center gap-3.5`}>
-      <span className={`w-9 h-9 rounded-lg ${c.iconBg} ${c.text} flex items-center justify-center shrink-0`}>
+    <motion.div
+      variants={staggerItem}
+      whileHover={{ scale: 1.04, y: -2 }}
+      transition={{ duration: 0.2 }}
+      className={`rounded-xl ${c.bg} px-5 py-4 flex items-center gap-3.5`}
+    >
+      <motion.span
+        whileHover={{ rotate: 360 }}
+        transition={{ duration: 0.6 }}
+        className={`w-9 h-9 rounded-lg ${c.iconBg} ${c.text} flex items-center justify-center shrink-0`}
+      >
         {icons[icon]}
-      </span>
+      </motion.span>
       <div>
         <p className={`font-display font-bold text-[24px] ${c.text} leading-none tabular-nums`}>{value}</p>
         <p className="font-ui text-[13px] text-grey mt-1 font-medium">{label}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
-/* ── Subject tile ──────────────────────────────────────── */
+/* ── Subject tile with hover lift and stagger ─────────── */
 function SubjectTile({
   href,
   title,
   subtitle,
   colour,
   icon,
-  stagger,
+  index,
   image,
 }: {
   href: string;
@@ -517,7 +765,7 @@ function SubjectTile({
   subtitle: string;
   colour: string;
   icon: React.ReactNode;
-  stagger: number;
+  index: number;
   image?: string;
 }) {
   const styles: Record<string, { bg: string; iconBg: string; iconText: string; border: string }> = {
@@ -532,25 +780,32 @@ function SubjectTile({
   const s = styles[colour] ?? styles.purple;
 
   return (
-    <Link
-      href={href}
-      className={`animate-fade-up stagger-${stagger} group tile-glow rounded-2xl ${s.bg} border ${s.border} overflow-hidden shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)]`}
+    <motion.div
+      variants={staggerItem}
+      whileHover={{ scale: 1.05, y: -6 }}
+      whileTap={{ scale: 0.97 }}
+      transition={{ duration: 0.25 }}
     >
-      {/* Tile image */}
-      {image && (
-        <div className="relative h-24 sm:h-28 w-full overflow-hidden">
-          <Image src={image} alt={title} fill className="object-cover transition-transform duration-500 group-hover:scale-110" sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw" />
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
+      <Link
+        href={href}
+        className={`group tile-glow rounded-2xl ${s.bg} border ${s.border} overflow-hidden shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] block`}
+      >
+        {/* Tile image */}
+        {image && (
+          <div className="relative h-24 sm:h-28 w-full overflow-hidden">
+            <Image src={image} alt={title} fill className="object-cover transition-transform duration-500 group-hover:scale-110" sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
+          </div>
+        )}
+        <div className={image ? "px-5 pb-5 -mt-5 relative" : "p-5 sm:p-6"}>
+          <div className={`w-12 h-12 rounded-xl ${s.iconBg} ${s.iconText} flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110 ${image ? "shadow-sm bg-bg border border-border-subtle" : ""}`}>
+            {icon}
+          </div>
+          <p className="font-display font-semibold text-[16px] text-text leading-snug">{title}</p>
+          <p className="font-ui text-[13px] text-grey mt-1.5">{subtitle}</p>
         </div>
-      )}
-      <div className={image ? "px-5 pb-5 -mt-5 relative" : "p-5 sm:p-6"}>
-        <div className={`w-12 h-12 rounded-xl ${s.iconBg} ${s.iconText} flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110 ${image ? "shadow-sm bg-bg border border-border-subtle" : ""}`}>
-          {icon}
-        </div>
-        <p className="font-display font-semibold text-[16px] text-text leading-snug">{title}</p>
-        <p className="font-ui text-[13px] text-grey mt-1.5">{subtitle}</p>
-      </div>
-    </Link>
+      </Link>
+    </motion.div>
   );
 }
 
@@ -560,13 +815,11 @@ function FeatureItem({
   colour,
   title,
   description,
-  stagger,
 }: {
   icon: React.ReactNode;
   colour: string;
   title: string;
   description: string;
-  stagger: number;
 }) {
   const colourMap: Record<string, { iconBg: string; iconText: string }> = {
     purple: { iconBg: "bg-purple/10", iconText: "text-purple" },
@@ -578,10 +831,14 @@ function FeatureItem({
   const c = colourMap[colour] ?? colourMap.purple;
 
   return (
-    <div className={`animate-fade-up stagger-${stagger}`}>
-      <span className={`w-11 h-11 rounded-xl ${c.iconBg} ${c.iconText} flex items-center justify-center mb-4`}>
+    <motion.div variants={staggerItem}>
+      <motion.span
+        whileHover={{ scale: 1.15, rotate: 5 }}
+        transition={{ duration: 0.3 }}
+        className={`w-11 h-11 rounded-xl ${c.iconBg} ${c.iconText} flex items-center justify-center mb-4`}
+      >
         {icon}
-      </span>
+      </motion.span>
       <h3 className={`font-display font-bold text-[17px] sm:text-[19px] ${c.iconText} leading-snug`}>
         {title}
       </h3>
@@ -589,7 +846,7 @@ function FeatureItem({
         className="font-body text-[14px] sm:text-[15px] text-grey mt-2 leading-relaxed"
         dangerouslySetInnerHTML={{ __html: description }}
       />
-    </div>
+    </motion.div>
   );
 }
 

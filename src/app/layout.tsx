@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import CookieBanner from "@/components/CookieBanner";
 import AuthProvider from "@/components/AuthProvider";
 import OnboardingModal from "@/components/OnboardingModal";
+import PageTransition from "@/components/PageTransition";
 
 export const metadata: Metadata = {
   title: "Straight Nines — GCSE English Literature Revision",
@@ -22,7 +23,9 @@ export default function RootLayout({
       <body className="antialiased min-h-screen bg-bg text-text flex flex-col">
         <AuthProvider>
           <Header />
-          <main className="relative flex-1">{children}</main>
+          <main className="relative flex-1">
+            <PageTransition>{children}</PageTransition>
+          </main>
           <Footer />
           <OnboardingModal />
           <CookieBanner />

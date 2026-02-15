@@ -52,7 +52,7 @@ export default async function ExamPrepQuestionsPage({ params }: Props) {
               Practice Exam Questions
             </h1>
             <p className="text-grey font-ui mt-1">
-              {text.title} &mdash; {questions.length} questions with extracts &middot; A4 printable
+              {text.title} &mdash; {questions.length} practice questions &middot; A4 printable
             </p>
           </div>
           <PrintButton label="Print / Save as PDF" />
@@ -84,20 +84,24 @@ export default async function ExamPrepQuestionsPage({ params }: Props) {
                 <span className={`inline-flex items-center rounded-full ${tc.bg} ${tc.text} font-ui font-medium text-xs px-2.5 py-0.5 print:text-[7px] print:px-1.5 print:py-0.5`}>
                   {q.theme}
                 </span>
-                <span className="font-ui text-xs text-grey print:text-[8px]">{q.extractAct}</span>
+                {q.extractAct && (
+                  <span className="font-ui text-xs text-grey print:text-[8px]">{q.extractAct}</span>
+                )}
               </div>
             </div>
 
             <div className="px-6 py-5 print:px-[12mm] print:py-4">
-              {/* Extract */}
-              <div className="rounded-xl border border-border bg-bg p-5 mb-5 print:p-3 print:mb-4 print:border-gray-300 print:bg-gray-50 print:rounded-lg">
-                <p className="font-ui font-bold text-xs uppercase tracking-wider text-teal mb-2 print:text-[8px] print:mb-1.5">
-                  Read the following extract from {q.extractAct} and then answer the question that follows.
-                </p>
-                <div className="font-body text-sm text-text leading-relaxed whitespace-pre-line print:text-[10px] print:leading-snug">
-                  {q.extract}
+              {/* Extract (only shown for extract-based questions) */}
+              {q.extract && q.extractAct && (
+                <div className="rounded-xl border border-border bg-bg p-5 mb-5 print:p-3 print:mb-4 print:border-gray-300 print:bg-gray-50 print:rounded-lg">
+                  <p className="font-ui font-bold text-xs uppercase tracking-wider text-teal mb-2 print:text-[8px] print:mb-1.5">
+                    Read the following extract from {q.extractAct} and then answer the question that follows.
+                  </p>
+                  <div className="font-body text-sm text-text leading-relaxed whitespace-pre-line print:text-[10px] print:leading-snug">
+                    {q.extract}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Question */}
               <div className={`rounded-xl border ${tc.border} ${tc.bg} px-5 py-4 mb-5 print:px-3 print:py-3 print:mb-4 print:rounded-lg`}>
@@ -107,7 +111,7 @@ export default async function ExamPrepQuestionsPage({ params }: Props) {
                 <p className="font-ui text-xs text-grey mt-2 print:text-[8px] print:mt-1">
                   Write about the whole text in your answer.
                   <br />
-                  [30 marks] AO1, AO2, AO3
+                  [{q.extract ? "30 marks" : "30 marks + 4 marks for SPaG"}] AO1, AO2, AO3{!q.extract && ", AO4"}
                 </p>
               </div>
 

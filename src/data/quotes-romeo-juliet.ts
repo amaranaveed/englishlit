@@ -152,13 +152,13 @@ export const ROMEO_JULIET_QUOTES: Quote[] = [
   {
     id: 3,
     textSlug: "romeo-juliet",
-    quote: "What's in a name? That which we call a rose by any other name would smell as sweet",
+    quote: "What's in a name? That which we call a rose by any other word would smell as sweet",
     who: "Juliet",
     act: "Act 2, Scene 2",
     themes: ["Identity & Names", "Family & Conflict", "Love & Passion", "Language & Meaning"],
     keyQuote: {
-      text: '"What\'s in a name? That which we call a rose by any other name would smell as sweet"',
-      highlight: "name",
+      text: '"What\'s in a name? That which we call a rose by any other word would smell as sweet"',
+      highlight: "word",
       note: "Juliet's philosophical argument — that names are arbitrary labels, not essential truths — challenges the feudal identity system that makes their love forbidden.",
     },
     technique1: {

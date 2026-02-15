@@ -1,23 +1,44 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
+
+const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
+
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 15 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+};
 
 export default function Footer() {
   return (
     <footer className="bg-surface border-t border-border">
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-10">
         {/* ── Top row: columns ─────────────────────────── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8"
+        >
           {/* Brand */}
-          <div>
+          <motion.div variants={staggerItem}>
             <p className="font-display font-bold text-[15px] text-text mb-2">
               Straight Nines
             </p>
             <p className="font-ui text-[13px] text-grey leading-relaxed">
               Free GCSE English Literature revision for AQA 8702. Quotes, essays, flashcards&nbsp;&amp;&nbsp;more.
             </p>
-          </div>
+          </motion.div>
 
           {/* Study */}
-          <div>
+          <motion.div variants={staggerItem}>
             <p className="font-ui text-[13px] font-semibold text-text mb-3 uppercase tracking-wide">
               Study
             </p>
@@ -39,10 +60,10 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Legal */}
-          <div>
+          <motion.div variants={staggerItem}>
             <p className="font-ui text-[13px] font-semibold text-text mb-3 uppercase tracking-wide">
               Legal
             </p>
@@ -63,10 +84,10 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Contact */}
-          <div>
+          <motion.div variants={staggerItem}>
             <p className="font-ui text-[13px] font-semibold text-text mb-3 uppercase tracking-wide">
               Contact
             </p>
@@ -88,18 +109,30 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* ── Divider ──────────────────────────────────── */}
-        <div className="border-t border-border-subtle pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="border-t border-border-subtle pt-6 flex flex-col sm:flex-row items-center justify-between gap-3"
+        >
           <span className="font-ui text-[12px] text-grey/70">
             &copy; {new Date().getFullYear()} Straight Nines. All rights reserved. Not affiliated with AQA.
           </span>
-          <span className="font-ui text-[12px] text-grey/40">
+          <motion.span
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="font-ui text-[12px] text-grey/40"
+          >
             Made with love for Kinza
-          </span>
-        </div>
+          </motion.span>
+        </motion.div>
       </div>
     </footer>
   );

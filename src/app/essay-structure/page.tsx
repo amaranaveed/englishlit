@@ -74,12 +74,12 @@ export default function EssayStructurePage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <PageBanner
-        title="The PETAETACWW Method"
-        subtitle="The proven 10-step paragraph structure used in grade 9 model answers. Learn it, practise it, own it."
+        title="Grade 9 Essay Structure"
+        subtitle="A 10-step scaffold for building analytical paragraphs that examiners reward. Learn it, adapt it, make it your own."
         image="/images/writing.jpg"
       />
 
-      {/* PETAETACWW colour strip */}
+      {/* Step colour strip */}
       <div className="flex flex-wrap gap-1 mb-4">
         {PARAGRAPH_STEPS.map((s) => (
           <span
@@ -150,7 +150,7 @@ export default function EssayStructurePage() {
       {/* ── The 10 Steps ─────────────────────────────── */}
       <section className="mb-14">
         <h2 className="font-display text-xl font-bold mb-2">
-          The 10 Steps — PETAETACWW
+          The 10 Steps
         </h2>
         <p className="text-grey font-ui text-sm mb-6 max-w-2xl">
           Every body paragraph hits these ten beats. Click a step to see
@@ -203,13 +203,13 @@ export default function EssayStructurePage() {
             </ul>
           </div>
 
-          {/* CAMP */}
+          {/* Text types */}
           <div className="rounded-xl border border-red/20 bg-red-light p-5">
             <h3 className="font-display text-lg font-bold text-red mb-3">
-              CAMP
+              Useful Vocabulary: Text Types
             </h3>
             <p className="font-ui text-xs text-grey mb-3">
-              What type of text has the writer created?
+              What kind of text has the writer created? Use these terms when they fit naturally.
             </p>
             <ul className="space-y-2">
               {CAMP.map((item) => (
@@ -226,13 +226,13 @@ export default function EssayStructurePage() {
             </ul>
           </div>
 
-          {/* ICE */}
+          {/* Writer's intent */}
           <div className="rounded-xl border border-amber/20 bg-amber-light p-5">
             <h3 className="font-display text-lg font-bold text-amber mb-3">
-              ICE
+              Useful Vocabulary: Writer&apos;s Intent
             </h3>
             <p className="font-ui text-xs text-grey mb-3">
-              What does the writer want to do to the audience?
+              What does the writer want the audience to think, feel, or do?
             </p>
             <ul className="space-y-2">
               {ICE.map((item) => (
@@ -250,16 +250,18 @@ export default function EssayStructurePage() {
           </div>
         </div>
 
-        {/* Formula reminder */}
+        {/* Flexible formula suggestion */}
         <div className="mt-4 rounded-xl border border-border bg-surface-hover p-4">
           <p className="font-ui text-sm text-text">
-            <span className="font-bold text-red">Writer&apos;s Intentions formula:</span>{" "}
+            <span className="font-bold text-red">Example pattern:</span>{" "}
             <span className="italic text-grey">
-              &ldquo;Thus, [writer] creates a{" "}
-              <span className="font-semibold text-red">[CAMP]</span> to{" "}
-              <span className="font-semibold text-amber">[ICE]</span> the audience
+              &ldquo;Ultimately, [writer] uses [character/moment] to{" "}
+              <span className="font-semibold text-amber">[challenge/inform/educate]</span> the audience
               about…&rdquo;
             </span>
+          </p>
+          <p className="font-ui text-xs text-grey mt-2">
+            This is a useful starting pattern, not a rigid formula. Adapt it to fit your argument naturally.
           </p>
         </div>
       </section>
@@ -271,7 +273,7 @@ export default function EssayStructurePage() {
         </h2>
         <p className="text-grey font-ui text-sm mb-4 max-w-2xl">
           Choose a text, then hover or tap each coloured section to see which
-          PETAETACWW step it belongs to.
+          step it belongs to.
         </p>
 
         {/* Text switcher tabs */}
@@ -416,21 +418,21 @@ export default function EssayStructurePage() {
       {/* ── Quick Checklist ──────────────────────────── */}
       <section className="mb-14">
         <h2 className="font-display text-xl font-bold mb-4">
-          Before You Submit — PETAETACWW Checklist
+          Before You Submit — Quick Checklist
         </h2>
         <div className="rounded-xl border border-border bg-surface p-5 sm:p-6">
           <ul className="space-y-2.5">
             {[
               { text: "Point opens with writer's name + argument (not plot retelling).", colour: "teal" },
               { text: "Evidence 1 is embedded into your sentence, not dumped separately.", colour: "green" },
-              { text: "Technique 1 is named precisely (not just 'language').", colour: "purple" },
+              { text: "Language analysis starts with meaning, not just technique names.", colour: "purple" },
               { text: "Analysis 1 uses What → How → Why to go deep.", colour: "orange" },
               { text: "Evidence 2 builds on Evidence 1 with a connective (Moreover…).", colour: "green" },
-              { text: "Technique 2 identifies a different technique or aspect.", colour: "purple" },
-              { text: "Analysis 2 uses RAD (Represent / Amplify / Develop).", colour: "orange" },
-              { text: "Context is woven in — not bolted on. Links to question.", colour: "blue" },
-              { text: "WOW uses a structure/form point (Grade 7+ bonus).", colour: "amber" },
-              { text: "Writer's Intentions uses CAMP + ICE to end the paragraph.", colour: "red" },
+              { text: "Second analysis deepens the argument — not just a different technique.", colour: "purple" },
+              { text: "Analysis 2 pushes further — Represent, Amplify, or Develop.", colour: "orange" },
+              { text: "Context is woven in — not bolted on. Explains the writer's choices.", colour: "blue" },
+              { text: "Structure/form point connects to the bigger picture.", colour: "amber" },
+              { text: "Ends by connecting to the writer's overall purpose.", colour: "red" },
             ].map((item, i) => (
               <li key={i} className="flex items-start gap-3 font-ui text-sm text-text">
                 <span

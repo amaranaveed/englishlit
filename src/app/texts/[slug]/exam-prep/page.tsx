@@ -101,12 +101,12 @@ const SECTIONS = [
     ),
     title: "Practice Exam Questions",
     colour: "orange",
-    getDesc: (n: number) => `${n} exam-style questions with extracts, covering every major theme and character.`,
+    getDesc: (n: number) => `${n} exam-style questions covering every major theme and character, formatted to match the real AQA exam.`,
     includes: [
-      "Extract-based questions (AQA format)",
+      "AQA Paper 2 Section A format (no extract)",
       "Covers all key themes",
       "Planning space included",
-      "30-mark questions with AO breakdown",
+      "30 + 4 SPaG mark questions with AO breakdown",
     ],
   },
 ];

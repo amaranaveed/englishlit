@@ -164,7 +164,7 @@ export const FRANKENSTEIN_QUOTES: Quote[] = [
     technique1: {
       title: "ANTITHETICAL CONDITIONAL / ULTIMATUM",
       analysis:
-        "The **conditional** structure — 'If... I will' — creates an **ultimatum** (final demand with consequences): love or fear, acceptance or violence. The **antithesis** between 'love' and 'fear' is absolute — there is no middle ground, no negotiation. Shakespeare dramatises the binary logic of the rejected: when compassion is denied, only terror remains as a means of being acknowledged.",
+        "The **conditional** structure — 'If... I will' — creates an **ultimatum** (final demand with consequences): love or fear, acceptance or violence. The **antithesis** between 'love' and 'fear' is absolute — there is no middle ground, no negotiation. Shelley dramatises the binary logic of the rejected: when compassion is denied, only terror remains as a means of being acknowledged.",
       secondPoint:
         "The shift from '**inspire**' to '**cause**' is revealing: love cannot be forced, only inspired — it requires the other's willing response. But fear CAN be caused unilaterally through violence. The **lexical shift** from passive ('inspire' — hoping for a response) to active ('cause' — forcing one) charts the Creature's movement from **supplicant** to **aggressor**.",
       keyWords: [

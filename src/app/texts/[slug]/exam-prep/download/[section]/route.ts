@@ -385,6 +385,8 @@ const DEFAULT_THEME = { main: C.grey, light: C.bg };
 function generateQuestions(textTitle: string, questions: ExamPrepQuestion[]): string {
   return questions.map((q, idx) => {
     const tc = THEME_CM[q.theme] || DEFAULT_THEME;
+    const hasExtract = q.extract && q.extractAct;
+    const marks = hasExtract ? "[30 marks] AO1, AO2, AO3" : "[30 marks + 4 marks for SPaG] AO1, AO2, AO3, AO4";
     return `
       <div class="page ${idx < questions.length - 1 ? "page-break" : ""}">
         <div class="card">
@@ -392,17 +394,18 @@ function generateQuestions(textTitle: string, questions: ExamPrepQuestion[]): st
             <p style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;">Question ${idx + 1}</p>
             <div style="display:flex;align-items:center;gap:6px;">
               <span class="badge" style="background:${tc.light};color:${tc.main};">${esc(q.theme)}</span>
-              <span style="font-size:10px;color:${C.grey};">${esc(q.extractAct)}</span>
+              ${q.extractAct ? `<span style="font-size:10px;color:${C.grey};">${esc(q.extractAct)}</span>` : ""}
             </div>
           </div>
           <div class="card-body">
+            ${hasExtract ? `
             <div class="extract-box">
-              <p class="label" style="color:${C.teal};margin-bottom:6px;">Read the following extract from ${esc(q.extractAct)} and then answer the question that follows.</p>
-              ${esc(q.extract)}
-            </div>
+              <p class="label" style="color:${C.teal};margin-bottom:6px;">Read the following extract from ${esc(q.extractAct!)} and then answer the question that follows.</p>
+              ${esc(q.extract!)}
+            </div>` : ""}
             <div class="q-box" style="background:${tc.light};border:1px solid ${tc.main}20;">
               <p style="font-family:'Lora',Georgia,serif;font-weight:700;font-size:13px;line-height:1.4;">${esc(q.question)}</p>
-              <p style="font-size:10px;color:${C.grey};margin-top:6px;">Write about the whole text in your answer.<br>[30 marks] AO1, AO2, AO3</p>
+              <p style="font-size:10px;color:${C.grey};margin-top:6px;">Write about the whole text in your answer.<br>${marks}</p>
             </div>
             <div class="planning-lines" style="margin-top:12px;">
               <p class="label" style="color:${C.grey};">Planning Space</p>

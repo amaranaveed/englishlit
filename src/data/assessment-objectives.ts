@@ -44,9 +44,9 @@ export const ASSESSMENT_OBJECTIVES: AODetail[] = [
     weight: "15%",
     colour: "teal",
     description:
-      "Read, respond to and evaluate texts. Students should be able to maintain a critical style and develop an informed personal response; use textual references, including quotations, to support and illustrate interpretations.",
+      "Read, understand and respond to texts. Students should be able to maintain a critical style and develop an informed personal response; use textual references, including quotations, to support and illustrate interpretations.",
     examinerSummary:
-      "The examiner wants to see that you have a personal viewpoint, can argue it convincingly, and embed short, well-chosen quotations to support every point you make.",
+      "The examiner wants to see that you have a personal viewpoint, can argue it convincingly, and embed short, well-chosen quotations to support every point you make. AQA uses holistic 'best fit' marking — your whole response is placed in a level, not marked per-AO.",
     whatItMeans:
       "AO1 is about showing you've actually read and understood the text. You need to make clear, argued points — not just describe what happens. Every point should be backed up with a short, precise quotation embedded naturally into your sentence.",
     commonMistakes: [
@@ -63,7 +63,7 @@ export const ASSESSMENT_OBJECTIVES: AODetail[] = [
           'Shakespeare presents Beatrice as "too curst" to conform to patriarchal expectations of femininity.',
       },
       {
-        text: "Use the Point-Evidence-Explain (PEE) structure — but aim for Point-Evidence-Analysis-Link (PEAL) at Grade 7+",
+        text: "Build your paragraphs around a clear argument — state your point, embed evidence, then analyse what the writer is doing and why",
       },
       {
         text: "Begin with a clear thesis/argument that answers the question directly",
@@ -86,12 +86,12 @@ export const ASSESSMENT_OBJECTIVES: AODetail[] = [
       { label: "Summary point", starter: "Ultimately, [writer] uses [character/theme] to…" },
     ],
     levelDescriptors: [
-      { level: 1, range: "1–4", descriptor: "Simple, limited comment with little textual reference" },
-      { level: 2, range: "5–10", descriptor: "Supported response with some relevant quotations" },
-      { level: 3, range: "11–16", descriptor: "Thoughtful response with appropriate references" },
-      { level: 4, range: "17–22", descriptor: "Critical, exploratory response with precise references" },
-      { level: 5, range: "23–26", descriptor: "Convincing, critical analysis with judicious references" },
-      { level: 6, range: "27–30", descriptor: "Assured personal response with discriminating references" },
+      { level: 1, range: "1–5", descriptor: "Simple comment with limited textual reference" },
+      { level: 2, range: "6–10", descriptor: "Supported response with some relevant references" },
+      { level: 3, range: "11–15", descriptor: "Explained response with relevant textual references" },
+      { level: 4, range: "16–20", descriptor: "Clear, explained response with effective use of references" },
+      { level: 5, range: "21–25", descriptor: "Thoughtful, developed response with apt references integrated into interpretation" },
+      { level: 6, range: "26–30", descriptor: "Critical, exploratory, conceptualised response with judicious use of precise references to support interpretation" },
     ],
   },
   {
@@ -145,12 +145,12 @@ export const ASSESSMENT_OBJECTIVES: AODetail[] = [
       { label: "Semantic field", starter: "The semantic field of [topic] — '…', '…', '…' — reinforces…" },
     ],
     levelDescriptors: [
-      { level: 1, range: "1–4", descriptor: "Simple awareness of language/structure" },
-      { level: 2, range: "5–10", descriptor: "Some comment on writer's methods with some terminology" },
-      { level: 3, range: "11–16", descriptor: "Explained analysis of writer's methods with appropriate terminology" },
-      { level: 4, range: "17–22", descriptor: "Examination of writer's methods with subject terminology used effectively" },
-      { level: 5, range: "23–26", descriptor: "Analysis of writer's methods with subject terminology used judiciously" },
-      { level: 6, range: "27–30", descriptor: "Sophisticated analysis with assured use of subject terminology" },
+      { level: 1, range: "1–5", descriptor: "Simple awareness of language and/or structure" },
+      { level: 2, range: "6–10", descriptor: "Some comment on writer's methods with some subject terminology" },
+      { level: 3, range: "11–15", descriptor: "Explained comments on writer's methods with relevant subject terminology" },
+      { level: 4, range: "16–20", descriptor: "Clear analysis of writer's methods using appropriate subject terminology" },
+      { level: 5, range: "21–25", descriptor: "Thoughtful, developed analysis of writer's methods with apt use of subject terminology" },
+      { level: 6, range: "26–30", descriptor: "Exploratory, critical analysis of writer's methods with assured, judicious use of subject terminology" },
     ],
   },
   {
@@ -201,12 +201,12 @@ export const ASSESSMENT_OBJECTIVES: AODetail[] = [
       { label: "Cultural", starter: "[Writer] uses [character/event] to critique the [period] culture of…" },
     ],
     levelDescriptors: [
-      { level: 1, range: "1–4", descriptor: "Simple awareness of context" },
-      { level: 2, range: "5–10", descriptor: "Some awareness of context with limited links to text" },
-      { level: 3, range: "11–16", descriptor: "Relevant understanding of context linked to text" },
-      { level: 4, range: "17–22", descriptor: "Understanding of context integrated into response" },
-      { level: 5, range: "23–26", descriptor: "Context convincingly integrated into analysis" },
-      { level: 6, range: "27–30", descriptor: "Context embedded sophisticatedly throughout response" },
+      { level: 1, range: "1–5", descriptor: "Simple comment on context" },
+      { level: 2, range: "6–10", descriptor: "Some awareness of context with limited links to text" },
+      { level: 3, range: "11–15", descriptor: "Some understanding of context shown through relevant links to text" },
+      { level: 4, range: "16–20", descriptor: "Understanding of context clearly linked to the text" },
+      { level: 5, range: "21–25", descriptor: "Thoughtful understanding of context convincingly integrated into analysis" },
+      { level: 6, range: "26–30", descriptor: "Convincing, critical exploration of contexts and their influence on the text" },
     ],
   },
   {
@@ -217,13 +217,13 @@ export const ASSESSMENT_OBJECTIVES: AODetail[] = [
     weight: "5%",
     colour: "green",
     description:
-      "Use a range of vocabulary and sentence structures for clarity, purpose and effect, with accurate spelling and punctuation. (Paper 2 Section A only — Modern Text question.)",
+      "Use a range of vocabulary and sentence structures for clarity, purpose and effect, with accurate spelling and punctuation. (Assessed on Paper 1 Section A — Shakespeare, and Paper 2 Section A — Modern Text.)",
     examinerSummary:
-      "SPaG marks are only available on the Paper 2 Modern Text question (e.g. An Inspector Calls). The examiner rewards accurate spelling, varied punctuation, a range of sentence structures, and sophisticated vocabulary.",
+      "SPaG marks are available on TWO questions: the Shakespeare question (Paper 1 Section A) and the Modern Text question (Paper 2 Section A). The examiner rewards accurate spelling, varied punctuation, a range of sentence structures, and sophisticated vocabulary.",
     whatItMeans:
-      "AO4 is only assessed on ONE question across the whole GCSE — the Modern Text question on Paper 2 (Section A). It's worth 4 extra marks for the quality of your written expression. This means spelling, punctuation, grammar, and vocabulary.",
+      "AO4 is assessed on TWO questions across the GCSE — the Shakespeare question on Paper 1 (Section A) and the Modern Text question on Paper 2 (Section A). It's worth 4 extra marks on each for the quality of your written expression. This means spelling, punctuation, grammar, and vocabulary.",
     commonMistakes: [
-      "Thinking SPaG marks apply to every question (they don't — only Paper 2 Section A)",
+      "Thinking SPaG marks apply to every question (they don't — only Shakespeare on Paper 1 and Modern Text on Paper 2)",
       "Using overly complex vocabulary incorrectly",
       "Writing in an informal or chatty register",
       "Not proofreading for basic spelling errors",
@@ -231,7 +231,7 @@ export const ASSESSMENT_OBJECTIVES: AODetail[] = [
     ],
     topTips: [
       {
-        text: "SPaG marks only apply to Paper 2 Section A (Modern Text) — but good writing helps everywhere",
+        text: "SPaG marks apply to Shakespeare (Paper 1 Section A) and Modern Text (Paper 2 Section A) — but good writing helps everywhere",
       },
       {
         text: "Use a range of sentence types: simple for emphasis, complex for nuanced analysis",
@@ -365,12 +365,12 @@ export const PAPER_AO_BREAKDOWN: QuestionAOBreakdown[] = [
     paper: "Paper 1",
     section: "Section A",
     questionType: "Shakespeare",
-    totalMarks: 30,
+    totalMarks: 34,
     ao1: 6,
     ao2: 18,
     ao3: 6,
-    ao4: 0,
-    notes: "Extract-based question plus wider text. No SPaG marks.",
+    ao4: 4,
+    notes: "Extract-based question plus wider text. Includes 4 SPaG marks. AQA uses holistic 'best fit' marking — AO splits are approximate.",
   },
   {
     paper: "Paper 1",
@@ -381,7 +381,7 @@ export const PAPER_AO_BREAKDOWN: QuestionAOBreakdown[] = [
     ao2: 18,
     ao3: 6,
     ao4: 0,
-    notes: "Extract-based question plus wider text. No SPaG marks.",
+    notes: "Extract-based question plus wider text. No SPaG marks. AQA uses holistic 'best fit' marking — AO splits are approximate.",
   },
   {
     paper: "Paper 2",
@@ -392,7 +392,7 @@ export const PAPER_AO_BREAKDOWN: QuestionAOBreakdown[] = [
     ao2: 18,
     ao3: 6,
     ao4: 4,
-    notes: "Essay question (no extract). Includes 4 SPaG marks.",
+    notes: "Essay question (no extract). Includes 4 SPaG marks. AQA uses holistic 'best fit' marking — AO splits are approximate.",
   },
   {
     paper: "Paper 2",
