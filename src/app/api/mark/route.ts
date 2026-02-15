@@ -108,7 +108,7 @@ export async function POST(req: NextRequest) {
           ],
           generationConfig: {
             responseMimeType: "application/json",
-            maxOutputTokens: 2000,
+            maxOutputTokens: 4000,
           },
         }),
       });
@@ -138,7 +138,7 @@ export async function POST(req: NextRequest) {
         },
         body: JSON.stringify({
           model: process.env.ANTHROPIC_MODEL || "claude-sonnet-4-20250514",
-          max_tokens: 2000,
+          max_tokens: 4000,
           system: buildExaminerPrompt(body.targetGrade),
           messages: [{ role: "user", content: userMessage }],
         }),
@@ -171,7 +171,7 @@ export async function POST(req: NextRequest) {
         },
         body: JSON.stringify({
           model,
-          max_tokens: 2000,
+          max_tokens: 4000,
           response_format: { type: "json_object" },
           messages: [
             { role: "system", content: buildExaminerPrompt(body.targetGrade) },
