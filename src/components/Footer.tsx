@@ -121,7 +121,7 @@ export default function Footer() {
           className="border-t border-border-subtle pt-6 flex flex-col sm:flex-row items-center justify-between gap-3"
         >
           <span className="font-ui text-[12px] text-grey/70">
-            &copy; {new Date().getFullYear()} Straight Nines. All rights reserved. Not affiliated with AQA.
+            &copy; {new Date().getFullYear()} Straight Nines. All rights reserved. Not affiliated with AQA. Images are AI-generated.
           </span>
           <motion.span
             initial={{ opacity: 0 }}

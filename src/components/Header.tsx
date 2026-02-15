@@ -142,13 +142,13 @@ export default function Header() {
             }`} style={isHome && !scrolled ? {} : { backgroundColor: "#2196F3" }}>
               9
             </motion.span>
-            <span className="hidden sm:flex items-baseline gap-1.5">
-              <span className={`font-display font-bold text-[17px] tracking-tight transition-colors duration-300 ${
+            <span className="flex items-baseline gap-1 sm:gap-1.5">
+              <span className={`font-display font-bold text-[15px] sm:text-[17px] tracking-tight transition-colors duration-300 ${
                 isHome && !scrolled ? "text-white" : "text-text"
               }`}>
                 Straight
               </span>
-              <span className={`font-display font-bold text-[17px] tracking-tight transition-colors duration-300 ${
+              <span className={`font-display font-bold text-[15px] sm:text-[17px] tracking-tight transition-colors duration-300 ${
                 isHome && !scrolled ? "text-[#60B0F4]" : "text-[#2196F3]"
               }`}>
                 Nines
