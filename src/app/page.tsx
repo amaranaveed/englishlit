@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { TEXT_REGISTRY, TEXT_ICONS, getActiveTexts } from "@/data/text-registry";
 import { useStorage } from "@/hooks/useStorage";
+import { useAuth } from "@/components/AuthProvider";
+import { createClient } from "@/lib/supabase/client";
 
 /* ── Rotating colours for "Your Texts" cards ──────── */
 const TEXT_CARD_COLOURS = [
@@ -80,7 +82,8 @@ const heroImageFloat = {
 };
 
 export default function HomePage() {
-  const activeTexts = getActiveTexts();
+  const { user, profile, loading, profileLoading } = useAuth();
+  const allActiveTexts = getActiveTexts();
   const { getDueCount, getFlashcards, getExamResponses, getVocabScores } = useStorage();
   const [stats, setStats] = useState({ due: 0, totalCards: 0, essays: 0, marked: 0, vocabBest: 0 });
   const { scrollYProgress } = useScroll();
@@ -335,37 +338,103 @@ export default function HomePage() {
 
       <section className="bg-[var(--bg-lavender)]">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-2 sm:pt-4 pb-12 sm:pb-16">
-          {/* Progress stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.97 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, ease: EASE }}
-            className="rounded-2xl border border-border-subtle bg-bg p-6 sm:p-8 mb-12 shadow-[var(--card-shadow)]"
-          >
-            <div className="flex items-center gap-3 mb-5">
-              <motion.span
-                whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
-                transition={{ duration: 0.5 }}
-                className="w-10 h-10 rounded-xl bg-purple/10 text-purple flex items-center justify-center"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg>
-              </motion.span>
-              <span className="font-display font-semibold text-[17px] text-text">Your Progress</span>
-            </div>
+          {/* Progress stats — gated behind auth */}
+          {!loading && !user ? (
+            /* Sign-in prompt for unauthenticated users */
             <motion.div
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="grid grid-cols-2 sm:grid-cols-4 gap-4"
+              initial={{ opacity: 0, y: 30, scale: 0.97 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, ease: EASE }}
+              className="rounded-2xl border border-border-subtle bg-bg p-6 sm:p-8 mb-12 shadow-[var(--card-shadow)]"
             >
-              <StatCard value={stats.due} label="Cards Due" colour="orange" icon="clock" />
-              <StatCard value={stats.totalCards} label="Flashcards" colour="purple" icon="cards" />
-              <StatCard value={stats.essays} label={stats.essays === 1 ? "Essay" : "Essays"} colour="pink" icon="essay" />
-              <StatCard value={stats.marked} label="Marked" colour="teal" icon="check" />
+              <div className="flex flex-col items-center text-center py-4 sm:py-6">
+                <motion.span
+                  whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
+                  transition={{ duration: 0.5 }}
+                  className="w-12 h-12 rounded-xl bg-purple/10 text-purple flex items-center justify-center mb-4"
+                >
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                  </svg>
+                </motion.span>
+                <h3 className="font-display font-semibold text-[17px] text-text mb-1.5">
+                  Sign in to track your progress
+                </h3>
+                <p className="font-body text-[14px] text-grey max-w-sm leading-relaxed mb-6">
+                  Keep track of your flashcard stats, essay marks, vocabulary scores, and revision streaks across all your devices.
+                </p>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() =>
+                    createClient()!.auth.signInWithOAuth({
+                      provider: "google",
+                      options: { redirectTo: `${window.location.origin}/auth/callback` },
+                    })
+                  }
+                  className="inline-flex items-center gap-2.5 btn-pill bg-purple text-white hover:bg-purple-dark transition-colors text-[15px] px-7 py-3"
+                >
+                  <svg className="w-5 h-5" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
+                    <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                    <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                    <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                  </svg>
+                  Sign in with Google
+                </motion.button>
+              </div>
             </motion.div>
-          </motion.div>
+          ) : (loading || profileLoading) ? (
+            /* Loading skeleton while auth resolves */
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="rounded-2xl border border-border-subtle bg-bg p-6 sm:p-8 mb-12 shadow-[var(--card-shadow)]"
+            >
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-10 h-10 rounded-xl bg-purple/10 animate-pulse" />
+                <div className="h-5 w-32 bg-border-subtle rounded animate-pulse" />
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="rounded-xl bg-surface-hover/50 px-5 py-4 h-20 animate-pulse" />
+                ))}
+              </div>
+            </motion.div>
+          ) : (
+            /* Authenticated: show real progress */
+            <motion.div
+              initial={{ opacity: 0, y: 30, scale: 0.97 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, ease: EASE }}
+              className="rounded-2xl border border-border-subtle bg-bg p-6 sm:p-8 mb-12 shadow-[var(--card-shadow)]"
+            >
+              <div className="flex items-center gap-3 mb-5">
+                <motion.span
+                  whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
+                  transition={{ duration: 0.5 }}
+                  className="w-10 h-10 rounded-xl bg-purple/10 text-purple flex items-center justify-center"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg>
+                </motion.span>
+                <span className="font-display font-semibold text-[17px] text-text">Your Progress</span>
+              </div>
+              <motion.div
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="grid grid-cols-2 sm:grid-cols-4 gap-4"
+              >
+                <StatCard value={stats.due} label="Cards Due" colour="orange" icon="clock" />
+                <StatCard value={stats.totalCards} label="Flashcards" colour="purple" icon="cards" />
+                <StatCard value={stats.essays} label={stats.essays === 1 ? "Essay" : "Essays"} colour="pink" icon="essay" />
+                <StatCard value={stats.marked} label="Marked" colour="teal" icon="check" />
+              </motion.div>
+            </motion.div>
+          )}
 
           {/* Subject tiles — 6 cols at lg for full edge-to-edge feel */}
           <motion.div
@@ -375,7 +444,7 @@ export default function HomePage() {
             viewport={{ once: true, margin: "-30px" }}
             className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5"
           >
-            <SubjectTile href="/texts" title="Texts" subtitle={`${activeTexts.length} active`} colour="purple" icon={<BookIcon />} index={0} image="/images/hero-books.jpg" />
+            <SubjectTile href="/texts" title="Texts" subtitle={`${allActiveTexts.length} active`} colour="purple" icon={<BookIcon />} index={0} image="/images/hero-books.jpg" />
             <SubjectTile href="/exam" title="Exam Practice" subtitle="Timed essays" colour="pink" icon={<EditIcon />} index={1} image="/images/writing.jpg" />
             <SubjectTile href="/flashcards" title="Flashcards" subtitle={stats.due > 0 ? `${stats.due} due` : "All clear"} colour="blue" icon={<LayersIcon />} index={2} image="/images/flashcards.jpg" />
             <SubjectTile href="/vocab" title="Vocab Quiz" subtitle={stats.vocabBest > 0 ? `Best ${stats.vocabBest}%` : "Key terms"} colour="orange" icon={<ChatIcon />} index={3} image="/images/exam-prep.jpg" />
@@ -483,101 +552,141 @@ export default function HomePage() {
       </div>
 
       {/* ═══════════════════════════════════════════════════ */}
-      {/* SECTION 2 — Your Texts (white / bg-primary band)   */}
+      {/* SECTION 2 — Your Texts (logged-in users only)     */}
       {/* ═══════════════════════════════════════════════════ */}
-      {activeTexts.length > 0 && (
-        <section className="bg-bg">
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12 sm:py-16">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, ease: EASE }}
-              className="flex items-center gap-4 mb-8"
-            >
-              <motion.span
-                whileHover={{ rotate: [0, -10, 10, 0] }}
-                transition={{ duration: 0.5 }}
-                className="w-11 h-11 rounded-xl bg-purple text-white flex items-center justify-center shadow-[0_2px_10px_rgba(79,82,195,0.3)]"
+      {(() => {
+        const isLoggedIn = !loading && !!user;
+        const isAuthResolved = !loading && !profileLoading;
+        const hasTextSlugs = isLoggedIn && profile && profile.textSlugs.length > 0;
+        const displayTexts = hasTextSlugs
+          ? allActiveTexts.filter((t) => profile!.textSlugs.includes(t.slug))
+          : [];
+        const sectionSubtitle = hasTextSlugs
+          ? `${displayTexts.length} selected ${displayTexts.length === 1 ? "text" : "texts"} ready to revise`
+          : "";
+
+        return isLoggedIn && isAuthResolved ? (
+          <section className="bg-bg">
+            <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12 sm:py-16">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, ease: EASE }}
+                className="flex items-center gap-4 mb-8"
               >
-                <BookIcon />
-              </motion.span>
-              <div>
-                <h2 className="font-display text-[24px] sm:text-[30px] font-bold text-text leading-tight">
-                  Your Texts
-                </h2>
-                <p className="font-ui text-[14px] text-grey mt-0.5">{activeTexts.length} set texts ready to revise</p>
-              </div>
-              <div className="flex-1" />
-              <motion.div whileHover={{ scale: 1.05, x: 3 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/texts" className="hidden sm:inline-flex items-center gap-2 font-ui text-[14px] font-semibold text-purple hover:text-purple-dark transition-colors btn-pill bg-purple-light px-5 py-2">
-                  View all
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                </Link>
+                <motion.span
+                  whileHover={{ rotate: [0, -10, 10, 0] }}
+                  transition={{ duration: 0.5 }}
+                  className="w-11 h-11 rounded-xl bg-purple text-white flex items-center justify-center shadow-[0_2px_10px_rgba(79,82,195,0.3)]"
+                >
+                  <BookIcon />
+                </motion.span>
+                <div>
+                  <h2 className="font-display text-[24px] sm:text-[30px] font-bold text-text leading-tight">
+                    Your Texts
+                  </h2>
+                  {sectionSubtitle && (
+                    <p className="font-ui text-[14px] text-grey mt-0.5">{sectionSubtitle}</p>
+                  )}
+                </div>
+                <div className="flex-1" />
+                <motion.div whileHover={{ scale: 1.05, x: 3 }} whileTap={{ scale: 0.97 }}>
+                  <Link href="/texts" className="hidden sm:inline-flex items-center gap-2 font-ui text-[14px] font-semibold text-purple hover:text-purple-dark transition-colors btn-pill bg-purple-light px-5 py-2">
+                    View all
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                  </Link>
+                </motion.div>
               </motion.div>
-            </motion.div>
-            <motion.div
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-30px" }}
-              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
-            >
-              {activeTexts.map((t, i) => {
-                const colours = TEXT_CARD_COLOURS[i % TEXT_CARD_COLOURS.length];
-                return (
-                  <motion.div
-                    key={t.slug}
-                    variants={staggerItem}
-                    whileHover={{ scale: 1.02, y: -4 }}
-                    transition={{ duration: 0.25 }}
+
+              {/* Logged in but no texts selected in profile */}
+              {isLoggedIn && isAuthResolved && !hasTextSlugs ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, ease: EASE }}
+                  className="rounded-2xl border border-border-subtle bg-surface p-8 sm:p-10 text-center"
+                >
+                  <motion.span
+                    whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
+                    transition={{ duration: 0.5 }}
+                    className="w-12 h-12 rounded-xl bg-purple/10 text-purple flex items-center justify-center mx-auto mb-4"
                   >
-                    <Link
-                      href={`/texts/${t.slug}`}
-                      className={`group relative rounded-2xl border bg-surface overflow-hidden block ${colours.border}`}
-                    >
+                    <BookIcon />
+                  </motion.span>
+                  <h3 className="font-display font-semibold text-[17px] text-text mb-1.5">
+                    No texts selected yet
+                  </h3>
+                  <p className="font-body text-[14px] text-grey max-w-sm mx-auto leading-relaxed">
+                    Click the <span className="inline-flex items-center gap-1 font-semibold text-text"><svg className="w-4 h-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 010-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg> settings</span> icon in the header to select your set texts.
+                  </p>
+                </motion.div>
+              ) : displayTexts.length > 0 ? (
+                <motion.div
+                  variants={staggerContainer}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-30px" }}
+                  className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
+                >
+                  {displayTexts.map((t, i) => {
+                    const colours = TEXT_CARD_COLOURS[i % TEXT_CARD_COLOURS.length];
+                    return (
                       <motion.div
-                        className={`h-1.5 w-full ${colours.bar}`}
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.05 }}
-                        style={{ transformOrigin: "left" }}
-                      />
-                      <div className="px-6 py-5">
-                        <div className="flex items-start gap-4">
-                          {TEXT_ICONS[t.slug] ? (
-                            <img src={TEXT_ICONS[t.slug]} alt="" className="w-20 h-20 rounded-full object-cover object-[center_30%] shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-3deg]" />
-                          ) : (
-                            <span className={`w-14 h-14 rounded-xl ${colours.bg} ${colours.text} font-display font-bold text-[22px] flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-3deg]`}>
-                              {t.title.charAt(0)}
-                            </span>
-                          )}
-                          <div className="min-w-0 flex-1">
-                            <p className="font-display font-semibold text-[17px] text-text leading-snug truncate">
-                              {t.title}
-                            </p>
-                            <p className="font-ui text-[14px] text-grey mt-1">{t.author}</p>
-                            <div className="flex items-center gap-2 mt-3">
-                              <span className={`text-[12px] font-semibold ${colours.text} ${colours.bg} px-3 py-0.5 rounded-full`}>
-                                {t.paper} {t.section}
-                              </span>
-                              <span className="text-[12px] text-grey font-medium">{t.year}</span>
+                        key={t.slug}
+                        variants={staggerItem}
+                        whileHover={{ scale: 1.02, y: -4 }}
+                        transition={{ duration: 0.25 }}
+                      >
+                        <Link
+                          href={`/texts/${t.slug}`}
+                          className={`group relative rounded-2xl border bg-surface overflow-hidden block ${colours.border}`}
+                        >
+                          <motion.div
+                            className={`h-1.5 w-full ${colours.bar}`}
+                            variants={{
+                              hidden: { scaleX: 0 },
+                              visible: { scaleX: 1, transition: { duration: 0.6, ease: "easeOut" } },
+                            }}
+                            style={{ transformOrigin: "left" }}
+                          />
+                          <div className="px-6 py-5">
+                            <div className="flex items-start gap-4">
+                              {TEXT_ICONS[t.slug] ? (
+                                <img src={TEXT_ICONS[t.slug]} alt="" className="w-20 h-20 rounded-full object-cover object-[center_30%] shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-3deg]" />
+                              ) : (
+                                <span className={`w-14 h-14 rounded-xl ${colours.bg} ${colours.text} font-display font-bold text-[22px] flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-3deg]`}>
+                                  {t.title.charAt(0)}
+                                </span>
+                              )}
+                              <div className="min-w-0 flex-1">
+                                <p className="font-display font-semibold text-[17px] text-text leading-snug truncate">
+                                  {t.title}
+                                </p>
+                                <p className="font-ui text-[14px] text-grey mt-1">{t.author}</p>
+                                <div className="flex items-center gap-2 mt-3">
+                                  <span className={`text-[12px] font-semibold ${colours.text} ${colours.bg} px-3 py-0.5 rounded-full`}>
+                                    {t.paper} {t.section}
+                                  </span>
+                                  <span className="text-[12px] text-grey font-medium">{t.year}</span>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                      <div className="absolute top-6 right-5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
-                        <svg className={`w-5 h-5 ${colours.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                      </div>
-                    </Link>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-          </div>
-        </section>
-      )}
+                          <div className="absolute top-6 right-5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
+                            <svg className={`w-5 h-5 ${colours.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                          </div>
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
+                </motion.div>
+              ) : null}
+            </div>
+          </section>
+        ) : null;
+      })()}
 
       {/* ── Wave: White → Surface (3-layer) ─────────────── */}
       <div className="relative bg-surface">

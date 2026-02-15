@@ -5,8 +5,8 @@ import type { Quote } from "@/data/types";
 import { useStorage } from "@/hooks/useStorage";
 
 /**
- * Generates 5-8 flashcards from a quote's 6-part analysis and saves to localStorage.
- * Cards: quote → speaker, technique1, RAD, WOW, + one per vocab term.
+ * Generates 7 flashcards from a quote's 6-part analysis and saves to storage.
+ * Cards: quote identification, technique1, technique2, RAD, WOW, + 2 vocab.
  */
 export default function GenerateFlashcardsButton({ quote }: { quote: Quote }) {
   const [generated, setGenerated] = useState(false);
@@ -40,13 +40,16 @@ export default function GenerateFlashcardsButton({ quote }: { quote: Quote }) {
       createdAt: string;
     }
 
+    const shortQuote = quote.quote.length > 50 ? quote.quote.slice(0, 50) + "…" : quote.quote;
+    const longQuote = quote.quote.length > 60 ? quote.quote.slice(0, 60) + "…" : quote.quote;
+
     const newCards: NewCard[] = [
       // Card 1: Quote identification
       {
         id: `${prefix}-quote`,
         type: "quote" as const,
         textSlug: quote.textSlug,
-        front: `Who says: "${quote.quote.length > 60 ? quote.quote.slice(0, 60) + "…" : quote.quote}" and where?`,
+        front: `Who says: "${longQuote}" and where?`,
         back: `${quote.who} — ${quote.act}`,
         confidence: 0,
         nextReview: now,
@@ -57,29 +60,40 @@ export default function GenerateFlashcardsButton({ quote }: { quote: Quote }) {
         id: `${prefix}-tech1`,
         type: "technique" as const,
         textSlug: quote.textSlug,
-        front: `Key technique in: "${quote.quote.length > 50 ? quote.quote.slice(0, 50) + "…" : quote.quote}"?`,
+        front: `Key technique in: "${shortQuote}"?`,
         back: `${quote.technique1.title} — ${stripHighlights(quote.technique1.analysis).slice(0, 120)}`,
         confidence: 0,
         nextReview: now,
         createdAt: now,
       },
-      // Card 3: RAD
+      // Card 3: Technique 2
+      {
+        id: `${prefix}-tech2`,
+        type: "technique" as const,
+        textSlug: quote.textSlug,
+        front: `Second technique in: "${shortQuote}"?`,
+        back: `${quote.technique2.title} — ${stripHighlights(quote.technique2.analysis).slice(0, 120)}`,
+        confidence: 0,
+        nextReview: now,
+        createdAt: now,
+      },
+      // Card 4: RAD
       {
         id: `${prefix}-rad`,
         type: "rad" as const,
         textSlug: quote.textSlug,
-        front: `Does the character PROGRESS, REGRESS or STAGNATE in: "${quote.quote.length > 50 ? quote.quote.slice(0, 50) + "…" : quote.quote}"?`,
+        front: `Does the character PROGRESS, REGRESS or STAGNATE in: "${shortQuote}"?`,
         back: `${quote.rad.label} — ${stripHighlights(quote.rad.analysis).slice(0, 120)}`,
         confidence: 0,
         nextReview: now,
         createdAt: now,
       },
-      // Card 4: WOW
+      // Card 5: WOW
       {
         id: `${prefix}-wow`,
         type: "wow" as const,
         textSlug: quote.textSlug,
-        front: `Grade 8/9 theory for: "${quote.quote.length > 50 ? quote.quote.slice(0, 50) + "…" : quote.quote}"?`,
+        front: `Grade 8/9 theory for: "${shortQuote}"?`,
         back: `${quote.wow.title} — ${stripHighlights(quote.wow.analysis).slice(0, 120)}`,
         confidence: 0,
         nextReview: now,
@@ -87,30 +101,35 @@ export default function GenerateFlashcardsButton({ quote }: { quote: Quote }) {
       },
     ];
 
-    // Add vocab cards from all sections
-    const allVocab = [
-      ...quote.technique1.keyWords,
-      ...quote.rad.keyWords,
-      ...quote.technique2.keyWords,
-      ...quote.context.keyWords,
-      ...quote.wow.keyWords,
-    ];
+    // Add vocab cards — capped at 2 per quote to keep types balanced.
+    // Pick one from technique sections and one from theory sections.
+    const techVocab = [...quote.technique1.keyWords, ...quote.technique2.keyWords];
+    const theoryVocab = [...quote.rad.keyWords, ...quote.context.keyWords, ...quote.wow.keyWords];
+    const vocabPicks: { word: string; def: string }[] = [];
     const seen = new Set<string>();
-    allVocab.forEach((kw) => {
-      const key = kw.word.toLowerCase();
-      if (!seen.has(key)) {
-        seen.add(key);
-        newCards.push({
-          id: `${prefix}-vocab-${key.replace(/\s+/g, "-")}`,
-          type: "vocab" as const,
-          textSlug: quote.textSlug,
-          front: `Define: ${kw.word}`,
-          back: kw.def,
-          confidence: 0,
-          nextReview: now,
-          createdAt: now,
-        });
+
+    for (const pool of [techVocab, theoryVocab]) {
+      for (const kw of pool) {
+        const key = kw.word.toLowerCase();
+        if (!seen.has(key)) {
+          seen.add(key);
+          vocabPicks.push(kw);
+          break;
+        }
       }
+    }
+
+    vocabPicks.forEach((kw) => {
+      newCards.push({
+        id: `${prefix}-vocab-${kw.word.toLowerCase().replace(/\s+/g, "-")}`,
+        type: "vocab" as const,
+        textSlug: quote.textSlug,
+        front: `Define: ${kw.word}`,
+        back: kw.def,
+        confidence: 0,
+        nextReview: now,
+        createdAt: now,
+      });
     });
 
     // Save each card (addFlashcard handles deduplication)

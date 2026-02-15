@@ -5,8 +5,8 @@ import type { CharacterAnalysis } from "@/data/types";
 import { useStorage } from "@/hooks/useStorage";
 
 /**
- * Generates flashcards from a character analysis and saves to localStorage.
- * Cards: overview, arc label, arc stages, key quotes, relationships, WOW, vocab.
+ * Generates flashcards from a character analysis and saves to storage.
+ * Cards: overview, arc label, arc stages, key quotes, relationships, WOW, exam tip, + 2 vocab.
  */
 export default function GenerateCharacterFlashcardsButton({
   character,
@@ -143,9 +143,11 @@ export default function GenerateCharacterFlashcardsButton({
       });
     });
 
-    // Vocab cards
+    // Vocab cards — capped at 2 to keep balanced with other types
     const seen = new Set<string>();
-    character.keyWords.forEach((kw) => {
+    let vocabCount = 0;
+    for (const kw of character.keyWords) {
+      if (vocabCount >= 2) break;
       const key = kw.word.toLowerCase();
       if (!seen.has(key)) {
         seen.add(key);
@@ -159,8 +161,9 @@ export default function GenerateCharacterFlashcardsButton({
           nextReview: now,
           createdAt: now,
         });
+        vocabCount++;
       }
-    });
+    }
 
     // Save each card (addFlashcard handles deduplication)
     for (const card of newCards) {

@@ -10,6 +10,9 @@ import PageTransition from "@/components/PageTransition";
 export const metadata: Metadata = {
   title: "Straight Nines — GCSE English Literature Revision",
   description: "6-Part Quote Analysis, Exam Practice, Flashcards & Vocab Quiz for AQA GCSE English Literature",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
