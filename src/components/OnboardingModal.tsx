@@ -150,10 +150,10 @@ export default function OnboardingModal({ editMode = false, onClose }: Onboardin
                     Year group
                   </label>
                   <div className="grid grid-cols-3 gap-3">
-                    {([8, 9, 10, 11, 12, 13] as const).map((yr) => {
+                    {([8, 9, 10, 11] as const).map((yr) => {
                       const labels: Record<number, string> = {
                         8: "KS3", 9: "KS3", 10: "Starting GCSE",
-                        11: "Exam year", 12: "Year 12", 13: "Year 13",
+                        11: "Exam year",
                       };
                       return (
                         <button

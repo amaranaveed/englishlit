@@ -138,7 +138,7 @@ export interface ThemeSheet {
 
 export interface UserProfile {
   firstName: string;
-  yearGroup: 8 | 9 | 10 | 11 | 12 | 13;
+  yearGroup: 8 | 9 | 10 | 11;
   targetGrade: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
   textSlugs: string[];
   createdAt: string;
