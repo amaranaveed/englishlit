@@ -310,8 +310,7 @@ function ReviewSetup({
       <motion.div
         className="rounded-xl border border-border bg-surface p-5"
         initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: EASE }}
         whileHover={{ y: -2, boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}
       >
@@ -362,8 +361,7 @@ function ReviewSetup({
       <motion.div
         className="rounded-xl border border-border bg-surface p-5"
         initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
         whileHover={{ y: -2, boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}
       >

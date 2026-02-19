@@ -8,12 +8,14 @@ const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
 interface SectionProps {
   title: string;
   items: string[];
-  colour: { bg: string; text: string; dot: string; border: string };
+  colour?: { bg: string; text: string; dot: string; border: string };
   delay?: number;
 }
 
-export function CaseStudySection({ title, items, colour, delay = 0 }: SectionProps) {
-  if (items.length === 0) return null;
+const DEFAULT_COLOUR = { bg: "bg-gray-50", text: "text-gray-700", dot: "bg-gray-500", border: "border-gray-200" };
+
+export function CaseStudySection({ title, items, colour = DEFAULT_COLOUR, delay = 0 }: SectionProps) {
+  if (!items || items.length === 0) return null;
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

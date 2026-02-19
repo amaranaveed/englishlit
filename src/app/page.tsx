@@ -85,7 +85,7 @@ const heroImageFloat = {
 export default function HomePage() {
   const { user, profile, loading, profileLoading } = useAuth();
   const allActiveTexts = getActiveTexts();
-  const { getDueCount, getFlashcards, getExamResponses, getVocabScores } = useStorage();
+  const { getHomeStats } = useStorage();
   const [stats, setStats] = useState({ due: 0, totalCards: 0, essays: 0, marked: 0, vocabBest: 0 });
   const [engLitOpen, setEngLitOpen] = useState(false);
   const [geoOpen, setGeoOpen] = useState(false);
@@ -93,23 +93,8 @@ export default function HomePage() {
   const heroParallax = useTransform(scrollYProgress, [0, 0.3], [0, -60]);
 
   useEffect(() => {
-    async function load() {
-      const [due, cards, exams, vocabScores] = await Promise.all([
-        getDueCount(),
-        getFlashcards(),
-        getExamResponses(),
-        getVocabScores(),
-      ]);
-      const totalCards = cards.length;
-      const essays = exams.length;
-      const marked = exams.filter((e) => e.marking).length;
-      const vocabBest = vocabScores.length > 0
-        ? Math.max(...vocabScores.map((s) => Math.round((s.correct / s.total) * 100)))
-        : 0;
-      setStats({ due, totalCards, essays, marked, vocabBest });
-    }
-    load();
-  }, [getDueCount, getFlashcards, getExamResponses, getVocabScores]);
+    getHomeStats().then(setStats);
+  }, [getHomeStats]);
 
   return (
     <div className="min-h-[calc(100vh-4rem)]">

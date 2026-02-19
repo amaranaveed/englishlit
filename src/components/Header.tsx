@@ -52,7 +52,9 @@ export default function Header() {
   const [mobileExpandedGroup, setMobileExpandedGroup] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [subjectsOpen, setSubjectsOpen] = useState(false);
   const textsTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const subjectsTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     getDueCount().then(setFlashcardsDue);
@@ -99,6 +101,7 @@ export default function Header() {
     setMobileTextsOpen(false);
     setMobileExpandedGroup(null);
     setSearchOpen(false);
+    setSubjectsOpen(false);
   }, [pathname]);
 
   const openTexts = () => {
@@ -110,6 +113,14 @@ export default function Header() {
       setTextsOpen(false);
       setExpandedGroup(null);
     }, 200);
+  };
+
+  const openSubjects = () => {
+    if (subjectsTimeout.current) clearTimeout(subjectsTimeout.current);
+    setSubjectsOpen(true);
+  };
+  const closeSubjects = () => {
+    subjectsTimeout.current = setTimeout(() => setSubjectsOpen(false), 200);
   };
 
   const isActive = (href: string) => pathname.startsWith(href);
@@ -167,29 +178,82 @@ export default function Header() {
             </span>
           </Link>
 
-          {/* Subject pills */}
-          <div className="hidden md:flex items-center gap-1 ml-4 mr-2">
-            {SUBJECTS.map((s) => {
-              const active = !isHome && activeSubject.id === s.id;
-              return (
+          {/* Subject pills (home) / Subjects dropdown (inner pages) */}
+          {isHome ? (
+            <div className="hidden md:flex items-center gap-1 ml-4 mr-2">
+              {SUBJECTS.map((s) => (
                 <Link
                   key={s.id}
                   href={s.id === "english-lit" ? "/texts" : s.basePath}
                   className={`px-2.5 py-1 rounded-full font-ui text-[11px] font-semibold transition-all duration-200 ${
-                    active
-                      ? isHome && !scrolled
-                        ? "bg-white/20 text-white"
-                        : "bg-purple-light text-purple"
-                      : isHome && !scrolled
-                        ? "text-white/50 hover:text-white/80 hover:bg-white/10"
-                        : "text-grey hover:text-text hover:bg-surface-hover"
+                    !scrolled
+                      ? "text-white/50 hover:text-white/80 hover:bg-white/10"
+                      : "text-grey hover:text-text hover:bg-surface-hover"
                   }`}
                 >
                   {s.shortName}
                 </Link>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div
+              className="hidden md:flex items-center ml-4 mr-2 relative"
+              onMouseEnter={openSubjects}
+              onMouseLeave={closeSubjects}
+            >
+              <button
+                className={`px-2.5 py-1 rounded-full font-ui text-[11px] font-semibold transition-all duration-200 inline-flex items-center gap-1 ${
+                  "text-grey hover:text-text hover:bg-surface-hover"
+                }`}
+              >
+                Subjects
+                <svg className={`w-3 h-3 transition-transform duration-200 ${subjectsOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+              </button>
+
+              <AnimatePresence>
+                {subjectsOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className="absolute top-full left-0 pt-2 z-50"
+                  >
+                    <div className="bg-bg border border-border rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.12)] py-2 min-w-[180px]">
+                      {SUBJECTS.map((s) => {
+                        const active = activeSubject.id === s.id;
+                        return (
+                          <Link
+                            key={s.id}
+                            href={s.id === "english-lit" ? "/texts" : s.basePath}
+                            className={`flex items-center gap-3 px-4 py-2.5 transition-all duration-150 ${
+                              active
+                                ? "bg-purple-light text-purple font-semibold"
+                                : "text-text hover:bg-surface-hover"
+                            }`}
+                          >
+                            <span className={`w-7 h-7 rounded-lg font-display font-bold text-[11px] flex items-center justify-center shrink-0 ${
+                              s.id === "english-lit"
+                                ? "bg-purple/10 text-purple"
+                                : "bg-emerald-500/10 text-emerald-700"
+                            }`}>
+                              {s.id === "english-lit" ? "E" : "G"}
+                            </span>
+                            <div>
+                              <p className="text-[13px] font-semibold">{s.name}</p>
+                              <p className="text-[11px] text-grey">{s.examBoard} {s.specCode}</p>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
 
           {/* Desktop nav — hidden on homepage */}
           {!isHome && (
@@ -494,25 +558,53 @@ export default function Header() {
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
           className="md:hidden border-t border-border bg-surface/98 backdrop-blur-xl font-ui text-[15px] pb-3 overflow-hidden">
-          {/* Mobile subject pills */}
-          <div className="flex gap-2 px-6 py-3 border-b border-border-subtle">
-            {SUBJECTS.map((s) => {
-              const active = !isHome && activeSubject.id === s.id;
-              return (
-                <Link
-                  key={s.id}
-                  href={s.id === "english-lit" ? "/texts" : s.basePath}
-                  onClick={() => setMobileOpen(false)}
-                  className={`px-3 py-1.5 rounded-full font-ui text-[12px] font-semibold transition-all ${
-                    active
-                      ? "bg-purple-light text-purple"
-                      : "text-grey hover:text-text hover:bg-surface-hover"
-                  }`}
-                >
-                  {s.shortName}
-                </Link>
-              );
-            })}
+          {/* Mobile subject selector */}
+          <div className="px-6 py-3 border-b border-border-subtle">
+            {isHome ? (
+              <div className="flex gap-2">
+                {SUBJECTS.map((s) => (
+                  <Link
+                    key={s.id}
+                    href={s.id === "english-lit" ? "/texts" : s.basePath}
+                    onClick={() => setMobileOpen(false)}
+                    className="px-3 py-1.5 rounded-full font-ui text-[12px] font-semibold transition-all text-grey hover:text-text hover:bg-surface-hover"
+                  >
+                    {s.shortName}
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-1">
+                <p className="text-[11px] font-semibold text-grey uppercase tracking-wider mb-2">Subjects</p>
+                {SUBJECTS.map((s) => {
+                  const active = activeSubject.id === s.id;
+                  return (
+                    <Link
+                      key={s.id}
+                      href={s.id === "english-lit" ? "/texts" : s.basePath}
+                      onClick={() => setMobileOpen(false)}
+                      className={`flex items-center gap-3 px-2 py-2 rounded-lg transition-all ${
+                        active
+                          ? "bg-purple-light text-purple font-semibold"
+                          : "text-text hover:bg-surface-hover"
+                      }`}
+                    >
+                      <span className={`w-7 h-7 rounded-lg font-display font-bold text-[11px] flex items-center justify-center shrink-0 ${
+                        s.id === "english-lit"
+                          ? "bg-purple/10 text-purple"
+                          : "bg-emerald-500/10 text-emerald-700"
+                      }`}>
+                        {s.id === "english-lit" ? "E" : "G"}
+                      </span>
+                      <div>
+                        <p className="text-[13px] font-semibold">{s.name}</p>
+                        <p className="text-[11px] text-grey">{s.examBoard} {s.specCode}</p>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
           </div>
           {!isHome && NAV_ITEMS.map((item) => (
             item.hasDropdown ? (

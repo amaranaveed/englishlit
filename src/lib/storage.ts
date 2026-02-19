@@ -23,7 +23,7 @@ export async function getFlashcards(userId?: string): Promise<Flashcard[]> {
 
   const { data, error } = await supabase()
     .from("flashcards")
-    .select("*")
+    .select("id, type, text_slug, front, back, confidence, next_review, created_at")
     .order("created_at", { ascending: true });
 
   if (error || !data) return [];
@@ -98,6 +98,54 @@ export async function deleteFlashcard(cardId: string, userId?: string): Promise<
   }
 
   await supabase().from("flashcards").delete().eq("id", cardId);
+}
+
+// ─── Dashboard stats (lightweight — counts only, no full rows) ───
+
+export async function getHomeStats(userId?: string): Promise<{
+  due: number;
+  totalCards: number;
+  essays: number;
+  marked: number;
+  vocabBest: number;
+}> {
+  if (!userId) {
+    // Fallback to localStorage
+    const cards = await getFlashcards();
+    const dueCards = await getDueFlashcards();
+    const exams = await getExamResponses();
+    const vocabScores = await getVocabScores();
+    return {
+      due: dueCards.length,
+      totalCards: cards.length,
+      essays: exams.length,
+      marked: exams.filter((e) => e.marking).length,
+      vocabBest: vocabScores.length > 0
+        ? Math.max(...vocabScores.map((s) => Math.round((s.correct / s.total) * 100)))
+        : 0,
+    };
+  }
+
+  const now = new Date().toISOString();
+  const [dueRes, totalRes, essaysRes, markedRes, vocabRes] = await Promise.all([
+    supabase().from("flashcards").select("*", { count: "exact", head: true }).lte("next_review", now),
+    supabase().from("flashcards").select("*", { count: "exact", head: true }),
+    supabase().from("exam_responses").select("*", { count: "exact", head: true }),
+    supabase().from("exam_responses").select("*", { count: "exact", head: true }).not("marking", "is", null),
+    supabase().from("vocab_quiz_scores").select("correct, total").order("date", { ascending: false }).limit(50),
+  ]);
+
+  const vocabBest = (vocabRes.data && vocabRes.data.length > 0)
+    ? Math.max(...vocabRes.data.map((s: { correct: number; total: number }) => Math.round((s.correct / s.total) * 100)))
+    : 0;
+
+  return {
+    due: dueRes.count ?? 0,
+    totalCards: totalRes.count ?? 0,
+    essays: essaysRes.count ?? 0,
+    marked: markedRes.count ?? 0,
+    vocabBest,
+  };
 }
 
 // ─── Queries ───
@@ -249,7 +297,7 @@ export async function getExamResponses(userId?: string): Promise<ExamResponse[]>
 
   const { data, error } = await supabase()
     .from("exam_responses")
-    .select("*")
+    .select("id, text_slug, question, student_answer, time_spent, marking")
     .order("created_at", { ascending: true });
 
   if (error || !data) return [];

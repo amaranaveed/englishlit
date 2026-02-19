@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // Skip Supabase auth when credentials are not configured
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
     return NextResponse.next({ request });
@@ -31,7 +31,9 @@ export async function middleware(request: NextRequest) {
   );
 
   // Refresh session if expired — keeps server & client auth state in sync
-  await supabase.auth.getUser();
+  // Uses getSession() (reads local JWT) instead of getUser() (network round-trip)
+  // to avoid 7-13s latency on every request
+  await supabase.auth.getSession();
 
   return supabaseResponse;
 }

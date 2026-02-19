@@ -11,6 +11,9 @@ export function useStorage() {
   const userId = user?.id;
 
   return {
+    // Dashboard stats (lightweight counts)
+    getHomeStats: useCallback(() => storage.getHomeStats(userId), [userId]),
+
     // Flashcards
     getFlashcards: useCallback(() => storage.getFlashcards(userId), [userId]),
     saveFlashcards: useCallback((cards: Flashcard[]) => storage.saveFlashcards(cards, userId), [userId]),
