@@ -1,0 +1,132 @@
+import type { GeographyTerm, CaseStudy } from "./types";
+
+export const NATURAL_HAZARDS_TERMS: GeographyTerm[] = [
+  // ─── Key Terms ───
+  { id: "geo-hazards-natural-hazard", word: "Natural hazard", def: "A natural event (e.g. earthquake, volcano, flood) that threatens people or property.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-tectonic-hazard", word: "Tectonic hazard", def: "A hazard caused by movement of tectonic plates, such as earthquakes and volcanic eruptions.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-weather-hazard", word: "Weather hazard", def: "A hazard caused by extreme weather events, such as tropical storms, floods, or droughts.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-climate-hazard", word: "Climate hazard", def: "A hazard caused by long-term changes in climate, such as drought or rising sea levels.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-tectonic-plate", word: "Tectonic plate", def: "A large section of the Earth's crust that moves slowly over the mantle.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-plate-margin", word: "Plate margin", def: "The boundary where two tectonic plates meet. Most earthquakes and volcanoes occur here.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-constructive-margin", word: "Constructive margin", def: "Where two plates move apart and magma rises to form new crust (e.g. Mid-Atlantic Ridge).", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-destructive-margin", word: "Destructive margin", def: "Where two plates collide. Oceanic crust is subducted beneath continental crust, causing earthquakes and volcanoes.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-conservative-margin", word: "Conservative margin", def: "Where two plates slide past each other. No volcanoes, but powerful earthquakes occur (e.g. San Andreas Fault).", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-subduction", word: "Subduction", def: "When a denser oceanic plate is forced beneath a lighter continental plate at a destructive margin.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-epicentre", word: "Epicentre", def: "The point on the Earth's surface directly above the focus (origin) of an earthquake.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-focus", word: "Focus", def: "The point underground where an earthquake originates.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-magnitude", word: "Magnitude", def: "The size or strength of an earthquake, measured on the Richter or moment magnitude scale.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-richter-scale", word: "Richter scale", def: "A logarithmic scale (1-10) that measures the magnitude of an earthquake.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-magma", word: "Magma", def: "Molten rock beneath the Earth's surface. When it reaches the surface it is called lava.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-lava", word: "Lava", def: "Molten rock that has reached the Earth's surface through a volcanic eruption.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-pyroclastic-flow", word: "Pyroclastic flow", def: "A fast-moving cloud of hot gas, ash, and rock fragments that flows down a volcano at speeds up to 700 km/h.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-lahar", word: "Lahar", def: "A destructive mudflow of volcanic debris and water that flows rapidly down a volcano.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-tsunami", word: "Tsunami", def: "A series of giant ocean waves caused by underwater earthquakes, volcanic eruptions, or landslides.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-tropical-storm", word: "Tropical storm", def: "An intense low-pressure weather system with strong winds (over 119 km/h) that forms over warm tropical oceans.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-eye", word: "Eye (of a storm)", def: "The calm, clear centre of a tropical storm surrounded by the most intense winds.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-storm-surge", word: "Storm surge", def: "An abnormal rise in sea level caused by low pressure and strong winds during a tropical storm.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-climate-change", word: "Climate change", def: "A long-term shift in global or regional climate patterns, linked to increased greenhouse gas emissions.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-greenhouse-effect", word: "Greenhouse effect", def: "The natural trapping of heat in the atmosphere by greenhouse gases (CO2, methane, water vapour).", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-enhanced-greenhouse", word: "Enhanced greenhouse effect", def: "The increased trapping of heat due to higher levels of greenhouse gases from human activity (burning fossil fuels, deforestation).", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-global-warming", word: "Global warming", def: "The increase in average global temperatures, primarily caused by the enhanced greenhouse effect.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-mitigation", word: "Mitigation", def: "Actions taken to reduce the causes of climate change, e.g. using renewable energy.", topicSlug: "natural-hazards", category: "key-term" },
+  { id: "geo-hazards-adaptation", word: "Adaptation", def: "Actions taken to adjust to the effects of climate change, e.g. building flood defences.", topicSlug: "natural-hazards", category: "key-term" },
+
+  // ─── Processes ───
+  { id: "geo-hazards-convection-currents", word: "Convection currents", def: "Circular movements of magma in the mantle caused by heat from the core. They drive the movement of tectonic plates.", topicSlug: "natural-hazards", category: "process" },
+  { id: "geo-hazards-slab-pull", word: "Slab pull", def: "At a destructive margin, the weight of a subducting plate helps pull the rest of the plate along.", topicSlug: "natural-hazards", category: "process" },
+  { id: "geo-hazards-ridge-push", word: "Ridge push", def: "At a constructive margin, new magma pushes the plates apart as it rises and solidifies.", topicSlug: "natural-hazards", category: "process" },
+  { id: "geo-hazards-coriolis-effect", word: "Coriolis effect", def: "The deflection of wind and ocean currents caused by the Earth's rotation, which helps tropical storms spin.", topicSlug: "natural-hazards", category: "process" },
+];
+
+export const NATURAL_HAZARDS_CASE_STUDIES: CaseStudy[] = [
+  {
+    id: "geo-hazards-cs-haiti-2010",
+    topicSlug: "natural-hazards",
+    name: "Haiti Earthquake 2010",
+    location: "Port-au-Prince, Haiti (LIC)",
+    facts: [
+      "Magnitude 7.0 earthquake on 12 January 2010",
+      "Epicentre only 25 km from the capital Port-au-Prince",
+      "Haiti is the poorest country in the Western Hemisphere",
+    ],
+    causes: [
+      "Located on a conservative plate margin (Caribbean and North American plates)",
+      "Plates had been locked for 250 years, building up enormous pressure",
+      "Shallow focus (13 km) meant more energy reached the surface",
+    ],
+    effects: [
+      "Over 230,000 people killed and 300,000 injured",
+      "1.5 million people made homeless",
+      "250,000 homes and 30,000 commercial buildings destroyed",
+      "Port, airport, and hospitals severely damaged",
+      "Cholera outbreak killed over 9,000 in following months",
+    ],
+    responses: [
+      "International aid: $13.5 billion pledged",
+      "US military provided emergency supplies and medical care",
+      "Red Cross and NGOs built temporary shelters",
+      "Search and rescue teams from 25+ countries",
+      "Long-term: building codes improved, but recovery was very slow",
+    ],
+  },
+  {
+    id: "geo-hazards-cs-japan-2011",
+    topicSlug: "natural-hazards",
+    name: "Japan Earthquake & Tsunami 2011",
+    location: "T\u014Dhoku, Japan (HIC)",
+    facts: [
+      "Magnitude 9.0 earthquake on 11 March 2011",
+      "Triggered a massive tsunami with waves up to 40 metres high",
+      "Japan is one of the most prepared countries for earthquakes",
+    ],
+    causes: [
+      "Located on a destructive plate margin (Pacific plate subducting beneath Eurasian plate)",
+      "Extremely powerful earthquake — the 4th largest ever recorded",
+      "The seabed rose by several metres, displacing huge amounts of water",
+    ],
+    effects: [
+      "Over 18,000 people killed, mostly by the tsunami",
+      "Fukushima nuclear power plant suffered meltdowns, causing a nuclear crisis",
+      "45,000+ buildings destroyed, 230,000 cars wrecked",
+      "Cost estimated at $235 billion — the most expensive natural disaster ever",
+      "500,000 people displaced from their homes",
+    ],
+    responses: [
+      "Earthquake-proof buildings meant many survived the quake itself",
+      "Tsunami warning system gave 8-30 minutes' warning",
+      "Sea walls in some areas reduced wave impact (but were overtopped)",
+      "Rapid emergency response: military deployed within hours",
+      "Nuclear exclusion zone established around Fukushima",
+    ],
+  },
+  {
+    id: "geo-hazards-cs-typhoon-haiyan",
+    topicSlug: "natural-hazards",
+    name: "Typhoon Haiyan 2013",
+    location: "Tacloban, Philippines (LIC)",
+    facts: [
+      "One of the strongest tropical storms ever recorded",
+      "Wind speeds reached 315 km/h (Category 5)",
+      "Made landfall on 8 November 2013",
+    ],
+    causes: [
+      "Formed over the warm Pacific Ocean (sea temperatures above 27\u00B0C)",
+      "Warm, moist air rises rapidly creating an intense low-pressure system",
+      "Coriolis effect caused the storm to spin",
+    ],
+    effects: [
+      "Over 6,300 people killed and 28,000 injured",
+      "90% of Tacloban city destroyed",
+      "Storm surge of 5 metres devastated coastal areas",
+      "6 million people displaced from their homes",
+      "14 million people affected overall",
+    ],
+    responses: [
+      "International aid: $880 million donated",
+      "US aircraft carrier provided emergency support",
+      "Red Cross, UN, and other NGOs provided shelter, food, and clean water",
+      "Tacloban airport reopened within days as a relief hub",
+      "Long-term: 'Build Back Better' programme to rebuild stronger homes",
+    ],
+  },
+];

@@ -1,0 +1,108 @@
+import type { GeographyTerm, CaseStudy } from "./types";
+
+export const RIVER_TERMS: GeographyTerm[] = [
+  // ─── Key Terms ───
+  { id: "geo-rivers-drainage-basin", word: "Drainage basin", def: "The area of land drained by a river and its tributaries.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-watershed", word: "Watershed", def: "The boundary (ridge of high land) separating one drainage basin from another.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-source", word: "Source", def: "The starting point of a river, often a spring or lake in upland areas.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-mouth", word: "Mouth", def: "The point where a river enters the sea or a lake.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-tributary", word: "Tributary", def: "A smaller river or stream that flows into a larger river.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-confluence", word: "Confluence", def: "The point where two rivers meet.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-floodplain", word: "Floodplain", def: "The flat area of land on either side of a river that is prone to flooding.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-estuary", word: "Estuary", def: "A tidal area where a river meets the sea, with a mix of fresh and salt water.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-channel", word: "Channel", def: "The course that a river follows as it flows downhill.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-discharge", word: "Discharge", def: "The volume of water flowing through a river channel at a given point, measured in cumecs (m\u00B3/s).", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-velocity", word: "Velocity", def: "The speed at which a river flows, usually measured in metres per second.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-cross-profile", word: "Cross profile", def: "A slice across a river valley showing its shape from one side to the other.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-long-profile", word: "Long profile", def: "A line drawn along the length of a river from source to mouth showing the gradient.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-gradient", word: "Gradient", def: "The steepness of the river channel, usually steeper near the source.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-meander", word: "Meander", def: "A bend in the course of a river, formed by erosion on the outer bank and deposition on the inner bank.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-oxbow-lake", word: "Oxbow lake", def: "A curved lake formed when a meander is cut off from the main river channel.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-levee", word: "Levee", def: "A raised bank of material along the sides of a river, formed naturally by repeated flooding or built artificially.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-gorge", word: "Gorge", def: "A narrow, steep-sided valley often formed as a waterfall retreats upstream.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-interlocking-spurs", word: "Interlocking spurs", def: "Ridges of hard rock that project into a V-shaped river valley, causing the river to wind around them.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-v-shaped-valley", word: "V-shaped valley", def: "A narrow valley with steep sides found in the upper course, formed by vertical erosion and weathering.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-delta", word: "Delta", def: "A landform at the mouth of a river where sediment is deposited as the river slows, creating new land.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-flood-hydrograph", word: "Flood hydrograph", def: "A graph showing how the discharge of a river changes over time during a storm event.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-lag-time", word: "Lag time", def: "The delay between peak rainfall and peak river discharge on a flood hydrograph.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-impermeable", word: "Impermeable rock", def: "Rock that does not allow water to pass through it, increasing surface runoff.", topicSlug: "rivers", category: "key-term" },
+  { id: "geo-rivers-permeable", word: "Permeable rock", def: "Rock that allows water to soak through it, reducing surface runoff.", topicSlug: "rivers", category: "key-term" },
+
+  // ─── Processes ───
+  { id: "geo-rivers-erosion", word: "Erosion", def: "The wearing away and removal of rock and soil by the action of water, ice, or wind.", topicSlug: "rivers", category: "process" },
+  { id: "geo-rivers-hydraulic-action", word: "Hydraulic action", def: "The force of water hitting the river bed and banks, compressing air into cracks and breaking the rock apart.", topicSlug: "rivers", category: "process" },
+  { id: "geo-rivers-abrasion", word: "Abrasion", def: "Rocks carried by the river scrape and wear away the bed and banks like sandpaper.", topicSlug: "rivers", category: "process" },
+  { id: "geo-rivers-attrition", word: "Attrition", def: "Rocks and stones carried by the river collide with each other, becoming smaller and rounder over time.", topicSlug: "rivers", category: "process" },
+  { id: "geo-rivers-solution-erosion", word: "Solution (erosion)", def: "Slightly acidic river water dissolves soluble rocks such as chalk and limestone.", topicSlug: "rivers", category: "process" },
+  { id: "geo-rivers-traction", word: "Traction", def: "Large boulders and rocks are rolled along the river bed by the force of the water.", topicSlug: "rivers", category: "process" },
+  { id: "geo-rivers-saltation", word: "Saltation", def: "Smaller pebbles and stones are bounced along the river bed in a hopping motion.", topicSlug: "rivers", category: "process" },
+  { id: "geo-rivers-suspension", word: "Suspension", def: "Fine, light particles of sediment (silt and clay) are carried within the water, making it look murky.", topicSlug: "rivers", category: "process" },
+  { id: "geo-rivers-solution-transport", word: "Solution (transport)", def: "Dissolved minerals are carried invisibly within the water.", topicSlug: "rivers", category: "process" },
+  { id: "geo-rivers-deposition", word: "Deposition", def: "The dropping of eroded material when a river loses energy, e.g. on the inside of a meander or at the mouth.", topicSlug: "rivers", category: "process" },
+  { id: "geo-rivers-weathering", word: "Weathering", def: "The breakdown of rock in situ (without movement) by physical, chemical, or biological processes.", topicSlug: "rivers", category: "process" },
+  { id: "geo-rivers-mass-movement", word: "Mass movement", def: "The downhill movement of material under the force of gravity, e.g. slumping or sliding on valley sides.", topicSlug: "rivers", category: "process" },
+  { id: "geo-rivers-surface-runoff", word: "Surface runoff", def: "Water that flows over the surface of the ground into rivers, increasing discharge quickly.", topicSlug: "rivers", category: "process" },
+  { id: "geo-rivers-infiltration", word: "Infiltration", def: "Water soaking into the soil from the surface.", topicSlug: "rivers", category: "process" },
+  { id: "geo-rivers-throughflow", word: "Throughflow", def: "Water moving slowly through the soil towards a river.", topicSlug: "rivers", category: "process" },
+];
+
+export const RIVER_CASE_STUDIES: CaseStudy[] = [
+  {
+    id: "geo-rivers-cs-boscastle",
+    topicSlug: "rivers",
+    name: "Boscastle Flood 2004",
+    location: "Boscastle, Cornwall, UK",
+    facts: [
+      "75mm of rain fell in 2 hours on 16 August 2004",
+      "Rivers Valency and Jordan burst their banks",
+      "Over 100 cars were swept into the sea",
+    ],
+    causes: [
+      "Intense rainfall — 89mm fell in an hour (a month's rain in 60 minutes)",
+      "Saturated ground from previous weeks of rain",
+      "Steep valley sides funnelled water quickly into the river",
+      "Impermeable slate bedrock prevented infiltration",
+      "Narrow river channel could not cope with the volume of water",
+    ],
+    effects: [
+      "58 properties flooded, 4 demolished",
+      "115 cars swept away into the harbour",
+      "No deaths but 7 helicopter rescues",
+      "Roads and bridges destroyed, village cut off",
+      "Estimated cost of \u00A320 million in damage",
+    ],
+    responses: [
+      "River channel widened and deepened to increase capacity",
+      "Car park raised above flood level and relocated",
+      "Flood defence walls built along the river",
+      "Better flood warning systems installed",
+      "Land management upstream to slow water flow",
+    ],
+  },
+  {
+    id: "geo-rivers-cs-banbury",
+    topicSlug: "rivers",
+    name: "River Cherwell Flooding, Banbury",
+    location: "Banbury, Oxfordshire, UK",
+    facts: [
+      "Banbury has experienced repeated flooding events",
+      "The River Cherwell runs through the town centre",
+      "Flood defences protect over 2,800 properties",
+    ],
+    causes: [
+      "Prolonged heavy rainfall increasing discharge",
+      "Urbanisation increasing impermeable surfaces",
+      "Flat floodplain area where the town is built",
+    ],
+    effects: [
+      "Homes, businesses, and roads flooded",
+      "Disruption to transport and daily life",
+      "Financial cost to residents and council",
+    ],
+    responses: [
+      "Flood walls and embankments constructed",
+      "Flood storage areas created upstream",
+      "Improved drainage systems in the town",
+    ],
+  },
+];

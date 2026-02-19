@@ -6,7 +6,10 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TEXT_REGISTRY, TEXT_ICONS } from "@/data/text-registry";
-import SearchModal from "./SearchModal";
+import { SUBJECTS, getSubjectFromPath } from "@/data/subjects";
+import { GEOGRAPHY_REGISTRY } from "@/data/geography/topic-registry";
+import dynamic from "next/dynamic";
+const SearchModal = dynamic(() => import("./SearchModal"), { ssr: false });
 import OnboardingModal from "./OnboardingModal";
 import { useAuth } from "@/components/AuthProvider";
 import { useStorage } from "@/hooks/useStorage";
@@ -18,6 +21,10 @@ const GROUP_ICONS: Record<string, string> = {
   "Modern Text": "M",
   "Poetry Anthology": "P",
   "Unseen Poetry": "U",
+  "Physical Geography": "P",
+  "Physical Landscapes in the UK": "L",
+  "Human Geography": "H",
+  "Geographical Applications": "G",
 };
 
 const GROUP_COLOURS: Record<string, { bg: string; text: string }> = {
@@ -26,16 +33,11 @@ const GROUP_COLOURS: Record<string, { bg: string; text: string }> = {
   "Modern Text": { bg: "bg-teal/10", text: "text-teal" },
   "Poetry Anthology": { bg: "bg-orange/10", text: "text-orange" },
   "Unseen Poetry": { bg: "bg-pink/10", text: "text-pink" },
+  "Physical Geography": { bg: "bg-emerald-500/10", text: "text-emerald-700" },
+  "Physical Landscapes in the UK": { bg: "bg-sky-500/10", text: "text-sky-700" },
+  "Human Geography": { bg: "bg-amber-500/10", text: "text-amber-700" },
+  "Geographical Applications": { bg: "bg-violet-500/10", text: "text-violet-700" },
 };
-
-const NAV_ITEMS = [
-  { label: "Texts", href: "/texts", hasDropdown: true },
-  { label: "AOs", href: "/aos" },
-  { label: "Essay Structure", href: "/essay-structure" },
-  { label: "Exam Practice", href: "/exam" },
-  { label: "Flashcards", href: "/flashcards" },
-  { label: "Vocabulary", href: "/vocab" },
-];
 
 export default function Header() {
   const pathname = usePathname();
@@ -113,8 +115,17 @@ export default function Header() {
   const isActive = (href: string) => pathname.startsWith(href);
   const isHome = pathname === "/";
 
+  // Determine active subject from URL
+  const activeSubject = getSubjectFromPath(pathname);
+  const isGeography = activeSubject.id === "geography";
+  const NAV_ITEMS = activeSubject.navItems;
+
   const activeGroups = TEXT_REGISTRY.filter(g =>
     g.texts.some(t => t.status === "active")
+  );
+
+  const activeGeoGroups = GEOGRAPHY_REGISTRY.filter(g =>
+    g.topics.some(t => t.status === "active")
   );
 
   return (
@@ -142,7 +153,7 @@ export default function Header() {
             }`} style={isHome && !scrolled ? {} : { backgroundColor: "#2196F3" }}>
               9
             </motion.span>
-            <span className="flex items-baseline gap-1 sm:gap-1.5">
+            <span className="flex items-baseline gap-1 sm:gap-1.5" suppressHydrationWarning>
               <span className={`font-display font-bold text-[15px] sm:text-[17px] tracking-tight transition-colors duration-300 ${
                 isHome && !scrolled ? "text-white" : "text-text"
               }`}>
@@ -156,7 +167,32 @@ export default function Header() {
             </span>
           </Link>
 
-          {/* Desktop nav */}
+          {/* Subject pills */}
+          <div className="hidden md:flex items-center gap-1 ml-4 mr-2">
+            {SUBJECTS.map((s) => {
+              const active = !isHome && activeSubject.id === s.id;
+              return (
+                <Link
+                  key={s.id}
+                  href={s.id === "english-lit" ? "/texts" : s.basePath}
+                  className={`px-2.5 py-1 rounded-full font-ui text-[11px] font-semibold transition-all duration-200 ${
+                    active
+                      ? isHome && !scrolled
+                        ? "bg-white/20 text-white"
+                        : "bg-purple-light text-purple"
+                      : isHome && !scrolled
+                        ? "text-white/50 hover:text-white/80 hover:bg-white/10"
+                        : "text-grey hover:text-text hover:bg-surface-hover"
+                  }`}
+                >
+                  {s.shortName}
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Desktop nav — hidden on homepage */}
+          {!isHome && (
           <nav className="hidden md:flex items-center gap-1 font-ui text-[14px] font-medium">
             {NAV_ITEMS.map((item) => (
               item.hasDropdown ? (
@@ -192,68 +228,129 @@ export default function Header() {
                       className="absolute top-full left-0 pt-2 z-50"
                     >
                       <div className="bg-bg border border-border rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.12)] py-2 min-w-[240px]">
-                        {activeGroups.map((group) => {
-                          const gc = GROUP_COLOURS[group.label] ?? { bg: "bg-purple/10", text: "text-purple" };
-                          const icon = GROUP_ICONS[group.label] ?? "?";
-                          const activeCount = group.texts.filter(t => t.status === "active").length;
-                          const isExpanded = expandedGroup === group.label;
+                        {isGeography ? (
+                          <>
+                            {activeGeoGroups.map((group) => {
+                              const gc = GROUP_COLOURS[group.label] ?? { bg: "bg-emerald-500/10", text: "text-emerald-700" };
+                              const icon = GROUP_ICONS[group.label] ?? "G";
+                              const activeCount = group.topics.filter(t => t.status === "active").length;
+                              const isExpanded = expandedGroup === group.label;
 
-                          return (
-                            <div key={group.label}>
-                              <button
-                                onClick={() => setExpandedGroup(isExpanded ? null : group.label)}
-                                className={`w-full flex items-center gap-3 px-4 py-2.5 transition-all duration-150 hover:bg-surface-hover ${
-                                  isExpanded ? "bg-surface-hover" : ""
-                                }`}
-                              >
-                                <span className={`w-8 h-8 rounded-lg ${gc.bg} ${gc.text} font-display font-bold text-[12px] flex items-center justify-center shrink-0`}>
-                                  {icon}
-                                </span>
-                                <div className="flex-1 text-left">
-                                  <p className="text-[13px] font-semibold text-text">{group.label}</p>
-                                  <p className="text-[11px] text-grey">{group.paper} {group.section} &middot; {activeCount} texts</p>
-                                </div>
-                                <svg className={`w-4 h-4 text-grey/40 transition-transform duration-200 ${isExpanded ? "rotate-90" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                                </svg>
-                              </button>
+                              return (
+                                <div key={group.label}>
+                                  <button
+                                    onClick={() => setExpandedGroup(isExpanded ? null : group.label)}
+                                    className={`w-full flex items-center gap-3 px-4 py-2.5 transition-all duration-150 hover:bg-surface-hover ${
+                                      isExpanded ? "bg-surface-hover" : ""
+                                    }`}
+                                  >
+                                    <span className={`w-8 h-8 rounded-lg ${gc.bg} ${gc.text} font-display font-bold text-[12px] flex items-center justify-center shrink-0`}>
+                                      {icon}
+                                    </span>
+                                    <div className="flex-1 text-left">
+                                      <p className="text-[13px] font-semibold text-text">{group.label}</p>
+                                      <p className="text-[11px] text-grey">{group.paper} {group.section} &middot; {activeCount} topics</p>
+                                    </div>
+                                    <svg className={`w-4 h-4 text-grey/40 transition-transform duration-200 ${isExpanded ? "rotate-90" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                    </svg>
+                                  </button>
 
-                              {/* Level 2: Individual texts */}
-                              {isExpanded && (
-                                <div className="border-t border-border-subtle bg-surface/50 py-1">
-                                  {group.texts.filter(t => t.status === "active").map((t) => (
-                                    <Link
-                                      key={t.slug}
-                                      href={`/texts/${t.slug}`}
-                                      className={`flex items-center gap-2.5 px-5 pl-[52px] py-2 transition-all duration-150 ${
-                                        pathname.startsWith(`/texts/${t.slug}`)
-                                          ? "bg-purple-light text-purple font-semibold"
-                                          : "text-text hover:bg-surface-hover"
-                                      }`}
-                                    >
-                                      {TEXT_ICONS[t.slug] ? (
-                                        <img src={TEXT_ICONS[t.slug]} alt="" className="w-5 h-5 rounded-full object-cover object-[center_30%] shrink-0" />
-                                      ) : (
-                                        <span className={`w-5 h-5 rounded ${gc.bg} ${gc.text} font-display font-bold text-[9px] flex items-center justify-center shrink-0`}>
-                                          {t.title.charAt(0)}
-                                        </span>
-                                      )}
-                                      <span className="text-[13px] truncate">{t.title}</span>
-                                    </Link>
-                                  ))}
+                                  {isExpanded && (
+                                    <div className="border-t border-border-subtle bg-surface/50 py-1">
+                                      {group.topics.filter(t => t.status === "active").map((t) => (
+                                        <Link
+                                          key={t.slug}
+                                          href={`/geography/topics/${t.slug}`}
+                                          className={`flex items-center gap-2.5 px-5 pl-[52px] py-2 transition-all duration-150 ${
+                                            pathname.startsWith(`/geography/topics/${t.slug}`)
+                                              ? "bg-emerald-50 text-emerald-700 font-semibold"
+                                              : "text-text hover:bg-surface-hover"
+                                          }`}
+                                        >
+                                          <span className={`w-5 h-5 rounded ${gc.bg} ${gc.text} font-display font-bold text-[9px] flex items-center justify-center shrink-0`}>
+                                            {t.title.charAt(0)}
+                                          </span>
+                                          <span className="text-[13px] truncate">{t.title}</span>
+                                        </Link>
+                                      ))}
+                                    </div>
+                                  )}
                                 </div>
-                              )}
+                              );
+                            })}
+
+                            <div className="border-t border-border-subtle mt-1 pt-1 px-4 pb-1">
+                              <Link href="/geography" className="flex items-center gap-2 px-0 py-2 text-[13px] font-semibold text-emerald-700 hover:text-emerald-900 transition-colors">
+                                View all topics
+                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                              </Link>
                             </div>
-                          );
-                        })}
+                          </>
+                        ) : (
+                          <>
+                            {activeGroups.map((group) => {
+                              const gc = GROUP_COLOURS[group.label] ?? { bg: "bg-purple/10", text: "text-purple" };
+                              const icon = GROUP_ICONS[group.label] ?? "?";
+                              const activeCount = group.texts.filter(t => t.status === "active").length;
+                              const isExpanded = expandedGroup === group.label;
 
-                        {/* View all link */}
-                        <div className="border-t border-border-subtle mt-1 pt-1 px-4 pb-1">
-                          <Link href="/texts" className="flex items-center gap-2 px-0 py-2 text-[13px] font-semibold text-purple hover:text-purple-dark transition-colors">
-                            View all texts
-                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                          </Link>
-                        </div>
+                              return (
+                                <div key={group.label}>
+                                  <button
+                                    onClick={() => setExpandedGroup(isExpanded ? null : group.label)}
+                                    className={`w-full flex items-center gap-3 px-4 py-2.5 transition-all duration-150 hover:bg-surface-hover ${
+                                      isExpanded ? "bg-surface-hover" : ""
+                                    }`}
+                                  >
+                                    <span className={`w-8 h-8 rounded-lg ${gc.bg} ${gc.text} font-display font-bold text-[12px] flex items-center justify-center shrink-0`}>
+                                      {icon}
+                                    </span>
+                                    <div className="flex-1 text-left">
+                                      <p className="text-[13px] font-semibold text-text">{group.label}</p>
+                                      <p className="text-[11px] text-grey">{group.paper} {group.section} &middot; {activeCount} texts</p>
+                                    </div>
+                                    <svg className={`w-4 h-4 text-grey/40 transition-transform duration-200 ${isExpanded ? "rotate-90" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                    </svg>
+                                  </button>
+
+                                  {isExpanded && (
+                                    <div className="border-t border-border-subtle bg-surface/50 py-1">
+                                      {group.texts.filter(t => t.status === "active").map((t) => (
+                                        <Link
+                                          key={t.slug}
+                                          href={`/texts/${t.slug}`}
+                                          className={`flex items-center gap-2.5 px-5 pl-[52px] py-2 transition-all duration-150 ${
+                                            pathname.startsWith(`/texts/${t.slug}`)
+                                              ? "bg-purple-light text-purple font-semibold"
+                                              : "text-text hover:bg-surface-hover"
+                                          }`}
+                                        >
+                                          {TEXT_ICONS[t.slug] ? (
+                                            <img src={TEXT_ICONS[t.slug]} alt="" className="w-5 h-5 rounded-full object-cover object-[center_30%] shrink-0" />
+                                          ) : (
+                                            <span className={`w-5 h-5 rounded ${gc.bg} ${gc.text} font-display font-bold text-[9px] flex items-center justify-center shrink-0`}>
+                                              {t.title.charAt(0)}
+                                            </span>
+                                          )}
+                                          <span className="text-[13px] truncate">{t.title}</span>
+                                        </Link>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
+
+                            <div className="border-t border-border-subtle mt-1 pt-1 px-4 pb-1">
+                              <Link href="/texts" className="flex items-center gap-2 px-0 py-2 text-[13px] font-semibold text-purple hover:text-purple-dark transition-colors">
+                                View all texts
+                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                              </Link>
+                            </div>
+                          </>
+                        )}
                       </div>
                     </motion.div>
                   )}
@@ -285,6 +382,7 @@ export default function Header() {
               )
             ))}
           </nav>
+          )}
 
           {/* Right side */}
           <div className="flex items-center gap-1.5">
@@ -396,7 +494,27 @@ export default function Header() {
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
           className="md:hidden border-t border-border bg-surface/98 backdrop-blur-xl font-ui text-[15px] pb-3 overflow-hidden">
-          {NAV_ITEMS.map((item) => (
+          {/* Mobile subject pills */}
+          <div className="flex gap-2 px-6 py-3 border-b border-border-subtle">
+            {SUBJECTS.map((s) => {
+              const active = !isHome && activeSubject.id === s.id;
+              return (
+                <Link
+                  key={s.id}
+                  href={s.id === "english-lit" ? "/texts" : s.basePath}
+                  onClick={() => setMobileOpen(false)}
+                  className={`px-3 py-1.5 rounded-full font-ui text-[12px] font-semibold transition-all ${
+                    active
+                      ? "bg-purple-light text-purple"
+                      : "text-grey hover:text-text hover:bg-surface-hover"
+                  }`}
+                >
+                  {s.shortName}
+                </Link>
+              );
+            })}
+          </div>
+          {!isHome && NAV_ITEMS.map((item) => (
             item.hasDropdown ? (
               <div key={item.href}>
                 {/* Texts — toggles genre list */}
@@ -414,73 +532,138 @@ export default function Header() {
                   </svg>
                 </button>
 
-                {/* Genre groups */}
+                {/* Groups (English Lit texts or Geography topics) */}
                 {mobileTextsOpen && (
                   <div className="bg-bg border-y border-border-subtle">
-                    {activeGroups.map((group) => {
-                      const gc = GROUP_COLOURS[group.label] ?? { bg: "bg-purple/10", text: "text-purple" };
-                      const icon = GROUP_ICONS[group.label] ?? "?";
-                      const activeCount = group.texts.filter(t => t.status === "active").length;
-                      const isExpanded = mobileExpandedGroup === group.label;
+                    {isGeography ? (
+                      <>
+                        {activeGeoGroups.map((group) => {
+                          const gc = GROUP_COLOURS[group.label] ?? { bg: "bg-emerald-500/10", text: "text-emerald-700" };
+                          const icon = GROUP_ICONS[group.label] ?? "G";
+                          const activeCount = group.topics.filter(t => t.status === "active").length;
+                          const isExpanded = mobileExpandedGroup === group.label;
 
-                      return (
-                        <div key={group.label}>
-                          <button
-                            onClick={() => setMobileExpandedGroup(isExpanded ? null : group.label)}
-                            className={`w-full flex items-center gap-3 px-8 py-3 transition-colors ${
-                              isExpanded ? "bg-surface-hover" : "hover:bg-surface-hover"
-                            }`}
-                          >
-                            <span className={`w-7 h-7 rounded-lg ${gc.bg} ${gc.text} font-display font-bold text-[11px] flex items-center justify-center shrink-0`}>
-                              {icon}
-                            </span>
-                            <div className="flex-1 text-left">
-                              <p className="text-[14px] font-semibold text-text">{group.label}</p>
-                              <p className="text-[11px] text-grey">{activeCount} texts</p>
+                          return (
+                            <div key={group.label}>
+                              <button
+                                onClick={() => setMobileExpandedGroup(isExpanded ? null : group.label)}
+                                className={`w-full flex items-center gap-3 px-8 py-3 transition-colors ${
+                                  isExpanded ? "bg-surface-hover" : "hover:bg-surface-hover"
+                                }`}
+                              >
+                                <span className={`w-7 h-7 rounded-lg ${gc.bg} ${gc.text} font-display font-bold text-[11px] flex items-center justify-center shrink-0`}>
+                                  {icon}
+                                </span>
+                                <div className="flex-1 text-left">
+                                  <p className="text-[14px] font-semibold text-text">{group.label}</p>
+                                  <p className="text-[11px] text-grey">{activeCount} topics</p>
+                                </div>
+                                <svg className={`w-4 h-4 text-grey/40 transition-transform duration-200 ${isExpanded ? "rotate-90" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                              </button>
+
+                              {isExpanded && (
+                                <div className="bg-surface/50 border-t border-border-subtle py-1">
+                                  {group.topics.filter(t => t.status === "active").map((t) => (
+                                    <Link
+                                      key={t.slug}
+                                      href={`/geography/topics/${t.slug}`}
+                                      onClick={() => setMobileOpen(false)}
+                                      className={`flex items-center gap-2.5 px-8 pl-[72px] py-2.5 transition-colors ${
+                                        pathname.startsWith(`/geography/topics/${t.slug}`)
+                                          ? "text-emerald-700 font-semibold bg-emerald-50"
+                                          : "text-text hover:bg-surface-hover"
+                                      }`}
+                                    >
+                                      <span className={`w-5 h-5 rounded ${gc.bg} ${gc.text} font-display font-bold text-[9px] flex items-center justify-center shrink-0`}>
+                                        {t.title.charAt(0)}
+                                      </span>
+                                      <span className="text-[14px]">{t.title}</span>
+                                    </Link>
+                                  ))}
+                                </div>
+                              )}
                             </div>
-                            <svg className={`w-4 h-4 text-grey/40 transition-transform duration-200 ${isExpanded ? "rotate-90" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                            </svg>
-                          </button>
+                          );
+                        })}
 
-                          {/* Individual texts */}
-                          {isExpanded && (
-                            <div className="bg-surface/50 border-t border-border-subtle py-1">
-                              {group.texts.filter(t => t.status === "active").map((t) => (
-                                <Link
-                                  key={t.slug}
-                                  href={`/texts/${t.slug}`}
-                                  onClick={() => setMobileOpen(false)}
-                                  className={`flex items-center gap-2.5 px-8 pl-[72px] py-2.5 transition-colors ${
-                                    pathname.startsWith(`/texts/${t.slug}`)
-                                      ? "text-purple font-semibold bg-purple-light"
-                                      : "text-text hover:bg-surface-hover"
-                                  }`}
-                                >
-                                  {TEXT_ICONS[t.slug] ? (
-                                    <img src={TEXT_ICONS[t.slug]} alt="" className="w-5 h-5 rounded-full object-cover object-[center_30%] shrink-0" />
-                                  ) : (
-                                    <span className={`w-5 h-5 rounded ${gc.bg} ${gc.text} font-display font-bold text-[9px] flex items-center justify-center shrink-0`}>
-                                      {t.title.charAt(0)}
-                                    </span>
-                                  )}
-                                  <span className="text-[14px]">{t.title}</span>
-                                </Link>
-                              ))}
+                        <Link
+                          href="/geography"
+                          onClick={() => setMobileOpen(false)}
+                          className="flex items-center gap-2 px-8 py-3 text-[13px] font-semibold text-emerald-700 hover:bg-surface-hover transition-colors border-t border-border-subtle"
+                        >
+                          View all topics
+                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        {activeGroups.map((group) => {
+                          const gc = GROUP_COLOURS[group.label] ?? { bg: "bg-purple/10", text: "text-purple" };
+                          const icon = GROUP_ICONS[group.label] ?? "?";
+                          const activeCount = group.texts.filter(t => t.status === "active").length;
+                          const isExpanded = mobileExpandedGroup === group.label;
+
+                          return (
+                            <div key={group.label}>
+                              <button
+                                onClick={() => setMobileExpandedGroup(isExpanded ? null : group.label)}
+                                className={`w-full flex items-center gap-3 px-8 py-3 transition-colors ${
+                                  isExpanded ? "bg-surface-hover" : "hover:bg-surface-hover"
+                                }`}
+                              >
+                                <span className={`w-7 h-7 rounded-lg ${gc.bg} ${gc.text} font-display font-bold text-[11px] flex items-center justify-center shrink-0`}>
+                                  {icon}
+                                </span>
+                                <div className="flex-1 text-left">
+                                  <p className="text-[14px] font-semibold text-text">{group.label}</p>
+                                  <p className="text-[11px] text-grey">{activeCount} texts</p>
+                                </div>
+                                <svg className={`w-4 h-4 text-grey/40 transition-transform duration-200 ${isExpanded ? "rotate-90" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                              </button>
+
+                              {isExpanded && (
+                                <div className="bg-surface/50 border-t border-border-subtle py-1">
+                                  {group.texts.filter(t => t.status === "active").map((t) => (
+                                    <Link
+                                      key={t.slug}
+                                      href={`/texts/${t.slug}`}
+                                      onClick={() => setMobileOpen(false)}
+                                      className={`flex items-center gap-2.5 px-8 pl-[72px] py-2.5 transition-colors ${
+                                        pathname.startsWith(`/texts/${t.slug}`)
+                                          ? "text-purple font-semibold bg-purple-light"
+                                          : "text-text hover:bg-surface-hover"
+                                      }`}
+                                    >
+                                      {TEXT_ICONS[t.slug] ? (
+                                        <img src={TEXT_ICONS[t.slug]} alt="" className="w-5 h-5 rounded-full object-cover object-[center_30%] shrink-0" />
+                                      ) : (
+                                        <span className={`w-5 h-5 rounded ${gc.bg} ${gc.text} font-display font-bold text-[9px] flex items-center justify-center shrink-0`}>
+                                          {t.title.charAt(0)}
+                                        </span>
+                                      )}
+                                      <span className="text-[14px]">{t.title}</span>
+                                    </Link>
+                                  ))}
+                                </div>
+                              )}
                             </div>
-                          )}
-                        </div>
-                      );
-                    })}
+                          );
+                        })}
 
-                    <Link
-                      href="/texts"
-                      onClick={() => setMobileOpen(false)}
-                      className="flex items-center gap-2 px-8 py-3 text-[13px] font-semibold text-purple hover:bg-surface-hover transition-colors border-t border-border-subtle"
-                    >
-                      View all texts
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                    </Link>
+                        <Link
+                          href="/texts"
+                          onClick={() => setMobileOpen(false)}
+                          className="flex items-center gap-2 px-8 py-3 text-[13px] font-semibold text-purple hover:bg-surface-hover transition-colors border-t border-border-subtle"
+                        >
+                          View all texts
+                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                        </Link>
+                      </>
+                    )}
                   </div>
                 )}
               </div>

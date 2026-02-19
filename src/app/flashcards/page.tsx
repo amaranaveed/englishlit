@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import PageBanner from "@/components/PageBanner";
 import type { Flashcard } from "@/data/types";
 import { useStorage } from "@/hooks/useStorage";
-import { getTextBySlug } from "@/data/text-registry";
+import { getItemTitle } from "@/data/slug-lookup";
 import FlashcardReview from "@/components/FlashcardReview";
 import FlashcardList from "@/components/FlashcardList";
 import { useAuth } from "@/components/AuthProvider";
@@ -36,6 +36,9 @@ const CARD_TYPES = [
   { value: "mistake", label: "Mistakes", bg: "bg-red-light", text: "text-red" },
   { value: "character", label: "Characters", bg: "bg-amber-100", text: "text-amber-700" },
   { value: "theme", label: "Themes", bg: "bg-indigo-100", text: "text-indigo-700" },
+  { value: "key-term", label: "Key Terms", bg: "bg-emerald-100", text: "text-emerald-700" },
+  { value: "case-study", label: "Case Studies", bg: "bg-sky-100", text: "text-sky-700" },
+  { value: "process", label: "Processes", bg: "bg-lime-100", text: "text-lime-700" },
 ] as const;
 
 export default function FlashcardsPage() {
@@ -334,7 +337,7 @@ function ReviewSetup({
             All texts
           </motion.button>
           {textSlugs.map((slug) => {
-            const t = getTextBySlug(slug);
+            const title = getItemTitle(slug);
             const active = selectedText === slug;
             return (
               <motion.button
@@ -348,7 +351,7 @@ function ReviewSetup({
                     : "border-border bg-bg text-grey hover:text-text hover:border-grey"
                 }`}
               >
-                {t?.title ?? slug}
+                {title}
               </motion.button>
             );
           })}

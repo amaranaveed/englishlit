@@ -9,8 +9,8 @@ import OnboardingModal from "@/components/OnboardingModal";
 import PageTransition from "@/components/PageTransition";
 
 export const metadata: Metadata = {
-  title: "Straight Nines — GCSE English Literature Revision",
-  description: "6-Part Quote Analysis, Exam Practice, Flashcards & Vocab Quiz for AQA GCSE English Literature",
+  title: "Straight Nines — GCSE Revision Platform",
+  description: "English Literature, Geography & more — Exam Practice, Flashcards, Quizzes & Revision Tools for GCSE",
   icons: {
     icon: "/favicon.png",
   },
@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head />
-      <body className="antialiased min-h-screen bg-bg text-text flex flex-col">
+      <body suppressHydrationWarning className="antialiased min-h-screen bg-bg text-text flex flex-col">
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-CJH57NYC0E"
           strategy="afterInteractive"

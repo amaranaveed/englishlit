@@ -345,7 +345,7 @@ export function AnimatedIcon({
       whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
       viewport={{ once: true }}
       transition={{ type: "spring", stiffness: 400, damping: 15, delay }}
-      whileHover={{ scale: 1.2, rotate: [0, -10, 10, -5, 0] }}
+      whileHover={{ scale: 1.2, rotate: 8 }}
       className={className}
     >
       {children}
@@ -629,8 +629,8 @@ export function AnimatedWiggle({
 }) {
   return (
     <motion.span
-      whileHover={{ rotate: [0, -10, 10, -5, 0], scale: 1.1 }}
-      transition={{ duration: 0.5 }}
+      whileHover={{ rotate: 8, scale: 1.1 }}
+      transition={{ duration: 0.3 }}
       className={className}
     >
       {children}

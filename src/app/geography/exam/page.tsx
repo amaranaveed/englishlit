@@ -5,11 +5,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import PageBanner from "@/components/PageBanner";
-import { getActiveTexts, getTextBySlug } from "@/data/text-registry";
-import { getExamQuestions } from "@/data/exam-questions";
 import { useStorage } from "@/hooks/useStorage";
 import { useAuth } from "@/components/AuthProvider";
 import { createClient } from "@/lib/supabase/client";
+import type { GeoExamQuestion } from "@/data/geography/exam-questions";
+import { getGeoExamQuestions, getAllGeoExamQuestions } from "@/data/geography/exam-questions";
+import { getActiveTopics } from "@/data/geography/topic-registry";
 import type { ExamResponse } from "@/data/types";
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
@@ -24,36 +25,45 @@ const staggerItem = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
 };
 
-type Stage = "select" | "writing" | "submitted";
-
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
 };
 
-export default function ExamPage() {
+type Stage = "select" | "writing" | "submitted";
+
+/* ── Time allocation per marks ───────────────────────── */
+function getTimeForMarks(marks: number): number {
+  if (marks <= 4) return 5 * 60;   // 5 minutes
+  if (marks <= 6) return 8 * 60;   // 8 minutes
+  if (marks <= 9) return 15 * 60;  // 15 minutes
+  return Math.round(marks * 1.5 * 60); // fallback: ~1.5 min per mark
+}
+
+export default function GeographyExamPage() {
   const router = useRouter();
   const { user, loading } = useAuth();
   const [stage, setStage] = useState<Stage>("select");
 
   // Selection state
-  const [selectedText, setSelectedText] = useState("");
-  const [selectedQuestion, setSelectedQuestion] = useState("");
+  const [selectedTopic, setSelectedTopic] = useState("");
+  const [selectedQuestion, setSelectedQuestion] = useState<GeoExamQuestion | null>(null);
 
   // Ref for auto-scrolling to questions section
   const questionsRef = useRef<HTMLDivElement>(null);
 
   // Writing state
   const [answer, setAnswer] = useState("");
-  const [timeLeft, setTimeLeft] = useState(50 * 60); // 50 min in seconds
+  const [timeLeft, setTimeLeft] = useState(0);
   const [started, setStarted] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimeRef = useRef<number>(0);
+  const [timeSpentOnSubmit, setTimeSpentOnSubmit] = useState(0);
   const { saveExamResponse } = useStorage();
 
-  const activeTexts = getActiveTexts();
-  const questions = selectedText ? getExamQuestions(selectedText) : [];
-  const text = selectedText ? getTextBySlug(selectedText) : null;
+  const activeTopics = getActiveTopics();
+  const questions = selectedTopic ? getGeoExamQuestions(selectedTopic) : [];
+  const selectedTopicEntry = activeTopics.find((t) => t.slug === selectedTopic);
   const wordCount = answer.trim() ? answer.trim().split(/\s+/).length : 0;
 
   // Timer
@@ -82,7 +92,9 @@ export default function ExamPage() {
   }, []);
 
   function handleStart() {
-    if (!selectedText || !selectedQuestion) return;
+    if (!selectedTopic || !selectedQuestion) return;
+    const totalSeconds = getTimeForMarks(selectedQuestion.marks);
+    setTimeLeft(totalSeconds);
     setStage("writing");
     setStarted(true);
   }
@@ -90,19 +102,31 @@ export default function ExamPage() {
   async function handleSubmit() {
     if (timerRef.current) clearInterval(timerRef.current);
     const timeSpent = Math.round((Date.now() - startTimeRef.current) / 1000);
-    const id = `exam-${Date.now()}`;
+    setTimeSpentOnSubmit(timeSpent);
 
+    const id = `geo-exam-${Date.now()}`;
     const response: ExamResponse = {
       id,
-      textSlug: selectedText,
-      question: selectedQuestion,
+      textSlug: `geo-${selectedTopic}`,
+      question: selectedQuestion!.question,
       studentAnswer: answer,
       timeSpent,
+      marks: selectedQuestion!.marks,
     };
 
     await saveExamResponse(response);
-    setStage("submitted");
-    router.push(`/exam/result/${id}`);
+    router.push(`/geography/exam/result/${id}`);
+  }
+
+  function handleReset() {
+    setStage("select");
+    setSelectedTopic("");
+    setSelectedQuestion(null);
+    setAnswer("");
+    setTimeLeft(0);
+    setStarted(false);
+    setTimeSpentOnSubmit(0);
+    if (timerRef.current) clearInterval(timerRef.current);
   }
 
   // ─── LOADING STATE ───
@@ -111,8 +135,8 @@ export default function ExamPage() {
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <PageBanner
           title="Exam Practice"
-          subtitle="Choose a text and question, then write a timed essay response."
-          image="/images/exam-prep.jpg"
+          subtitle="Choose a topic and question, then write a timed response."
+          image="/images/hero-books.jpg"
         />
         <div className="flex items-center justify-center py-20">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-border border-t-teal" />
@@ -132,8 +156,8 @@ export default function ExamPage() {
       >
         <PageBanner
           title="Exam Practice"
-          subtitle="Choose a text and question, then write a timed essay response."
-          image="/images/exam-prep.jpg"
+          subtitle="Choose a topic and question, then write a timed response."
+          image="/images/hero-books.jpg"
         />
 
         <motion.div
@@ -161,7 +185,7 @@ export default function ExamPage() {
           </h2>
           <p className="font-body text-sm text-grey leading-relaxed max-w-md mx-auto mb-6">
             Exam practice requires a free account so we can save your work and
-            give you AI marking feedback.
+            track your progress.
           </p>
 
           {/* Benefits */}
@@ -172,9 +196,9 @@ export default function ExamPage() {
             animate="visible"
           >
             {[
-              "Your essays are saved to your account",
-              "Get AI marking feedback",
-              "Track progress over time",
+              "Your answers are saved to your account",
+              "Track progress across topics",
+              "Practise under timed conditions",
             ].map((benefit) => (
               <motion.li
                 key={benefit}
@@ -238,6 +262,135 @@ export default function ExamPage() {
     );
   }
 
+  // ─── SUBMITTED STAGE ───
+  if (stage === "submitted") {
+    const submittedWordCount = answer.trim() ? answer.trim().split(/\s+/).length : 0;
+    const minutesTaken = Math.floor(timeSpentOnSubmit / 60);
+    const secondsTaken = timeSpentOnSubmit % 60;
+
+    return (
+      <motion.div
+        className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: EASE }}
+      >
+        <PageBanner
+          title="Exam Practice"
+          subtitle="Choose a topic and question, then write a timed response."
+          image="/images/hero-books.jpg"
+        />
+
+        <motion.div
+          className="rounded-2xl border-2 border-emerald-200 bg-emerald-50 p-8 sm:p-10 text-center"
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+        >
+          {/* Checkmark icon */}
+          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100">
+            <svg
+              className="h-8 w-8 text-emerald-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          </div>
+
+          <h2 className="font-display text-xl font-bold text-text mb-2">
+            Answer Submitted
+          </h2>
+          <p className="font-body text-sm text-grey leading-relaxed max-w-md mx-auto mb-6">
+            Well done! Your response has been saved.
+          </p>
+
+          {/* Stats */}
+          <div className="flex items-center justify-center gap-6 mb-8">
+            <div className="rounded-xl bg-white border border-emerald-200 px-5 py-3 text-center">
+              <p className="font-display text-2xl font-bold text-emerald-700 tabular-nums">
+                {submittedWordCount}
+              </p>
+              <p className="font-ui text-xs text-grey mt-0.5">
+                word{submittedWordCount !== 1 ? "s" : ""} written
+              </p>
+            </div>
+            <div className="rounded-xl bg-white border border-emerald-200 px-5 py-3 text-center">
+              <p className="font-display text-2xl font-bold text-emerald-700 tabular-nums">
+                {minutesTaken}:{secondsTaken.toString().padStart(2, "0")}
+              </p>
+              <p className="font-ui text-xs text-grey mt-0.5">time taken</p>
+            </div>
+          </div>
+
+          {/* Question summary */}
+          {selectedQuestion && (
+            <div className="rounded-lg bg-white/70 border border-emerald-200 px-4 py-3 mb-8 text-left">
+              <p className="font-ui text-xs text-emerald-600 font-semibold mb-1">
+                {selectedTopicEntry?.title} &middot; {selectedQuestion.marks} marks
+              </p>
+              <p className="font-body text-sm text-text leading-relaxed">
+                {selectedQuestion.question}
+              </p>
+            </div>
+          )}
+
+          {/* Action buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={handleReset}
+              className="inline-flex items-center gap-2 rounded-xl bg-teal text-white px-6 py-3 font-ui font-semibold text-sm hover:bg-teal/90 transition-colors cursor-pointer"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
+              </svg>
+              Practice Another Question
+            </motion.button>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+              <Link
+                href="/geography/essay-structure"
+                className="inline-flex items-center gap-2 rounded-xl border-2 border-border bg-surface text-text px-6 py-3 font-ui font-semibold text-sm hover:border-teal/50 transition-colors"
+              >
+                <svg
+                  className="h-4 w-4 text-teal"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                  />
+                </svg>
+                Answer Structure Tips
+              </Link>
+            </motion.div>
+          </div>
+        </motion.div>
+      </motion.div>
+    );
+  }
+
   // ─── SELECT STAGE ───
   if (stage === "select") {
     return (
@@ -249,11 +402,11 @@ export default function ExamPage() {
       >
         <PageBanner
           title="Exam Practice"
-          subtitle="Choose a text and question, then write a timed essay response."
-          image="/images/exam-prep.jpg"
+          subtitle="Choose a topic and question, then write a timed response."
+          image="/images/hero-books.jpg"
         />
 
-        {/* Step 1 — Text */}
+        {/* Step 1 -- Topic */}
         <div className="mb-6">
           <motion.label
             className="font-ui text-sm font-semibold text-text block mb-2"
@@ -261,7 +414,7 @@ export default function ExamPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, ease: EASE }}
           >
-            1. Choose your text
+            1. Choose your topic
           </motion.label>
           <motion.div
             className="grid grid-cols-2 gap-3"
@@ -269,40 +422,45 @@ export default function ExamPage() {
             initial="hidden"
             animate="visible"
           >
-            {activeTexts.map((t) => (
+            {activeTopics.map((t) => (
               <motion.button
                 key={t.slug}
                 variants={staggerItem}
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => {
-                  setSelectedText(t.slug);
-                  setSelectedQuestion("");
+                  setSelectedTopic(t.slug);
+                  setSelectedQuestion(null);
                   setTimeout(() => {
                     if (questionsRef.current) {
-                      const top = questionsRef.current.getBoundingClientRect().top + window.scrollY - 80;
+                      const top =
+                        questionsRef.current.getBoundingClientRect().top +
+                        window.scrollY -
+                        80;
                       window.scrollTo({ top, behavior: "smooth" });
                     }
                   }, 100);
                 }}
                 className={`rounded-xl border-2 p-4 text-left transition-colors cursor-pointer ${
-                  selectedText === t.slug
-                    ? "border-teal bg-teal-light"
-                    : "border-border bg-surface hover:border-teal/50"
+                  selectedTopic === t.slug
+                    ? "border-emerald-500 bg-emerald-50"
+                    : "border-border bg-surface hover:border-emerald-300"
                 }`}
               >
                 <p className="font-display font-bold text-sm text-text">
                   {t.title}
                 </p>
-                <p className="font-ui text-xs text-grey mt-0.5">{t.author}</p>
+                <p className="font-ui text-xs text-grey mt-0.5">
+                  {t.paper} &middot; {t.section}
+                </p>
               </motion.button>
             ))}
           </motion.div>
         </div>
 
-        {/* Step 2 — Question */}
+        {/* Step 2 -- Question */}
         <AnimatePresence>
-          {selectedText && (
+          {selectedTopic && (
             <motion.div
               ref={questionsRef}
               className="mb-8"
@@ -330,14 +488,33 @@ export default function ExamPage() {
                     key={i}
                     variants={staggerItem}
                     whileTap={{ scale: 0.99 }}
-                    onClick={() => setSelectedQuestion(q.question)}
+                    onClick={() => setSelectedQuestion(q)}
                     className={`w-full rounded-lg border-2 px-4 py-3 text-left transition-colors cursor-pointer ${
-                      selectedQuestion === q.question
-                        ? "border-purple bg-purple-light"
-                        : "border-border bg-surface hover:border-purple/50"
+                      selectedQuestion?.question === q.question
+                        ? "border-teal bg-teal-light"
+                        : "border-border bg-surface hover:border-teal/50"
                     }`}
                   >
-                    <p className="font-body text-sm text-text">{q.question}</p>
+                    <div className="flex items-start justify-between gap-3">
+                      <p className="font-body text-sm text-text flex-1">
+                        {q.question}
+                      </p>
+                      <span
+                        className={`shrink-0 rounded-full px-2.5 py-0.5 font-ui text-xs font-bold ${
+                          q.marks >= 9
+                            ? "bg-purple-light text-purple"
+                            : q.marks >= 6
+                            ? "bg-orange-light text-orange"
+                            : "bg-emerald-100 text-emerald-700"
+                        }`}
+                      >
+                        {q.marks} marks
+                      </span>
+                    </div>
+                    <p className="font-ui text-xs text-grey mt-1">
+                      Command word: {q.commandWord} &middot;{" "}
+                      {getTimeForMarks(q.marks) / 60} min
+                    </p>
                   </motion.button>
                 ))}
               </motion.div>
@@ -347,7 +524,7 @@ export default function ExamPage() {
 
         {/* Start button */}
         <AnimatePresence>
-          {selectedText && selectedQuestion && (
+          {selectedTopic && selectedQuestion && (
             <motion.button
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -358,7 +535,8 @@ export default function ExamPage() {
               onClick={handleStart}
               className="w-full rounded-xl bg-teal text-white py-3 font-ui font-semibold text-sm hover:bg-teal/90 transition-colors cursor-pointer"
             >
-              Start Timed Essay (50 minutes)
+              Start Timed Answer ({getTimeForMarks(selectedQuestion.marks) / 60}{" "}
+              minutes)
             </motion.button>
           )}
         </AnimatePresence>
@@ -367,7 +545,8 @@ export default function ExamPage() {
   }
 
   // ─── WRITING STAGE ───
-  const isWarning = timeLeft <= 300 && timeLeft > 0; // 5 min warning
+  const isWarning = timeLeft <= 60 && timeLeft > 0; // 1 min warning
+  const isLowTime = timeLeft <= 120 && timeLeft > 60; // 2 min warning
   const isExpired = timeLeft === 0;
 
   return (
@@ -376,10 +555,10 @@ export default function ExamPage() {
       <div className="flex items-center justify-between mb-4">
         <div>
           <p className="font-display font-bold text-text text-sm">
-            {text?.title}
+            {selectedTopicEntry?.title}
           </p>
           <p className="font-ui text-xs text-grey mt-0.5 max-w-md truncate">
-            {selectedQuestion}
+            {selectedQuestion?.question}
           </p>
         </div>
         <div className="flex items-center gap-4">
@@ -398,6 +577,8 @@ export default function ExamPage() {
               isExpired
                 ? "text-red"
                 : isWarning
+                ? "text-red animate-pulse"
+                : isLowTime
                 ? "text-orange animate-pulse"
                 : "text-text"
             }`}
@@ -407,7 +588,20 @@ export default function ExamPage() {
         </div>
       </div>
 
-      {/* Timer warning */}
+      {/* Timer warnings */}
+      <AnimatePresence>
+        {isLowTime && !isWarning && !isExpired && (
+          <motion.div
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.4, ease: EASE }}
+            className="rounded-lg bg-orange-light border border-orange px-4 py-2 mb-4 font-ui text-sm text-orange font-semibold text-center"
+          >
+            Less than 2 minutes remaining!
+          </motion.div>
+        )}
+      </AnimatePresence>
       <AnimatePresence>
         {isWarning && !isExpired && (
           <motion.div
@@ -417,7 +611,7 @@ export default function ExamPage() {
             transition={{ duration: 0.4, ease: EASE }}
             className="rounded-lg bg-orange-light border border-orange px-4 py-2 mb-4 font-ui text-sm text-orange font-semibold text-center"
           >
-            ⚠️ Less than 5 minutes remaining!
+            Less than 1 minute remaining -- wrap up your answer!
           </motion.div>
         )}
       </AnimatePresence>
@@ -430,25 +624,37 @@ export default function ExamPage() {
             transition={{ duration: 0.4, ease: EASE }}
             className="rounded-lg bg-red-light border border-red px-4 py-2 mb-4 font-ui text-sm text-red font-semibold text-center"
           >
-            ⏰ Time&apos;s up! Submit your answer now.
+            Time&apos;s up! Submit your answer now.
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Question display */}
       <motion.div
-        className="rounded-lg bg-purple-light border border-purple p-4 mb-4"
+        className="rounded-lg bg-teal-light border border-teal p-4 mb-4"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: EASE }}
       >
         <p className="font-body text-text leading-relaxed">
-          {selectedQuestion}
+          {selectedQuestion?.question}
         </p>
-        <p className="font-ui text-xs text-purple mt-2">
-          {text?.paper} {text?.section} · 30 marks
-          {selectedText === "much-ado" ? " + 4 SPaG" : ""}
-        </p>
+        <div className="flex items-center gap-2 mt-2">
+          <span
+            className={`rounded-full px-2.5 py-0.5 font-ui text-xs font-bold ${
+              selectedQuestion && selectedQuestion.marks >= 9
+                ? "bg-purple-light text-purple"
+                : selectedQuestion && selectedQuestion.marks >= 6
+                ? "bg-orange-light text-orange"
+                : "bg-emerald-100 text-emerald-700"
+            }`}
+          >
+            {selectedQuestion?.marks} marks
+          </span>
+          <span className="font-ui text-xs text-teal">
+            {selectedTopicEntry?.paper} &middot; {selectedTopicEntry?.section}
+          </span>
+        </div>
       </motion.div>
 
       {/* Writing area */}
@@ -460,27 +666,27 @@ export default function ExamPage() {
         <textarea
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
-          placeholder="Start writing your essay response here…"
-          className="w-full min-h-[400px] rounded-xl border-2 border-border bg-surface p-5 font-body text-text leading-relaxed resize-y focus:outline-none focus:border-teal transition-colors placeholder:text-grey"
+          placeholder="Start writing your answer here..."
+          className="w-full min-h-[300px] rounded-xl border-2 border-border bg-surface p-5 font-body text-text leading-relaxed resize-y focus:outline-none focus:border-teal transition-colors placeholder:text-grey"
           autoFocus
         />
       </motion.div>
 
       {/* Action bar */}
       <div className="flex items-center justify-between mt-4">
-        <motion.span whileHover={{ x: -3 }} transition={{ duration: 0.2 }}>
-          <Link
-            href="/exam"
-            onClick={(e) => {
-              if (answer.trim() && !confirm("Leave? Your essay will be lost.")) {
-                e.preventDefault();
-              }
-            }}
-            className="font-ui text-sm text-grey hover:text-text transition-colors"
-          >
-            ← Cancel
-          </Link>
-        </motion.span>
+        <motion.button
+          whileHover={{ x: -3 }}
+          transition={{ duration: 0.2 }}
+          onClick={() => {
+            if (answer.trim() && !confirm("Leave? Your answer will be lost.")) {
+              return;
+            }
+            handleReset();
+          }}
+          className="font-ui text-sm text-grey hover:text-text transition-colors cursor-pointer"
+        >
+          &larr; Cancel
+        </motion.button>
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.95 }}
@@ -488,7 +694,7 @@ export default function ExamPage() {
           disabled={!answer.trim()}
           className="rounded-xl bg-teal text-white px-6 py-2.5 font-ui font-semibold text-sm hover:bg-teal/90 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Submit Essay
+          Submit Answer
         </motion.button>
       </div>
     </div>

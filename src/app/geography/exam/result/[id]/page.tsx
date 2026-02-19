@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { getTextBySlug } from "@/data/text-registry";
-import { getExamQuestions } from "@/data/exam-questions";
+import { getTopicBySlug } from "@/data/geography/topic-registry";
 import { useStorage } from "@/hooks/useStorage";
 import { useAuth } from "@/components/AuthProvider";
 import { getSubjectTargetGrade } from "@/data/types";
@@ -28,17 +27,30 @@ const scoreCardItem = {
   visible: { opacity: 1, scale: 1, y: 0, transition: { type: "spring" as const, stiffness: 300, damping: 20 } },
 };
 
-export default function ExamResultPage() {
+/* ── AO max marks per question tariff ── */
+function getAoMax(totalMarks: number): { ao1: number; ao2: number; ao3: number } {
+  if (totalMarks <= 4) return { ao1: 2, ao2: 2, ao3: 0 };
+  if (totalMarks <= 6) return { ao1: 2, ao2: 2, ao3: 2 };
+  return { ao1: 3, ao2: 3, ao3: 3 };
+}
+
+/* ── AO labels for Geography ── */
+const AO_LABELS: Record<string, string> = {
+  ao1: "AO1 — Knowledge",
+  ao2: "AO2 — Understanding",
+  ao3: "AO3 — Analysis & Evaluation",
+};
+
+export default function GeographyExamResultPage() {
   const { id } = useParams<{ id: string }>();
   const { profile } = useAuth();
   const [response, setResponse] = useState<ExamResponse | null>(null);
   const [marking, setMarking] = useState(false);
   const [markError, setMarkError] = useState<string | null>(null);
   const [mistakesAdded, setMistakesAdded] = useState(false);
+  const [autoMarkTriggered, setAutoMarkTriggered] = useState(false);
 
   const { getExamResponseById, updateExamResponse, addFlashcard } = useStorage();
-
-  const [autoMarkTriggered, setAutoMarkTriggered] = useState(false);
 
   useEffect(() => {
     getExamResponseById(id).then((r) => {
@@ -64,14 +76,17 @@ export default function ExamResultPage() {
         transition={{ duration: 0.4, ease: EASE }}
       >
         <p className="text-grey font-ui">Response not found.</p>
-        <Link href="/exam" className="font-ui text-sm text-teal hover:underline mt-4 inline-block">
-          ← Back to Exam Practice
+        <Link href="/geography/exam" className="font-ui text-sm text-teal hover:underline mt-4 inline-block">
+          &larr; Back to Exam Practice
         </Link>
       </motion.div>
     );
   }
 
-  const text = getTextBySlug(response.textSlug);
+  const topicSlug = response.textSlug.replace("geo-", "");
+  const topic = getTopicBySlug(topicSlug);
+  const totalMarks = response.marks ?? 9;
+  const aoMax = getAoMax(totalMarks);
   const minutes = Math.floor(response.timeSpent / 60);
   const seconds = response.timeSpent % 60;
   const wordCount = response.studentAnswer.trim().split(/\s+/).length;
@@ -82,23 +97,15 @@ export default function ExamResultPage() {
     setMarkError(null);
 
     try {
-      // Look up curated model paragraph for this question
-      const questions = getExamQuestions(response.textSlug);
-      const matchedQ = questions.find((q) => q.question === response.question);
-
-      // Only send curated model paragraph if target grade is 8/9 (curated ones are Grade 8/9 level)
-      const engLitGrade = getSubjectTargetGrade(profile, "english-lit");
-      const useCurated = matchedQ?.modelParagraph && (!engLitGrade || engLitGrade >= 8);
-
-      const res = await fetch("/api/mark", {
+      const res = await fetch("/api/mark-geography", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          textName: text?.title ?? response.textSlug,
+          topicName: topic?.title ?? topicSlug,
           question: response.question,
           answer: response.studentAnswer,
-          ...(useCurated ? { modelParagraph: matchedQ.modelParagraph } : {}),
-          ...(engLitGrade ? { targetGrade: engLitGrade } : {}),
+          marks: totalMarks,
+          ...(getSubjectTargetGrade(profile, "geography") ? { targetGrade: getSubjectTargetGrade(profile, "geography") } : {}),
         }),
       });
 
@@ -109,7 +116,6 @@ export default function ExamResultPage() {
         return;
       }
 
-      // Save marking
       await updateExamResponse(response.id, { marking: data.marking });
       setResponse({ ...response, marking: data.marking });
     } catch (err) {
@@ -146,10 +152,10 @@ export default function ExamResultPage() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.4, ease: EASE }}
       >
-        <Link href="/exam" className="hover:text-teal transition-colors">
+        <Link href="/geography/exam" className="hover:text-teal transition-colors">
           Exam Practice
         </Link>
-        <span className="mx-2">›</span>
+        <span className="mx-2">&rsaquo;</span>
         <span className="text-text font-medium">Result</span>
       </motion.nav>
 
@@ -159,7 +165,7 @@ export default function ExamResultPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: EASE, delay: 0.05 }}
       >
-        Essay Submitted
+        Answer Submitted
       </motion.h1>
       <motion.p
         className="text-grey font-ui text-sm mb-6"
@@ -167,12 +173,12 @@ export default function ExamResultPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: EASE, delay: 0.15 }}
       >
-        {text?.title} · {minutes}m {seconds}s · {wordCount} words
+        {topic?.title ?? topicSlug} &middot; {totalMarks} marks &middot; {minutes}m {seconds}s &middot; {wordCount} words
       </motion.p>
 
       {/* Question */}
       <motion.div
-        className="rounded-lg bg-purple-light border border-purple p-4 mb-6"
+        className="rounded-lg bg-teal-light border border-teal p-4 mb-6"
         whileHover={{ scale: 1.01 }}
         transition={{ duration: 0.2 }}
       >
@@ -209,7 +215,7 @@ export default function ExamResultPage() {
             </motion.div>
             <motion.div variants={scoreCardItem} className="rounded-xl border border-border bg-surface p-4 text-center">
               <p className="font-ui text-xs text-grey uppercase tracking-wider">Mark</p>
-              <p className="font-display text-2xl font-bold text-purple">{response.marking.mark}/30</p>
+              <p className="font-display text-2xl font-bold text-emerald-600">{response.marking.mark}/{totalMarks}</p>
             </motion.div>
             <motion.div variants={scoreCardItem} className="rounded-xl border border-border bg-surface p-4 text-center">
               <p className="font-ui text-xs text-grey uppercase tracking-wider">Grade</p>
@@ -226,16 +232,15 @@ export default function ExamResultPage() {
           >
             {(["ao1", "ao2", "ao3"] as const).map((ao) => {
               const data = response.marking![ao];
-              const maxMark = ao === "ao2" ? 18 : 6;
-              const labels = { ao1: "AO1 — Response & Quotations", ao2: "AO2 — Analysis & Methods", ao3: "AO3 — Context" };
-              const pct = (data.mark / maxMark) * 100;
+              const maxMark = aoMax[ao];
+              if (maxMark === 0) return null; // skip AO3 for 4-mark questions
+              const pct = maxMark > 0 ? (data.mark / maxMark) * 100 : 0;
               return (
                 <motion.div key={ao} variants={staggerItem} className="rounded-lg border border-border bg-surface p-4">
                   <div className="flex items-center justify-between mb-1">
-                    <p className="font-ui text-sm font-semibold text-text">{labels[ao]}</p>
+                    <p className="font-ui text-sm font-semibold text-text">{AO_LABELS[ao]}</p>
                     <span className="font-ui text-sm font-bold text-teal">{data.mark}/{maxMark}</span>
                   </div>
-                  {/* Progress bar */}
                   <div className="h-1.5 rounded-full bg-grey-light overflow-hidden mb-2">
                     <motion.div
                       className={`h-full rounded-full ${pct >= 70 ? "bg-green" : pct >= 40 ? "bg-orange" : "bg-red"}`}
@@ -270,7 +275,7 @@ export default function ExamResultPage() {
                     transition={{ duration: 0.4, ease: EASE, delay: i * 0.08 }}
                     className="font-body text-sm text-text flex gap-2"
                   >
-                    <span className="text-green shrink-0">✓</span>{s}
+                    <span className="text-green shrink-0">{"\u2713"}</span>{s}
                   </motion.li>
                 ))}
               </ul>
@@ -287,7 +292,7 @@ export default function ExamResultPage() {
                     transition={{ duration: 0.4, ease: EASE, delay: i * 0.08 }}
                     className="font-body text-sm text-text flex gap-2"
                   >
-                    <span className="text-orange shrink-0">→</span>{s}
+                    <span className="text-orange shrink-0">{"\u2192"}</span>{s}
                   </motion.li>
                 ))}
               </ul>
@@ -318,7 +323,7 @@ export default function ExamResultPage() {
                       : "bg-red text-white hover:bg-red/90"
                   }`}
                 >
-                  {mistakesAdded ? "✓ Added to flashcards" : "Add to flashcards"}
+                  {mistakesAdded ? "\u2713 Added to flashcards" : "Add to flashcards"}
                 </motion.button>
               </div>
               <motion.div
@@ -338,7 +343,7 @@ export default function ExamResultPage() {
             </motion.div>
           )}
 
-          {/* Model paragraph */}
+          {/* Model answer */}
           {response.marking.modelParagraph && (
             <motion.div
               className="rounded-xl border-2 border-teal bg-teal-light p-5 mb-6"
@@ -348,9 +353,9 @@ export default function ExamResultPage() {
               transition={{ duration: 0.5, ease: EASE }}
             >
               <p className="font-ui text-xs font-semibold text-teal uppercase tracking-wider mb-2">
-                Model Paragraph (Grade {getSubjectTargetGrade(profile, "english-lit") ?? "8/9"})
+                Model Answer (Grade {getSubjectTargetGrade(profile, "geography") ?? "8/9"})
               </p>
-              <p className="font-body text-text leading-relaxed">
+              <p className="font-body text-text leading-relaxed whitespace-pre-wrap">
                 {response.marking.modelParagraph}
               </p>
             </motion.div>
@@ -366,7 +371,7 @@ export default function ExamResultPage() {
         >
           {markError ? (
             <>
-              <span className="text-3xl mb-3 block">⚠️</span>
+              <span className="text-3xl mb-3 block">{"\u26A0\uFE0F"}</span>
               <p className="font-display text-lg font-bold text-text mb-2">
                 Marking Failed
               </p>
@@ -393,14 +398,14 @@ export default function ExamResultPage() {
                     <circle cx="25" cy="25" r="20" stroke="#e5e7eb" strokeWidth="4" />
                     <circle cx="25" cy="25" r="20" stroke="#0d9488" strokeWidth="4" strokeLinecap="round" strokeDasharray="80 45" />
                   </svg>
-                  <span className="absolute inset-0 flex items-center justify-center text-xl">🤖</span>
+                  <span className="absolute inset-0 flex items-center justify-center text-xl">{"\uD83E\uDD16"}</span>
                 </div>
               </div>
               <p className="font-display text-lg font-bold text-text mb-1">
-                AI Examiner is marking your essay...
+                AI Examiner is marking your answer...
               </p>
               <p className="font-ui text-sm text-grey max-w-sm mx-auto mb-4">
-                Analysing your response against AO1, AO2, and AO3. This usually takes around 10 seconds.
+                Analysing your response against AO1, AO2{totalMarks > 4 ? ", and AO3" : ""}. This usually takes around 10 seconds.
               </p>
               <div className="flex justify-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-teal animate-bounce" style={{ animationDelay: "0ms" }} />
@@ -421,13 +426,13 @@ export default function ExamResultPage() {
         transition={{ duration: 0.5, ease: EASE }}
       >
         <motion.div whileHover={{ x: -3 }} transition={{ duration: 0.2 }}>
-          <Link href="/exam" className="font-ui text-sm text-teal hover:underline">
-            ← Try another question
+          <Link href="/geography/exam" className="font-ui text-sm text-teal hover:underline">
+            &larr; Try another question
           </Link>
         </motion.div>
         <motion.div whileHover={{ x: 3 }} transition={{ duration: 0.2 }}>
-          <Link href="/" className="font-ui text-sm text-grey hover:text-text transition-colors">
-            Dashboard
+          <Link href="/geography" className="font-ui text-sm text-grey hover:text-text transition-colors">
+            Geography Home
           </Link>
         </motion.div>
       </motion.div>

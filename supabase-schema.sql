@@ -87,7 +87,9 @@ CREATE TABLE user_profiles (
   first_name TEXT NOT NULL,
   year_group INTEGER NOT NULL CHECK (year_group BETWEEN 8 AND 13),
   target_grade INTEGER NOT NULL CHECK (target_grade BETWEEN 1 AND 9),
+  subjects JSONB NOT NULL DEFAULT '[]',
   text_slugs TEXT[] NOT NULL DEFAULT '{}',
+  geo_topic_slugs TEXT[] NOT NULL DEFAULT '{}',
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   PRIMARY KEY (user_id)
@@ -101,3 +103,7 @@ CREATE POLICY "Users can insert own profile"
   ON user_profiles FOR INSERT WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "Users can update own profile"
   ON user_profiles FOR UPDATE USING (auth.uid() = user_id);
+
+-- ─── Migration: Add multi-subject support (run if upgrading) ───
+-- ALTER TABLE user_profiles ADD COLUMN IF NOT EXISTS subjects JSONB NOT NULL DEFAULT '[]';
+-- ALTER TABLE user_profiles ADD COLUMN IF NOT EXISTS geo_topic_slugs TEXT[] NOT NULL DEFAULT '{}';

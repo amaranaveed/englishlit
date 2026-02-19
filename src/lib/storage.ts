@@ -416,11 +416,19 @@ export async function getUserProfile(userId: string): Promise<UserProfile | null
 
   if (error || !data) return null;
 
+  // Backwards compat: build subjects from legacy target_grade if no subjects column
+  const subjects = (data.subjects as UserProfile["subjects"]) ?? [];
+  if (subjects.length === 0 && data.target_grade) {
+    subjects.push({ subjectId: "english-lit", targetGrade: data.target_grade as UserProfile["targetGrade"] });
+  }
+
   return {
     firstName: data.first_name as string,
     yearGroup: data.year_group as UserProfile["yearGroup"],
     targetGrade: data.target_grade as UserProfile["targetGrade"],
+    subjects,
     textSlugs: (data.text_slugs ?? []) as string[],
+    geoTopicSlugs: (data.geo_topic_slugs ?? []) as string[],
     createdAt: new Date(data.created_at).toISOString(),
     updatedAt: new Date(data.updated_at).toISOString(),
   };
@@ -435,7 +443,9 @@ export async function saveUserProfile(
     first_name: profile.firstName,
     year_group: profile.yearGroup,
     target_grade: profile.targetGrade,
+    subjects: profile.subjects,
     text_slugs: profile.textSlugs,
+    geo_topic_slugs: profile.geoTopicSlugs,
     updated_at: new Date().toISOString(),
   }, { onConflict: "user_id" });
 }

@@ -3,8 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { TEXT_REGISTRY, TEXT_ICONS, getActiveTexts } from "@/data/text-registry";
+import { GEOGRAPHY_REGISTRY } from "@/data/geography/topic-registry";
 import { useStorage } from "@/hooks/useStorage";
 import { useAuth } from "@/components/AuthProvider";
 import { createClient } from "@/lib/supabase/client";
@@ -86,6 +87,8 @@ export default function HomePage() {
   const allActiveTexts = getActiveTexts();
   const { getDueCount, getFlashcards, getExamResponses, getVocabScores } = useStorage();
   const [stats, setStats] = useState({ due: 0, totalCards: 0, essays: 0, marked: 0, vocabBest: 0 });
+  const [engLitOpen, setEngLitOpen] = useState(false);
+  const [geoOpen, setGeoOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const heroParallax = useTransform(scrollYProgress, [0, 0.3], [0, -60]);
 
@@ -146,7 +149,7 @@ export default function HomePage() {
                 className="w-2 h-2 rounded-full bg-orange"
               />
               <span className="font-ui text-[13px] text-white/80 font-medium tracking-wide">
-                AQA 8702 Revision Platform
+                GCSE Revision Platform
               </span>
             </motion.div>
 
@@ -157,16 +160,16 @@ export default function HomePage() {
               custom={1}
               className="font-display text-[36px] sm:text-[52px] lg:text-[58px] font-extrabold text-white leading-[1.08] tracking-[-0.02em]"
             >
-              Smarter GCSE English{" "}
+              Smarter GCSE{" "}
               <motion.span
                 className="text-orange inline-block"
                 initial={{ opacity: 0, rotateX: -90 }}
                 animate={{ opacity: 1, rotateX: 0 }}
                 transition={{ duration: 0.8, delay: 0.4, ease: EASE }}
               >
-                Literature
+                Revision
               </motion.span>{" "}
-              Revision
+              Starts Here
             </motion.h1>
 
             <motion.p
@@ -176,8 +179,8 @@ export default function HomePage() {
               custom={2}
               className="font-body text-[17px] sm:text-[20px] text-white/70 mt-6 max-w-2xl leading-relaxed"
             >
-              Revise your set texts, practise exam questions, and build your
-              analytical vocabulary &mdash; all in one place.
+              English Literature, Geography, and more &mdash; revise every subject
+              with flashcards, quizzes, and exam practice, all in one place.
             </motion.p>
 
             {/* CTA buttons */}
@@ -237,7 +240,7 @@ export default function HomePage() {
               >
                 <Image
                   src="/images/hero-characters.png"
-                  alt="GCSE Literature characters"
+                  alt="GCSE revision characters"
                   fill
                   className="object-cover object-[40%_center]"
                   sizes="(min-width: 1280px) 50vw, 55vw"
@@ -283,7 +286,7 @@ export default function HomePage() {
             custom={0}
             className="font-display text-[22px] sm:text-[28px] font-bold text-text leading-snug"
           >
-            Built for <span className="text-purple">GCSE Literature</span> success
+            Built for <span className="text-purple">GCSE</span> success
           </motion.h2>
 
           <motion.div
@@ -295,7 +298,7 @@ export default function HomePage() {
           >
             {/* Stat 1 */}
             <motion.div variants={staggerItem} className="sm:border-r sm:border-border-subtle sm:pr-8">
-              <p className="font-ui text-[13px] text-grey font-medium">Complete AQA 8702 coverage</p>
+              <p className="font-ui text-[13px] text-grey font-medium">Growing subject library</p>
               <motion.p
                 initial={{ opacity: 0, scale: 0.5 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -303,7 +306,7 @@ export default function HomePage() {
                 transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
                 className="font-display font-bold text-[26px] sm:text-[30px] text-text leading-tight mt-1"
               >
-                15+ Set Texts
+                2 Subjects
               </motion.p>
             </motion.div>
             {/* Stat 2 */}
@@ -321,7 +324,7 @@ export default function HomePage() {
             </motion.div>
             {/* Stat 3 */}
             <motion.div variants={staggerItem} className="sm:pl-8">
-              <p className="font-ui text-[13px] text-grey font-medium">Expert essay structures</p>
+              <p className="font-ui text-[13px] text-grey font-medium">Exam-focused resources</p>
               <motion.p
                 initial={{ opacity: 0, scale: 0.5 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -329,7 +332,7 @@ export default function HomePage() {
                 transition={{ duration: 0.6, ease: EASE, delay: 0.5 }}
                 className="font-display font-bold text-[26px] sm:text-[30px] text-text leading-tight mt-1"
               >
-                Grade 9 Method
+                Grade 9 Ready
               </motion.p>
             </motion.div>
           </motion.div>
@@ -698,120 +701,314 @@ export default function HomePage() {
       </div>
 
       {/* ═══════════════════════════════════════════════════ */}
-      {/* SECTION 3 — All AQA Texts (surface band)           */}
+      {/* SECTION — Subjects                                  */}
       {/* ═══════════════════════════════════════════════════ */}
-      <section className="bg-surface">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12 sm:py-16">
-          <motion.div
+      <section className="bg-surface border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-10 sm:py-12">
+          <motion.h2
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6, ease: EASE }}
-            className="flex items-center gap-4 mb-10"
+            className="font-display text-xl sm:text-2xl font-bold text-text mb-6"
           >
-            <motion.span
-              whileHover={{ rotate: [0, -10, 10, 0] }}
-              transition={{ duration: 0.5 }}
-              className="w-11 h-11 rounded-xl bg-purple text-white flex items-center justify-center shadow-[0_2px_10px_rgba(79,82,195,0.25)]"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" /></svg>
-            </motion.span>
-            <div>
-              <h2 className="font-display text-[24px] sm:text-[30px] font-bold text-text leading-tight">
-                All AQA Texts
-              </h2>
-              <p className="font-ui text-[14px] text-grey mt-0.5">Every set text for AQA GCSE English Literature 8702</p>
-            </div>
-          </motion.div>
-
+            Subjects
+          </motion.h2>
           <motion.div
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-30px" }}
-            className="space-y-6"
+            viewport={{ once: true }}
+            className="grid sm:grid-cols-2 gap-4"
           >
-            {TEXT_REGISTRY.map((group, gi) => {
-              const gc = GROUP_COLOURS[gi % GROUP_COLOURS.length];
-              const groupImage = GROUP_IMAGES[gi % GROUP_IMAGES.length];
-              return (
-                <motion.div
-                  key={group.label}
-                  variants={staggerItem}
-                  className="rounded-2xl border border-border-subtle bg-bg overflow-hidden shadow-[var(--card-shadow)]"
-                >
-                  {/* Banner image with overlay */}
-                  <div className="relative h-36 sm:h-44 w-full overflow-hidden bg-[#1a1b3a]">
-                    <Image src={groupImage} alt={group.label} fill className="object-cover object-center" sizes="(max-width: 768px) 100vw, 1200px" />
-                    <div className="absolute inset-0 bg-[#1a1b3a]/30" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#1a1b3a]/75 via-[#1a1b3a]/35 to-transparent" />
-                    <div className="absolute inset-0 flex items-center px-6 sm:px-7">
-                      <div className="flex items-center gap-3 flex-1">
-                        <span className="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-sm text-white flex items-center justify-center border border-white/20">
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
-                        </span>
-                        <div>
-                          <p className="text-[17px] sm:text-[20px] font-display font-bold text-white leading-snug">
-                            {group.label}
-                          </p>
-                          <p className="font-ui text-[13px] text-white/70 mt-0.5">{group.paper} {group.section}</p>
-                        </div>
-                        <div className="flex-1" />
-                        <span className="text-[12px] font-semibold text-white bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20">
-                          {group.texts.filter(t => t.status === "active").length}/{group.texts.length} available
-                        </span>
-                      </div>
-                    </div>
+            <motion.div variants={staggerItem}>
+              <Link href="/texts" className="block rounded-xl border border-border bg-bg p-6 card-hover">
+                <div className="flex items-center gap-4">
+                  <span className="w-12 h-12 rounded-xl bg-purple-light text-purple flex items-center justify-center text-xl shrink-0">
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
+                  </span>
+                  <div>
+                    <h3 className="font-display font-bold text-text text-lg">English Literature</h3>
+                    <p className="font-ui text-sm text-grey">AQA 8702 &middot; {allActiveTexts.length} set texts</p>
                   </div>
+                </div>
+              </Link>
+            </motion.div>
+            <motion.div variants={staggerItem}>
+              <Link href="/geography" className="block rounded-xl border border-border bg-bg p-6 card-hover">
+                <div className="flex items-center gap-4">
+                  <span className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0">
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 003 12c0-1.605.42-3.113 1.157-4.418" /></svg>
+                  </span>
+                  <div>
+                    <h3 className="font-display font-bold text-text text-lg">Geography</h3>
+                    <p className="font-ui text-sm text-grey">AQA 8035 &middot; Flashcards &amp; Quizzes</p>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
 
-                  {/* Cards grid */}
-                  <motion.div
-                    variants={staggerContainer}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 p-5 sm:p-6"
-                  >
-                    {group.texts.map((t) => {
-                      const active = t.status === "active";
-                      return active ? (
-                        <motion.div key={t.slug} variants={staggerItem} whileHover={{ scale: 1.02, y: -2 }}>
-                          <Link
-                            href={`/texts/${t.slug}`}
-                            className={`group flex items-center gap-4 rounded-xl border ${gc.cardBorder} bg-surface hover:bg-surface-hover px-5 py-4 transition-all duration-200 hover:border-purple/20 hover:shadow-[var(--card-shadow)]`}
-                          >
-                            {TEXT_ICONS[t.slug] ? (
-                              <img src={TEXT_ICONS[t.slug]} alt="" className="w-10 h-10 rounded-full object-cover object-[center_30%] shrink-0 transition-transform duration-200 group-hover:scale-110" />
-                            ) : (
-                              <span className={`w-10 h-10 rounded-lg ${gc.bg} ${gc.text} font-display font-bold text-[16px] flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110`}>
-                                {t.title.charAt(0)}
-                              </span>
-                            )}
-                            <div className="min-w-0 flex-1">
-                              <p className="font-ui text-[15px] font-semibold text-text truncate">{t.title}</p>
-                              <p className="font-ui text-[13px] text-grey mt-0.5">{t.author} &middot; {t.year}</p>
+      {/* ═══════════════════════════════════════════════════ */}
+      {/* SECTION 3 — Subject Dropdowns                       */}
+      {/* ═══════════════════════════════════════════════════ */}
+      <section className="bg-surface">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12 sm:py-16 space-y-6">
+
+          {/* ── English Literature Dropdown ──────────────── */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, ease: EASE }}
+            className="rounded-2xl border border-border-subtle bg-bg overflow-hidden shadow-[var(--card-shadow)]"
+          >
+            <button
+              onClick={() => setEngLitOpen(!engLitOpen)}
+              className="w-full flex items-center gap-4 px-6 sm:px-8 py-5 sm:py-6 text-left hover:bg-surface-hover/50 transition-colors duration-200"
+            >
+              <span className="w-11 h-11 rounded-xl bg-purple text-white flex items-center justify-center shadow-[0_2px_10px_rgba(79,82,195,0.25)] shrink-0">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
+              </span>
+              <div className="flex-1 min-w-0">
+                <h2 className="font-display text-[20px] sm:text-[24px] font-bold text-text leading-tight">
+                  English Literature
+                </h2>
+                <p className="font-ui text-[13px] sm:text-[14px] text-grey mt-0.5">AQA 8702 &middot; Every set text</p>
+              </div>
+              <motion.svg
+                animate={{ rotate: engLitOpen ? 180 : 0 }}
+                transition={{ duration: 0.3, ease: EASE }}
+                className="w-5 h-5 text-grey shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </motion.svg>
+            </button>
+
+            <AnimatePresence initial={false}>
+              {engLitOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: EASE }}
+                  className="overflow-hidden"
+                >
+                  <div className="border-t border-border-subtle px-5 sm:px-7 py-6 space-y-6">
+                    {TEXT_REGISTRY.map((group, gi) => {
+                      const gc = GROUP_COLOURS[gi % GROUP_COLOURS.length];
+                      const groupImage = GROUP_IMAGES[gi % GROUP_IMAGES.length];
+                      return (
+                        <div
+                          key={group.label}
+                          className="rounded-2xl border border-border-subtle bg-bg overflow-hidden shadow-[var(--card-shadow)]"
+                        >
+                          {/* Banner image with overlay */}
+                          <div className="relative h-36 sm:h-44 w-full overflow-hidden bg-[#1a1b3a]">
+                            <Image src={groupImage} alt={group.label} fill className="object-cover object-center" sizes="(max-width: 768px) 100vw, 1200px" />
+                            <div className="absolute inset-0 bg-[#1a1b3a]/30" />
+                            <div className="absolute inset-0 bg-gradient-to-r from-[#1a1b3a]/75 via-[#1a1b3a]/35 to-transparent" />
+                            <div className="absolute inset-0 flex items-center px-6 sm:px-7">
+                              <div className="flex items-center gap-3 flex-1">
+                                <span className="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-sm text-white flex items-center justify-center border border-white/20">
+                                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
+                                </span>
+                                <div>
+                                  <p className="text-[17px] sm:text-[20px] font-display font-bold text-white leading-snug">
+                                    {group.label}
+                                  </p>
+                                  <p className="font-ui text-[13px] text-white/70 mt-0.5">{group.paper} {group.section}</p>
+                                </div>
+                                <div className="flex-1" />
+                                <span className="text-[12px] font-semibold text-white bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20">
+                                  {group.texts.filter(t => t.status === "active").length}/{group.texts.length} available
+                                </span>
+                              </div>
                             </div>
-                            <svg className={`w-4 h-4 text-border shrink-0 group-hover:${gc.hoverText} group-hover:translate-x-0.5 transition-all duration-200`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-                          </Link>
-                        </motion.div>
-                      ) : (
-                        <motion.div key={t.slug} variants={staggerItem} className="flex items-center gap-4 rounded-xl border border-border-subtle/50 bg-surface px-5 py-4 opacity-40">
-                          <span className="w-10 h-10 rounded-lg bg-surface-hover text-grey font-display font-bold text-[16px] flex items-center justify-center shrink-0">
-                            {t.title.charAt(0)}
-                          </span>
-                          <div className="min-w-0 flex-1">
-                            <p className="font-ui text-[15px] font-medium text-grey truncate">{t.title}</p>
-                            <p className="font-ui text-[13px] text-grey/50 mt-0.5">{t.author}</p>
                           </div>
-                          <span className="text-[10px] font-bold text-grey/40 bg-surface-hover px-2.5 py-1 rounded-full shrink-0">SOON</span>
-                        </motion.div>
+
+                          {/* Cards grid */}
+                          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 p-5 sm:p-6">
+                            {group.texts.map((t) => {
+                              const active = t.status === "active";
+                              return active ? (
+                                <motion.div key={t.slug} whileHover={{ scale: 1.02, y: -2 }}>
+                                  <Link
+                                    href={`/texts/${t.slug}`}
+                                    className={`group flex items-center gap-4 rounded-xl border ${gc.cardBorder} bg-surface hover:bg-surface-hover px-5 py-4 transition-all duration-200 hover:border-purple/20 hover:shadow-[var(--card-shadow)]`}
+                                  >
+                                    {TEXT_ICONS[t.slug] ? (
+                                      <img src={TEXT_ICONS[t.slug]} alt="" className="w-10 h-10 rounded-full object-cover object-[center_30%] shrink-0 transition-transform duration-200 group-hover:scale-110" />
+                                    ) : (
+                                      <span className={`w-10 h-10 rounded-lg ${gc.bg} ${gc.text} font-display font-bold text-[16px] flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110`}>
+                                        {t.title.charAt(0)}
+                                      </span>
+                                    )}
+                                    <div className="min-w-0 flex-1">
+                                      <p className="font-ui text-[15px] font-semibold text-text truncate">{t.title}</p>
+                                      <p className="font-ui text-[13px] text-grey mt-0.5">{t.author} &middot; {t.year}</p>
+                                    </div>
+                                    <svg className={`w-4 h-4 text-border shrink-0 group-hover:${gc.hoverText} group-hover:translate-x-0.5 transition-all duration-200`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                  </Link>
+                                </motion.div>
+                              ) : (
+                                <div key={t.slug} className="flex items-center gap-4 rounded-xl border border-border-subtle/50 bg-surface px-5 py-4 opacity-40">
+                                  <span className="w-10 h-10 rounded-lg bg-surface-hover text-grey font-display font-bold text-[16px] flex items-center justify-center shrink-0">
+                                    {t.title.charAt(0)}
+                                  </span>
+                                  <div className="min-w-0 flex-1">
+                                    <p className="font-ui text-[15px] font-medium text-grey truncate">{t.title}</p>
+                                    <p className="font-ui text-[13px] text-grey/50 mt-0.5">{t.author}</p>
+                                  </div>
+                                  <span className="text-[10px] font-bold text-grey/40 bg-surface-hover px-2.5 py-1 rounded-full shrink-0">SOON</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
                       );
                     })}
-                  </motion.div>
+                  </div>
                 </motion.div>
-              );
-            })}
+              )}
+            </AnimatePresence>
           </motion.div>
+
+          {/* ── Geography Dropdown ───────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
+            className="rounded-2xl border border-border-subtle bg-bg overflow-hidden shadow-[var(--card-shadow)]"
+          >
+            <button
+              onClick={() => setGeoOpen(!geoOpen)}
+              className="w-full flex items-center gap-4 px-6 sm:px-8 py-5 sm:py-6 text-left hover:bg-surface-hover/50 transition-colors duration-200"
+            >
+              <span className="w-11 h-11 rounded-xl bg-emerald-500 text-white flex items-center justify-center shadow-[0_2px_10px_rgba(16,185,129,0.25)] shrink-0">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 003 12c0-1.605.42-3.113 1.157-4.418" /></svg>
+              </span>
+              <div className="flex-1 min-w-0">
+                <h2 className="font-display text-[20px] sm:text-[24px] font-bold text-text leading-tight">
+                  Geography
+                </h2>
+                <p className="font-ui text-[13px] sm:text-[14px] text-grey mt-0.5">AQA 8035 &middot; All topics</p>
+              </div>
+              <motion.svg
+                animate={{ rotate: geoOpen ? 180 : 0 }}
+                transition={{ duration: 0.3, ease: EASE }}
+                className="w-5 h-5 text-grey shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </motion.svg>
+            </button>
+
+            <AnimatePresence initial={false}>
+              {geoOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: EASE }}
+                  className="overflow-hidden"
+                >
+                  <div className="border-t border-border-subtle px-5 sm:px-7 py-6 space-y-6">
+                    {GEOGRAPHY_REGISTRY.map((group, gi) => {
+                      const GEO_COLOURS = [
+                        { bg: "bg-emerald-50", text: "text-emerald-700", cardBorder: "border-emerald-200", hoverText: "text-emerald-700" },
+                        { bg: "bg-sky-50", text: "text-sky-700", cardBorder: "border-sky-200", hoverText: "text-sky-700" },
+                        { bg: "bg-amber-50", text: "text-amber-700", cardBorder: "border-amber-200", hoverText: "text-amber-700" },
+                        { bg: "bg-violet-50", text: "text-violet-700", cardBorder: "border-violet-200", hoverText: "text-violet-700" },
+                      ];
+                      const gc = GEO_COLOURS[gi % GEO_COLOURS.length];
+                      return (
+                        <div
+                          key={group.label}
+                          className="rounded-2xl border border-border-subtle bg-bg overflow-hidden shadow-[var(--card-shadow)]"
+                        >
+                          {/* Group header */}
+                          <div className="relative h-24 sm:h-28 w-full overflow-hidden bg-emerald-900">
+                            <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/90 via-emerald-800/60 to-emerald-700/30" />
+                            <div
+                              className="absolute inset-0 pointer-events-none opacity-[0.06]"
+                              style={{
+                                backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)",
+                                backgroundSize: "24px 24px",
+                              }}
+                            />
+                            <div className="absolute inset-0 flex items-center px-6 sm:px-7">
+                              <div className="flex items-center gap-3 flex-1">
+                                <span className="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-sm text-white flex items-center justify-center border border-white/20">
+                                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 003 12c0-1.605.42-3.113 1.157-4.418" /></svg>
+                                </span>
+                                <div>
+                                  <p className="text-[17px] sm:text-[20px] font-display font-bold text-white leading-snug">
+                                    {group.label}
+                                  </p>
+                                  <p className="font-ui text-[13px] text-white/70 mt-0.5">{group.paper} {group.section}</p>
+                                </div>
+                                <div className="flex-1" />
+                                <span className="text-[12px] font-semibold text-white bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20">
+                                  {group.topics.filter(t => t.status === "active").length}/{group.topics.length} available
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Topic cards */}
+                          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 p-5 sm:p-6">
+                            {group.topics.map((t) => {
+                              const active = t.status === "active";
+                              return active ? (
+                                <motion.div key={t.slug} whileHover={{ scale: 1.02, y: -2 }}>
+                                  <Link
+                                    href={`/geography/topics/${t.slug}`}
+                                    className={`group flex items-center gap-4 rounded-xl border ${gc.cardBorder} bg-surface hover:bg-surface-hover px-5 py-4 transition-all duration-200 hover:border-emerald-300 hover:shadow-[var(--card-shadow)]`}
+                                  >
+                                    <span className={`w-10 h-10 rounded-lg ${gc.bg} ${gc.text} font-display font-bold text-[16px] flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110`}>
+                                      {t.title.charAt(0)}
+                                    </span>
+                                    <div className="min-w-0 flex-1">
+                                      <p className="font-ui text-[15px] font-semibold text-text truncate">{t.title}</p>
+                                      <p className="font-ui text-[13px] text-grey mt-0.5">{t.paper} &middot; {t.section}</p>
+                                    </div>
+                                    <svg className={`w-4 h-4 text-border shrink-0 group-hover:${gc.hoverText} group-hover:translate-x-0.5 transition-all duration-200`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                  </Link>
+                                </motion.div>
+                              ) : (
+                                <div key={t.slug} className="flex items-center gap-4 rounded-xl border border-border-subtle/50 bg-surface px-5 py-4 opacity-40">
+                                  <span className="w-10 h-10 rounded-lg bg-surface-hover text-grey font-display font-bold text-[16px] flex items-center justify-center shrink-0">
+                                    {t.title.charAt(0)}
+                                  </span>
+                                  <div className="min-w-0 flex-1">
+                                    <p className="font-ui text-[15px] font-medium text-grey truncate">{t.title}</p>
+                                    <p className="font-ui text-[13px] text-grey/50 mt-0.5">{t.paper}</p>
+                                  </div>
+                                  <span className="text-[10px] font-bold text-grey/40 bg-surface-hover px-2.5 py-1 rounded-full shrink-0">SOON</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+
         </div>
       </section>
 
