@@ -34,7 +34,7 @@ export default function TextAOGuide({ textSlug, textTitle }: Props) {
           AO Guide for {textTitle}
         </h2>
         <Link
-          href="/aos"
+          href="/englishlit/aos"
           className="font-ui text-xs text-teal hover:underline"
         >
           View all AOs →

@@ -24,7 +24,7 @@ function buildIndex(): SearchItem[] {
       category: "text",
       title: t.title,
       subtitle: `${t.author} (${t.year}) — ${t.paper} ${t.section}`,
-      href: `/texts/${t.slug}`,
+      href: `/englishlit/texts/${t.slug}`,
       searchText: `${t.title} ${t.author} ${t.year} ${t.paper} ${t.section}`.toLowerCase(),
       textSlug: t.slug,
     });
@@ -37,7 +37,7 @@ function buildIndex(): SearchItem[] {
       category: "quote",
       title: q.quote.length > 80 ? `"${q.quote.slice(0, 80)}…"` : `"${q.quote}"`,
       subtitle: `${q.who} — ${textTitle}, ${q.act}`,
-      href: `/texts/${q.textSlug}/quotes/${q.id}`,
+      href: `/englishlit/texts/${q.textSlug}/quotes/${q.id}`,
       searchText: `${q.quote} ${q.who} ${q.act} ${q.themes.join(" ")} ${textTitle}`.toLowerCase(),
       textSlug: q.textSlug,
     });
@@ -50,7 +50,7 @@ function buildIndex(): SearchItem[] {
       category: "character",
       title: c.name,
       subtitle: `${textTitle} — ${c.overview.length > 80 ? c.overview.slice(0, 80) + "…" : c.overview}`,
-      href: `/texts/${c.textSlug}/characters/${encodeURIComponent(c.name)}`,
+      href: `/englishlit/texts/${c.textSlug}/characters/${encodeURIComponent(c.name)}`,
       searchText: `${c.name} ${c.overview} ${textTitle}`.toLowerCase(),
       textSlug: c.textSlug,
     });
@@ -63,7 +63,7 @@ function buildIndex(): SearchItem[] {
       category: "theme",
       title: ts.theme,
       subtitle: `${textTitle} — ${ts.thesis.length > 80 ? ts.thesis.slice(0, 80) + "…" : ts.thesis}`,
-      href: `/texts/${ts.textSlug}/themes`,
+      href: `/englishlit/texts/${ts.textSlug}/themes`,
       searchText: `${ts.theme} ${ts.thesis} ${textTitle}`.toLowerCase(),
       textSlug: ts.textSlug,
     });
@@ -75,7 +75,7 @@ function buildIndex(): SearchItem[] {
       category: "vocab",
       title: v.word,
       subtitle: v.def.length > 80 ? v.def.slice(0, 80) + "…" : v.def,
-      href: "/vocab",
+      href: "/englishlit/vocab",
       searchText: `${v.word} ${v.def} ${getTextBySlug(v.textSlug)?.title ?? v.textSlug}`.toLowerCase(),
       textSlug: v.textSlug,
     });

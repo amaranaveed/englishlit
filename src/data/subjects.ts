@@ -27,14 +27,14 @@ export const SUBJECTS: SubjectConfig[] = [
     examBoard: "AQA",
     specCode: "8702",
     colour: "purple",
-    basePath: "",
+    basePath: "/englishlit",
     navItems: [
-      { label: "Texts", href: "/texts", hasDropdown: true },
-      { label: "AOs", href: "/aos" },
-      { label: "Essay Structure", href: "/essay-structure" },
-      { label: "Exam Practice", href: "/exam" },
-      { label: "Flashcards", href: "/flashcards" },
-      { label: "Vocabulary", href: "/vocab" },
+      { label: "Texts", href: "/englishlit/texts", hasDropdown: true },
+      { label: "AOs", href: "/englishlit/aos" },
+      { label: "Essay Structure", href: "/englishlit/essay-structure" },
+      { label: "Exam Practice", href: "/englishlit/exam" },
+      { label: "Flashcards", href: "/englishlit/flashcards" },
+      { label: "Vocabulary", href: "/englishlit/vocab" },
     ],
   },
   {
@@ -58,6 +58,7 @@ export const SUBJECTS: SubjectConfig[] = [
 
 export function getSubjectFromPath(pathname: string): SubjectConfig {
   if (pathname.startsWith("/geography")) return SUBJECTS[1];
+  if (pathname.startsWith("/englishlit")) return SUBJECTS[0];
   return SUBJECTS[0];
 }
 

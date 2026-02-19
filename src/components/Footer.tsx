@@ -44,11 +44,11 @@ export default function Footer() {
             </p>
             <ul className="space-y-2">
               {[
-                { href: "/texts", label: "Set Texts" },
-                { href: "/aos", label: "Assessment Objectives" },
-                { href: "/essay-structure", label: "Essay Structure" },
-                { href: "/flashcards", label: "Flashcards" },
-                { href: "/vocab", label: "Vocab Quiz" },
+                { href: "/englishlit/texts", label: "Set Texts" },
+                { href: "/englishlit/aos", label: "Assessment Objectives" },
+                { href: "/englishlit/essay-structure", label: "Essay Structure" },
+                { href: "/englishlit/flashcards", label: "Flashcards" },
+                { href: "/englishlit/vocab", label: "Vocab Quiz" },
               ].map((l) => (
                 <li key={l.href}>
                   <Link

@@ -177,7 +177,7 @@ export default function HomePage() {
               className="flex flex-wrap items-center gap-4 mt-10"
             >
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/texts" className="btn-pill btn-pill-orange text-[16px] px-8 py-3.5">
+                <Link href="/englishlit/texts" className="btn-pill btn-pill-orange text-[16px] px-8 py-3.5">
                   Start Revising
                   <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
@@ -185,7 +185,7 @@ export default function HomePage() {
                 </Link>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/exam" className="btn-pill bg-white/10 text-white border border-white/15 hover:bg-white/18 transition-all duration-200 text-[16px] px-8 py-3.5">
+                <Link href="/englishlit/exam" className="btn-pill bg-white/10 text-white border border-white/15 hover:bg-white/18 transition-all duration-200 text-[16px] px-8 py-3.5">
                   Exam Practice
                 </Link>
               </motion.div>
@@ -432,12 +432,12 @@ export default function HomePage() {
             viewport={{ once: true, margin: "-30px" }}
             className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5"
           >
-            <SubjectTile href="/texts" title="Texts" subtitle={`${allActiveTexts.length} active`} colour="purple" icon={<BookIcon />} index={0} image="/images/hero-books.jpg" />
-            <SubjectTile href="/exam" title="Exam Practice" subtitle="Timed essays" colour="pink" icon={<EditIcon />} index={1} image="/images/writing.jpg" />
-            <SubjectTile href="/flashcards" title="Flashcards" subtitle={stats.due > 0 ? `${stats.due} due` : "All clear"} colour="blue" icon={<LayersIcon />} index={2} image="/images/flashcards.jpg" />
-            <SubjectTile href="/vocab" title="Vocab Quiz" subtitle={stats.vocabBest > 0 ? `Best ${stats.vocabBest}%` : "Key terms"} colour="orange" icon={<ChatIcon />} index={3} image="/images/exam-prep.jpg" />
-            <SubjectTile href="/aos" title="AOs" subtitle="Mark schemes" colour="teal" icon={<TargetIcon />} index={4} image="/images/student-studying.jpg" />
-            <SubjectTile href="/essay-structure" title="Essay Guide" subtitle="Grade 9 method" colour="amber" icon={<PenIcon />} index={5} image="/images/quill-pen.jpg" />
+            <SubjectTile href="/englishlit/texts" title="Texts" subtitle={`${allActiveTexts.length} active`} colour="purple" icon={<BookIcon />} index={0} image="/images/hero-books.jpg" />
+            <SubjectTile href="/englishlit/exam" title="Exam Practice" subtitle="Timed essays" colour="pink" icon={<EditIcon />} index={1} image="/images/writing.jpg" />
+            <SubjectTile href="/englishlit/flashcards" title="Flashcards" subtitle={stats.due > 0 ? `${stats.due} due` : "All clear"} colour="blue" icon={<LayersIcon />} index={2} image="/images/flashcards.jpg" />
+            <SubjectTile href="/englishlit/vocab" title="Vocab Quiz" subtitle={stats.vocabBest > 0 ? `Best ${stats.vocabBest}%` : "Key terms"} colour="orange" icon={<ChatIcon />} index={3} image="/images/exam-prep.jpg" />
+            <SubjectTile href="/englishlit/aos" title="AOs" subtitle="Mark schemes" colour="teal" icon={<TargetIcon />} index={4} image="/images/student-studying.jpg" />
+            <SubjectTile href="/englishlit/essay-structure" title="Essay Guide" subtitle="Grade 9 method" colour="amber" icon={<PenIcon />} index={5} image="/images/quill-pen.jpg" />
           </motion.div>
         </div>
       </section>
@@ -486,7 +486,7 @@ export default function HomePage() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
-                <Link href="/texts" className="btn-pill btn-pill-orange text-[15px] px-7 py-3">
+                <Link href="/englishlit/texts" className="btn-pill btn-pill-orange text-[15px] px-7 py-3">
                   Start Revising
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
@@ -580,7 +580,7 @@ export default function HomePage() {
                 </div>
                 <div className="flex-1" />
                 <motion.div whileHover={{ scale: 1.05, x: 3 }} whileTap={{ scale: 0.97 }}>
-                  <Link href="/texts" className="hidden sm:inline-flex items-center gap-2 font-ui text-[14px] font-semibold text-purple hover:text-purple-dark transition-colors btn-pill bg-purple-light px-5 py-2">
+                  <Link href="/englishlit/texts" className="hidden sm:inline-flex items-center gap-2 font-ui text-[14px] font-semibold text-purple hover:text-purple-dark transition-colors btn-pill bg-purple-light px-5 py-2">
                     View all
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                   </Link>
@@ -628,7 +628,7 @@ export default function HomePage() {
                         transition={{ duration: 0.25 }}
                       >
                         <Link
-                          href={`/texts/${t.slug}`}
+                          href={`/englishlit/texts/${t.slug}`}
                           className={`group relative rounded-2xl border bg-surface overflow-hidden block ${colours.border}`}
                         >
                           <motion.div
@@ -707,7 +707,7 @@ export default function HomePage() {
             className="grid sm:grid-cols-2 gap-4"
           >
             <motion.div variants={staggerItem}>
-              <Link href="/texts" className="block rounded-xl border border-border bg-bg p-6 card-hover">
+              <Link href="/englishlit/texts" className="block rounded-xl border border-border bg-bg p-6 card-hover">
                 <div className="flex items-center gap-4">
                   <span className="w-12 h-12 rounded-xl bg-purple-light text-purple flex items-center justify-center text-xl shrink-0">
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
@@ -825,7 +825,7 @@ export default function HomePage() {
                               return active ? (
                                 <motion.div key={t.slug} whileHover={{ scale: 1.02, y: -2 }}>
                                   <Link
-                                    href={`/texts/${t.slug}`}
+                                    href={`/englishlit/texts/${t.slug}`}
                                     className={`group flex items-center gap-4 rounded-xl border ${gc.cardBorder} bg-surface hover:bg-surface-hover px-5 py-4 transition-all duration-200 hover:border-purple/20 hover:shadow-[var(--card-shadow)]`}
                                   >
                                     {TEXT_ICONS[t.slug] ? (
