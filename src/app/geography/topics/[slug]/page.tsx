@@ -119,21 +119,8 @@ export default async function GeographyTopicPage({ params }: Props) {
           </AnimatedInteractiveCard>
         )}
 
-        {/* Revision Sheet */}
-        <AnimatedInteractiveCard index={3}>
-          <AnimatedLinkCard>
-            <Link href={`/geography/topics/${slug}/revision-sheet`} className="card-hover rounded-xl border border-border bg-surface p-6 block">
-              <AnimatedIcon delay={0.15}><span className="text-2xl mb-2 block">📝</span></AnimatedIcon>
-              <p className="font-display font-bold text-lg mb-1">Revision Sheet</p>
-              <p className="text-sm text-grey font-ui">
-                Printable A4 revision sheet with all key content
-              </p>
-            </Link>
-          </AnimatedLinkCard>
-        </AnimatedInteractiveCard>
-
         {/* Exam Practice */}
-        <AnimatedInteractiveCard index={4}>
+        <AnimatedInteractiveCard index={3}>
           <AnimatedLinkCard>
             <Link href="/geography/exam" className="card-hover rounded-xl border border-border bg-surface p-6 block">
               <AnimatedIcon delay={0.2}><span className="text-2xl mb-2 block">✍️</span></AnimatedIcon>
@@ -146,7 +133,7 @@ export default async function GeographyTopicPage({ params }: Props) {
         </AnimatedInteractiveCard>
 
         {/* Model Answers */}
-        <AnimatedInteractiveCard index={5}>
+        <AnimatedInteractiveCard index={4}>
           <AnimatedLinkCard>
             <Link href="/geography/model-answers" className="card-hover rounded-xl border border-border bg-surface p-6 block">
               <AnimatedIcon delay={0.25}><span className="text-2xl mb-2 block">🏆</span></AnimatedIcon>

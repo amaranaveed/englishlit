@@ -10,15 +10,30 @@ import FlashcardReview from "@/components/FlashcardReview";
 import FlashcardList from "@/components/FlashcardList";
 import { useAuth } from "@/components/AuthProvider";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { getItemTitle } from "@/data/slug-lookup";
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
+
+type ReviewStage = "setup" | "active";
+
+const CARD_TYPES = [
+  { value: "key-term", label: "Key Terms", bg: "bg-emerald-100", text: "text-emerald-700" },
+  { value: "case-study", label: "Case Studies", bg: "bg-sky-100", text: "text-sky-700" },
+  { value: "process", label: "Processes", bg: "bg-lime-100", text: "text-lime-700" },
+  { value: "vocab", label: "Vocab", bg: "bg-orange-light", text: "text-orange" },
+  { value: "quote", label: "Quotes", bg: "bg-teal-light", text: "text-teal" },
+  { value: "technique", label: "Techniques", bg: "bg-purple-light", text: "text-purple" },
+  { value: "mistake", label: "Mistakes", bg: "bg-red-light", text: "text-red" },
+] as const;
 
 export default function GeographyFlashcardsPage() {
   const { user, loading: authLoading } = useAuth();
   const [tab, setTab] = useState<"review" | "list">("review");
   const [allCards, setAllCards] = useState<Flashcard[]>([]);
   const [dueCards, setDueCards] = useState<Flashcard[]>([]);
-  const [reviewing, setReviewing] = useState(false);
+  const [reviewStage, setReviewStage] = useState<ReviewStage>("setup");
+  const [selectedTopic, setSelectedTopic] = useState<string>("all");
+  const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set());
 
   const { getFlashcards, getDueFlashcards } = useStorage();
 
@@ -36,6 +51,46 @@ export default function GeographyFlashcardsPage() {
 
   const dueCount = dueCards.length;
   const totalCount = allCards.length;
+
+  // Unique topics that have cards
+  const topicSlugs = useMemo(
+    () => Array.from(new Set(allCards.map((c) => c.textSlug))),
+    [allCards]
+  );
+
+  // Types present in due cards
+  const availableTypes = useMemo(
+    () => new Set(dueCards.map((c) => c.type)),
+    [dueCards]
+  );
+
+  // Filtered review deck
+  const filteredDue = useMemo(() => {
+    let cards = dueCards;
+    if (selectedTopic !== "all") {
+      cards = cards.filter((c) => c.textSlug === selectedTopic);
+    }
+    if (selectedTypes.size > 0) {
+      cards = cards.filter((c) => selectedTypes.has(c.type));
+    }
+    return cards;
+  }, [dueCards, selectedTopic, selectedTypes]);
+
+  function toggleType(type: string) {
+    setSelectedTypes((prev) => {
+      const next = new Set(prev);
+      if (next.has(type)) next.delete(type);
+      else next.add(type);
+      return next;
+    });
+  }
+
+  function resetReview() {
+    setReviewStage("setup");
+    setSelectedTopic("all");
+    setSelectedTypes(new Set());
+    refresh();
+  }
 
   // Require sign-in
   if (!authLoading && !user && isSupabaseConfigured()) {
@@ -147,7 +202,7 @@ export default function GeographyFlashcardsPage() {
       <div className="flex rounded-lg bg-grey-light p-1 mb-6">
         <motion.button
           whileTap={{ scale: 0.95 }}
-          onClick={() => { setTab("review"); setReviewing(false); refresh(); }}
+          onClick={() => { setTab("review"); resetReview(); }}
           className={`flex-1 rounded-md py-2 font-ui text-sm font-semibold transition-colors cursor-pointer ${
             tab === "review" ? "bg-surface text-teal shadow-sm" : "text-grey hover:text-text"
           }`}
@@ -166,31 +221,109 @@ export default function GeographyFlashcardsPage() {
       </div>
 
       {tab === "review" ? (
-        reviewing ? (
+        reviewStage === "active" ? (
           <FlashcardReview
-            cards={dueCards}
-            onComplete={() => { setReviewing(false); refresh(); }}
+            cards={filteredDue}
+            onComplete={resetReview}
           />
         ) : (
-          <div className="text-center py-8">
-            <p className="font-ui text-sm text-grey mb-4">
-              {dueCount === 0
-                ? "No geography cards due right now. Check back later!"
-                : `${dueCount} card${dueCount !== 1 ? "s" : ""} ready to review`}
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setReviewing(true)}
-              disabled={dueCount === 0}
-              className={`px-8 py-3 rounded-xl font-ui text-sm font-bold transition-all cursor-pointer ${
-                dueCount > 0
-                  ? "bg-teal text-white hover:bg-teal/90 shadow-md hover:shadow-lg"
-                  : "bg-grey-light text-grey cursor-not-allowed"
-              }`}
+          <div className="space-y-6">
+            {/* Topic filter */}
+            <motion.div
+              className="rounded-xl border border-border bg-surface p-5"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: EASE }}
             >
-              Start Review &rarr;
-            </motion.button>
+              <h3 className="font-ui text-sm font-semibold text-text mb-3">
+                Which topic do you want to revise?
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setSelectedTopic("all")}
+                  className={`px-4 py-2 rounded-lg font-ui text-sm font-medium transition-all cursor-pointer border ${
+                    selectedTopic === "all"
+                      ? "border-teal bg-teal-light text-teal"
+                      : "border-border bg-bg text-grey hover:text-text hover:border-grey"
+                  }`}
+                >
+                  All topics
+                </button>
+                {topicSlugs.map((slug) => (
+                  <button
+                    key={slug}
+                    onClick={() => setSelectedTopic(slug)}
+                    className={`px-4 py-2 rounded-lg font-ui text-sm font-medium transition-all cursor-pointer border ${
+                      selectedTopic === slug
+                        ? "border-teal bg-teal-light text-teal"
+                        : "border-border bg-bg text-grey hover:text-text hover:border-grey"
+                    }`}
+                  >
+                    {getItemTitle(slug)}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Type filter */}
+            <motion.div
+              className="rounded-xl border border-border bg-surface p-5"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
+            >
+              <h3 className="font-ui text-sm font-semibold text-text mb-1">
+                What do you want to practise?
+              </h3>
+              <p className="font-ui text-xs text-grey mb-3">
+                Leave all unselected to include everything, or pick specific types.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {CARD_TYPES.map((ct) => {
+                  const selected = selectedTypes.has(ct.value);
+                  const hasCards = availableTypes.has(ct.value);
+                  return (
+                    <button
+                      key={ct.value}
+                      onClick={() => toggleType(ct.value)}
+                      disabled={!hasCards}
+                      className={`px-4 py-2 rounded-lg font-ui text-sm font-medium transition-all cursor-pointer border ${
+                        !hasCards
+                          ? "border-border bg-bg text-grey/40 cursor-not-allowed"
+                          : selected
+                            ? `border-transparent ${ct.bg} ${ct.text}`
+                            : "border-border bg-bg text-grey hover:text-text hover:border-grey"
+                      }`}
+                    >
+                      {ct.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.div>
+
+            {/* Start button */}
+            <div className="text-center pt-2">
+              <p className="font-ui text-sm text-grey mb-3">
+                {filteredDue.length === 0
+                  ? "No cards due with these filters."
+                  : `${filteredDue.length} card${filteredDue.length !== 1 ? "s" : ""} ready to review`}
+                {filteredDue.length !== dueCount && filteredDue.length > 0 && ` (of ${dueCount} total due)`}
+              </p>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setReviewStage("active")}
+                disabled={filteredDue.length === 0}
+                className={`px-8 py-3 rounded-xl font-ui text-sm font-bold transition-all cursor-pointer ${
+                  filteredDue.length > 0
+                    ? "bg-teal text-white hover:bg-teal/90 shadow-md hover:shadow-lg"
+                    : "bg-grey-light text-grey cursor-not-allowed"
+                }`}
+              >
+                Start Review &rarr;
+              </motion.button>
+            </div>
           </div>
         )
       ) : (
