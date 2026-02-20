@@ -106,7 +106,7 @@ export interface CharacterAnalysis {
 
 export interface Flashcard {
   id: string;
-  type: "quote" | "technique" | "rad" | "wow" | "vocab" | "mistake" | "custom" | "character" | "theme" | "key-term" | "case-study" | "process";
+  type: "quote" | "technique" | "rad" | "wow" | "vocab" | "mistake" | "custom" | "character" | "theme" | "key-term" | "case-study" | "process" | "teaching" | "scripture" | "divergent-view";
   textSlug: string;
   front: string;
   back: string;
@@ -139,7 +139,7 @@ export interface ThemeSheet {
 export type GradeLevel = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 export interface SubjectGrade {
-  subjectId: "english-lit" | "geography";
+  subjectId: "english-lit" | "geography" | "rs";
   targetGrade: GradeLevel;
 }
 
@@ -150,6 +150,7 @@ export interface UserProfile {
   subjects: SubjectGrade[];
   textSlugs: string[];
   geoTopicSlugs: string[];
+  rsTopicSlugs: string[];
   createdAt: string;
   updatedAt: string;
 }
@@ -157,7 +158,7 @@ export interface UserProfile {
 /** Get target grade for a specific subject, falling back to the default */
 export function getSubjectTargetGrade(
   profile: UserProfile | null,
-  subjectId: "english-lit" | "geography"
+  subjectId: "english-lit" | "geography" | "rs"
 ): GradeLevel | undefined {
   if (!profile) return undefined;
   const s = profile.subjects?.find((s) => s.subjectId === subjectId);

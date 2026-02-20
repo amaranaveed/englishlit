@@ -462,7 +462,12 @@ export async function getUserProfile(userId: string): Promise<UserProfile | null
     .eq("user_id", userId)
     .single();
 
-  if (error || !data) return null;
+  if (error) {
+    // PGRST116 = no rows found (new user, not an error)
+    if (error.code !== "PGRST116") console.error("getUserProfile failed:", error);
+    return null;
+  }
+  if (!data) return null;
 
   // Backwards compat: build subjects from legacy target_grade if no subjects column
   const subjects = (data.subjects as UserProfile["subjects"]) ?? [];
@@ -477,6 +482,7 @@ export async function getUserProfile(userId: string): Promise<UserProfile | null
     subjects,
     textSlugs: (data.text_slugs ?? []) as string[],
     geoTopicSlugs: (data.geo_topic_slugs ?? []) as string[],
+    rsTopicSlugs: (data.rs_topic_slugs ?? []) as string[],
     createdAt: new Date(data.created_at).toISOString(),
     updatedAt: new Date(data.updated_at).toISOString(),
   };
@@ -486,7 +492,7 @@ export async function saveUserProfile(
   profile: Omit<UserProfile, "createdAt" | "updatedAt">,
   userId: string
 ): Promise<void> {
-  await supabase().from("user_profiles").upsert({
+  const { error } = await supabase().from("user_profiles").upsert({
     user_id: userId,
     first_name: profile.firstName,
     year_group: profile.yearGroup,
@@ -494,6 +500,12 @@ export async function saveUserProfile(
     subjects: profile.subjects,
     text_slugs: profile.textSlugs,
     geo_topic_slugs: profile.geoTopicSlugs,
+    rs_topic_slugs: profile.rsTopicSlugs,
     updated_at: new Date().toISOString(),
   }, { onConflict: "user_id" });
+
+  if (error) {
+    console.error("saveUserProfile failed:", error);
+    throw new Error(error.message);
+  }
 }

@@ -13,6 +13,7 @@ const CATEGORY_STYLE: Record<SearchCategory, { icon: string; bg: string; text: s
   character: { icon: "C",  bg: "bg-orange/10",  text: "text-orange" },
   theme:     { icon: "Th", bg: "bg-blue/10",    text: "text-blue" },
   vocab:     { icon: "V",  bg: "bg-pink/10",    text: "text-pink" },
+  topic:     { icon: "To", bg: "bg-emerald-500/10", text: "text-emerald-700" },
 };
 
 interface SearchModalProps {

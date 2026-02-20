@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { TEXT_REGISTRY, TEXT_ICONS } from "@/data/text-registry";
 import { GEOGRAPHY_REGISTRY } from "@/data/geography/topic-registry";
+import { RS_REGISTRY } from "@/data/rs/topic-registry";
 import { useAuth } from "@/components/AuthProvider";
 import { saveUserProfile } from "@/lib/storage";
 import type { UserProfile, GradeLevel, SubjectGrade } from "@/data/types";
@@ -26,6 +27,7 @@ const GRADE_HINTS: Record<number, string> = {
 const SUBJECT_INFO = [
   { id: "english-lit" as const, name: "English Literature", board: "AQA", code: "8702", colour: "purple" },
   { id: "geography" as const, name: "Geography", board: "AQA", code: "8035", colour: "teal" },
+  { id: "rs" as const, name: "Religious Studies", board: "AQA", code: "8062", colour: "blue" },
 ];
 
 /* ── Animation variants ── */
@@ -100,8 +102,10 @@ export default function OnboardingModal({ editMode = false, onClose }: Onboardin
   // Content state
   const [selectedTexts, setSelectedTexts] = useState<string[]>([]);
   const [selectedGeoTopics, setSelectedGeoTopics] = useState<string[]>([]);
+  const [selectedRsTopics, setSelectedRsTopics] = useState<string[]>([]);
 
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   // Pre-populate in edit mode
   useEffect(() => {
@@ -126,6 +130,7 @@ export default function OnboardingModal({ editMode = false, onClose }: Onboardin
       setSubjectGrades(grades);
       setSelectedTexts(profile.textSlugs);
       setSelectedGeoTopics(profile.geoTopicSlugs ?? []);
+      setSelectedRsTopics(profile.rsTopicSlugs ?? []);
       setStep(1);
     }
   }, [editMode, profile]);
@@ -178,9 +183,16 @@ export default function OnboardingModal({ editMode = false, onClose }: Onboardin
     );
   }
 
+  function toggleRsTopic(slug: string) {
+    setSelectedRsTopics((prev) =>
+      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]
+    );
+  }
+
   // ─── Validation ───
   const hasEngLit = enabledSubjects.has("english-lit");
   const hasGeo = enabledSubjects.has("geography");
+  const hasRs = enabledSubjects.has("rs");
 
   const step1Valid = firstName.trim().length > 0 && yearGroup !== null;
   const step2Valid =
@@ -188,39 +200,48 @@ export default function OnboardingModal({ editMode = false, onClose }: Onboardin
     [...enabledSubjects].every((id) => subjectGrades[id] != null);
   const step3Valid =
     (!hasEngLit || selectedTexts.length > 0) &&
-    (!hasGeo || selectedGeoTopics.length > 0);
+    (!hasGeo || selectedGeoTopics.length > 0) &&
+    (!hasRs || selectedRsTopics.length > 0);
 
   // ─── Save ───
   async function handleSave() {
     if (!step1Valid || !step2Valid || !step3Valid || !user) return;
     setSaving(true);
+    setSaveError(null);
 
     const subjects: SubjectGrade[] = [...enabledSubjects].map((id) => ({
       subjectId: id as SubjectGrade["subjectId"],
       targetGrade: subjectGrades[id],
     }));
 
-    const defaultGrade = subjectGrades["english-lit"] ?? subjectGrades["geography"] ?? 5;
+    const defaultGrade = subjectGrades["english-lit"] ?? subjectGrades["geography"] ?? subjectGrades["rs"] ?? 5;
 
-    await saveUserProfile(
-      {
-        firstName: firstName.trim(),
-        yearGroup: yearGroup as UserProfile["yearGroup"],
-        targetGrade: defaultGrade as GradeLevel,
-        subjects,
-        textSlugs: hasEngLit ? selectedTexts : [],
-        geoTopicSlugs: hasGeo ? selectedGeoTopics : [],
-      },
-      user.id
-    );
-    await refreshProfile();
-    setSaving(false);
-    if (editMode && onClose) onClose();
+    try {
+      await saveUserProfile(
+        {
+          firstName: firstName.trim(),
+          yearGroup: yearGroup as UserProfile["yearGroup"],
+          targetGrade: defaultGrade as GradeLevel,
+          subjects,
+          textSlugs: hasEngLit ? selectedTexts : [],
+          geoTopicSlugs: hasGeo ? selectedGeoTopics : [],
+          rsTopicSlugs: hasRs ? selectedRsTopics : [],
+        },
+        user.id
+      );
+      await refreshProfile();
+      setSaving(false);
+      if (editMode && onClose) onClose();
+    } catch (err) {
+      setSaving(false);
+      setSaveError(err instanceof Error ? err.message : "Failed to save profile. Please try again.");
+    }
   }
 
   // ─── Data ───
   const activeTextGroups = TEXT_REGISTRY.filter((g) => g.texts.some((t) => t.status === "active"));
   const activeGeoGroups = GEOGRAPHY_REGISTRY.filter((g) => g.topics.some((t) => t.status === "active"));
+  const activeRsGroups = RS_REGISTRY.filter((g) => g.topics.some((t) => t.status === "active"));
 
   const directedStepVariants = {
     enter: { opacity: 0, x: direction > 0 ? 40 : -40 },
@@ -425,13 +446,14 @@ export default function OnboardingModal({ editMode = false, onClose }: Onboardin
                         {SUBJECT_INFO.map((subject) => {
                           const enabled = enabledSubjects.has(subject.id);
                           const grade = subjectGrades[subject.id];
-                          const isPurple = subject.colour === "purple";
-                          const borderClass = enabled
-                            ? isPurple ? "border-purple" : "border-teal"
-                            : "border-border";
-                          const bgClass = enabled
-                            ? isPurple ? "bg-purple-light" : "bg-teal-light"
-                            : "bg-surface";
+                          const colourMap: Record<string, { border: string; bg: string; toggle: string; grade: string }> = {
+                            purple: { border: "border-purple", bg: "bg-purple-light", toggle: "border-purple bg-purple", grade: "border-purple bg-purple text-white shadow-[0_2px_8px_rgba(140,84,244,0.3)]" },
+                            teal: { border: "border-teal", bg: "bg-teal-light", toggle: "border-teal bg-teal", grade: "border-teal bg-teal text-white shadow-[0_2px_8px_rgba(13,148,136,0.3)]" },
+                            blue: { border: "border-blue", bg: "bg-blue-light", toggle: "border-blue bg-blue", grade: "border-blue bg-blue text-white shadow-[0_2px_8px_rgba(59,130,246,0.3)]" },
+                          };
+                          const c = colourMap[subject.colour] ?? colourMap.purple;
+                          const borderClass = enabled ? c.border : "border-border";
+                          const bgClass = enabled ? c.bg : "bg-surface";
 
                           return (
                             <motion.div
@@ -449,9 +471,7 @@ export default function OnboardingModal({ editMode = false, onClose }: Onboardin
                                 {/* Toggle circle */}
                                 <motion.span
                                   className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                                    enabled
-                                      ? isPurple ? "border-purple bg-purple" : "border-teal bg-teal"
-                                      : "border-grey/30"
+                                    enabled ? c.toggle : "border-grey/30"
                                   }`}
                                   animate={enabled ? { scale: [1, 1.2, 1] } : { scale: 1 }}
                                   transition={{ duration: 0.3 }}
@@ -505,11 +525,9 @@ export default function OnboardingModal({ editMode = false, onClose }: Onboardin
                                         initial="hidden"
                                         animate="visible"
                                       >
-                                        {([9, 8, 7, 6, 5, 4, 3, 2, 1] as const).map((g) => {
+                                        {([9, 8, 7, 6, 5] as const).map((g) => {
                                           const selected = grade === g;
-                                          const activeClass = isPurple
-                                            ? "border-purple bg-purple text-white shadow-[0_2px_8px_rgba(140,84,244,0.3)]"
-                                            : "border-teal bg-teal text-white shadow-[0_2px_8px_rgba(13,148,136,0.3)]";
+                                          const activeClass = c.grade;
                                           return (
                                             <motion.button
                                               key={g}
@@ -600,7 +618,7 @@ export default function OnboardingModal({ editMode = false, onClose }: Onboardin
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.5, ease: EASE, delay: 0.05 }}
                         >
-                          {hasEngLit && hasGeo ? "Your texts & topics" : hasGeo ? "Your topics" : "Your texts"}
+                          {hasEngLit ? (hasGeo || hasRs ? "Your texts & topics" : "Your texts") : "Your topics"}
                         </motion.h2>
                         <motion.p
                           className="font-ui text-[14px] text-grey mt-1"
@@ -737,7 +755,7 @@ export default function OnboardingModal({ editMode = false, onClose }: Onboardin
                       )}
 
                       {/* Divider between subjects */}
-                      {hasEngLit && hasGeo && (
+                      {hasEngLit && (hasGeo || hasRs) && (
                         <motion.div
                           className="border-t border-border"
                           initial={{ scaleX: 0 }}
@@ -855,7 +873,7 @@ export default function OnboardingModal({ editMode = false, onClose }: Onboardin
                             ))}
                           </div>
 
-                          {!hasEngLit && (
+                          {!hasEngLit && !hasRs && (
                             <motion.p
                               key={selectedGeoTopics.length}
                               className="font-ui text-[12px] text-grey text-center mt-2"
@@ -867,6 +885,150 @@ export default function OnboardingModal({ editMode = false, onClose }: Onboardin
                             </motion.p>
                           )}
                         </motion.div>
+                      )}
+
+                      {/* Divider before RS */}
+                      {hasRs && (hasEngLit || hasGeo) && !(hasEngLit && !hasGeo) && (
+                        <motion.div
+                          className="border-t border-border"
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          transition={{ duration: 0.5, ease: EASE, delay: 0.3 }}
+                          style={{ originX: 0 }}
+                        />
+                      )}
+
+                      {/* ── Religious Studies Topics ── */}
+                      {hasRs && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 16 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, ease: EASE, delay: (hasEngLit || hasGeo) ? 0.35 : 0.15 }}
+                        >
+                          {(hasEngLit || hasGeo) && (
+                            <motion.div
+                              className="flex items-center gap-2 mb-3"
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.4, ease: EASE, delay: 0.4 }}
+                            >
+                              <span className="w-2 h-2 rounded-full bg-blue shrink-0" />
+                              <p className="font-ui text-[13px] font-bold text-blue uppercase tracking-wider">
+                                Religious Studies
+                              </p>
+                              <motion.span
+                                key={selectedRsTopics.length}
+                                className="font-ui text-[11px] text-grey"
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.2 }}
+                              >
+                                &mdash; {selectedRsTopics.length} selected
+                              </motion.span>
+                            </motion.div>
+                          )}
+
+                          <div className="space-y-4">
+                            {activeRsGroups.map((group, gi) => (
+                              <motion.div
+                                key={group.label}
+                                initial={{ opacity: 0, y: 14 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, ease: EASE, delay: ((hasEngLit || hasGeo) ? 0.4 : 0.2) + gi * 0.08 }}
+                              >
+                                <p className="font-ui text-[11px] font-semibold text-grey uppercase tracking-wider mb-2">
+                                  {group.label} &mdash; {group.paper} {group.section}
+                                </p>
+                                <motion.div
+                                  className="grid grid-cols-1 gap-2"
+                                  variants={staggerContainer}
+                                  initial="hidden"
+                                  animate="visible"
+                                >
+                                  {group.topics.filter((t) => t.status === "active").map((topic) => {
+                                    const selected = selectedRsTopics.includes(topic.slug);
+                                    return (
+                                      <motion.button
+                                        key={topic.slug}
+                                        variants={staggerItem}
+                                        whileHover={{ x: 3 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        onClick={() => toggleRsTopic(topic.slug)}
+                                        className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-colors text-left cursor-pointer ${
+                                          selected
+                                            ? "border-blue bg-blue-light"
+                                            : "border-border bg-surface hover:border-grey/30"
+                                        }`}
+                                      >
+                                        <motion.span
+                                          className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
+                                            selected ? "border-blue bg-blue" : "border-grey/30"
+                                          }`}
+                                          animate={selected ? { scale: [1, 1.2, 1] } : {}}
+                                          transition={{ duration: 0.25 }}
+                                        >
+                                          <AnimatePresence>
+                                            {selected && (
+                                              <motion.svg
+                                                className="w-3 h-3 text-white"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                strokeWidth={3}
+                                                initial={{ scale: 0 }}
+                                                animate={{ scale: 1 }}
+                                                exit={{ scale: 0 }}
+                                                transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                                              >
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                              </motion.svg>
+                                            )}
+                                          </AnimatePresence>
+                                        </motion.span>
+
+                                        <span className="w-6 h-6 rounded-full bg-blue/10 text-blue font-display font-bold text-[10px] flex items-center justify-center shrink-0">
+                                          {topic.title.charAt(0)}
+                                        </span>
+
+                                        <div className="flex-1 min-w-0">
+                                          <p className={`font-ui text-[14px] truncate ${selected ? "text-blue font-semibold" : "text-text"}`}>
+                                            {topic.title}
+                                          </p>
+                                          <p className="font-ui text-[11px] text-grey truncate">
+                                            {topic.paper} {topic.section}
+                                          </p>
+                                        </div>
+                                      </motion.button>
+                                    );
+                                  })}
+                                </motion.div>
+                              </motion.div>
+                            ))}
+                          </div>
+
+                          {!hasEngLit && !hasGeo && (
+                            <motion.p
+                              key={selectedRsTopics.length}
+                              className="font-ui text-[12px] text-grey text-center mt-2"
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              {selectedRsTopics.length} topic{selectedRsTopics.length !== 1 ? "s" : ""} selected
+                            </motion.p>
+                          )}
+                        </motion.div>
+                      )}
+
+                      {saveError && (
+                        <motion.p
+                          className="font-ui text-[13px] text-red text-center bg-red/10 rounded-lg px-3 py-2"
+                          initial={{ opacity: 0, y: -6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3, ease: EASE }}
+                        >
+                          {saveError}
+                        </motion.p>
                       )}
 
                       <motion.button

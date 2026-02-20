@@ -3,8 +3,10 @@ import { ALL_QUOTES } from "./quotes";
 import { ALL_CHARACTER_ANALYSES } from "./character-analysis";
 import { getAllThemeSheets } from "./theme-sheets";
 import { getUniqueVocabTerms } from "./vocab";
+import { getActiveRsTopics } from "./rs/topic-registry";
+import { getUniqueRsTerms, getAllRsScripture } from "./rs/vocab";
 
-export type SearchCategory = "text" | "quote" | "character" | "theme" | "vocab";
+export type SearchCategory = "text" | "quote" | "character" | "theme" | "vocab" | "topic";
 
 export interface SearchItem {
   category: SearchCategory;
@@ -78,6 +80,42 @@ function buildIndex(): SearchItem[] {
       href: "/englishlit/vocab",
       searchText: `${v.word} ${v.def} ${getTextBySlug(v.textSlug)?.title ?? v.textSlug}`.toLowerCase(),
       textSlug: v.textSlug,
+    });
+  }
+
+  // RS Topics
+  for (const t of getActiveRsTopics()) {
+    items.push({
+      category: "topic",
+      title: t.title,
+      subtitle: `Religious Studies — ${t.paper} ${t.section}`,
+      href: `/rs/topics/${t.slug}`,
+      searchText: `${t.title} religious studies rs ${t.paper} ${t.section}`.toLowerCase(),
+      textSlug: `rs-${t.slug}`,
+    });
+  }
+
+  // RS Terms
+  for (const t of getUniqueRsTerms()) {
+    items.push({
+      category: "vocab",
+      title: t.word,
+      subtitle: t.def.length > 80 ? t.def.slice(0, 80) + "…" : t.def,
+      href: "/rs/key-terms",
+      searchText: `${t.word} ${t.def} religious studies rs`.toLowerCase(),
+      textSlug: `rs-${t.topicSlug}`,
+    });
+  }
+
+  // RS Scripture
+  for (const s of getAllRsScripture()) {
+    items.push({
+      category: "quote",
+      title: s.text.length > 80 ? `"${s.text.slice(0, 80)}…"` : `"${s.text}"`,
+      subtitle: `${s.source} — ${s.religion === "christianity" ? "Christianity" : "Islam"}`,
+      href: `/rs/topics/${s.topicSlug}`,
+      searchText: `${s.text} ${s.source} ${s.religion} scripture religious studies`.toLowerCase(),
+      textSlug: `rs-${s.topicSlug}`,
     });
   }
 

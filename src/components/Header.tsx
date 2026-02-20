@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { TEXT_REGISTRY, TEXT_ICONS } from "@/data/text-registry";
 import { SUBJECTS, getSubjectFromPath } from "@/data/subjects";
 import { GEOGRAPHY_REGISTRY } from "@/data/geography/topic-registry";
+import { RS_REGISTRY } from "@/data/rs/topic-registry";
 import dynamic from "next/dynamic";
 const SearchModal = dynamic(() => import("./SearchModal"), { ssr: false });
 import OnboardingModal from "./OnboardingModal";
@@ -25,6 +26,9 @@ const GROUP_ICONS: Record<string, string> = {
   "Physical Landscapes in the UK": "L",
   "Human Geography": "H",
   "Geographical Applications": "G",
+  Christianity: "C",
+  Islam: "I",
+  "Thematic Studies": "T",
 };
 
 const GROUP_COLOURS: Record<string, { bg: string; text: string }> = {
@@ -37,6 +41,9 @@ const GROUP_COLOURS: Record<string, { bg: string; text: string }> = {
   "Physical Landscapes in the UK": { bg: "bg-sky-500/10", text: "text-sky-700" },
   "Human Geography": { bg: "bg-amber-500/10", text: "text-amber-700" },
   "Geographical Applications": { bg: "bg-violet-500/10", text: "text-violet-700" },
+  Christianity: { bg: "bg-blue-500/10", text: "text-blue-700" },
+  Islam: { bg: "bg-emerald-500/10", text: "text-emerald-700" },
+  "Thematic Studies": { bg: "bg-indigo-500/10", text: "text-indigo-700" },
 };
 
 export default function Header() {
@@ -129,6 +136,7 @@ export default function Header() {
   // Determine active subject from URL
   const activeSubject = getSubjectFromPath(pathname);
   const isGeography = activeSubject.id === "geography";
+  const isRs = activeSubject.id === "rs";
   const NAV_ITEMS = activeSubject.navItems;
 
   const activeGroups = TEXT_REGISTRY.filter(g =>
@@ -136,6 +144,10 @@ export default function Header() {
   );
 
   const activeGeoGroups = GEOGRAPHY_REGISTRY.filter(g =>
+    g.topics.some(t => t.status === "active")
+  );
+
+  const activeRsGroups = RS_REGISTRY.filter(g =>
     g.topics.some(t => t.status === "active")
   );
 
@@ -180,7 +192,7 @@ export default function Header() {
 
           {/* Subject pills (home) / Subjects dropdown (inner pages) */}
           {isHome ? (
-            <div className="hidden md:flex items-center gap-1 ml-4 mr-2">
+            <div className="hidden md:flex items-center gap-1.5 ml-4 mr-2">
               {SUBJECTS.map((s) => (
                 <Link
                   key={s.id}
@@ -191,7 +203,7 @@ export default function Header() {
                       : "text-grey hover:text-text hover:bg-surface-hover"
                   }`}
                 >
-                  {s.shortName}
+                  {s.name}
                 </Link>
               ))}
             </div>
@@ -237,9 +249,11 @@ export default function Header() {
                             <span className={`w-7 h-7 rounded-lg font-display font-bold text-[11px] flex items-center justify-center shrink-0 ${
                               s.id === "english-lit"
                                 ? "bg-purple/10 text-purple"
-                                : "bg-emerald-500/10 text-emerald-700"
+                                : s.id === "rs"
+                                  ? "bg-blue-500/10 text-blue-700"
+                                  : "bg-emerald-500/10 text-emerald-700"
                             }`}>
-                              {s.id === "english-lit" ? "E" : "G"}
+                              {s.id === "english-lit" ? "E" : s.id === "rs" ? "R" : "G"}
                             </span>
                             <div>
                               <p className="text-[13px] font-semibold">{s.name}</p>
@@ -292,7 +306,66 @@ export default function Header() {
                       className="absolute top-full left-0 pt-2 z-50"
                     >
                       <div className="bg-bg border border-border rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.12)] py-2 min-w-[240px]">
-                        {isGeography ? (
+                        {isRs ? (
+                          <>
+                            {activeRsGroups.map((group) => {
+                              const gc = GROUP_COLOURS[group.label] ?? { bg: "bg-blue-500/10", text: "text-blue-700" };
+                              const icon = GROUP_ICONS[group.label] ?? "R";
+                              const activeCount = group.topics.filter(t => t.status === "active").length;
+                              const isExpanded = expandedGroup === group.label;
+
+                              return (
+                                <div key={group.label}>
+                                  <button
+                                    onClick={() => setExpandedGroup(isExpanded ? null : group.label)}
+                                    className={`w-full flex items-center gap-3 px-4 py-2.5 transition-all duration-150 hover:bg-surface-hover ${
+                                      isExpanded ? "bg-surface-hover" : ""
+                                    }`}
+                                  >
+                                    <span className={`w-8 h-8 rounded-lg ${gc.bg} ${gc.text} font-display font-bold text-[12px] flex items-center justify-center shrink-0`}>
+                                      {icon}
+                                    </span>
+                                    <div className="flex-1 text-left">
+                                      <p className="text-[13px] font-semibold text-text">{group.label}</p>
+                                      <p className="text-[11px] text-grey">{group.paper} {group.section} &middot; {activeCount} topics</p>
+                                    </div>
+                                    <svg className={`w-4 h-4 text-grey/40 transition-transform duration-200 ${isExpanded ? "rotate-90" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                    </svg>
+                                  </button>
+
+                                  {isExpanded && (
+                                    <div className="border-t border-border-subtle bg-surface/50 py-1">
+                                      {group.topics.filter(t => t.status === "active").map((t) => (
+                                        <Link
+                                          key={t.slug}
+                                          href={`/rs/topics/${t.slug}`}
+                                          className={`flex items-center gap-2.5 px-5 pl-[52px] py-2 transition-all duration-150 ${
+                                            pathname.startsWith(`/rs/topics/${t.slug}`)
+                                              ? "bg-blue-50 text-blue-700 font-semibold"
+                                              : "text-text hover:bg-surface-hover"
+                                          }`}
+                                        >
+                                          <span className={`w-5 h-5 rounded ${gc.bg} ${gc.text} font-display font-bold text-[9px] flex items-center justify-center shrink-0`}>
+                                            {t.title.charAt(0)}
+                                          </span>
+                                          <span className="text-[13px] truncate">{t.title}</span>
+                                        </Link>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
+
+                            <div className="border-t border-border-subtle mt-1 pt-1 px-4 pb-1">
+                              <Link href="/rs" className="flex items-center gap-2 px-0 py-2 text-[13px] font-semibold text-blue-700 hover:text-blue-900 transition-colors">
+                                View all topics
+                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                              </Link>
+                            </div>
+                          </>
+                        ) : isGeography ? (
                           <>
                             {activeGeoGroups.map((group) => {
                               const gc = GROUP_COLOURS[group.label] ?? { bg: "bg-emerald-500/10", text: "text-emerald-700" };
@@ -569,7 +642,7 @@ export default function Header() {
                     onClick={() => setMobileOpen(false)}
                     className="px-3 py-1.5 rounded-full font-ui text-[12px] font-semibold transition-all text-grey hover:text-text hover:bg-surface-hover"
                   >
-                    {s.shortName}
+                    {s.name}
                   </Link>
                 ))}
               </div>
@@ -627,7 +700,69 @@ export default function Header() {
                 {/* Groups (English Lit texts or Geography topics) */}
                 {mobileTextsOpen && (
                   <div className="bg-bg border-y border-border-subtle">
-                    {isGeography ? (
+                    {isRs ? (
+                      <>
+                        {activeRsGroups.map((group) => {
+                          const gc = GROUP_COLOURS[group.label] ?? { bg: "bg-blue-500/10", text: "text-blue-700" };
+                          const icon = GROUP_ICONS[group.label] ?? "R";
+                          const activeCount = group.topics.filter(t => t.status === "active").length;
+                          const isExpanded = mobileExpandedGroup === group.label;
+
+                          return (
+                            <div key={group.label}>
+                              <button
+                                onClick={() => setMobileExpandedGroup(isExpanded ? null : group.label)}
+                                className={`w-full flex items-center gap-3 px-8 py-3 transition-colors ${
+                                  isExpanded ? "bg-surface-hover" : "hover:bg-surface-hover"
+                                }`}
+                              >
+                                <span className={`w-7 h-7 rounded-lg ${gc.bg} ${gc.text} font-display font-bold text-[11px] flex items-center justify-center shrink-0`}>
+                                  {icon}
+                                </span>
+                                <div className="flex-1 text-left">
+                                  <p className="text-[14px] font-semibold text-text">{group.label}</p>
+                                  <p className="text-[11px] text-grey">{activeCount} topics</p>
+                                </div>
+                                <svg className={`w-4 h-4 text-grey/40 transition-transform duration-200 ${isExpanded ? "rotate-90" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                              </button>
+
+                              {isExpanded && (
+                                <div className="bg-surface/50 border-t border-border-subtle py-1">
+                                  {group.topics.filter(t => t.status === "active").map((t) => (
+                                    <Link
+                                      key={t.slug}
+                                      href={`/rs/topics/${t.slug}`}
+                                      onClick={() => setMobileOpen(false)}
+                                      className={`flex items-center gap-2.5 px-8 pl-[72px] py-2.5 transition-colors ${
+                                        pathname.startsWith(`/rs/topics/${t.slug}`)
+                                          ? "text-blue-700 font-semibold bg-blue-50"
+                                          : "text-text hover:bg-surface-hover"
+                                      }`}
+                                    >
+                                      <span className={`w-5 h-5 rounded ${gc.bg} ${gc.text} font-display font-bold text-[9px] flex items-center justify-center shrink-0`}>
+                                        {t.title.charAt(0)}
+                                      </span>
+                                      <span className="text-[14px]">{t.title}</span>
+                                    </Link>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+
+                        <Link
+                          href="/rs"
+                          onClick={() => setMobileOpen(false)}
+                          className="flex items-center gap-2 px-8 py-3 text-[13px] font-semibold text-blue-700 hover:bg-surface-hover transition-colors border-t border-border-subtle"
+                        >
+                          View all topics
+                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                        </Link>
+                      </>
+                    ) : isGeography ? (
                       <>
                         {activeGeoGroups.map((group) => {
                           const gc = GROUP_COLOURS[group.label] ?? { bg: "bg-emerald-500/10", text: "text-emerald-700" };

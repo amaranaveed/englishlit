@@ -291,7 +291,7 @@ export default function HomePage() {
                 transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
                 className="font-display font-bold text-[26px] sm:text-[30px] text-text leading-tight mt-1"
               >
-                2 Subjects
+                3 Subjects
               </motion.p>
             </motion.div>
             {/* Stat 2 */}

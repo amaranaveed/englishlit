@@ -20,6 +20,7 @@ const CATEGORY_LABELS: Record<SearchCategory, string> = {
   character: "Characters",
   theme: "Themes",
   vocab: "Vocabulary",
+  topic: "Topics",
 };
 
 export function useSearch() {

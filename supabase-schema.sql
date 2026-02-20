@@ -90,6 +90,7 @@ CREATE TABLE user_profiles (
   subjects JSONB NOT NULL DEFAULT '[]',
   text_slugs TEXT[] NOT NULL DEFAULT '{}',
   geo_topic_slugs TEXT[] NOT NULL DEFAULT '{}',
+  rs_topic_slugs TEXT[] NOT NULL DEFAULT '{}',
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   PRIMARY KEY (user_id)
@@ -107,3 +108,4 @@ CREATE POLICY "Users can update own profile"
 -- ─── Migration: Add multi-subject support (run if upgrading) ───
 -- ALTER TABLE user_profiles ADD COLUMN IF NOT EXISTS subjects JSONB NOT NULL DEFAULT '[]';
 -- ALTER TABLE user_profiles ADD COLUMN IF NOT EXISTS geo_topic_slugs TEXT[] NOT NULL DEFAULT '{}';
+-- ALTER TABLE user_profiles ADD COLUMN IF NOT EXISTS rs_topic_slugs TEXT[] NOT NULL DEFAULT '{}';

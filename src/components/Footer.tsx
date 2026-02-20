@@ -33,7 +33,7 @@ export default function Footer() {
               Straight Nines
             </p>
             <p className="font-ui text-[13px] text-grey leading-relaxed">
-              Free GCSE English Literature revision for AQA 8702. Quotes, essays, flashcards&nbsp;&amp;&nbsp;more.
+              Free GCSE revision for AQA English Literature, Geography &amp; Religious Studies.
             </p>
           </motion.div>
 
@@ -44,11 +44,11 @@ export default function Footer() {
             </p>
             <ul className="space-y-2">
               {[
-                { href: "/englishlit/texts", label: "Set Texts" },
-                { href: "/englishlit/aos", label: "Assessment Objectives" },
-                { href: "/englishlit/essay-structure", label: "Essay Structure" },
+                { href: "/englishlit/texts", label: "English Literature" },
+                { href: "/geography/topics", label: "Geography" },
+                { href: "/rs/topics", label: "Religious Studies" },
                 { href: "/englishlit/flashcards", label: "Flashcards" },
-                { href: "/englishlit/vocab", label: "Vocab Quiz" },
+                { href: "/englishlit/exam", label: "Exam Practice" },
               ].map((l) => (
                 <li key={l.href}>
                   <Link

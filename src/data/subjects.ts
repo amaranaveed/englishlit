@@ -1,6 +1,6 @@
 // ─── SUBJECT CONFIGURATION ───
 
-export type SubjectId = "english-lit" | "geography";
+export type SubjectId = "english-lit" | "geography" | "rs";
 
 export interface NavItem {
   label: string;
@@ -54,10 +54,28 @@ export const SUBJECTS: SubjectConfig[] = [
       { label: "Flashcards", href: "/geography/flashcards" },
     ],
   },
+  {
+    id: "rs",
+    name: "Religious Studies",
+    shortName: "RS",
+    examBoard: "AQA",
+    specCode: "8062",
+    colour: "blue",
+    basePath: "/rs",
+    navItems: [
+      { label: "Topics", href: "/rs/topics", hasDropdown: true },
+      { label: "AOs", href: "/rs/aos" },
+      { label: "Essay Structure", href: "/rs/essay-structure" },
+      { label: "Exam Practice", href: "/rs/exam" },
+      { label: "Key Terms", href: "/rs/key-terms" },
+      { label: "Flashcards", href: "/rs/flashcards" },
+    ],
+  },
 ];
 
 export function getSubjectFromPath(pathname: string): SubjectConfig {
   if (pathname.startsWith("/geography")) return SUBJECTS[1];
+  if (pathname.startsWith("/rs")) return SUBJECTS[2];
   if (pathname.startsWith("/englishlit")) return SUBJECTS[0];
   return SUBJECTS[0];
 }
