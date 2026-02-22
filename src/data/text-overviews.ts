@@ -543,7 +543,7 @@ export const TEXT_OVERVIEWS: TextOverview[] = [
       { name: "Carol Ann Duffy", role: "Valentine — rejects romantic clichés and offers an onion as honest love" },
     ],
     contextSummary:
-      "Unseen Poetry (Paper 2, Section C) tests students' ability to analyse poems they have never seen before. This section contains 10 practice poems spanning Romantic (Blake, Keats), WWI (Owen), and contemporary (Angelou, Agard, Duffy, Dharker) poetry. Each poem is analysed using the same 6-part LightUp framework to build confidence in approaching unfamiliar texts. In the exam, students answer one question on a single unseen poem (24 marks) and one comparison question on a second unseen poem (8 marks). No prior knowledge of the poems is required — only analytical skill.",
+      "Unseen Poetry (Paper 2, Section C) tests students' ability to analyse poems they have never seen before. This section contains 10 practice poems spanning Romantic (Blake, Keats), WWI (Owen), and contemporary (Angelou, Agard, Duffy, Dharker) poetry. Each poem is analysed using the same 6-part framework to build confidence in approaching unfamiliar texts. In the exam, students answer one question on a single unseen poem (24 marks) and one comparison question on a second unseen poem (8 marks). No prior knowledge of the poems is required — only analytical skill.",
   },
 ];
 
