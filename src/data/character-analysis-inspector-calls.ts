@@ -141,6 +141,53 @@ export const INSPECTOR_CALLS_CHARACTERS: CharacterAnalysis[] = [
     ],
     examTip:
       "Never waste time debating whether the Inspector is 'real' — this misses the point. Instead, argue that his **ambiguity is deliberate**: Priestley wants the audience to focus on the *message*, not the messenger. Top-band answers connect the Inspector's function to Priestley's **socialist purpose** and his use of the play as political argument.",
+    symbols: [
+      {
+        symbol: "Light",
+        meaning: "He brings **moral illumination** and exposes truth — his arrival triggers the stage direction shift from 'pink and intimate' to 'brighter and harder.'",
+        examples: "\"Give us more light\" — the lighting change at his entrance is both literal and metaphorical, stripping away the Birlings' comfortable self-deception.",
+      },
+      {
+        symbol: "The Door",
+        meaning: "His entrance and exit mark **structural turning points** in the play — he opens the door to guilt and forces each character to confront their role.",
+        examples: "His arrival interrupts the celebration; his departure splits the family between those who accept and those who deny his message.",
+      },
+      {
+        symbol: "The Photograph",
+        meaning: "Shown to only one person at a time — he **controls the narrative** and forces **individual accountability**, preventing the Birlings from collaborating on a cover story.",
+        examples: "Each character is shown the photograph separately, ensuring they cannot compare stories or deflect blame collectively.",
+      },
+    ],
+    alternativeInterpretations: [
+      {
+        reading: "Socialist mouthpiece",
+        evidence: "Priestley's **direct voice** delivering the moral message — his final speech ('We are members of one body') is the playwright's socialist thesis spoken without dramatic disguise.",
+      },
+      {
+        reading: "Supernatural being",
+        evidence: "His name 'Goole' echoes **ghoul**; his **omniscient knowledge** of events he could not naturally know suggests something beyond human — a ghost, an angel, or a figure outside time.",
+      },
+      {
+        reading: "Collective conscience",
+        evidence: "He represents the **guilt that already exists** within each Birling — he does not create it, he reveals it. Each character's confession was waiting to surface; the Inspector merely provides the catalyst.",
+      },
+    ],
+    speechPatterns:
+      "Speaks in **short, controlled sentences** and uses **interrogative patterns** that strip away social pretence. His language is classless — neither upper nor working class — making him impossible to place socially. His final speech shifts to **prophetic rhetoric**, warning of \"fire and blood and anguish.\"",
+    contextLinks: [
+      {
+        context: "Priestley's socialism and the 1945 Labour landslide",
+        link: "Priestley was a committed socialist who campaigned for Labour. The Inspector embodies his belief that society must move toward **collective responsibility** — the 1945 election was a real-world enactment of the play's message.",
+      },
+      {
+        context: "The creation of the welfare state",
+        link: "The play argues for **collective responsibility** — the welfare state (NHS, social security) was being built as audiences first watched. The Inspector's message that 'we are responsible for each other' is the moral case for these institutions.",
+      },
+      {
+        context: "Post-war audience (1945)",
+        link: "The 1945 viewers had **lived through two world wars** — they knew Birling's optimistic predictions were catastrophically wrong. This gave the Inspector's warnings an authority rooted in the audience's own lived experience.",
+      },
+    ],
   },
   {
     name: "Mr Birling",
@@ -292,6 +339,53 @@ export const INSPECTOR_CALLS_CHARACTERS: CharacterAnalysis[] = [
     ],
     examTip:
       "Birling is a gift for AO3 (context). Always link his wrong predictions to the **1912/1945 time gap** — Priestley deliberately sets the play in 1912 so the audience can see how catastrophically wrong Birling's confident worldview turned out to be. This structural choice *is* the argument.",
+    symbols: [
+      {
+        symbol: "Port and Cigars",
+        meaning: "**Conspicuous consumption** and bourgeois self-satisfaction — the after-dinner indulgences symbolise the complacent, self-congratulatory world the Inspector will shatter.",
+        examples: "The opening stage directions place Birling at the dinner table with port and cigars, establishing his domain of material comfort before the Inspector strips it away.",
+      },
+      {
+        symbol: "The Dining Table",
+        meaning: "His **domain of control** — he holds court here, lecturing his family on business and politics. But his authority crumbles as the evening progresses and the Inspector commandeers the space.",
+        examples: "Birling begins the play presiding over the table; by Act 3, he is defensive and desperate, his patriarchal authority demolished in the very room where he felt most powerful.",
+      },
+      {
+        symbol: "His Knighthood Ambition",
+        meaning: "**Social climbing** and self-interest disguised as civic duty — his desire for a knighthood reveals that his public service is motivated by personal advancement, not genuine responsibility.",
+        examples: "He repeatedly references his potential knighthood and his connections to the Chief Constable, using social capital as a shield against moral accountability.",
+      },
+    ],
+    alternativeInterpretations: [
+      {
+        reading: "Marxist reading",
+        evidence: "Represents the **bourgeoisie** exploiting the working class for profit — he fires Eva for asking for a living wage (25 shillings instead of 22 and sixpence), treating workers as expendable units of production.",
+      },
+      {
+        reading: "Comic irony device",
+        evidence: "His confident predictions about the Titanic being 'unsinkable' and there being no prospect of war create **dramatic irony** — the 1945 audience knows he is catastrophically wrong about everything, destroying his credibility before the Inspector arrives.",
+      },
+      {
+        reading: "Priestley's warning",
+        evidence: "If society does not change, men like Birling will **repeat the same mistakes**. His refusal to learn from the evening's events is Priestley's cautionary portrait of a class incapable of self-correction.",
+      },
+    ],
+    speechPatterns:
+      "Speaks in **long, pompous declarative sentences** — lectures rather than converses. Uses **business jargon** and appeals to status. His speech becomes increasingly **defensive and blustering** under pressure, revealing insecurity beneath the bluster. Never asks genuine questions — only rhetorical ones.",
+    contextLinks: [
+      {
+        context: "Edwardian capitalism and the exploitation of workers",
+        link: "Eva's wages of **25 shillings a week** reflect the real conditions of Edwardian factory workers — low pay, no unions, and employers like Birling who saw wage demands as insubordination rather than justice.",
+      },
+      {
+        context: "The Titanic (1912)",
+        link: "The Titanic is a **symbol of misplaced confidence** in progress and technology. Birling's worship of it mirrors his faith in capitalism — both represent systems that promised invulnerability and delivered disaster.",
+      },
+      {
+        context: "1912 vs 1945",
+        link: "Birling's 'no war' speech is **devastatingly ironic** given two World Wars. Priestley exploits the time gap to ensure the audience sees Birling not as a wise businessman but as a fool whose confident worldview produced catastrophe.",
+      },
+    ],
   },
   {
     name: "Sheila Birling",
@@ -468,6 +562,53 @@ export const INSPECTOR_CALLS_CHARACTERS: CharacterAnalysis[] = [
     ],
     examTip:
       "Sheila is the strongest character for essays on **change** or **social responsibility**. Structure your essay around her transformation — before, during, and after the Inspector — to show Priestley's message in action. Always contrast her with her parents to demonstrate the generational argument.",
+    symbols: [
+      {
+        symbol: "The Engagement Ring",
+        meaning: "Given back to Gerald — symbolises her **rejection of superficial upper-class values** and her moral growth. The ring represents the old Sheila; returning it signals she will not go back.",
+        examples: "Gerald offers the ring back in Act 3, assuming the evening can be erased. Sheila's refusal to take it proves her transformation is permanent — she values moral integrity over social convention.",
+      },
+      {
+        symbol: "The Mirror/Shop (Milwards)",
+        meaning: "Her jealousy of Eva in the shop mirror reflects her **shallow, pre-Inspector self** — she saw Eva as a threat to her vanity, not as a fellow human being.",
+        examples: "Sheila admits she had Eva fired because the girl looked better in a dress. The mirror moment captures a self-absorbed young woman who has not yet learned to see beyond her own reflection.",
+      },
+      {
+        symbol: "Her Eyes",
+        meaning: "She is the character who truly **sees** the consequences — her moral vision develops where her parents remain blind to their own culpability.",
+        examples: "\"I'll never, never do it again\" — her repeated vow signals that she has seen the truth about her actions and cannot unsee it. Her clear-sightedness contrasts with her parents' wilful blindness.",
+      },
+    ],
+    alternativeInterpretations: [
+      {
+        reading: "Feminist awakening reading",
+        evidence: "She moves from **decorative fiancee to morally autonomous woman** — she no longer needs Gerald's approval or her parents' validation. Returning the ring is an act of independence as much as moral growth.",
+      },
+      {
+        reading: "Priestley's ideal reader",
+        evidence: "She represents **how the audience should respond** — with empathy, accountability, and a determination to change. Her arc is the play's pedagogical blueprint: ignorance, guilt, acceptance, advocacy.",
+      },
+      {
+        reading: "Voice of the younger generation",
+        evidence: "Priestley's hope that the **post-war young** would build a more just society. Sheila's transformation dramatises the political awakening Priestley saw in the generation that elected Labour in 1945.",
+      },
+    ],
+    speechPatterns:
+      "Begins with **girlish slang** and excitable interruptions (\"Oh — it's wonderful!\"). After the Inspector's revelations, her language becomes **direct, mature and incisive** — she even begins to echo the Inspector's questioning style. By the end, she speaks with more authority than her parents.",
+    contextLinks: [
+      {
+        context: "Women's suffrage movement",
+        link: "Sheila's awakening parallels women's **growing political voice** — the play is set two years before partial suffrage in 1918. Her journey from silent compliance to outspoken moral authority mirrors the wider feminist struggle for recognition.",
+      },
+      {
+        context: "Edwardian consumer culture",
+        link: "**Shopping as identity** for upper-class women — Sheila's power at Milwards (a single complaint destroys Eva's livelihood) reveals how consumer privilege could be weaponised, and how women's social world was confined to domestic and commercial spaces.",
+      },
+      {
+        context: "The generational divide",
+        link: "Priestley positions the young as **more capable of moral growth** than their parents. Sheila's transformation is his evidence that social change is possible — but only if the younger generation refuses to replicate the values of the old.",
+      },
+    ],
   },
   {
     name: "Mrs Birling",
@@ -619,6 +760,53 @@ export const INSPECTOR_CALLS_CHARACTERS: CharacterAnalysis[] = [
     ],
     examTip:
       "Mrs Birling is ideal for essays on **class** or **hypocrisy**. The 'girls of that class' quote is one of the most efficient in the play — use it to argue that Priestley presents class prejudice as so deeply ingrained it doesn't even need to be articulated fully. Always connect her charity role to the **institutional** nature of inequality.",
+    symbols: [
+      {
+        symbol: "The Charity Committee",
+        meaning: "Her position as chair of the Brumley Women's Charity Organisation — she uses **charity to reinforce class hierarchy**, not to help. The institution that should be a safety net becomes a weapon of class judgement.",
+        examples: "She rejects Eva's appeal not on grounds of policy but because Eva used the name 'Mrs Birling' — her class pride overrides the charity's purpose of helping vulnerable women.",
+      },
+      {
+        symbol: "Social Position",
+        meaning: "Her identity is built entirely on **status** — 'a prominent member of the Brumley Women's Charity Organisation.' Without her social rank, she has no sense of self.",
+        examples: "Stage directions describe her as 'her husband's social superior,' and she consistently corrects family members' manners, policing propriety as a substitute for genuine moral engagement.",
+      },
+      {
+        symbol: "Her Refusal to Drink",
+        meaning: "**Control and propriety** — she maintains the appearance of respectability above all else. While Eric drinks to excess and the family's dysfunction festers, she preserves a flawless surface.",
+        examples: "Her composure never cracks, even under the Inspector's interrogation. She maintains linguistic and emotional control throughout, which makes her the most chilling character — her cruelty is cold, not passionate.",
+      },
+    ],
+    alternativeInterpretations: [
+      {
+        reading: "Internalised patriarchy reading",
+        evidence: "She enforces the very **class system that limits her own power** as a woman — she judges Eva for the same vulnerability she might face without her husband's wealth. Her authority is borrowed from her husband's class position, yet she wields it against women below her.",
+      },
+      {
+        reading: "Class weapon reading",
+        evidence: "She **weaponises respectability** to deny help to those she considers beneath her — 'girls of that class' reveals prejudice so instinctive it operates as reflex. Her charity work is not generosity but gatekeeping.",
+      },
+      {
+        reading: "Most culpable Birling",
+        evidence: "Her refusal to help a **pregnant, desperate woman** directly leads to Eva's death — and she shows no remorse. She is the final link in the chain, and unlike the others, she had an institutional duty of care that she deliberately betrayed.",
+      },
+    ],
+    speechPatterns:
+      "Speaks in **formal, conditional sentences** — 'I don\\'t suppose for a moment that...' creates distance from reality. Uses **dismissive language** and class-based euphemisms. Her speech never breaks down emotionally — she maintains linguistic control even when morally exposed, which makes her the most chilling character.",
+    contextLinks: [
+      {
+        context: "Edwardian propriety and the 'deserving poor'",
+        link: "Charity in the Edwardian era was **conditional on moral judgement** — organisations like Mrs Birling's decided who 'deserved' help based on respectability, not need. Eva's pregnancy outside marriage would have made her 'undeserving' in this framework.",
+      },
+      {
+        context: "Upper-class women's limited public roles",
+        link: "Charity work was one of the few **acceptable public outlets** for upper-class women. Mrs Birling's committee is both her source of power and her cage — she exercises authority only within the narrow space patriarchal society permits.",
+      },
+      {
+        context: "The workhouse and Poor Law mentality",
+        link: "Mrs Birling's attitude echoes **Victorian ideas about poverty being a moral failing**. The Poor Law distinguished between 'deserving' and 'undeserving' poor — Mrs Birling applies exactly this logic when she rejects Eva, perpetuating a punitive tradition that Priestley's welfare-state audience was dismantling.",
+      },
+    ],
   },
   {
     name: "Eric Birling",
@@ -769,6 +957,53 @@ export const INSPECTOR_CALLS_CHARACTERS: CharacterAnalysis[] = [
     ],
     examTip:
       "Eric is strongest in essays on **exploitation** or **generational change**. Use his 'You killed her' speech to argue that Priestley shows how individual family members are connected to wider systems of oppression — the personal *is* political. Always note that Eric's awakening, unlike Sheila's, comes with the weight of direct culpability.",
+    symbols: [
+      {
+        symbol: "Alcohol",
+        meaning: "His drinking represents the **rot beneath the respectable surface** — the Birling family's dysfunction predates the Inspector's arrival. Alcohol is both symptom and enabler of his worst actions.",
+        examples: "\"I was in that state where a chap easily turns nasty\" — drink facilitated his assault on Eva, but the family's refusal to acknowledge his alcoholism ('he's been steadily drinking too much for the last two years') reveals their wilful blindness.",
+      },
+      {
+        symbol: "Stolen Money",
+        meaning: "He steals from his father's business to support Eva — **well-intentioned but unable to act within legitimate systems**. The theft symbolises how privilege produces people who want to help but lack the moral framework to do so responsibly.",
+        examples: "Eric takes money from Birling & Company to give to Eva, showing genuine concern but also revealing that his only resource is his father's exploitative business — he cannot escape the system that created Eva's suffering.",
+      },
+      {
+        symbol: "His Stammer/Nervousness",
+        meaning: "**Physically manifests the family's dysfunction** — he is broken before the Inspector even arrives. His anxiety is the visible symptom of a household built on denial and repression.",
+        examples: "Stage directions describe him as 'not quite at ease' from the opening scene. His awkward interjections and nervous manner signal to the audience that something is deeply wrong beneath the Birlings' celebration.",
+      },
+    ],
+    alternativeInterpretations: [
+      {
+        reading: "Product of privilege reading",
+        evidence: "His alcoholism and irresponsibility are **symptoms of a class system** that shields the wealthy from consequences — he has never had to grow up. His privilege protected him from the accountability that might have forced earlier maturity.",
+      },
+      {
+        reading: "Victim of repression reading",
+        evidence: "His parents' **refusal to acknowledge problems** creates the very dysfunction they condemn — Eric drinks because his family offers no emotional outlet. The Birling household's emphasis on propriety over honesty produces the crisis it tries to hide.",
+      },
+      {
+        reading: "Genuine reformer reading",
+        evidence: "Despite his flaws, he is the male character who most completely **accepts responsibility** — 'the fact remains that I did what I did.' His raw honesty, though painful, marks him as capable of the moral change Priestley demands.",
+      },
+    ],
+    speechPatterns:
+      "Begins with **stammering, broken interjections** — he struggles to be heard in a family that talks over him. Under pressure, his speech becomes **raw, honest and defiant** — \"You're not the kind of father a chap could go to.\" By the end, his directness contrasts sharply with his parents' evasions.",
+    contextLinks: [
+      {
+        context: "Alcoholism and class",
+        link: "Drinking was more **socially acceptable among the upper classes** — Eric's problem is hidden by wealth and privilege. Where a working-class drunk would face immediate consequences, Eric's alcoholism is enabled by a family that values appearance over truth.",
+      },
+      {
+        context: "Paternal authority in Edwardian England",
+        link: "Fathers held **absolute household power** — Eric's inability to confide in his father reveals the cost of rigid patriarchy. 'You're not the kind of father a chap could go to' is an indictment of a family structure built on authority rather than trust.",
+      },
+      {
+        context: "Illegitimacy stigma",
+        link: "Eva's pregnancy outside marriage made her a **social outcast** — there was no support system for unmarried mothers in 1912. Eric's responsibility is compounded by the class power that allowed him to exploit Eva without facing the social ruin she endured.",
+      },
+    ],
   },
   {
     name: "Gerald Croft",
@@ -919,6 +1154,53 @@ export const INSPECTOR_CALLS_CHARACTERS: CharacterAnalysis[] = [
     ],
     examTip:
       "Gerald is ideal for essays on **ambiguity** or **gender exploitation**. Avoid arguing he is simply 'good' or 'bad' — instead show how Priestley uses him to demonstrate that **well-intentioned exploitation is still exploitation**. His attempt to disprove the Inspector is a key structural moment: use it to argue that Priestley shows how the privileged use intelligence to evade accountability.",
+    symbols: [
+      {
+        symbol: "Alderman Meggarty",
+        meaning: "The corrupt older man Gerald 'rescues' Eva from — yet Gerald's relationship with Eva **mirrors the same power imbalance**. The rescue is a change of exploiter, not a liberation.",
+        examples: "Gerald presents himself as Eva's saviour from Meggarty's harassment at the Palace Bar, but Priestley ensures the audience sees that Gerald's 'protection' created a new dependency just as exploitative in its own way.",
+      },
+      {
+        symbol: "The Flat in Morgan Terrace",
+        meaning: "A kept space for a kept woman — represents how the upper classes **contain their transgressions away from public view**. The flat is hidden, discreet, and temporary, just like the relationship.",
+        examples: "Gerald installs Eva in a friend's flat, creating a private world where the affair can exist without threatening his public reputation or his engagement to Sheila.",
+      },
+      {
+        symbol: "The Ring",
+        meaning: "He wants to give it back to Sheila — wants to **return to how things were**, refusing lasting change. The ring represents the status quo Gerald is desperate to restore.",
+        examples: "\"Everything's all right now, Sheila. What about this ring?\" — Gerald treats disproving the Inspector as moral absolution, offering the ring as though the evening's revelations can simply be undone.",
+      },
+    ],
+    alternativeInterpretations: [
+      {
+        reading: "Class-bridge reading",
+        evidence: "He connects the Birlings to the aristocracy — the **Crofts are old money, the Birlings are new money** — his presence reveals class tensions even within the upper classes. The engagement is a business merger as much as a love match.",
+      },
+      {
+        reading: "Most morally complex character",
+        evidence: "He genuinely cared for Eva, arguably **treated her better than any other character** — yet his 'kindness' was still transactional and temporary. Priestley uses Gerald to show that good intentions do not erase structural exploitation.",
+      },
+      {
+        reading: "Double standards reading",
+        evidence: "He is **forgiven for behaviour** that would ruin a woman's reputation — Sheila's jealousy at Milwards is trivial compared to Gerald's affair, yet society judges women more harshly. Gerald's class and gender protect him from consequences Eva could never escape.",
+      },
+    ],
+    speechPatterns:
+      "Speaks in **polished, evasive language** — \"I didn't feel about her as she felt about me.\" When describing his time with Daisy Renton, his language becomes **tender and almost romantic** before snapping back to **defensive self-justification**. He is the most linguistically controlled character after the Inspector.",
+    contextLinks: [
+      {
+        context: "Upper-class privilege and discretion",
+        link: "Affairs were **tolerated if kept quiet** — the Edwardian upper classes operated a system of private indiscretion and public respectability. Gerald's affair was acceptable by his class's standards; Eva's ruin was the price of that double standard.",
+      },
+      {
+        context: "Kept women in Edwardian England",
+        link: "Working-class women had **few options** — domestic service, factory work, or dependence on a wealthy man. Eva's reliance on Gerald reflects **systemic inequality**, not personal weakness; the system offered her no route to independence.",
+      },
+      {
+        context: "Class alliances through marriage",
+        link: "The Birling-Croft engagement is a **business merger as much as a love match** — Birling explicitly welcomes the connection between his firm and Crofts Limited. Marriage in this world is a transaction that consolidates class power.",
+      },
+    ],
   },
   {
     name: "Eva Smith",
@@ -1050,5 +1332,52 @@ export const INSPECTOR_CALLS_CHARACTERS: CharacterAnalysis[] = [
     ],
     examTip:
       "Eva is essential for essays on **Priestley's message** or **class**. Argue that her absence from the stage is a deliberate choice — she represents the voiceless working class, and the Birlings' failure to see her as human *is* the play's indictment of capitalism. The 'chain' of exploitation (each Birling contributing) is your structural evidence for collective responsibility.",
+    symbols: [
+      {
+        symbol: "Her Diary",
+        meaning: "The unseen record of suffering — each Birling contributed a **chapter of exploitation**. The diary is the written evidence of a life destroyed by collective cruelty.",
+        examples: "The Inspector references Eva's diary as the source of his knowledge, giving her a voice — albeit one that can only be heard posthumously and through the mediation of others.",
+      },
+      {
+        symbol: "Her Name Changes",
+        meaning: "Eva Smith becomes Daisy Renton — **forced to reinvent herself** as each door closes, losing identity under class pressure. Each new name marks a new stage of exploitation.",
+        examples: "She is Eva Smith at the factory, Daisy Renton with Gerald, and 'Mrs Birling' at the charity. The shifting names suggest she may be multiple women — or that her individual identity has been erased by the system.",
+      },
+      {
+        symbol: "The Unseen Photograph",
+        meaning: "Never shown to the audience — she represents **every exploited worker**, not just one individual. Her invisibility is the point: the working class are unseen by those who exploit them.",
+        examples: "The Inspector shows the photograph to each character but never to the audience. This deliberate choice prevents us from seeing Eva as one specific person and forces us to understand her as a representative of an entire class.",
+      },
+    ],
+    alternativeInterpretations: [
+      {
+        reading: "Every-woman symbol",
+        evidence: "She is deliberately **unnamed to the audience** — she could be any working-class woman destroyed by the system. Her multiple identities suggest she represents not one person but the collective suffering of an entire class.",
+      },
+      {
+        reading: "Christ-figure reading",
+        evidence: "She **suffers at the hands of the powerful**, and her death serves as a moral lesson for others — the 'chain of events' that destroys her mirrors a passion narrative. Her sacrifice exposes the sins of those who destroyed her.",
+      },
+      {
+        reading: "Absent centre reading",
+        evidence: "She is the **most important character but has no voice** — Priestley forces us to hear her story only through her exploiters, highlighting how the powerful control narratives about the powerless. Her silence is the play's most radical political statement.",
+      },
+    ],
+    speechPatterns:
+      "Eva **never speaks a single word on stage** — her story is entirely mediated through the other characters' accounts. This deliberate silencing is Priestley's most powerful structural choice: the working class are spoken about but never given a platform. Each character's version of Eva reveals more about themselves than about her.",
+    contextLinks: [
+      {
+        context: "Working-class women's rights in 1912",
+        link: "Women had **no vote, limited legal protection**, and were dependent on employers' goodwill. Eva's vulnerability was structural, not personal — the system offered working-class women no safety net and no political voice.",
+      },
+      {
+        context: "The 1911 strikes and labour unrest",
+        link: "Eva's sacking for leading a strike reflects **real industrial action** — 1911 saw major strikes across Britain. Priestley roots Eva's story in historical reality, connecting her fictional suffering to the genuine struggles of the working class.",
+      },
+      {
+        context: "Absence of a welfare safety net",
+        link: "There was **no NHS, no unemployment benefit** — once Mrs Birling's charity refused her, Eva had nowhere left to turn. Priestley's 1945 audience was building the very welfare institutions that might have saved Eva, making her death both a tragedy and an argument for the new social order.",
+      },
+    ],
   },
 ];

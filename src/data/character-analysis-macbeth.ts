@@ -188,6 +188,65 @@ export const MACBETH_CHARACTERS: CharacterAnalysis[] = [
     ],
     examTip:
       "Always link Macbeth's decline to Shakespeare's **purpose**: writing for James I, Shakespeare presents regicide as an offence against God and nature, warning that ambition unchecked by morality leads to self-destruction. Show you understand that Macbeth *chooses* evil — the Witches tempt, but he acts.",
+    symbols: [
+      {
+        symbol: "Blood",
+        meaning: "Guilt made visible — a physical manifestation of Macbeth's murderous conscience that he can never wash away",
+        examples:
+          "**\"Will all great Neptune's ocean wash this blood / Clean from my hand?\"** (Act 2, Scene 2) — the hyperbolic scale (an entire ocean) reveals guilt so vast it overwhelms nature itself.",
+      },
+      {
+        symbol: "Darkness / Night",
+        meaning: "Moral blindness and the concealment of evil — Macbeth repeatedly invokes darkness to hide his crimes from heaven and from himself",
+        examples:
+          "**\"Stars, hide your fires; / Let not light see my black and deep desires\"** (Act 1, Scene 4) — he asks the cosmos to become complicit in his sin.",
+      },
+      {
+        symbol: "Sleep",
+        meaning: "Innocence and natural order destroyed — Macbeth's murder of the sleeping Duncan annihilates his own capacity for rest and peace",
+        examples:
+          "**\"Macbeth does murder sleep\"** (Act 2, Scene 2) — sleep is personified as a victim, suggesting Macbeth has killed not just a man but the very concept of innocent rest.",
+      },
+      {
+        symbol: "The Dagger",
+        meaning: "Hallucinated ambition — the mind projecting murderous desire into physical form, blurring the boundary between thought and action",
+        examples:
+          "**\"Is this a dagger which I see before me, / The handle toward my hand?\"** (Act 2, Scene 1) — the handle pointing toward him suggests his own ambition is directing the weapon.",
+      },
+    ],
+    alternativeInterpretations: [
+      {
+        reading: "Freudian reading",
+        evidence:
+          "Macbeth's hallucinations (the dagger, Banquo's Ghost, the voice crying **\"Sleep no more\"**) can be read as the **return of the repressed** — unconscious guilt erupting into consciousness because he cannot psychologically contain the horror of his actions.",
+      },
+      {
+        reading: "Aristotelian reading",
+        evidence:
+          "Macbeth fits the model of a classic **tragic hero** with **hamartia** (tragic flaw): his ambition. He begins in a position of greatness, makes a fatal error of judgement driven by that flaw, and suffers a catastrophic fall — eliciting both pity and fear in the audience (**catharsis**).",
+      },
+      {
+        reading: "Marxist reading",
+        evidence:
+          "The play can be read as a critique of **absolute power and its corruption**. Macbeth's tyranny exposes how unchecked authority — gained through violence rather than consent — inevitably degenerates into paranoia, oppression, and self-destruction.",
+      },
+    ],
+    speechPatterns:
+      "Shifts from **shared verse with Lady Macbeth** (showing partnership and mutual influence) to **isolated soliloquies** (showing increasing moral alienation) to **fragmented, nihilistic prose** by Act 5 (**\"Tomorrow and tomorrow and tomorrow\"**). His language moves from imagery of **light and honour** to **darkness and meaninglessness**, mirroring his psychological disintegration. The iambic pentameter itself fractures as his mind deteriorates.",
+    contextLinks: [
+      {
+        context: "Jacobean regicide fears",
+        link: "The **Gunpowder Plot (1605)** — Guy Fawkes's attempt to blow up Parliament — was fresh in the audience's memory. Shakespeare's portrayal of regicide as a cosmic crime directly addressed James I's anxieties about assassination and divine-right monarchy.",
+      },
+      {
+        context: "Divine Right of Kings",
+        link: "In Jacobean theology, the king was **God's anointed representative on earth**. Killing a king was therefore not just murder but a **sin against God** — explaining why Macbeth cannot say 'Amen' after Duncan's murder and why nature itself rebels.",
+      },
+      {
+        context: "Great Chain of Being",
+        link: "The Elizabethan/Jacobean belief in a **divinely ordained hierarchy** (God → King → Man → Animals) meant that regicide didn't just disrupt politics — it **shattered cosmic order**. This is reflected in the unnatural omens after Duncan's death: darkness at noon, horses eating each other, storms.",
+      },
+    ],
   },
   {
     name: "Lady Macbeth",
@@ -369,6 +428,65 @@ export const MACBETH_CHARACTERS: CharacterAnalysis[] = [
     ],
     examTip:
       "Always link Lady Macbeth's collapse to **Shakespeare's message about guilt**: no matter how much a person rationalises evil, the conscience cannot be silenced. Top-band answers explore how her arc critiques both gender norms *and* the human cost of ambition.",
+    symbols: [
+      {
+        symbol: "Hands",
+        meaning: "Guilt inscribed on the body — her hands become the site where suppressed guilt physically manifests, moving from confident instrument to compulsive torment",
+        examples:
+          "**\"Out, damned spot! Out, I say!\"** (Act 5, Scene 1) — the imaginary blood on her hands cannot be washed away, inverting her earlier dismissal of guilt as a practical inconvenience.",
+      },
+      {
+        symbol: "Water",
+        meaning: "The futility of moral cleansing — water represents her doomed belief that guilt can be rationally managed and physically removed",
+        examples:
+          "**\"A little water clears us of this deed\"** (Act 2, Scene 2) — devastatingly ironic, as Act 5 proves that no amount of water can clear a guilty conscience.",
+      },
+      {
+        symbol: "Sleepwalking",
+        meaning: "Unconscious guilt surfacing — her body acts out what her waking mind refuses to acknowledge, revealing the return of everything she repressed",
+        examples:
+          "The **sleepwalking scene** (Act 5, Scene 1) shows her reliving the murder night involuntarily, proving the conscience operates beyond conscious control.",
+      },
+      {
+        symbol: "The Raven",
+        meaning: "A death omen that signals Duncan's fate and foreshadows the destruction Lady Macbeth herself invites into the castle",
+        examples:
+          "**\"The raven himself is hoarse / That croaks the fatal entrance of Duncan\"** (Act 1, Scene 5) — the raven, a traditional harbinger of death, announces the murder she is already planning.",
+      },
+    ],
+    alternativeInterpretations: [
+      {
+        reading: "Feminist reading",
+        evidence:
+          "Lady Macbeth must **suppress her femininity** to access power — **\"unsex me here\"** is a demand to be stripped of the compassion her society codes as female. Her destruction can be read as the **patriarchal order punishing a woman** who dared to transgress gender boundaries; she is confined to madness and offstage death while Macbeth dies fighting.",
+      },
+      {
+        reading: "Freudian reading",
+        evidence:
+          "The sleepwalking scene is a textbook example of the **return of the repressed**. Lady Macbeth's conscious mind suppressed her guilt, but it erupts in her unconscious behaviour — compulsive hand-washing, fragmented speech, reliving the murder. Her breakdown is **psychosomatic**: mental trauma manifesting as physical compulsion.",
+      },
+      {
+        reading: "Agency reading",
+        evidence:
+          "Lady Macbeth is the **true architect of Duncan's murder** — she devises the plan, drugs the guards, steadies Macbeth's nerve, and returns the daggers. She is **more decisive and pragmatic** than Macbeth in Acts 1-2, raising the question of whether she, not Macbeth, is the play's primary agent of evil.",
+      },
+    ],
+    speechPatterns:
+      "Begins with **commanding imperatives and controlled iambic pentameter** (**\"Come, you spirits\"**), demonstrating absolute rhetorical and psychological control. Shifts to **shared verse with Macbeth** as they plan Duncan's murder together. Then breaks down into **disjointed prose** during the sleepwalking scene — the fragmented speech mirrors her **fragmented mind**. The shift from verse to prose is Shakespeare's structural signal that her rational control has completely collapsed.",
+    contextLinks: [
+      {
+        context: "Jacobean expectations of femininity",
+        link: "Women in Jacobean England were expected to be **obedient, nurturing, and subordinate** to their husbands. Lady Macbeth's ambition, dominance, and invocation of evil spirits would have shocked Shakespeare's audience as a **monstrous inversion** of the 'natural' feminine role.",
+      },
+      {
+        context: "Witchcraft and demonic invocation",
+        link: "Her speech **\"Come, you spirits / That tend on mortal thoughts\"** echoes the language of **witch trials and demonic pacts**. A Jacobean audience familiar with James I's witch persecutions would have heard this as a literal invitation to the devil, aligning Lady Macbeth with the Witches.",
+      },
+      {
+        context: "Patriarchal marriage",
+        link: "Lady Macbeth's power can **only be exercised through her husband** — she cannot seize the crown herself. This reflects the Jacobean reality that women's political influence was always **mediated through men**, making her ambition both transgressive and structurally dependent on Macbeth.",
+      },
+    ],
   },
   {
     name: "The Witches",
@@ -514,6 +632,55 @@ export const MACBETH_CHARACTERS: CharacterAnalysis[] = [
     ],
     examTip:
       "Avoid saying the Witches 'made' Macbeth do anything — this removes his moral responsibility and weakens your argument. Instead, argue they **reveal** or **exploit** his pre-existing ambition, and link this to Shakespeare's Jacobean context where free will vs predestination was a live theological debate.",
+    symbols: [
+      {
+        symbol: "The Number Three",
+        meaning: "An unholy trinity — a deliberate parody of the divine Trinity (Father, Son, Holy Spirit) that signals the Witches as agents of demonic inversion",
+        examples:
+          "There are **three Witches**, they make **three prophecies**, they greet Macbeth with **three titles** — the repetition of three pervades every aspect of their presence, creating a dark mirror of sacred Christian numerology.",
+      },
+      {
+        symbol: "Storms / Weather",
+        meaning: "Pathetic fallacy signalling cosmic chaos — the Witches are always accompanied by unnatural weather, linking them to the disruption of natural order",
+        examples:
+          "They appear in **\"Thunder and lightning\"** (Act 1, Scene 1) and ask **\"When shall we three meet again? / In thunder, lightning, or in rain?\"** — they command the elements, placing them outside natural law.",
+      },
+      {
+        symbol: "The Cauldron",
+        meaning: "Corruption of nature and poisoned creation — the cauldron inverts the domestic image of cooking into a site of occult manufacturing",
+        examples:
+          "The ingredients (**\"Eye of newt and toe of frog\"**, Act 4, Scene 1) are fragments of nature perverted into instruments of evil — the cauldron produces not nourishment but deception and destruction.",
+      },
+    ],
+    alternativeInterpretations: [
+      {
+        reading: "James I's Daemonologie reading",
+        evidence:
+          "James I published **Daemonologie** (1597) arguing that witches were real agents of Satan. Shakespeare's portrayal of genuinely powerful, malevolent Witches can be read as **flattering the king's beliefs** and validating his persecution of suspected witches.",
+      },
+      {
+        reading: "Feminist reading",
+        evidence:
+          "The Witches can be read as **scapegoated women** — marginalised figures (old, bearded, gender-ambiguous) onto whom society projects its **fear of female power**. Their 'evil' may reflect patriarchal anxiety about women who exist outside male control rather than genuine supernatural threat.",
+      },
+      {
+        reading: "Theatrical device reading",
+        evidence:
+          "Rather than literal supernatural beings, the Witches function as **dramatic catalysts** — theatrical devices that expose Macbeth's pre-existing ambition. In this reading, their power lies not in magic but in **suggestion**, and the play's true evil resides in human choice, not the supernatural.",
+      },
+    ],
+    speechPatterns:
+      "Speak exclusively in **trochaic tetrameter** (stressed-unstressed rhythm), rhyming couplets, and chanting — the rhythmic **opposite** of the noble characters' **iambic pentameter** (unstressed-stressed). This rhythmic inversion signals their role as agents of disorder: they literally speak in a metre that inverts the natural order. Their language is incantatory and collective, never individuated, reinforcing their function as a single force of chaos.",
+    contextLinks: [
+      {
+        context: "King James I's Daemonologie (1597) and witch trials",
+        link: "James I was **personally obsessed with witchcraft**, writing a treatise on demonology and overseeing witch trials. Shakespeare's inclusion of the Witches directly **appealed to the king's known interests**, making *Macbeth* a politically strategic play as well as a dramatic masterpiece.",
+      },
+      {
+        context: "The North Berwick witch trials (1590)",
+        link: "James I **personally attended** the North Berwick trials, where women were accused of using witchcraft to create storms to sink his ship. This real historical episode — a king threatened by witches' storms — is directly echoed in the Witches' association with **thunder, lightning, and tempests** in the play.",
+      },
+    ],
   },
   {
     name: "Banquo",
@@ -632,6 +799,50 @@ export const MACBETH_CHARACTERS: CharacterAnalysis[] = [
     ],
     examTip:
       "Don't treat Banquo as simply 'good' — note his silence after Duncan's murder and his possible self-interest in the prophecy. Examiners reward **nuanced** readings that acknowledge complexity rather than presenting characters as purely virtuous or purely evil.",
+    symbols: [
+      {
+        symbol: "Seeds / Growth",
+        meaning: "Future dynasty and potential — organic imagery suggesting that Banquo's legacy will grow naturally, in contrast to Macbeth's violent seizure of power",
+        examples:
+          "**\"If you can look into the seeds of time, / And say which grain will grow and which will not\"** (Act 1, Scene 3) — the metaphor of seeds implies that the future is organic, not something to be forced through murder.",
+      },
+      {
+        symbol: "Light",
+        meaning: "Moral clarity contrasting Macbeth's darkness — Banquo is associated with illumination and openness where Macbeth invokes night and concealment",
+        examples:
+          "Banquo asks for his **\"bosom franchised and allegiance clear\"** (Act 2, Scene 1), using language of openness and honesty that directly contrasts Macbeth's appeals to darkness and hidden desires.",
+      },
+      {
+        symbol: "The Ghost",
+        meaning: "Guilt made manifest — Banquo's Ghost is the conscience Macbeth cannot escape, a silent accusation more devastating than any spoken word",
+        examples:
+          "The **Ghost at the banquet** (Act 3, Scene 4) is visible only to Macbeth, shattering his composure and publicly exposing his guilt — the dead friend becomes an inescapable reminder of betrayal.",
+      },
+    ],
+    alternativeInterpretations: [
+      {
+        reading: "Moral foil reading",
+        evidence:
+          "Banquo's **resistance to temptation** highlights Macbeth's weakness by comparison. Both men hear the same prophecy, but Banquo chooses **restraint and scepticism** where Macbeth chooses action and murder. He proves that the supernatural does not compel evil — it only reveals existing character.",
+      },
+      {
+        reading: "Complicit reading",
+        evidence:
+          "Banquo **suspects Macbeth** of Duncan's murder (**\"Thou played'st most foully for't\"**) but **stays silent**, possibly because the prophecy promised the throne to his own descendants. His inaction raises the uncomfortable question of whether **silence in the face of evil constitutes a form of complicity**.",
+      },
+    ],
+    speechPatterns:
+      "Speaks in **measured, thoughtful verse** — he tends to **question rather than command**, reflecting his cautious, reflective nature. After the prophecy, his language becomes **guarded and watchful**, as seen in his careful aside about Macbeth. As a Ghost, his **silence is more powerful than any speech** — the empty stare that breaks Macbeth is a masterclass in how Shakespeare uses the absence of language as a dramatic weapon.",
+    contextLinks: [
+      {
+        context: "Stuart dynasty",
+        link: "James I **claimed descent from Banquo** through the historical Fleance. Shakespeare's sympathetic portrayal — transforming Banquo from Holinshed's accomplice into a moral hero — was a deliberate act of **political flattery**, presenting the king's ancestor as noble and virtuous.",
+      },
+      {
+        context: "Loyalty and feudal obligation",
+        link: "Banquo represents the **ideal loyal thane** — a soldier who serves his king faithfully and resists the temptation to seize power for himself. In the feudal system, this loyalty was a **sacred obligation**, and Banquo's adherence to it (contrasted with Macbeth's betrayal) reinforces the play's moral framework.",
+      },
+    ],
   },
   {
     name: "Macduff",
@@ -756,6 +967,50 @@ export const MACBETH_CHARACTERS: CharacterAnalysis[] = [
     ],
     examTip:
       "Macduff's 'feel it as a man' line is one of the most quotable in the play for essays on gender. Use it to argue that Shakespeare presents **multiple versions of masculinity** — Macbeth's violent ambition, Lady Macbeth's weaponised masculinity, and Macduff's emotionally honest manhood — and that the play values the latter.",
+    symbols: [
+      {
+        symbol: "Family / Home",
+        meaning: "What Macbeth destroys — Macduff's family represents the human cost of tyranny, the innocent lives sacrificed to a tyrant's paranoia",
+        examples:
+          "The murder of **Lady Macduff and her children** (Act 4, Scene 2) is the play's most visceral scene of cruelty, showing that Macbeth's tyranny extends beyond political rivals to the destruction of **domestic innocence** itself.",
+      },
+      {
+        symbol: "Tears",
+        meaning: "Masculine grief that redefines manhood — Macduff's willingness to weep openly challenges the toxic masculinity the play critiques",
+        examples:
+          "**\"O, I could play the woman with mine eyes\"** (Act 4, Scene 3) — even in grief, the language reveals gendered assumptions (tears = feminine), but Macduff's insistence on feeling redefines strength as emotional honesty.",
+      },
+      {
+        symbol: "Caesarean Birth",
+        meaning: "Born outside natural order and therefore destined to end an unnatural rule — Macduff's birth is the loophole that defeats the Witches' equivocation",
+        examples:
+          "**\"Untimely ripp'd\"** from his mother's womb (Act 5, Scene 8) — Macduff was not technically 'born' of woman, fulfilling the prophecy's letter while violating its spirit. The unnatural birth defeats an unnatural king.",
+      },
+    ],
+    alternativeInterpretations: [
+      {
+        reading: "Patriotic hero reading",
+        evidence:
+          "Macduff is the **instrument of divine justice**, chosen by fate (through his unnatural birth) and driven by righteous anger to restore **legitimate kingship** to Scotland. He embodies the Jacobean ideal of the loyal subject who places duty to the nation above personal safety.",
+      },
+      {
+        reading: "Negligent father reading",
+        evidence:
+          "Macduff **abandons his family** to flee to England, leaving them unprotected against a tyrant he knows to be murderous. Malcolm's pointed question — **\"Why in that rawness left you wife and child?\"** — challenges Macduff's priorities, suggesting that his patriotism came at an unforgivable personal cost.",
+      },
+    ],
+    speechPatterns:
+      "Initially **restrained and formal**, befitting a loyal thane. Then erupts in **raw, unperformed emotion** on hearing of his family's murder — **\"He has no children\"** is devastatingly ambiguous (does he mean Malcolm cannot understand, or Macbeth has no children to lose in revenge?). His language shifts from **public duty** to **private grief** and back to **purposeful vengeance**, charting a journey from composure through devastation to resolve.",
+    contextLinks: [
+      {
+        context: "Feudal loyalty vs family duty",
+        link: "Macduff embodies the **tension between public and private obligation** that was central to feudal society. His choice to serve Scotland over protecting his family raises a moral question the play does not fully resolve: can political duty justify abandoning those who depend on you?",
+      },
+      {
+        context: "Revenge tragedy conventions",
+        link: "Macduff fits the **righteous avenger** archetype from the revenge tragedy tradition — a man whose personal loss (family murder) aligns with public justice (defeating a tyrant), giving his vengeance both emotional and moral legitimacy.",
+      },
+    ],
   },
   {
     name: "King Duncan",
@@ -864,5 +1119,49 @@ export const MACBETH_CHARACTERS: CharacterAnalysis[] = [
     ],
     examTip:
       "Duncan is best used in essays about **kingship** or **appearance vs reality**. Don't spend too long on him as a character — instead use him as a benchmark: his ideal kingship makes Macbeth's tyranny measurable. The contrast between Duncan's trust and Macbeth's paranoia is a powerful structural argument.",
+    symbols: [
+      {
+        symbol: "Innocent Blood",
+        meaning: "The preciousness of royal life and the sacred horror of regicide — Duncan's blood is described in terms of value and beauty, elevating his murder to a cosmic crime",
+        examples:
+          "**\"His silver skin laced with his golden blood\"** (Act 2, Scene 3) — the precious metals (silver, gold) transform the murder scene into something almost sacral, emphasising that this is no ordinary death but the destruction of God's anointed.",
+      },
+      {
+        symbol: "Light / Stars",
+        meaning: "Goodness, divine favour, and natural order — Duncan is associated with light and celestial imagery, and his death plunges Scotland into literal and metaphorical darkness",
+        examples:
+          "Duncan's presence brings **warmth and openness**; after his murder, the **Old Man reports darkness at noon** (Act 2, Scene 4), and Macbeth's Scotland becomes a land where **\"sighs and groans and shrieks\"** fill the air — the light dies with the king.",
+      },
+      {
+        symbol: "Trust / Hospitality",
+        meaning: "The sacred bond of host and guest that Macbeth violates — Duncan as a guest in Macbeth's castle invokes one of the most fundamental social contracts of the medieval world",
+        examples:
+          "Macbeth himself acknowledges this triple bond: **\"He's here in double trust: / First, as I am his kinsman and his subject... then, as his host\"** (Act 1, Scene 7) — the murder violates kinship, feudal loyalty, and hospitality simultaneously.",
+      },
+    ],
+    alternativeInterpretations: [
+      {
+        reading: "Ideal king reading",
+        evidence:
+          "Duncan embodies **divine kingship** at its finest — he is **generous** (rewarding Macbeth lavishly), **trusting** (visiting Macbeth's castle without suspicion), and **gracious** (**\"O worthiest cousin!\"**). He represents the model of Christian monarchy that Jacobean audiences would have recognised as God's ideal for earthly rule.",
+      },
+      {
+        reading: "Naive ruler reading",
+        evidence:
+          "Duncan's trust is a **political weakness** — he was already betrayed by the **previous Thane of Cawdor** and apparently **learned nothing**, immediately transferring the title and his trust to Macbeth. His admission that **\"There's no art / To find the mind's construction in the face\"** reads less as wisdom than as an admission of dangerous naivety in a ruler.",
+      },
+    ],
+    speechPatterns:
+      "Speaks in **generous superlatives** and **trust-laden language** — **\"O worthiest cousin!\"**, **\"More is thy due than more than all can pay.\"** His language is warm, open, and unsuspecting, creating devastating **dramatic irony** since the audience knows Macbeth's true intentions. Duncan never speaks in riddles or concealment; his transparent language embodies the ideal of a king who has nothing to hide, but it also exposes him fatally to those who do.",
+    contextLinks: [
+      {
+        context: "Divine Right of Kings",
+        link: "Duncan's murder is not merely political assassination but **regicide — an offence against God and nature**. In Jacobean theology, the king was God's representative on earth; killing him disrupted the entire divine order, which is why **nature itself rebels** after Duncan's death (storms, darkness, unnatural animal behaviour).",
+      },
+      {
+        context: "Medieval concept of the 'body politic'",
+        link: "The medieval idea that **the king's body represents the health of the nation** (the 'body politic') means Duncan's murder literally **sickens Scotland**. The country under Macbeth is described as diseased and bleeding — **\"Bleed, bleed, poor country!\"** (Act 4, Scene 3) — and only the restoration of legitimate kingship through Malcolm can heal it.",
+      },
+    ],
   },
 ];

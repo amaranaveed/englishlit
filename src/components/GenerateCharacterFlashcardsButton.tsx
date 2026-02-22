@@ -165,6 +165,64 @@ export default function GenerateCharacterFlashcardsButton({
       }
     }
 
+    // Symbol cards — 1 per symbol, capped at 3
+    if (character.symbols) {
+      character.symbols.slice(0, 3).forEach((sym, i) => {
+        newCards.push({
+          id: `${prefix}-symbol-${i}`,
+          type: "character",
+          textSlug: character.textSlug,
+          front: `What does the symbol of "${sym.symbol}" represent for ${character.name}?`,
+          back: `${stripHighlights(sym.meaning).slice(0, 180)} (e.g. ${sym.examples})`,
+          confidence: 0,
+          nextReview: now,
+          createdAt: now,
+        });
+      });
+    }
+
+    // Alternative interpretation card — 1 card
+    if (character.alternativeInterpretations && character.alternativeInterpretations.length > 0) {
+      newCards.push({
+        id: `${prefix}-alt-interp-0`,
+        type: "character",
+        textSlug: character.textSlug,
+        front: `Give an alternative critical reading of ${character.name}.`,
+        back: `${character.alternativeInterpretations[0].reading}: ${stripHighlights(character.alternativeInterpretations[0].evidence).slice(0, 200)}`,
+        confidence: 0,
+        nextReview: now,
+        createdAt: now,
+      });
+    }
+
+    // Speech patterns card — 1 card
+    if (character.speechPatterns) {
+      newCards.push({
+        id: `${prefix}-speech`,
+        type: "character",
+        textSlug: character.textSlug,
+        front: `How do ${character.name}'s speech patterns change through the text?`,
+        back: stripHighlights(character.speechPatterns).slice(0, 200),
+        confidence: 0,
+        nextReview: now,
+        createdAt: now,
+      });
+    }
+
+    // Context link card — 1 card
+    if (character.contextLinks && character.contextLinks.length > 0) {
+      newCards.push({
+        id: `${prefix}-context-0`,
+        type: "character",
+        textSlug: character.textSlug,
+        front: `What historical/social context is relevant to ${character.name}? (${character.contextLinks[0].context})`,
+        back: stripHighlights(character.contextLinks[0].link).slice(0, 200),
+        confidence: 0,
+        nextReview: now,
+        createdAt: now,
+      });
+    }
+
     // Save each card (addFlashcard handles deduplication)
     for (const card of newCards) {
       await addFlashcard(card);

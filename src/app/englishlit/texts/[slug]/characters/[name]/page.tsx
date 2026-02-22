@@ -196,6 +196,35 @@ export default async function CharacterDetailPage({ params }: Props) {
         </section>
       </AnimatedSection>
 
+      {/* Symbols & Motifs */}
+      {character.symbols && character.symbols.length > 0 && (
+        <>
+          <AnimatedRevealLine className="h-px bg-border/30 mb-8" delay={0.1} />
+          <AnimatedSection>
+            <section className="mb-8">
+              <h2 className="font-display text-xl font-bold mb-3">Symbols &amp; Motifs</h2>
+              <div className="space-y-3">
+                {character.symbols.map((sym, i) => (
+                  <AnimatedListItem key={i} index={i}>
+                    <div className="rounded-xl border border-orange-200 bg-orange-50 px-4 py-3">
+                      <span className="font-ui font-bold text-sm text-orange-700">
+                        {sym.symbol}
+                      </span>
+                      <p className="font-body text-sm text-text leading-relaxed mt-1">
+                        <HighlightedText text={sym.meaning} />
+                      </p>
+                      <p className="font-ui text-xs text-grey mt-2 italic">
+                        e.g. {sym.examples}
+                      </p>
+                    </div>
+                  </AnimatedListItem>
+                ))}
+              </div>
+            </section>
+          </AnimatedSection>
+        </>
+      )}
+
       <AnimatedRevealLine className="h-px bg-border/30 mb-8" delay={0.1} />
 
       {/* Relationships */}
@@ -224,6 +253,23 @@ export default async function CharacterDetailPage({ params }: Props) {
         </section>
       </AnimatedSection>
 
+      {/* Speech Patterns */}
+      {character.speechPatterns && (
+        <>
+          <AnimatedRevealLine className="h-px bg-border/30 mb-8" delay={0.1} />
+          <AnimatedSection>
+            <section className="mb-8">
+              <h2 className="font-display text-xl font-bold mb-3">Speech Patterns</h2>
+              <div className="rounded-xl border border-pink-200 bg-pink-50 p-5">
+                <p className="font-body text-sm text-text leading-relaxed">
+                  <HighlightedText text={character.speechPatterns} />
+                </p>
+              </div>
+            </section>
+          </AnimatedSection>
+        </>
+      )}
+
       <AnimatedRevealLine className="h-px bg-border/30 mb-8" delay={0.1} />
 
       {/* Writer's methods */}
@@ -237,6 +283,37 @@ export default async function CharacterDetailPage({ params }: Props) {
           </div>
         </section>
       </AnimatedSection>
+
+      {/* Alternative Interpretations */}
+      {character.alternativeInterpretations && character.alternativeInterpretations.length > 0 && (
+        <>
+          <AnimatedRevealLine className="h-px bg-border/30 mb-8" delay={0.1} />
+          <AnimatedSection>
+            <section className="mb-8">
+              <div className="flex items-center gap-2 mb-3">
+                <h2 className="font-display text-xl font-bold">Alternative Interpretations</h2>
+                <span className="text-xs font-ui font-bold rounded-full bg-red-100 text-red-700 px-2 py-0.5">
+                  CRITICAL
+                </span>
+              </div>
+              <div className="space-y-3">
+                {character.alternativeInterpretations.map((ai, i) => (
+                  <AnimatedListItem key={i} index={i}>
+                    <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3">
+                      <span className="font-display font-semibold text-sm text-text">
+                        {ai.reading}
+                      </span>
+                      <p className="font-body text-sm text-text leading-relaxed mt-1">
+                        <HighlightedText text={ai.evidence} />
+                      </p>
+                    </div>
+                  </AnimatedListItem>
+                ))}
+              </div>
+            </section>
+          </AnimatedSection>
+        </>
+      )}
 
       <AnimatedRevealLine className="h-px bg-border/30 mb-8" delay={0.1} />
 
@@ -274,6 +351,37 @@ export default async function CharacterDetailPage({ params }: Props) {
           ))}
         </StaggerGrid>
       </section>
+
+      {/* Context Links */}
+      {character.contextLinks && character.contextLinks.length > 0 && (
+        <>
+          <AnimatedRevealLine className="h-px bg-border/30 mb-8" delay={0.1} />
+          <AnimatedSection>
+            <section className="mb-8">
+              <div className="flex items-center gap-2 mb-3">
+                <h2 className="font-display text-xl font-bold">Context Links</h2>
+                <span className="text-xs font-ui font-bold rounded-full bg-green-100 text-green-700 px-2 py-0.5">
+                  AO3
+                </span>
+              </div>
+              <div className="space-y-3">
+                {character.contextLinks.map((cl, i) => (
+                  <AnimatedListItem key={i} index={i}>
+                    <div className="rounded-xl border border-green-200 bg-green-50 px-4 py-3">
+                      <span className="font-ui font-bold text-sm text-green-700">
+                        {cl.context}
+                      </span>
+                      <p className="font-body text-sm text-text leading-relaxed mt-1">
+                        <HighlightedText text={cl.link} />
+                      </p>
+                    </div>
+                  </AnimatedListItem>
+                ))}
+              </div>
+            </section>
+          </AnimatedSection>
+        </>
+      )}
 
       <AnimatedRevealLine className="h-px bg-border/30 mb-8" delay={0.1} />
 

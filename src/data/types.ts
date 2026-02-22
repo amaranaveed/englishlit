@@ -87,6 +87,22 @@ export interface CharacterArcStage {
   description: string;
 }
 
+export interface CharacterSymbol {
+  symbol: string;
+  meaning: string;
+  examples: string;
+}
+
+export interface AlternativeInterpretation {
+  reading: string;
+  evidence: string;
+}
+
+export interface ContextLink {
+  context: string;
+  link: string;
+}
+
 export interface CharacterAnalysis {
   name: string;
   textSlug: string;
@@ -102,6 +118,10 @@ export interface CharacterAnalysis {
   wow: string;
   keyWords: KeyWord[];
   examTip: string;
+  symbols?: CharacterSymbol[];
+  alternativeInterpretations?: AlternativeInterpretation[];
+  speechPatterns?: string;
+  contextLinks?: ContextLink[];
 }
 
 export interface Flashcard {
