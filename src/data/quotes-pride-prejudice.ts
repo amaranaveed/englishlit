@@ -587,11 +587,11 @@ export const PRIDE_PREJUDICE_QUOTES: Quote[] = [
       ],
     },
     wow: {
-      title: "THE HERMENEUTIC CODE (Barthes)",
+      title: "NARRATIVE ENIGMA — CREATING SUSPENSE",
       analysis:
-        "Roland Barthes's **hermeneutic code** describes how narratives create **enigmas** (puzzles, mysteries) that drive the reader forward. Darcy's dismissal generates the novel's central enigma: how will these two people — divided by pride and prejudice — come together? This single sentence creates the **narrative tension** that sustains 60 chapters. Barthes argues that the pleasure of reading depends on the gradual resolution of such enigmas: Austen's genius is to generate maximal readerly desire from a single, casually cruel remark. Every subsequent scene is shaped by the reader's awareness of this initial misjudgment.",
+        "Narratives create **enigmas** (puzzles, mysteries) that drive the reader forward. Darcy's dismissal generates the novel's central enigma: how will these two people — divided by pride and prejudice — come together? This single sentence creates the **narrative tension** that sustains 60 chapters. The pleasure of reading depends on the gradual resolution of such enigmas: Austen's genius is to generate maximal readerly desire from a single, casually cruel remark. Every subsequent scene is shaped by the reader's awareness of this initial misjudgment.",
       keyWords: [
-        { word: "Hermeneutic code", def: "Narrative elements that pose questions the reader wants answered" },
+        { word: "Narrative enigma", def: "A mystery or question planted by the writer that drives the reader to keep reading" },
         { word: "Enigma", def: "A puzzle or mystery that drives narrative forward" },
         { word: "Narrative tension", def: "The suspense created by unresolved conflicts or questions in a story" },
       ],
@@ -1535,13 +1535,13 @@ export const PRIDE_PREJUDICE_QUOTES: Quote[] = [
       ],
     },
     wow: {
-      title: "SOFT POWER & HEGEMONY (Gramsci)",
+      title: "SOFT POWER vs HARD POWER",
       analysis:
-        "Antonio Gramsci distinguishes between **coercive power** (control through force) and **hegemonic power** (control through the consent of the dominated). Lady Catherine exercises both: she has real social power (she controls Collins's living, influences local society) and assumes cultural authority (everyone should defer to her). Her confrontation with Elizabeth fails because Elizabeth refuses to **consent** to Lady Catherine's authority. Gramsci argues that hegemony breaks down when the dominated refuse to accept the dominant group's values as natural. Elizabeth's defiance is a hegemonic crisis in miniature.",
+        "Lady Catherine exercises both **coercive power** (control through force) and **soft power** (control through cultural influence and social expectation). She has real social power (she controls Collins's living, influences local society) and assumes cultural authority (everyone should defer to her). Her confrontation with Elizabeth fails because Elizabeth refuses to **consent** to Lady Catherine's authority. This kind of social control breaks down when those below refuse to accept the dominant group's values as natural. Elizabeth's defiance is a crisis of authority in miniature.",
       keyWords: [
         { word: "Coercive power", def: "Control through force, threats, or punishment" },
-        { word: "Hegemonic power", def: "Control achieved through cultural dominance and the consent of those dominated" },
-        { word: "Hegemonic crisis", def: "The moment when the dominated refuse to accept the dominant group's authority" },
+        { word: "Soft power", def: "Control achieved through cultural influence and social expectation rather than force" },
+        { word: "Crisis of authority", def: "The moment when people refuse to accept the dominant group's power as natural" },
       ],
     },
   },

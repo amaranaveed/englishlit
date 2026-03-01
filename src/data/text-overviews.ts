@@ -520,31 +520,6 @@ export const TEXT_OVERVIEWS: TextOverview[] = [
     contextSummary:
       "The AQA Worlds & Lives anthology (first examined 2025) spans from Romantic poetry (Wordsworth, Shelley, Brontë) through Victorian verse (Eliot) to predominantly contemporary voices, with two-thirds of the poems published after 2000. The collection is both personal and political, exploring concerns about the world we live in: home, heritage, belonging, migration, identity, and connection. It features mostly living poets from diverse backgrounds — Caribbean, South Asian, West African, d/Deaf, regional English — rooted in the revolutionary spirit of the Romantics. In the exam (Paper 2, Section B), one poem is printed and students must compare it with another poem of their choice from the anthology.",
   },
-  {
-    slug: "unseen-poetry",
-    themes: [
-      "Nature & the Sublime",
-      "War & Conflict",
-      "Identity & Culture",
-      "Love & Relationships",
-      "Power & Control",
-      "Mortality & Time",
-      "Resilience & Defiance",
-    ],
-    characters: [
-      { name: "William Blake", role: "The Tyger — questions what creator could forge both beauty and terror" },
-      { name: "Wilfred Owen", role: "Dulce et Decorum Est — exposes the horror of WWI and the lie of war propaganda" },
-      { name: "Imtiaz Dharker", role: "Blessing — transforms a burst pipe in a Mumbai slum into a sacred event" },
-      { name: "Vernon Scannell", role: "Nettles — a father's military-tinted grief at his inability to protect his son" },
-      { name: "John Agard", role: "Half-caste / Flag — challenges racial prejudice and exposes the dangerous power of nationalist symbols" },
-      { name: "Ted Hughes", role: "Hawk Roosting — a dramatic monologue of absolute, amoral power" },
-      { name: "Maya Angelou", role: "Still I Rise — triumphant defiance against racial and gender oppression" },
-      { name: "John Keats", role: "To Autumn — a sensory celebration of the season's abundance and mortality" },
-      { name: "Carol Ann Duffy", role: "Valentine — rejects romantic clichés and offers an onion as honest love" },
-    ],
-    contextSummary:
-      "Unseen Poetry (Paper 2, Section C) tests students' ability to analyse poems they have never seen before. This section contains 10 practice poems spanning Romantic (Blake, Keats), WWI (Owen), and contemporary (Angelou, Agard, Duffy, Dharker) poetry. Each poem is analysed using the same 6-part framework to build confidence in approaching unfamiliar texts. In the exam, students answer one question on a single unseen poem (24 marks) and one comparison question on a second unseen poem (8 marks). No prior knowledge of the poems is required — only analytical skill.",
-  },
 ];
 
 export function getTextOverview(slug: string): TextOverview | undefined {

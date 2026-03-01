@@ -68,10 +68,10 @@ export const INSPECTOR_CALLS_QUOTES: Quote[] = [
     wow: {
       title: "BRECHTIAN EPIC THEATRE",
       analysis:
-        "Bertolt Brecht's **Epic Theatre** argued that drama should not merely entertain but provoke **critical thinking** about social structures. The Inspector's final speech functions as a Brechtian **Verfremdungseffekt** (alienation effect): it breaks the naturalistic illusion, directly addresses the audience's political conscience, and demands action beyond the theatre. Priestley, like Brecht, believes that art must be **didactic** (teaching) — its purpose is not to create catharsis (emotional release) but to create **engagement** (active involvement in social change). The play does not resolve comfortably: the final phone call reopens the moral question, refusing the audience the comfort of closure and insisting they carry the Inspector's message into their own lives.",
+        "Bertolt Brecht's **Epic Theatre** argued that drama should not merely entertain but provoke **critical thinking** about social structures. The Inspector's final speech functions as a Brechtian **alienation device**: it breaks the naturalistic illusion, directly addresses the audience's political conscience, and demands action beyond the theatre. Priestley, like Brecht, believes that art must be **didactic** (teaching) — its purpose is not to create catharsis (emotional release) but to create **engagement** (active involvement in social change). The play does not resolve comfortably: the final phone call reopens the moral question, refusing the audience the comfort of closure and insisting they carry the Inspector's message into their own lives.",
       keyWords: [
         { word: "Epic Theatre", def: "Brecht's dramatic theory using alienation to provoke critical social thinking" },
-        { word: "Verfremdungseffekt", def: "Alienation effect — making the familiar strange to encourage critical analysis" },
+        { word: "Alienation effect", def: "Making the familiar strange to encourage critical analysis rather than passive enjoyment" },
         { word: "Didactic", def: "Intended to teach a moral or political lesson" },
       ],
     },
@@ -139,11 +139,11 @@ export const INSPECTOR_CALLS_QUOTES: Quote[] = [
       ],
     },
     wow: {
-      title: "HEGEMONIC IDEOLOGY (Gramsci)",
+      title: "RULING-CLASS CONTROL THROUGH 'COMMON SENSE'",
       analysis:
-        "Antonio Gramsci's concept of **cultural hegemony** describes how the ruling class maintains power not through force but through making their worldview seem like common sense. Birling's speech is a perfect example: he presents capitalist optimism as obvious truth — 'everybody says so.' His authority derives not from evidence but from his class position. Priestley exposes this hegemony by having history itself contradict Birling's 'common sense.' The Titanic's sinking, the World Wars, and the collapse of Empire all prove that the ruling class's confident narrative was **ideological construction** (beliefs manufactured to serve power) rather than reality. The audience, armed with hindsight, can see through the hegemony that the characters cannot — and is challenged to identify similar blind spots in their own era.",
+        "The ruling class maintains power not just through force but by making their worldview seem like **common sense** — what everyone simply accepts as true. Birling's speech is a perfect example: he presents capitalist optimism as obvious truth — 'everybody says so.' His authority derives not from evidence but from his class position. Priestley exposes this **ideological control** by having history itself contradict Birling's 'common sense.' The Titanic's sinking, the World Wars, and the collapse of Empire all prove that the ruling class's confident narrative was **ideological construction** (beliefs manufactured to serve power) rather than reality. The audience, armed with hindsight, can see through the dominant ideology that the characters cannot — and is challenged to identify similar blind spots in their own era.",
       keyWords: [
-        { word: "Cultural hegemony", def: "The dominance of one class's worldview, accepted as common sense by society" },
+        { word: "Dominant ideology", def: "The beliefs and values of the ruling class, accepted as 'normal' by the rest of society" },
         { word: "Ideological construction", def: "A belief system manufactured to maintain existing power structures" },
         { word: "Ruling class", def: "The social class that holds the most power and influence in a society" },
       ],
@@ -166,7 +166,7 @@ export const INSPECTOR_CALLS_QUOTES: Quote[] = [
       analysis:
         "The **antithesis** (direct contrast between two opposing ideas) of 'cheap labour' and 'people' exposes the **dehumanisation** (stripping away human dignity) inherent in capitalist language. 'Cheap labour' reduces human beings to a commodity with a price tag; 'people' reasserts their **intrinsic** (belonging to something by its very nature) worth. Sheila's simple statement performs a radical act of **semantic resistance** — refusing to accept the language of economics as adequate for describing human lives.",
       secondPoint:
-        "The **dash** creates a dramatic pause that separates the two worldviews — the capitalist view (cheap labour) and the humanist view (people). This **typographical caesura** (a break created by punctuation) forces the reader to choose between them, making the moral choice explicit and unavoidable.",
+        "The **dash** creates a dramatic pause that separates the two worldviews — the capitalist view (cheap labour) and the humanist view (people). This **punctuated break** forces the reader to choose between them, making the moral choice explicit and unavoidable.",
       keyWords: [
         { word: "Antithesis", def: "The direct contrast between two opposing ideas placed side by side" },
         { word: "Dehumanisation", def: "Treating people as less than human; stripping away dignity" },

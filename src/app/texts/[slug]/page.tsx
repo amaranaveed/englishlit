@@ -30,7 +30,6 @@ const SECTION_IMAGES: Record<string, string> = {
   "Paper 1-Section B": "/images/19th-century-banner.png",
   "Paper 2-Section A": "/images/modern-texts-banner.png",
   "Paper 2-Section B": "/images/poetry-banner.png",
-  "Paper 2-Section C": "/images/unseen-poetry-banner.png",
 };
 
 /* Per-text banner overrides (slug → image) */

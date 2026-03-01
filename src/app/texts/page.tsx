@@ -21,7 +21,6 @@ const SECTION_IMAGES = [
   "/images/19th-century-banner.png",     // 19th Century Novel
   "/images/modern-texts-banner.png",   // Modern Texts
   "/images/poetry-banner.png",       // Poetry
-  "/images/unseen-poetry-banner.png",       // Unseen Poetry
 ];
 
 export default function TextsPage() {

@@ -212,11 +212,11 @@ export const JEKYLL_HYDE_QUOTES: Quote[] = [
       ],
     },
     wow: {
-      title: "HEGEMONIC MASCULINITY (Connell)",
+      title: "DOMINANT MASCULINITY & VICTORIAN REPRESSION",
       analysis:
-        "R.W. Connell's theory of **hegemonic masculinity** describes the dominant form of manhood that society enforces — rational, controlled, heterosexual, authoritative. Jekyll embodies hegemonic masculinity perfectly: he is a respected doctor, a bachelor of means, a pillar of the community. But this performance requires the **suppression** of desires that do not fit the model. Hyde represents what hegemonic masculinity excludes — aggression, desire, irrationality — and his emergence suggests that rigid gender performance is inherently **unsustainable**. Stevenson's novella can be read as an argument that the more rigidly a society enforces ideals of masculine respectability, the more violently the repressed elements will eventually erupt.",
+        "Victorian society enforced a **dominant ideal of manhood** — rational, controlled, heterosexual, authoritative. Jekyll embodies this ideal perfectly: he is a respected doctor, a bachelor of means, a pillar of the community. But this performance requires the **suppression** of desires that do not fit the model. Hyde represents what this rigid masculinity excludes — aggression, desire, irrationality — and his emergence suggests that such strict gender expectations are inherently **unsustainable**. Stevenson's novella can be read as an argument that the more rigidly a society enforces ideals of masculine respectability, the more violently the repressed elements will eventually erupt.",
       keyWords: [
-        { word: "Hegemonic masculinity", def: "The dominant, socially enforced ideal of manhood in a given society" },
+        { word: "Dominant masculinity", def: "The socially enforced ideal of manhood — strong, rational, controlled" },
         { word: "Suppression", def: "The conscious act of restraining or preventing the expression of desires" },
         { word: "Unsustainable", def: "Unable to be maintained at the current level; destined to collapse" },
       ],

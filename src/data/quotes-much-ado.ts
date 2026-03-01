@@ -52,7 +52,7 @@ export const MUCH_ADO_QUOTES: Quote[] = [
       points: [
         {
           label: "GENDER ROLES",
-          text: "In Elizabethan England, women were expected to be **docile** (obedient, submissive) and eager for marriage, as their social status and financial security depended entirely on their husband. Beatrice's refusal to conform to these **patriarchal** (male-dominated) expectations positions her as a proto-feminist figure, challenging the **hegemonic** (dominant, ruling) gender norms of Shakespeare's society.",
+          text: "In Elizabethan England, women were expected to be **docile** (obedient, submissive) and eager for marriage, as their social status and financial security depended entirely on their husband. Beatrice's refusal to conform to these **patriarchal** (male-dominated) expectations positions her as a proto-feminist figure, challenging the **dominant** gender norms of Shakespeare's society.",
         },
         {
           label: "COURTSHIP CONVENTIONS",
@@ -61,7 +61,7 @@ export const MUCH_ADO_QUOTES: Quote[] = [
       ],
       keyWords: [
         { word: "Patriarchal", def: "A society controlled by men" },
-        { word: "Hegemonic", def: "Dominant; ruling over others" },
+        { word: "Dominant ideology", def: "The ruling set of beliefs and values that society accepts as 'normal'" },
         { word: "Petrarchan", def: "A tradition of idealising and worshipping a distant, unattainable woman" },
       ],
     },
@@ -139,13 +139,13 @@ export const MUCH_ADO_QUOTES: Quote[] = [
       ],
     },
     wow: {
-      title: "BRECHTIAN VERFREMDUNGSEFFEKT",
+      title: "BRECHTIAN ALIENATION EFFECT",
       analysis:
-        "This moment functions as a **Verfremdungseffekt** (alienation effect) — a technique later theorised by Bertolt Brecht — where the audience is jolted out of comfortable engagement with the comedy. The sudden intrusion of violent intent into a love scene forces **critical detachment**, compelling viewers to examine why Beatrice cannot seek justice herself. Shakespeare thus transforms entertainment into social **polemic** (a strong attack on established beliefs), using the play as a vehicle to expose how patriarchal honour codes simultaneously demand women's virtue while denying them any power to defend it. This creates a **dialectical tension** (opposing ideas in conflict) that remains unresolved, challenging the audience's **complicity** (involvement) in accepting these structures.",
+        "This moment functions as an **alienation effect** — a technique later theorised by Bertolt Brecht — where the audience is jolted out of comfortable engagement with the comedy. The sudden intrusion of violent intent into a love scene forces **critical detachment**, compelling viewers to examine why Beatrice cannot seek justice herself. Shakespeare thus transforms entertainment into social **polemic** (a strong attack on established beliefs), using the play as a vehicle to expose how patriarchal honour codes simultaneously demand women's virtue while denying them any power to defend it. This creates a **dramatic tension between opposing ideas** that remains unresolved, challenging the audience's **complicity** (involvement) in accepting these structures.",
       keyWords: [
-        { word: "Verfremdungseffekt", def: "Alienation effect; making the familiar seem strange to provoke critical thinking" },
+        { word: "Alienation effect", def: "Making the familiar seem strange to provoke critical thinking rather than passive enjoyment" },
         { word: "Polemic", def: "A strong verbal or written attack on a belief or opinion" },
-        { word: "Dialectical tension", def: "The conflict between two opposing ideas or forces" },
+        { word: "Dramatic tension", def: "The conflict between two opposing ideas or forces that drives the narrative" },
       ],
     },
   },
@@ -1091,12 +1091,12 @@ export const MUCH_ADO_QUOTES: Quote[] = [
       ],
     },
     wow: {
-      title: "THE COMMODITY FORM OF LOVE (Marx)",
+      title: "LOVE AS OWNERSHIP — WOMEN AS POSSESSIONS",
       analysis:
-        "Marx's concept of **commodity fetishism** — where the social relations behind a product are hidden by its surface appearance — illuminates Claudio's love. He treats Hero as a **commodity** (an object of exchange): beautiful, valuable, worthy of acquisition. His 'silence' is the silence of the consumer admiring a purchase, not the silence of genuine emotional connection. When the commodity appears 'defiled', he discards it publicly. Shakespeare anticipates Marxist analysis by showing how patriarchal love reduces women to objects whose value is determined by male perception rather than intrinsic worth.",
+        "Shakespeare exposes how patriarchal society treats love as a form of **ownership**. Claudio treats Hero as a **commodity** (an object of exchange): beautiful, valuable, worthy of acquisition. His 'silence' is the silence of the consumer admiring a purchase, not the silence of genuine emotional connection. When the commodity appears 'defiled', he discards it publicly. Shakespeare shows how patriarchal love reduces women to objects whose value is determined by male perception rather than intrinsic worth — anticipating later critiques of how capitalism **objectifies** people.",
       keyWords: [
-        { word: "Commodity fetishism", def: "Seeing products as having inherent value while ignoring the human relations behind them" },
         { word: "Objectification", def: "Treating a person as a thing rather than a human being" },
+        { word: "Patriarchal ownership", def: "The idea that women are possessions to be controlled by men" },
         { word: "Intrinsic worth", def: "Value that belongs to something in itself, not assigned by others" },
       ],
     },

@@ -20,8 +20,6 @@ import { TASTE_OF_HONEY_QUOTES } from "./quotes-taste-of-honey";
 import { POWER_CONFLICT_QUOTES } from "./quotes-power-conflict";
 import { LOVE_RELATIONSHIPS_QUOTES } from "./quotes-love-relationships";
 import { WORLDS_LIVES_QUOTES } from "./quotes-worlds-lives";
-import { UNSEEN_POETRY_QUOTES } from "./quotes-unseen-poetry";
-
 // ─── All Quotes (combined) ───
 export const ALL_QUOTES: Quote[] = [
   ...MUCH_ADO_QUOTES,
@@ -45,7 +43,6 @@ export const ALL_QUOTES: Quote[] = [
   ...POWER_CONFLICT_QUOTES,
   ...LOVE_RELATIONSHIPS_QUOTES,
   ...WORLDS_LIVES_QUOTES,
-  ...UNSEEN_POETRY_QUOTES,
 ];
 
 export function getQuotesByText(textSlug: string): Quote[] {
@@ -217,15 +214,6 @@ export const EXAM_QUESTIONS: ExamQuestion[] = [
   { textSlug: "worlds-lives", question: "Compare how poets present ideas about connection in 'With Birds You're Never Lonely' and one other poem from the anthology." },
   { textSlug: "worlds-lives", question: "Compare how poets present the relationship between past and present in 'A Wider View' and one other poem from the anthology." },
   { textSlug: "worlds-lives", question: "Compare how poets present ideas about power and oppression in 'A Century Later' and one other poem from the anthology." },
-  // Unseen Poetry Practice
-  { textSlug: "unseen-poetry", question: "How does the poet present ideas about power in this poem? (Practice: The Tyger)" },
-  { textSlug: "unseen-poetry", question: "How does the poet present the reality of conflict in this poem? (Practice: Dulce et Decorum Est)" },
-  { textSlug: "unseen-poetry", question: "How does the poet present ideas about identity and culture in this poem? (Practice: Half-caste)" },
-  { textSlug: "unseen-poetry", question: "How does the poet present the theme of love in this poem? (Practice: Valentine)" },
-  { textSlug: "unseen-poetry", question: "How does the poet present ideas about nature and mortality in this poem? (Practice: To Autumn)" },
-  { textSlug: "unseen-poetry", question: "How does the poet present resilience and defiance in this poem? (Practice: Still I Rise)" },
-  { textSlug: "unseen-poetry", question: "How does the poet present ideas about parental love in this poem? (Practice: Nettles)" },
-  { textSlug: "unseen-poetry", question: "How does the poet present the significance of everyday experiences in this poem? (Practice: Blessing)" },
 ];
 
 export function getExamQuestions(textSlug: string): ExamQuestion[] {

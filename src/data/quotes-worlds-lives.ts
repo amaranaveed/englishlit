@@ -146,13 +146,13 @@ export const WORLDS_LIVES_QUOTES: Quote[] = [
       ],
     },
     wow: {
-      title: "GRAMSCIAN HEGEMONY & IDEOLOGICAL CONTROL",
+      title: "INSTITUTIONAL POWER & IDEOLOGICAL CONTROL",
       analysis:
-        "Shelley's catalogue of institutional corruption anticipates Antonio Gramsci's theory of **hegemony** — the idea that the ruling class maintains power not through force alone but through controlling the institutions of civil society: the church, the law, education. Shelley systematically dismantles each institution ('Christless God', 'Golden and sanguine laws', 'Time's worst statute unrepealed') to reveal the **ideological apparatus** that sustains inequality. The final image of the 'glorious Phantom' suggests that revolution begins when the people see through this ideological veil — when **false consciousness** gives way to true understanding of their exploitation.",
+        "Shelley's catalogue of institutional corruption reveals how the ruling class maintains power not through force alone but through controlling the **institutions** of civil society: the church, the law, education. Shelley systematically dismantles each institution ('Christless God', 'Golden and sanguine laws', 'Time's worst statute unrepealed') to reveal the **system of control** that sustains inequality. The final image of the 'glorious Phantom' suggests that revolution begins when the people see through this ideological veil — when **blind acceptance** gives way to true understanding of their exploitation.",
       keyWords: [
-        { word: "Hegemony", def: "Dominance of one group over others, maintained through cultural and institutional control" },
-        { word: "Ideological apparatus", def: "Institutions (church, law, media) that reinforce the ruling class's power" },
-        { word: "False consciousness", def: "A failure to recognise one's own oppression due to dominant ideology" },
+        { word: "Institutional power", def: "Control maintained through society's organisations — church, law, education, government" },
+        { word: "Ideological control", def: "Using beliefs and 'common sense' to keep the ruling class in power" },
+        { word: "Blind acceptance", def: "Failing to recognise one's own oppression because the system seems 'normal'" },
       ],
     },
   },
@@ -685,11 +685,11 @@ export const WORLDS_LIVES_QUOTES: Quote[] = [
       ],
     },
     wow: {
-      title: "BAKHTIN'S HETEROGLOSSIA — THE POLITICS OF VOICE",
+      title: "THE POLITICS OF VOICE — COMPETING LANGUAGES",
       analysis:
-        "Berry's poem enacts what Mikhail Bakhtin called **heteroglossia** — the coexistence of multiple linguistic registers within a single text. Bakhtin argued that all language is inherently **dialogic** (containing multiple competing voices), and that the dominance of any single register (such as Standard English) is an act of political suppression. By embedding Black Country dialect within a published poem, Berry performs a radical act of linguistic **democratisation**: she insists that the dialect is not a deviation from 'real' English but one of many equally valid Englishes. The poem becomes a site of contest between two linguistic systems — one associated with power, education, and social mobility, the other with home, family, and emotional truth. Berry's refusal to translate the dialect forces readers to confront their own linguistic prejudices and to recognise that 'standard' English is itself a dialect — simply one that won the political battle for dominance.",
+        "Berry's poem is built on the **coexistence of multiple voices and registers** within a single text. By embedding Black Country dialect within a published poem, Berry performs a radical act of linguistic **democratisation**: she insists that the dialect is not a deviation from 'real' English but one of many equally valid Englishes. The poem becomes a site of contest between two linguistic systems — one associated with power, education, and social mobility, the other with home, family, and emotional truth. Berry's refusal to translate the dialect forces readers to confront their own linguistic prejudices and to recognise that 'standard' English is itself a dialect — simply one that won the political battle for dominance.",
       keyWords: [
-        { word: "Heteroglossia", def: "The coexistence of multiple distinct varieties of speech within a language" },
+        { word: "Multiple voices", def: "The coexistence of multiple distinct varieties of speech within a single text" },
         { word: "Dialogic", def: "Relating to dialogue; containing multiple competing voices" },
         { word: "Democratisation", def: "The process of making something accessible to all, breaking down hierarchies" },
       ],

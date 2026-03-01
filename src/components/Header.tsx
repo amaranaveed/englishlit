@@ -17,7 +17,6 @@ const GROUP_ICONS: Record<string, string> = {
   "19th Century Novel": "19",
   "Modern Text": "M",
   "Poetry Anthology": "P",
-  "Unseen Poetry": "U",
 };
 
 const GROUP_COLOURS: Record<string, { bg: string; text: string }> = {
@@ -25,7 +24,6 @@ const GROUP_COLOURS: Record<string, { bg: string; text: string }> = {
   "19th Century Novel": { bg: "bg-blue/10", text: "text-blue" },
   "Modern Text": { bg: "bg-teal/10", text: "text-teal" },
   "Poetry Anthology": { bg: "bg-orange/10", text: "text-orange" },
-  "Unseen Poetry": { bg: "bg-pink/10", text: "text-pink" },
 };
 
 const NAV_ITEMS = [

@@ -66,12 +66,12 @@ export const ANIMAL_FARM_QUOTES: Quote[] = [
       ],
     },
     wow: {
-      title: "HEGEMONY (Gramsci)",
+      title: "RULING-CLASS CONTROL THROUGH IDEOLOGY",
       analysis:
-        "Antonio Gramsci's concept of **hegemony** — the process by which a ruling class maintains power not through force alone but through controlling ideology, culture, and 'common sense' — explains exactly how the pigs maintain control. They do not merely ENFORCE inequality; they make inequality seem natural, reasonable, even equal. Gramsci argued that the most effective domination is that which the dominated ACCEPT as legitimate. The animals accept 'more equal' because the pigs have established **hegemonic control** over language, education, and the interpretation of history. The animals cannot challenge the pigs' power because they cannot think outside the framework the pigs have constructed. Gramsci would argue that the true revolution would require not just removing the pigs but dismantling the entire ideological apparatus — the control of language, history, and knowledge — that makes their rule seem natural.",
+        "The pigs maintain power not through force alone but through controlling **ideology** (a system of beliefs), culture, and 'common sense'. They do not merely ENFORCE inequality; they make inequality seem natural, reasonable, even equal. The most effective domination is that which the dominated ACCEPT as legitimate. The animals accept 'more equal' because the pigs have established **ideological control** over language, education, and the interpretation of history. The animals cannot challenge the pigs' power because they cannot think outside the framework the pigs have constructed. The true revolution would require not just removing the pigs but dismantling the entire **propaganda system** — the control of language, history, and knowledge — that makes their rule seem natural.",
       keyWords: [
-        { word: "Hegemony", def: "Gramsci's concept of ruling-class control through ideology and 'common sense'" },
-        { word: "Ideological apparatus", def: "The institutions and systems that transmit ruling-class ideas as normal" },
+        { word: "Ideological control", def: "Ruling-class power maintained through controlling beliefs and 'common sense'" },
+        { word: "Propaganda", def: "Information used to promote a political cause, often misleading" },
         { word: "Legitimate", def: "Accepted as rightful and proper by those who are governed" },
       ],
     },

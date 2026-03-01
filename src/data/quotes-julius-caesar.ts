@@ -214,10 +214,10 @@ export const JULIUS_CAESAR_QUOTES: Quote[] = [
     wow: {
       title: "MANUFACTURING CONSENT (Chomsky / Gramsci)",
       analysis:
-        "Noam Chomsky's concept of **manufacturing consent** — the process by which media and elites shape public opinion to serve their interests — illuminates Antony's speech. He does not argue logically; he manipulates emotionally, using Caesar's body, will, and wounds as **spectacle** to override the crowd's rational assessment. Gramsci's concept of **hegemony** (domination through consent rather than force) is equally relevant: Antony achieves power not through military might but through persuasion — making the crowd WANT what he wants. Shakespeare demonstrates that the most effective power is the kind that makes people believe they are acting freely while they are actually being directed. Antony's speech is a masterclass in turning grief into political capital — a technique that remains central to political communication today.",
+        "Noam Chomsky's concept of **manufacturing consent** — the process by which media and elites shape public opinion to serve their interests — illuminates Antony's speech. He does not argue logically; he manipulates emotionally, using Caesar's body, will, and wounds as **spectacle** to override the crowd's rational assessment. The concept of **domination through consent** rather than force is equally relevant: Antony achieves power not through military might but through persuasion — making the crowd WANT what he wants. Shakespeare demonstrates that the most effective power is the kind that makes people believe they are acting freely while they are actually being directed. Antony's speech is a masterclass in turning grief into political capital — a technique that remains central to political communication today.",
       keyWords: [
-        { word: "Manufacturing consent", def: "Chomsky's concept of shaping public opinion through media manipulation" },
-        { word: "Hegemony", def: "Gramsci's term for domination through cultural consent rather than force" },
+        { word: "Manufacturing consent", def: "Shaping public opinion through manipulation so people willingly support those in power" },
+        { word: "Domination through consent", def: "Controlling others by making them willingly accept your authority rather than using force" },
         { word: "Spectacle", def: "A visually striking performance designed to impress or manipulate" },
       ],
     },

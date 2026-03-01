@@ -72,14 +72,6 @@ export const TEXT_REGISTRY: PaperGroup[] = [
       { slug: "worlds-lives", title: "Worlds & Lives Anthology (2025+)", author: "Various (15 poems)", year: "", paper: "Paper 2", section: "Section B", status: "active" },
     ],
   },
-  {
-    label: "Unseen Poetry",
-    paper: "Paper 2",
-    section: "Section C",
-    texts: [
-      { slug: "unseen-poetry", title: "Unseen Poetry Practice", author: "Various (10 poems)", year: "", paper: "Paper 2", section: "Section C", status: "active" },
-    ],
-  },
 ];
 
 // Custom icons for specific texts (slug → image path)

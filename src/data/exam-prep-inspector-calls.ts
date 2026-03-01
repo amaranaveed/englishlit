@@ -501,7 +501,7 @@ export const INSPECTOR_CALLS_EXTRACTS: AnnotatedExtract[] = [
     ],
     overallAnalysis: [
       "The Inspector breaks naturalistic convention  - this is not a character speaking but Priestley delivering a political manifesto to the 1945 audience.",
-      "Functions as a Brechtian Verfremdungseffekt (alienation effect): forces the audience out of passive entertainment into active moral reflection.",
+      "Functions as a Brechtian alienation device: forces the audience out of passive entertainment into active moral reflection.",
       "The shift from 'remember this' to 'fire and blood' escalates from personal appeal to apocalyptic prophecy.",
       "The speech is structured as a moral ultimatum: learn voluntarily, or be taught by catastrophe.",
     ],

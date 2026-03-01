@@ -139,11 +139,11 @@ export const MERCHANT_VENICE_QUOTES: Quote[] = [
       ],
     },
     wow: {
-      title: "COMMODITY FETISHISM (Marx)",
+      title: "MATERIALISM & THE ILLUSION OF VALUE",
       analysis:
-        "Marx's concept of **commodity fetishism** describes how capitalist societies attribute quasi-magical properties to objects — treating things as inherently valuable rather than recognising that their 'value' is a social construction. The gold casket embodies commodity fetishism: Morocco treats gold as if it possesses intrinsic worth that must correspond to Portia's value. He **fetishises** the material, mistaking the commodity's glister for genuine worth. Bassanio, who chooses correctly, sees through the fetish — recognising that lead's lack of visual appeal is irrelevant to its actual content. Shakespeare dramatises Marx's insight 250 years early: a society obsessed with the appearance of wealth loses the ability to perceive real value.",
+        "Shakespeare explores how **materialistic** societies attribute almost magical properties to objects — treating things as inherently valuable rather than recognising that their 'value' is a social construction. The gold casket embodies this obsession: Morocco treats gold as if it possesses intrinsic worth that must correspond to Portia's value. He mistakes the commodity's glister for genuine worth. Bassanio, who chooses correctly, sees through the illusion — recognising that lead's lack of visual appeal is irrelevant to its actual content. Shakespeare dramatises a timeless insight: a society obsessed with the **appearance of wealth** loses the ability to perceive real value.",
       keyWords: [
-        { word: "Commodity fetishism", def: "Marx's concept of attributing magical properties to material goods" },
+        { word: "Materialism", def: "An excessive focus on wealth and possessions over human relationships" },
         { word: "Intrinsic", def: "Belonging to a thing by its very nature; essential" },
         { word: "Social construction", def: "A concept created and maintained by social agreement rather than natural fact" },
       ],

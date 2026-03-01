@@ -25,7 +25,6 @@ const GROUP_COLOURS = [
   { bg: "bg-blue-light",   text: "text-blue",   dot: "bg-blue",   cardBorder: "border-blue/10",   hoverText: "text-blue" },
   { bg: "bg-teal-light",   text: "text-teal",   dot: "bg-teal",   cardBorder: "border-teal/10",   hoverText: "text-teal" },
   { bg: "bg-orange-light", text: "text-orange", dot: "bg-orange", cardBorder: "border-orange/10", hoverText: "text-orange" },
-  { bg: "bg-pink-light",   text: "text-pink",   dot: "bg-pink",   cardBorder: "border-pink/10",   hoverText: "text-pink" },
 ];
 
 /* ── Banner images for paper group sections ────────── */
@@ -34,7 +33,6 @@ const GROUP_IMAGES = [
   "/images/19th-century-banner.png",
   "/images/modern-texts-banner.png",
   "/images/poetry-banner.png",
-  "/images/unseen-poetry-banner.png",
 ];
 
 /* ── Framer Motion animation variants ──────────────── */

@@ -1024,10 +1024,10 @@ export const POWER_CONFLICT_QUOTES: Quote[] = [
       analysis:
         "The **anaphoric** repetition of 'Dem tell me' — repeated throughout the poem — creates a **drumbeat** of accusation. 'Dem' (them) is unspecified but clearly refers to the **colonial** education system that controlled the curriculum. By using **phonetic** Caribbean dialect ('Dem', 'Wha', 'bandage up me eye') rather than Standard English, Agard **reclaims** his linguistic identity — the very thing the education system tried to suppress.",
       secondPoint:
-        "The dialect is a deliberate political choice: Standard English represents the **hegemonic** (dominant) culture that controlled the narrative; Creole represents the suppressed voice. Agard refuses to translate — the reader must meet him on his linguistic terms. This is an act of **cultural resistance**: language becomes the battlefield where colonial power is both exercised and challenged.",
+        "The dialect is a deliberate political choice: Standard English represents the **dominant** culture that controlled the narrative; Creole represents the suppressed voice. Agard refuses to translate — the reader must meet him on his linguistic terms. This is an act of **cultural resistance**: language becomes the battlefield where colonial power is both exercised and challenged.",
       keyWords: [
         { word: "Anaphora", def: "Repetition of a word or phrase at the start of successive clauses" },
-        { word: "Hegemonic", def: "Dominant; exercising control over others through culture rather than force" },
+        { word: "Dominant culture", def: "The most powerful cultural group, whose values are treated as 'normal'" },
         { word: "Phonetic", def: "Written as it sounds, reflecting actual pronunciation" },
       ],
     },

@@ -66,12 +66,12 @@ export const CHRISTMAS_CAROL_QUOTES: Quote[] = [
       ],
     },
     wow: {
-      title: "THE COMMODITY FETISH (Marx)",
+      title: "MATERIALISM OVER HUMANITY",
       analysis:
-        "Karl Marx, writing just four years after *A Christmas Carol*, developed the concept of **commodity fetishism**: the idea that capitalism causes people to value objects and money over human relationships. Scrooge is Dickens' living embodiment of this concept — a man who has replaced all human connection with monetary value. His **reification** (treating abstract things as concrete, or people as things) of human worth is captured in his reduction to a 'hand' — he has become an instrument of capital. Dickens and Marx, responding to the same Victorian crisis, reach the same conclusion through different means: capitalism without compassion dehumanises everyone it touches.",
+        "Karl Marx, writing just four years after *A Christmas Carol*, argued that capitalism causes people to value objects and money over human relationships. Scrooge is Dickens' living embodiment of this idea — a man who has replaced all human connection with monetary value. His **dehumanisation** (treating people as things) of human worth is captured in his reduction to a 'hand' — he has become an instrument of capital. Dickens and Marx, responding to the same Victorian crisis, reach the same conclusion through different means: capitalism without compassion dehumanises everyone it touches.",
       keyWords: [
-        { word: "Commodity fetishism", def: "Marx's concept that capitalism makes people value objects over human relationships" },
-        { word: "Reification", def: "Treating people as objects or reducing abstract concepts to material things" },
+        { word: "Materialism", def: "Valuing objects, money, and possessions over human relationships" },
+        { word: "Dehumanisation", def: "Treating people as objects or stripping them of their humanity" },
         { word: "Capital", def: "Wealth in the form of money or assets, used for investment and profit" },
       ],
     },

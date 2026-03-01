@@ -45,7 +45,7 @@ export const INSPECTOR_CALLS_THEME_SHEETS: ThemeSheet[] = [
             act: "Act 1",
             analysis: [
               "The antithesis of 'cheap labour' and 'people' exposes the dehumanisation inherent in capitalist language — reducing human beings to economic units.",
-              "The dash creates a typographical caesura, forcing the audience to choose between the capitalist worldview and the humanist one.",
+              "The dash creates a dramatic pause, forcing the audience to choose between the capitalist worldview and the humanist one.",
               "Sheila's simple, direct language suggests that moral truth is not complex — it is inequality that requires elaborate justification.",
             ],
           },

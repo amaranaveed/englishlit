@@ -1070,11 +1070,11 @@ export const LOVE_RELATIONSHIPS_QUOTES: Quote[] = [
       ],
     },
     wow: {
-      title: "BAKHTIN'S HETEROGLOSSIA — THE JOYFUL POLYPHONY OF IMMIGRANT VOICE",
+      title: "MULTIPLE VOICES — THE JOYFUL MIX OF IMMIGRANT IDENTITY",
       analysis:
-        "Mikhail Bakhtin's concept of **heteroglossia** — the coexistence of multiple voices, languages, and registers within a single text — perfectly describes Nagra's poem. The text contains the voice of the shopkeeper, the bride, the customers, the parents, English, Punjabi, formal and informal registers — all **jostling** (competing for space) within the same poem. Bakhtin argued that heteroglossic texts are more **democratic** than monologic (single-voiced) ones, because they resist the dominance of any single perspective. Nagra's poem is radically heteroglossic: no single language, voice, or cultural framework controls the text. The result is what Homi **Bhabha** calls **cultural hybridity** — a 'third space' where new identities are created from the collision of old ones. The poem's joy — and it is one of the most joyful poems in either anthology — comes from its celebration of **multiplicity**: the speaker is not torn between cultures but enriched by belonging to both.",
+        "Nagra's poem is packed with **multiple voices** — the shopkeeper, the bride, the customers, the parents, English, Punjabi, formal and informal registers — all **jostling** (competing for space) within the same poem. No single language, voice, or cultural framework controls the text. The result is **cultural hybridity** — a 'third space' where new identities are created from the collision of old ones. The poem's joy — and it is one of the most joyful poems in either anthology — comes from its celebration of **multiplicity**: the speaker is not torn between cultures but enriched by belonging to both. By refusing to let one voice dominate, Nagra mirrors the immigrant experience of holding multiple identities at once.",
       keyWords: [
-        { word: "Heteroglossia", def: "The coexistence of multiple voices, languages, and registers in a single text" },
+        { word: "Multiple voices", def: "The coexistence of different speakers, languages, and registers in a single text" },
         { word: "Cultural hybridity", def: "The creation of new identities through the blending of different cultures" },
         { word: "Multiplicity", def: "The quality of having multiple elements, identities, or meanings" },
       ],
