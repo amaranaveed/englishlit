@@ -297,6 +297,14 @@ body {
   pointer-events: none;
 }
 
+/* ── Vocab tooltip (mobile tap support) ─────────── */
+@media (hover: none) {
+  .vocab-tip:focus-within .vocab-tip-bubble {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
+
 /* ── Selection color ─────────────────────────────── */
 ::selection {
   background: var(--accent-purple-glow);

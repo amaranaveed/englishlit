@@ -91,7 +91,7 @@ export default async function CharacterDetailPage({ params }: Props) {
       <AnimatedDiv delay={0.15}>
         <div className="rounded-xl border border-border bg-surface p-5 mb-8">
           <p className="font-body text-text leading-relaxed">
-            <HighlightedText text={character.overview} />
+            <HighlightedText text={character.overview} keyWords={character.keyWords} />
           </p>
         </div>
       </AnimatedDiv>
@@ -169,7 +169,7 @@ export default async function CharacterDetailPage({ params }: Props) {
                   </AnimatedBlockquote>
                   <p className="font-ui text-xs text-grey mb-2">{kq.act}</p>
                   <p className="font-body text-sm text-text leading-relaxed mb-3">
-                    <HighlightedText text={kq.analysis} />
+                    <HighlightedText text={kq.analysis} keyWords={character.keyWords} />
                   </p>
                   {/* Theme connections */}
                   {kq.themes && kq.themes.length > 0 && (
@@ -215,7 +215,7 @@ export default async function CharacterDetailPage({ params }: Props) {
                     </span>
                   </div>
                   <p className="font-body text-sm text-text leading-relaxed">
-                    <HighlightedText text={rel.analysis} />
+                    <HighlightedText text={rel.analysis} keyWords={character.keyWords} />
                   </p>
                 </div>
               </AnimatedListItem>
@@ -232,7 +232,7 @@ export default async function CharacterDetailPage({ params }: Props) {
           <h2 className="font-display text-xl font-bold mb-3">Writer&rsquo;s Methods</h2>
           <div className="rounded-xl border border-purple-200 bg-purple-50 p-5">
             <p className="font-body text-sm text-text leading-relaxed">
-              <HighlightedText text={character.writersMethods} />
+              <HighlightedText text={character.writersMethods} keyWords={character.keyWords} />
             </p>
           </div>
         </section>
@@ -251,7 +251,7 @@ export default async function CharacterDetailPage({ params }: Props) {
           </div>
           <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
             <p className="font-body text-sm text-text leading-relaxed">
-              <HighlightedText text={character.wow} />
+              <HighlightedText text={character.wow} keyWords={character.keyWords} />
             </p>
           </div>
         </section>
@@ -288,7 +288,7 @@ export default async function CharacterDetailPage({ params }: Props) {
           </div>
           <div className="rounded-xl border border-blue-200 bg-blue-50 p-5">
             <p className="font-body text-sm text-text leading-relaxed">
-              <HighlightedText text={character.examTip} />
+              <HighlightedText text={character.examTip} keyWords={character.keyWords} />
             </p>
           </div>
         </section>

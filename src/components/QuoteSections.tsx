@@ -137,10 +137,10 @@ export function TechniqueSection({
         <AOBadge ao="ao2" label="AO2 — Language, Form & Structure" />
       </div>
       <p className="font-body text-text leading-relaxed mb-3">
-        <HighlightedText text={analysis} />
+        <HighlightedText text={analysis} keyWords={keyWords} />
       </p>
       <p className="font-body text-text leading-relaxed mb-4">
-        <HighlightedText text={secondPoint} />
+        <HighlightedText text={secondPoint} keyWords={keyWords} />
       </p>
       <KeyWords words={keyWords} />
     </section>
@@ -171,7 +171,7 @@ export function RADSection({
         <AOBadge ao="ao2" label="AO2 — Language, Form & Structure" />
       </div>
       <p className="font-body text-text leading-relaxed mb-4">
-        <HighlightedText text={analysis} />
+        <HighlightedText text={analysis} keyWords={keyWords} />
       </p>
       <KeyWords words={keyWords} />
     </section>
@@ -197,7 +197,7 @@ export function ContextSection({
           <div key={i}>
             <p className="font-ui font-semibold text-sm text-orange mb-0.5">{p.label}</p>
             <p className="font-body text-text leading-relaxed">
-              <HighlightedText text={p.text} />
+              <HighlightedText text={p.text} keyWords={keyWords} />
             </p>
           </div>
         ))}
@@ -227,7 +227,7 @@ export function WOWSection({
         </div>
       </div>
       <p className="font-body text-text leading-relaxed mb-4">
-        <HighlightedText text={analysis} />
+        <HighlightedText text={analysis} keyWords={keyWords} />
       </p>
       <KeyWords words={keyWords} />
     </section>
