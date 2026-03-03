@@ -50,7 +50,7 @@ export default function GenerateCharacterFlashcardsButton({
         type: "character",
         textSlug: character.textSlug,
         front: `Who is ${character.name}? Summarise their role.`,
-        back: stripHighlights(character.overview).slice(0, 200),
+        back: stripHighlights(character.overview),
         confidence: 0,
         nextReview: now,
         createdAt: now,
@@ -72,7 +72,7 @@ export default function GenerateCharacterFlashcardsButton({
         type: "character",
         textSlug: character.textSlug,
         front: `How does the writer present ${character.name}?`,
-        back: stripHighlights(character.writersMethods).slice(0, 200),
+        back: stripHighlights(character.writersMethods),
         confidence: 0,
         nextReview: now,
         createdAt: now,
@@ -83,7 +83,7 @@ export default function GenerateCharacterFlashcardsButton({
         type: "character",
         textSlug: character.textSlug,
         front: `Grade 7+ insight about ${character.name}?`,
-        back: stripHighlights(character.wow).slice(0, 200),
+        back: stripHighlights(character.wow),
         confidence: 0,
         nextReview: now,
         createdAt: now,
@@ -94,7 +94,7 @@ export default function GenerateCharacterFlashcardsButton({
         type: "character",
         textSlug: character.textSlug,
         front: `Exam tip for writing about ${character.name}?`,
-        back: stripHighlights(character.examTip).slice(0, 200),
+        back: stripHighlights(character.examTip),
         confidence: 0,
         nextReview: now,
         createdAt: now,
@@ -108,7 +108,7 @@ export default function GenerateCharacterFlashcardsButton({
         type: "character",
         textSlug: character.textSlug,
         front: `${character.name}'s arc — what happens in ${stage.act}?`,
-        back: `${stage.title}: ${stage.description.slice(0, 150)}`,
+        back: `${stage.title}: ${stage.description}`,
         confidence: 0,
         nextReview: now,
         createdAt: now,
@@ -122,7 +122,7 @@ export default function GenerateCharacterFlashcardsButton({
         type: "character",
         textSlug: character.textSlug,
         front: `What does "${kq.quote.length > 60 ? kq.quote.slice(0, 60) + "…" : kq.quote}" reveal about ${character.name}?`,
-        back: stripHighlights(kq.analysis).slice(0, 200),
+        back: stripHighlights(kq.analysis),
         confidence: 0,
         nextReview: now,
         createdAt: now,
@@ -136,7 +136,7 @@ export default function GenerateCharacterFlashcardsButton({
         type: "character",
         textSlug: character.textSlug,
         front: `What is ${character.name}'s relationship with ${rel.character}?`,
-        back: `${rel.nature} — ${stripHighlights(rel.analysis).slice(0, 150)}`,
+        back: `${rel.nature} — ${stripHighlights(rel.analysis)}`,
         confidence: 0,
         nextReview: now,
         createdAt: now,
@@ -199,4 +199,8 @@ export default function GenerateCharacterFlashcardsButton({
 
 function stripHighlights(text: string): string {
   return text.replace(/\*\*([^*]+)\*\*/g, "$1");
+}
+
+function truncate(text: string, max: number): string {
+  return text.length > max ? text.slice(0, max) + "…" : text;
 }

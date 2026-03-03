@@ -269,6 +269,7 @@ body {
   perspective: 1000px;
 }
 .flip-card-inner {
+  position: relative;
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   transform-style: preserve-3d;
 }
@@ -279,8 +280,16 @@ body {
 .flip-card-back {
   backface-visibility: hidden;
 }
+/* Front is in-flow so it sets the container height; back overlays it */
+.flip-card-front {
+  position: relative;
+  min-height: inherit;
+}
 .flip-card-back {
+  position: absolute;
+  inset: 0;
   transform: rotateY(180deg);
+  overflow-y: auto;
 }
 
 /* ── Coming soon overlay ─────────────────────────── */

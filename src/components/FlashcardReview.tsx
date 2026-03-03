@@ -80,20 +80,19 @@ export default function FlashcardReview({ cards, onComplete }: Props) {
       {/* Card */}
       <div
         className="flip-card w-full cursor-pointer mb-6"
-        style={{ minHeight: 260 }}
         onClick={() => setFlipped((f) => !f)}
       >
-        <div className={`flip-card-inner relative w-full ${flipped ? "flipped" : ""}`} style={{ minHeight: 260 }}>
+        <div className={`flip-card-inner w-full ${flipped ? "flipped" : ""}`} style={{ minHeight: 260 }}>
           {/* Front */}
-          <div className="flip-card-front absolute inset-0 rounded-xl border-2 border-border bg-surface p-6 flex flex-col items-center justify-center text-center">
+          <div className="flip-card-front rounded-xl border-2 border-border bg-surface p-6 flex flex-col items-center justify-center text-center">
             <p className="font-ui text-xs text-grey uppercase tracking-wider mb-3">Question</p>
             <p className="font-body text-lg text-text leading-relaxed">{card.front}</p>
             <p className="font-ui text-xs text-grey mt-4">Tap to reveal</p>
           </div>
           {/* Back */}
-          <div className="flip-card-back absolute inset-0 rounded-xl border-2 border-teal bg-teal-light p-6 flex flex-col items-center justify-center text-center">
+          <div className="flip-card-back rounded-xl border-2 border-teal bg-teal-light p-6 flex flex-col items-center justify-center text-center">
             <p className="font-ui text-xs text-teal uppercase tracking-wider mb-3">Answer</p>
-            <p className="font-body text-lg text-text leading-relaxed">{card.back}</p>
+            <p className="font-body text-sm text-text leading-relaxed">{card.back}</p>
           </div>
         </div>
       </div>

@@ -71,23 +71,42 @@ export async function saveFlashcards(cards: Flashcard[], userId?: string): Promi
 export async function addFlashcard(card: Flashcard, userId?: string): Promise<void> {
   if (!userId) {
     const cards = await getFlashcards();
-    if (cards.some((c) => c.id === card.id)) return;
-    cards.push(card);
+    const idx = cards.findIndex((c) => c.id === card.id);
+    if (idx !== -1) {
+      // Update front/back text but keep review progress
+      cards[idx] = { ...cards[idx], front: card.front, back: card.back };
+    } else {
+      cards.push(card);
+    }
     localStorage.setItem("flashcards", JSON.stringify(cards));
     return;
   }
 
-  await supabase().from("flashcards").upsert({
-    id: card.id,
-    user_id: userId,
-    type: card.type,
-    text_slug: card.textSlug,
-    front: card.front,
-    back: card.back,
-    confidence: card.confidence,
-    next_review: card.nextReview,
-    created_at: card.createdAt,
-  }, { onConflict: "user_id,id" });
+  // Check if card already exists — if so, only update text, keep review progress
+  const { data: existing } = await supabase()
+    .from("flashcards")
+    .select("id")
+    .eq("id", card.id)
+    .maybeSingle();
+
+  if (existing) {
+    await supabase()
+      .from("flashcards")
+      .update({ front: card.front, back: card.back })
+      .eq("id", card.id);
+  } else {
+    await supabase().from("flashcards").insert({
+      id: card.id,
+      user_id: userId,
+      type: card.type,
+      text_slug: card.textSlug,
+      front: card.front,
+      back: card.back,
+      confidence: card.confidence,
+      next_review: card.nextReview,
+      created_at: card.createdAt,
+    });
+  }
 }
 
 export async function deleteFlashcard(cardId: string, userId?: string): Promise<void> {

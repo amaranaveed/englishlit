@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import PageBanner from "@/components/PageBanner";
@@ -11,6 +11,7 @@ import FlashcardReview from "@/components/FlashcardReview";
 import FlashcardList from "@/components/FlashcardList";
 import { useAuth } from "@/components/AuthProvider";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { refreshCardText } from "@/lib/refresh-flashcard-text";
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -49,14 +50,29 @@ export default function FlashcardsPage() {
   const [selectedText, setSelectedText] = useState<string>("all");
   const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set());
 
-  const { getFlashcards, getDueFlashcards } = useStorage();
+  const { getFlashcards, getDueFlashcards, saveFlashcards } = useStorage();
+  const hasRefreshedText = React.useRef(false);
 
   const refresh = useCallback(() => {
     Promise.all([getFlashcards(), getDueFlashcards()]).then(([all, due]) => {
+      // One-time: refresh truncated card text from source data
+      if (!hasRefreshedText.current && all.length > 0) {
+        hasRefreshedText.current = true;
+        const updated = refreshCardText(all);
+        const changed = updated.some((c, i) => c.back !== all[i].back);
+        if (changed) {
+          saveFlashcards(updated).then(() => {
+            setAllCards(updated);
+            const now = new Date().toISOString();
+            setDueCards(updated.filter((c) => c.nextReview <= now));
+          });
+          return;
+        }
+      }
       setAllCards(all);
       setDueCards(due);
     });
-  }, [getFlashcards, getDueFlashcards]);
+  }, [getFlashcards, getDueFlashcards, saveFlashcards]);
 
   useEffect(() => {
     refresh();

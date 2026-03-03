@@ -93,7 +93,7 @@ export default function GenerateThemeFlashcardsButton({
             type: "theme",
             textSlug: sheet.textSlug,
             front: `Analyse "${q.quote.length > 50 ? q.quote.slice(0, 50) + "…" : q.quote}" in relation to ${sheet.theme}.`,
-            back: q.analysis.join(" ").slice(0, 250),
+            back: q.analysis.join(" "),
             confidence: 0,
             nextReview: now,
             createdAt: now,
@@ -132,4 +132,8 @@ export default function GenerateThemeFlashcardsButton({
       Flashcards
     </button>
   );
+}
+
+function truncate(text: string, max: number): string {
+  return text.length > max ? text.slice(0, max) + "…" : text;
 }

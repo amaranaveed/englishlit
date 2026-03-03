@@ -61,7 +61,7 @@ export default function GenerateFlashcardsButton({ quote }: { quote: Quote }) {
         type: "technique" as const,
         textSlug: quote.textSlug,
         front: `Key technique in: "${shortQuote}"?`,
-        back: `${quote.technique1.title} — ${stripHighlights(quote.technique1.analysis).slice(0, 120)}`,
+        back: `${quote.technique1.title} — ${stripHighlights(quote.technique1.analysis)}`,
         confidence: 0,
         nextReview: now,
         createdAt: now,
@@ -72,7 +72,7 @@ export default function GenerateFlashcardsButton({ quote }: { quote: Quote }) {
         type: "technique" as const,
         textSlug: quote.textSlug,
         front: `Second technique in: "${shortQuote}"?`,
-        back: `${quote.technique2.title} — ${stripHighlights(quote.technique2.analysis).slice(0, 120)}`,
+        back: `${quote.technique2.title} — ${stripHighlights(quote.technique2.analysis)}`,
         confidence: 0,
         nextReview: now,
         createdAt: now,
@@ -83,7 +83,7 @@ export default function GenerateFlashcardsButton({ quote }: { quote: Quote }) {
         type: "rad" as const,
         textSlug: quote.textSlug,
         front: `Does the character PROGRESS, REGRESS or STAGNATE in: "${shortQuote}"?`,
-        back: `${quote.rad.label} — ${stripHighlights(quote.rad.analysis).slice(0, 120)}`,
+        back: `${quote.rad.label} — ${stripHighlights(quote.rad.analysis)}`,
         confidence: 0,
         nextReview: now,
         createdAt: now,
@@ -94,7 +94,7 @@ export default function GenerateFlashcardsButton({ quote }: { quote: Quote }) {
         type: "wow" as const,
         textSlug: quote.textSlug,
         front: `Grade 8/9 theory for: "${shortQuote}"?`,
-        back: `${quote.wow.title} — ${stripHighlights(quote.wow.analysis).slice(0, 120)}`,
+        back: `${quote.wow.title} — ${stripHighlights(quote.wow.analysis)}`,
         confidence: 0,
         nextReview: now,
         createdAt: now,
@@ -142,12 +142,15 @@ export default function GenerateFlashcardsButton({ quote }: { quote: Quote }) {
 
   if (generated) {
     return (
-      <div className="flex items-center gap-2 rounded-lg bg-green-light border border-green px-4 py-2.5 font-ui text-sm text-green">
+      <button
+        onClick={handleGenerate}
+        className="flex items-center gap-2 rounded-lg bg-green-light border border-green px-4 py-2.5 font-ui text-sm text-green hover:bg-green/10 transition-colors cursor-pointer"
+      >
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
         </svg>
-        {count} flashcards generated
-      </div>
+        {count} flashcards generated — tap to refresh
+      </button>
     );
   }
 
@@ -166,4 +169,8 @@ export default function GenerateFlashcardsButton({ quote }: { quote: Quote }) {
 
 function stripHighlights(text: string): string {
   return text.replace(/\*\*([^*]+)\*\*/g, "$1");
+}
+
+function truncate(text: string, max: number): string {
+  return text.length > max ? text.slice(0, max) + "…" : text;
 }
