@@ -79,7 +79,7 @@ export const PRIDE_PREJUDICE_QUOTES: Quote[] = [
     id: 2,
     textSlug: "pride-prejudice",
     quote: "Your pride... his pride... for you are really proud of your defects in understanding",
-    who: "Elizabeth",
+    who: "Elizabeth Bennet",
     act: "Volume 3, Chapter 15",
     themes: ["Pride & Prejudice (Self-Knowledge)", "Moral Growth", "Family & Reputation", "Gender & Female Agency"],
     keyQuote: {
@@ -199,7 +199,7 @@ export const PRIDE_PREJUDICE_QUOTES: Quote[] = [
     id: 4,
     textSlug: "pride-prejudice",
     quote: "You are mistaken, Mr Darcy, if you suppose that the mode of your declaration affected me in any other way, than as it afforded me the fullest belief of your arrogance",
-    who: "Elizabeth",
+    who: "Elizabeth Bennet",
     act: "Volume 2, Chapter 11 (First Proposal Refusal)",
     themes: ["Gender & Female Agency", "Pride & Prejudice (Self-Knowledge)", "Class & Social Mobility", "Appearance vs Reality"],
     keyQuote: {
@@ -259,7 +259,7 @@ export const PRIDE_PREJUDICE_QUOTES: Quote[] = [
     id: 5,
     textSlug: "pride-prejudice",
     quote: "Till this moment I never knew myself",
-    who: "Elizabeth",
+    who: "Elizabeth Bennet",
     act: "Volume 2, Chapter 13 (After Darcy's letter)",
     themes: ["Pride & Prejudice (Self-Knowledge)", "Moral Growth", "Appearance vs Reality"],
     keyQuote: {
@@ -382,7 +382,7 @@ export const PRIDE_PREJUDICE_QUOTES: Quote[] = [
     id: 7,
     textSlug: "pride-prejudice",
     quote: "There is a stubbornness about me that never can bear to be frightened at the will of others. My courage always rises at every attempt to intimidate me",
-    who: "Elizabeth",
+    who: "Elizabeth Bennet",
     act: "Chapter 31",
     themes: ["Gender & Female Agency", "Pride & Prejudice (Self-Knowledge)", "Class & Social Mobility"],
     keyQuote: {
@@ -1477,7 +1477,7 @@ export const PRIDE_PREJUDICE_QUOTES: Quote[] = [
     id: 22,
     textSlug: "pride-prejudice",
     quote: "I have been used to have my opinion consulted in all matters. I am not in the habit of brooking disappointment",
-    who: "Lady Catherine",
+    who: "Lady Catherine de Bourgh",
     act: "Chapter 56 (Confrontation with Elizabeth)",
     themes: ["Class & Social Mobility", "Gender & Female Agency", "Pride & Prejudice (Self-Knowledge)"],
     keyQuote: {
@@ -1549,7 +1549,7 @@ export const PRIDE_PREJUDICE_QUOTES: Quote[] = [
     id: 23,
     textSlug: "pride-prejudice",
     quote: "Are the shades of Pemberley to be thus polluted?",
-    who: "Lady Catherine",
+    who: "Lady Catherine de Bourgh",
     act: "Chapter 56",
     themes: ["Class & Social Mobility", "Family & Reputation", "Pride & Prejudice (Self-Knowledge)"],
     keyQuote: {
@@ -1621,7 +1621,7 @@ export const PRIDE_PREJUDICE_QUOTES: Quote[] = [
     id: 24,
     textSlug: "pride-prejudice",
     quote: "I take no leave of you, Miss Bennet. I send no compliments to your mother. You deserve no such attention. I am most seriously displeased",
-    who: "Lady Catherine",
+    who: "Lady Catherine de Bourgh",
     act: "Chapter 56",
     themes: ["Class & Social Mobility", "Gender & Female Agency", "Pride & Prejudice (Self-Knowledge)"],
     keyQuote: {
@@ -1693,7 +1693,7 @@ export const PRIDE_PREJUDICE_QUOTES: Quote[] = [
     id: 25,
     textSlug: "pride-prejudice",
     quote: "She is a most charming young lady indeed. Lady Catherine herself says that in point of true beauty, Miss de Bourgh is far superior to the handsomest of her sex",
-    who: "Lady Catherine (via Mr Collins)",
+    who: "Lady Catherine de Bourgh (via Mr Collins)",
     act: "Chapter 14",
     themes: ["Class & Social Mobility", "Appearance vs Reality", "Family & Reputation"],
     keyQuote: {

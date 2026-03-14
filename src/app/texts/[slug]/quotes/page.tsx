@@ -34,7 +34,7 @@ export default async function QuoteListPage({ params, searchParams }: Props) {
   const allQuotes = getQuotesByText(slug);
   let quotes = allQuotes;
   if (who) {
-    quotes = quotes.filter((q) => q.who.toLowerCase() === who.toLowerCase());
+    quotes = quotes.filter((q) => q.who.toLowerCase().startsWith(who.toLowerCase()));
   }
   if (theme) {
     quotes = quotes.filter((q) =>
