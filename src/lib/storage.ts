@@ -269,7 +269,8 @@ export async function getExamResponses(userId?: string): Promise<ExamResponse[]>
   const { data, error } = await supabase()
     .from("exam_responses")
     .select("*")
-    .order("created_at", { ascending: true });
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
 
   if (error || !data) return [];
 
@@ -321,7 +322,7 @@ export async function updateExamResponse(id: string, updates: Partial<ExamRespon
   if (updates.marking !== undefined) dbUpdates.marking = updates.marking;
 
   if (Object.keys(dbUpdates).length > 0) {
-    await supabase().from("exam_responses").update(dbUpdates).eq("id", id);
+    await supabase().from("exam_responses").update(dbUpdates).eq("id", id).eq("user_id", userId);
   }
 }
 
@@ -334,6 +335,7 @@ export async function getExamResponseById(id: string, userId?: string): Promise<
     .from("exam_responses")
     .select("*")
     .eq("id", id)
+    .eq("user_id", userId)
     .single();
 
   if (error || !data) return undefined;
@@ -356,7 +358,8 @@ export async function getExamResponsesByText(textSlug: string, userId?: string):
   const { data, error } = await supabase()
     .from("exam_responses")
     .select("*")
-    .eq("text_slug", textSlug);
+    .eq("text_slug", textSlug)
+    .eq("user_id", userId);
 
   if (error || !data) return [];
 
@@ -368,6 +371,17 @@ export async function getExamResponsesByText(textSlug: string, userId?: string):
     timeSpent: row.time_spent as number,
     ...(row.marking ? { marking: row.marking as ExamResponse["marking"] } : {}),
   }));
+}
+
+export async function deleteExamResponse(id: string, userId?: string): Promise<void> {
+  if (!userId) {
+    const all = await getExamResponses();
+    const filtered = all.filter((r) => r.id !== id);
+    localStorage.setItem("exam-responses", JSON.stringify(filtered));
+    return;
+  }
+
+  await supabase().from("exam_responses").delete().eq("id", id).eq("user_id", userId);
 }
 
 // ═══════════════════════════════════════════════════════════════════

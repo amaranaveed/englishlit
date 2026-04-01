@@ -357,6 +357,32 @@ export default function ExamPage() {
           image="/images/exam-prep.jpg"
         />
 
+        {/* History link */}
+        <motion.div
+          className="mb-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, ease: EASE, delay: 0.05 }}
+        >
+          <Link
+            href="/exam/history"
+            className="flex items-center justify-between rounded-xl border-2 border-border bg-surface p-4 hover:border-teal/50 transition-colors group"
+          >
+            <div className="flex items-center gap-3">
+              <svg className="h-5 w-5 text-grey group-hover:text-teal transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+              <div>
+                <p className="font-ui text-sm font-semibold text-text group-hover:text-teal transition-colors">View past exams</p>
+                <p className="font-ui text-xs text-grey">See your previous responses and marks</p>
+              </div>
+            </div>
+            <svg className="h-4 w-4 text-grey group-hover:text-teal transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </Link>
+        </motion.div>
+
         {/* Step 1 — Text */}
         <div className="mb-6">
           <motion.label

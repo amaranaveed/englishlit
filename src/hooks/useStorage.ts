@@ -28,6 +28,7 @@ export function useStorage() {
     updateExamResponse: useCallback((id: string, updates: Partial<ExamResponse>) => storage.updateExamResponse(id, updates, userId), [userId]),
     getExamResponseById: useCallback((id: string) => storage.getExamResponseById(id, userId), [userId]),
     getExamResponsesByText: useCallback((slug: string) => storage.getExamResponsesByText(slug, userId), [userId]),
+    deleteExamResponse: useCallback((id: string) => storage.deleteExamResponse(id, userId), [userId]),
 
     // Vocab scores
     getVocabScores: useCallback(() => storage.getVocabScores(userId), [userId]),
