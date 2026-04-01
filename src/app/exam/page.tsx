@@ -25,6 +25,7 @@ const staggerItem = {
 };
 
 type Stage = "select" | "writing" | "submitted";
+type UploadedImage = { id: number; dataUrl: string; extracting: boolean; extracted: boolean; error: string | null };
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -39,6 +40,8 @@ export default function ExamPage() {
   // Selection state
   const [selectedText, setSelectedText] = useState("");
   const [selectedQuestion, setSelectedQuestion] = useState("");
+  const [customQuestion, setCustomQuestion] = useState("");
+  const [useCustomQuestion, setUseCustomQuestion] = useState(false);
 
   // Ref for auto-scrolling to questions section
   const questionsRef = useRef<HTMLDivElement>(null);
@@ -50,6 +53,12 @@ export default function ExamPage() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimeRef = useRef<number>(0);
   const { saveExamResponse } = useStorage();
+
+  // Image upload state
+  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
+  const [isExtracting, setIsExtracting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const nextImageId = useRef(0);
 
   const activeTexts = getActiveTexts();
   const questions = selectedText ? getExamQuestions(selectedText) : [];
@@ -82,7 +91,9 @@ export default function ExamPage() {
   }, []);
 
   function handleStart() {
-    if (!selectedText || !selectedQuestion) return;
+    const question = useCustomQuestion ? customQuestion.trim() : selectedQuestion;
+    if (!selectedText || !question) return;
+    if (useCustomQuestion) setSelectedQuestion(question);
     setStage("writing");
     setStarted(true);
   }
@@ -103,6 +114,99 @@ export default function ExamPage() {
     await saveExamResponse(response);
     setStage("submitted");
     router.push(`/exam/result/${id}`);
+  }
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    // Build ordered list of valid files
+    const validFiles: { file: File; id: number }[] = [];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (!file.type.startsWith("image/")) continue;
+      if (file.size > 10 * 1024 * 1024) continue;
+      validFiles.push({ file, id: nextImageId.current++ });
+    }
+
+    if (validFiles.length === 0) return;
+
+    // Add placeholder entries for all images immediately (preserves upload order)
+    const newEntries: UploadedImage[] = validFiles.map(({ id }) => ({
+      id,
+      dataUrl: "",
+      extracting: true,
+      extracted: false,
+      error: null,
+    }));
+    setUploadedImages((prev) => [...prev, ...newEntries]);
+    setIsExtracting(true);
+
+    // Read all files as data URLs first (preserves order)
+    const dataUrls = await Promise.all(
+      validFiles.map(
+        ({ file, id }) =>
+          new Promise<{ id: number; dataUrl: string }>((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve({ id, dataUrl: reader.result as string });
+            reader.readAsDataURL(file);
+          })
+      )
+    );
+
+    // Update previews
+    for (const { id, dataUrl } of dataUrls) {
+      setUploadedImages((prev) =>
+        prev.map((img) => (img.id === id ? { ...img, dataUrl } : img))
+      );
+    }
+
+    // Extract text sequentially in order
+    for (const { id, dataUrl } of dataUrls) {
+      try {
+        const res = await fetch("/api/ocr", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image: dataUrl }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || data.error) {
+          setUploadedImages((prev) =>
+            prev.map((img) =>
+              img.id === id ? { ...img, extracting: false, error: data.error || "Failed to extract text." } : img
+            )
+          );
+          continue;
+        }
+
+        setAnswer((prev) => (prev ? prev + "\n\n" + data.text : data.text));
+        setUploadedImages((prev) =>
+          prev.map((img) =>
+            img.id === id ? { ...img, extracting: false, extracted: true } : img
+          )
+        );
+      } catch {
+        setUploadedImages((prev) =>
+          prev.map((img) =>
+            img.id === id ? { ...img, extracting: false, error: "Network error. Please try again." } : img
+          )
+        );
+      }
+    }
+
+    setIsExtracting(false);
+    // Reset file input so the same files can be re-selected
+    e.target.value = "";
+  }
+
+  function removeImage(id: number) {
+    setUploadedImages((prev) => prev.filter((img) => img.id !== id));
+  }
+
+  function clearAllImages() {
+    setUploadedImages([]);
   }
 
   // ─── LOADING STATE ───
@@ -330,9 +434,9 @@ export default function ExamPage() {
                     key={i}
                     variants={staggerItem}
                     whileTap={{ scale: 0.99 }}
-                    onClick={() => setSelectedQuestion(q.question)}
+                    onClick={() => { setSelectedQuestion(q.question); setUseCustomQuestion(false); }}
                     className={`w-full rounded-lg border-2 px-4 py-3 text-left transition-colors cursor-pointer ${
-                      selectedQuestion === q.question
+                      selectedQuestion === q.question && !useCustomQuestion
                         ? "border-purple bg-purple-light"
                         : "border-border bg-surface hover:border-purple/50"
                     }`}
@@ -340,6 +444,46 @@ export default function ExamPage() {
                     <p className="font-body text-sm text-text">{q.question}</p>
                   </motion.button>
                 ))}
+
+                {/* Custom question option */}
+                <motion.div variants={staggerItem}>
+                  <button
+                    type="button"
+                    onClick={() => { setUseCustomQuestion(true); setSelectedQuestion(""); }}
+                    className={`w-full rounded-lg border-2 px-4 py-3 text-left transition-colors cursor-pointer ${
+                      useCustomQuestion
+                        ? "border-purple bg-purple-light"
+                        : "border-border bg-surface hover:border-purple/50"
+                    }`}
+                  >
+                    <p className="font-ui text-sm font-semibold text-text flex items-center gap-2">
+                      <svg className="h-4 w-4 text-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                      </svg>
+                      Write your own question
+                    </p>
+                  </button>
+                  <AnimatePresence>
+                    {useCustomQuestion && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3, ease: EASE }}
+                        className="overflow-hidden"
+                      >
+                        <textarea
+                          value={customQuestion}
+                          onChange={(e) => setCustomQuestion(e.target.value)}
+                          placeholder="Type your exam question here..."
+                          className="w-full mt-2 rounded-lg border-2 border-purple/30 bg-surface p-3 font-body text-sm text-text leading-relaxed resize-none focus:outline-none focus:border-purple transition-colors placeholder:text-grey"
+                          rows={3}
+                          autoFocus
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
               </motion.div>
             </motion.div>
           )}
@@ -347,7 +491,7 @@ export default function ExamPage() {
 
         {/* Start button */}
         <AnimatePresence>
-          {selectedText && selectedQuestion && (
+          {selectedText && (selectedQuestion || (useCustomQuestion && customQuestion.trim())) && (
             <motion.button
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -451,6 +595,126 @@ export default function ExamPage() {
         </p>
       </motion.div>
 
+      {/* Image upload zone */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: EASE, delay: 0.05 }}
+        className="mb-4"
+      >
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={handleImageUpload}
+          className="hidden"
+        />
+
+        {/* Upload button — always visible */}
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={isExtracting}
+          className="w-full rounded-xl border-2 border-dashed border-border bg-surface hover:border-teal/50 hover:bg-teal-light transition-colors p-4 cursor-pointer group disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <div className="flex items-center justify-center gap-3">
+            <svg className="h-6 w-6 text-grey group-hover:text-teal transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z" />
+            </svg>
+            <div className="text-left">
+              <p className="font-ui text-sm font-semibold text-text group-hover:text-teal transition-colors">
+                {uploadedImages.length > 0 ? "Upload more pages" : "Upload photos of your handwritten answer"}
+              </p>
+              <p className="font-ui text-xs text-grey">
+                {uploadedImages.length > 0
+                  ? "Select multiple images — they'll be extracted in order"
+                  : "Select one or more images — AI will extract the text in order for marking"}
+              </p>
+            </div>
+          </div>
+        </button>
+
+        {/* Uploaded images grid */}
+        {uploadedImages.length > 0 && (
+          <div className="mt-3 space-y-2">
+            <div className="flex items-center justify-between">
+              <p className="font-ui text-xs text-grey font-semibold">
+                {uploadedImages.length} page{uploadedImages.length !== 1 ? "s" : ""} uploaded
+                {isExtracting && " — extracting..."}
+              </p>
+              {!isExtracting && (
+                <button
+                  onClick={clearAllImages}
+                  className="font-ui text-xs text-grey hover:text-red transition-colors cursor-pointer"
+                >
+                  Clear all
+                </button>
+              )}
+            </div>
+            <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+              {uploadedImages.map((img, i) => (
+                <div key={img.id} className="relative rounded-lg border border-border overflow-hidden aspect-[3/4] bg-surface">
+                  {img.dataUrl ? (
+                    <img src={img.dataUrl} alt={`Page ${i + 1}`} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-border border-t-teal" />
+                    </div>
+                  )}
+                  {/* Page number */}
+                  <div className="absolute top-1 left-1 rounded bg-black/60 px-1.5 py-0.5">
+                    <span className="font-ui text-[10px] text-white font-bold">{i + 1}</span>
+                  </div>
+                  {/* Status overlay */}
+                  {img.extracting && (
+                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    </div>
+                  )}
+                  {img.extracted && !img.extracting && (
+                    <div className="absolute bottom-1 right-1 rounded-full bg-teal p-0.5">
+                      <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  )}
+                  {img.error && (
+                    <div className="absolute bottom-1 right-1 rounded-full bg-red p-0.5">
+                      <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </div>
+                  )}
+                  {/* Remove button */}
+                  {!img.extracting && (
+                    <button
+                      onClick={() => removeImage(img.id)}
+                      className="absolute top-1 right-1 rounded-full bg-black/50 hover:bg-black/70 text-white p-0.5 transition-colors cursor-pointer"
+                    >
+                      <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+            {uploadedImages.some((img) => img.error) && (
+              <p className="font-ui text-xs text-red">
+                Some pages failed to extract. You can remove them and try again.
+              </p>
+            )}
+            {!isExtracting && uploadedImages.some((img) => img.extracted) && (
+              <p className="font-ui text-xs text-teal font-semibold">
+                Text extracted in order — check and edit below
+              </p>
+            )}
+          </div>
+        )}
+      </motion.div>
+
       {/* Writing area */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -460,7 +724,7 @@ export default function ExamPage() {
         <textarea
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
-          placeholder="Start writing your essay response here…"
+          placeholder="Start writing your essay response here, or upload a photo of your handwritten answer above…"
           className="w-full min-h-[400px] rounded-xl border-2 border-border bg-surface p-5 font-body text-text leading-relaxed resize-y focus:outline-none focus:border-teal transition-colors placeholder:text-grey"
           autoFocus
         />
