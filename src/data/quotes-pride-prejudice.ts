@@ -1,6 +1,6 @@
 import { Quote } from "./types";
 
-// ─── PRIDE AND PREJUDICE — 29 Quotes ───
+// ─── PRIDE AND PREJUDICE — 37 Quotes ───
 
 export const PRIDE_PREJUDICE_QUOTES: Quote[] = [
   {
@@ -2049,6 +2049,585 @@ export const PRIDE_PREJUDICE_QUOTES: Quote[] = [
         { word: "Bad faith", def: "Self-deception that denies one's own freedom and responsibility" },
         { word: "Mauvaise foi", def: "French for 'bad faith'; Sartre's term for self-deceptive denial of responsibility" },
         { word: "Responsibility", def: "The state of being accountable for one's freely chosen actions" },
+      ],
+    },
+  },
+
+  // ─── JANE BENNET — 4 quotes ───
+
+  {
+    id: 30,
+    textSlug: "pride-prejudice",
+    quote: "He is just what a young man ought to be — sensible, good-humoured, lively; and I never saw such happy manners!",
+    who: "Jane Bennet",
+    act: "Chapter 4",
+    themes: ["Appearance vs Reality", "Marriage & Economics", "Pride & Prejudice (Self-Knowledge)"],
+    keyQuote: {
+      text: '"He is just what a young man ought to be — sensible, good-humoured, lively; and I never saw such happy manners!"',
+      highlight: "just what a young man ought to be",
+      note: "Jane's first description of Bingley after the Meryton ball — establishing her uncritical admiration and her tendency to see only the best in others. The exclamatory praise foreshadows her vulnerability to disappointment.",
+    },
+    technique1: {
+      title: "PRESCRIPTIVE IDEALISATION",
+      analysis:
+        "The phrase '**ought to be**' is a **prescriptive** (rule-defining) modal — Jane does not describe Bingley as he is, but measures him against an ideal template of young manhood and finds him a perfect match. This collapses the gap between **person** and **ideal**: Jane sees Bingley not as an individual but as the fulfilment of conventional virtue. The triadic list — '**sensible**, **good-humoured**, **lively**' — sounds comprehensive but is in fact generic, listing **conduct-book** virtues rather than specific traits.",
+      secondPoint:
+        "The exclamatory '**I never saw such happy manners**!' relies on the surface category of '**manners**' — exactly the **superficial** (surface-level) marker that Austen's novel teaches us to distrust. Jane's praise is sincere but **uncritical**; she has confused polished social performance with genuine character.",
+      keyWords: [
+        { word: "Prescriptive", def: "Setting out rules or standards that something ought to follow" },
+        { word: "Conduct-book virtues", def: "Generic moral qualities idealised in 18th–19th century guides for women" },
+        { word: "Uncritical", def: "Accepting without questioning or scrutinising" },
+      ],
+    },
+    rad: {
+      label: "STAGNATE",
+      analysis:
+        "Jane's perception barely changes across the novel — she begins assuming the best of everyone and ends the same way. Where Elizabeth undergoes painful **anagnorisis** (recognition), Jane never has to suffer the same epistemic shock because she never made the harsh judgements Elizabeth did. Austen presents this as a moral **virtue** (her charity) and a moral **limitation** (her inability to discern villainy in characters like Caroline Bingley or Wickham).",
+      keyWords: [
+        { word: "Anagnorisis", def: "A moment of critical self-recognition or discovery" },
+        { word: "Charity", def: "A disposition to think kindly of others" },
+      ],
+    },
+    technique2: {
+      title: "FOIL TO ELIZABETH",
+      analysis:
+        "Austen positions Jane as a **foil** (contrasting character) to Elizabeth: where Elizabeth is **discerning** (sharply observant) but prejudiced, Jane is generous but **undiscerning** (lacking critical judgement). The novel uses this **dialectical pair** to argue that neither extreme is sufficient — true moral perception requires both Elizabeth's scepticism AND Jane's charity. Jane's praise of Bingley sets up the architecture of the entire sister-relationship.",
+      secondPoint:
+        "Elizabeth's reply — 'Oh! you are a great deal too apt, you know, to like people in general. You never see a fault in any body' — makes the contrast explicit. Austen uses sibling **dialogue** as a structural device: through their disagreements, the reader is invited to weigh competing moral epistemologies — how do we **know** what people are really like?",
+      keyWords: [
+        { word: "Foil", def: "A character whose contrast highlights another character's qualities" },
+        { word: "Dialectical pair", def: "Two opposing positions whose tension generates meaning" },
+        { word: "Epistemology", def: "The study of how we know what we know" },
+      ],
+    },
+    context: {
+      points: [
+        {
+          label: "REGENCY FEMININE IDEAL",
+          text: "Jane embodies the conduct-book ideal of Regency womanhood — modest, charitable, emotionally restrained — promoted in works like Hannah More's *Strictures on the Modern System of Female Education* (1799). Austen treats this ideal **ambivalently**: Jane's goodness is real, but Austen suggests its uncritical sweetness leaves women defenceless against **moral hazards** like Wickham or Caroline.",
+        },
+        {
+          label: "FIRST IMPRESSIONS",
+          text: "The novel's original title was *First Impressions*. Jane's snap judgement of Bingley is one of several **first-impression** episodes Austen scrutinises. Unlike Elizabeth's prejudicial first impression of Darcy, Jane's is correct in fact (Bingley is good) but **methodologically flawed**: she has no real evidence, only the lustre of his manners.",
+        },
+      ],
+      keyWords: [
+        { word: "Conduct book", def: "A guide to moral behaviour, especially for women, popular in the 18th–19th century" },
+        { word: "Methodologically flawed", def: "Reaching a possibly correct conclusion through unreliable reasoning" },
+      ],
+    },
+    wow: {
+      title: "THE EPISTEMOLOGY OF VIRTUE",
+      analysis:
+        "Critic Marilyn Butler argues in *Jane Austen and the War of Ideas* (1975) that Austen's novels are deeply concerned with the question of **rational discernment** — how to perceive moral truth in a world of polished surfaces. Jane's praise of Bingley exposes a Regency epistemological crisis: an entire culture trained to read **manners** as a window onto **character** when in fact the two were often dissociated. Wickham's manners are equally 'happy', and they conceal vice. Austen's mature moral philosophy demands what philosopher Iris Murdoch later called 'just attention' — the disciplined refusal to substitute idealisation for observation.",
+      keyWords: [
+        { word: "Rational discernment", def: "The capacity to distinguish truth from appearance through reasoned analysis" },
+        { word: "Just attention", def: "Iris Murdoch's term for the moral discipline of seeing others as they really are" },
+      ],
+    },
+  },
+  {
+    id: 31,
+    textSlug: "pride-prejudice",
+    quote: "I would wish not to be hasty in censuring any one; but I always speak what I think",
+    who: "Jane Bennet",
+    act: "Chapter 4",
+    themes: ["Appearance vs Reality", "Pride & Prejudice (Self-Knowledge)", "Gender & Female Agency"],
+    keyQuote: {
+      text: '"I would wish not to be hasty in censuring any one; but I always speak what I think"',
+      highlight: "not to be hasty in censuring",
+      note: "Jane's articulation of her own moral code — generosity in judgement, but honesty in expression. Austen uses this as Jane's defining ethical statement.",
+    },
+    technique1: {
+      title: "MODAL HEDGING / ETHICAL SYNTAX",
+      analysis:
+        "The **modal verb** '**would wish**' is doubly **hedged** (softened): not 'I will not' but 'I would *wish* not'. This grammatical caution mirrors Jane's moral caution — she refuses to commit to harsh judgement even at the level of grammar. The contrast with Elizabeth's confident declarative style is stark: Elizabeth says 'I cannot' or 'I will'; Jane says 'I would wish'.",
+      secondPoint:
+        "Yet the conjunction '**but**' marks a moral pivot: Jane is not weak. '**I always speak what I think**' is a declarative of unconditional honesty. Jane's mildness is therefore not **timidity** (lack of courage) but a **deliberate ethics** — she will not condemn lightly, but she will not lie. Austen distinguishes between two distinct virtues that lesser writers conflate.",
+      keyWords: [
+        { word: "Hedged", def: "Made cautious or qualified through softening language" },
+        { word: "Modal verb", def: "A verb (would, should, must, may) that signals possibility, obligation, or conditionality" },
+        { word: "Timidity", def: "Lack of courage or boldness" },
+      ],
+    },
+    rad: {
+      label: "STAGNATE",
+      analysis:
+        "Jane's stated principle holds firm across the novel — she is **morally constant**. When Bingley abandons her, she refuses to censure him; when Caroline snubs her, she refuses to assume malice. Austen uses Jane's **stasis** (unchanging quality) as a fixed point against which Elizabeth's moral motion can be measured. Jane does not need to grow because she does not err in the same way Elizabeth does.",
+      keyWords: [
+        { word: "Morally constant", def: "Holding the same ethical position consistently over time" },
+        { word: "Stasis", def: "A state of equilibrium or unchanging condition" },
+      ],
+    },
+    technique2: {
+      title: "BALANCED ANTITHESIS",
+      analysis:
+        "The sentence is structured as a **balanced antithesis** — a clause of restraint ('not to be hasty in censuring') against a clause of assertion ('I always speak what I think'). The semicolon enforces the equilibrium. This is the **architecture of Jane's character** in miniature: charity *and* honesty held in equal weight. Austen's prose **enacts** (performs through structure) the moral position it describes.",
+      secondPoint:
+        "The phrasing also gently rebuts Elizabeth's accusation that Jane is too **indiscriminate** (failing to distinguish). Jane is not refusing to judge — she is refusing to judge *hastily*. The distinction is **methodological**: judgement remains possible, but only after evidence. In this, Jane is closer to Austen's ideal reader than the impulsive Elizabeth.",
+      keyWords: [
+        { word: "Balanced antithesis", def: "A rhetorical structure where two opposing ideas are given equal grammatical weight" },
+        { word: "Indiscriminate", def: "Failing to make careful distinctions" },
+        { word: "Methodological", def: "Concerning the procedure or method by which something is reached" },
+      ],
+    },
+    context: {
+      points: [
+        {
+          label: "FEMININE RESTRAINT",
+          text: "Regency conduct manuals urged women to suppress strong opinions and avoid 'censorious' judgement — Jane's manner conforms to this ideal. But Austen complicates the convention: Jane's restraint is not enforced **passivity** (submissive inaction) but a chosen ethics. She speaks her mind — she simply refuses to do so cruelly.",
+        },
+        {
+          label: "THE CHRISTIAN ETHIC OF CHARITY",
+          text: "Jane's principle echoes the Pauline command in 1 Corinthians 13 that **charity** 'thinketh no evil'. As an Anglican clergyman's daughter, Austen knew this text intimately. Jane embodies Christian charity in a **secularised** (non-religious) form — a quietly moral principle that nonetheless retains its theological architecture.",
+        },
+      ],
+      keyWords: [
+        { word: "Censorious", def: "Severely critical or judgemental of others" },
+        { word: "Pauline", def: "Relating to the writings of Saint Paul in the New Testament" },
+        { word: "Secularised", def: "Made non-religious; transformed from religious to worldly form" },
+      ],
+    },
+    wow: {
+      title: "AUSTEN'S TWO-VIRTUE SYSTEM",
+      analysis:
+        "Critic Lionel Trilling argued that Austen's moral universe is structured around **paired virtues** — qualities that must be held in tension rather than collapsed. Elizabeth has **wit** and lacks **charity**; Jane has **charity** and lacks **wit**; Darcy has **judgement** and lacks **humility**; Bingley has **humility** and lacks **judgement**. The novel's romantic resolutions are **moral synthesis** (combining of virtues): Elizabeth marries the man whose discernment supplements her charity, and Jane marries the man whose mildness mirrors her own. Jane's statement here defines one half of the moral equation Austen spends the novel solving.",
+      keyWords: [
+        { word: "Paired virtues", def: "Moral qualities that must be balanced against one another to function correctly" },
+        { word: "Moral synthesis", def: "The combining of complementary virtues into a complete ethical character" },
+      ],
+    },
+  },
+  {
+    id: 32,
+    textSlug: "pride-prejudice",
+    quote: "We must not be so ready to fancy ourselves intentionally injured",
+    who: "Jane Bennet",
+    act: "Chapter 24",
+    themes: ["Appearance vs Reality", "Family & Reputation", "Pride & Prejudice (Self-Knowledge)"],
+    keyQuote: {
+      text: '"We must not be so ready to fancy ourselves intentionally injured"',
+      highlight: "fancy ourselves intentionally injured",
+      note: "Jane defending Caroline Bingley after she effectively engineers Bingley's withdrawal — Jane refuses to attribute malice even when the evidence supports it. A moment of moral clarity, but also moral naivety.",
+    },
+    technique1: {
+      title: "EPISTEMIC HUMILITY VS WILLED BLINDNESS",
+      analysis:
+        "The verb '**fancy**' is crucial — Jane suggests that perceiving malice may itself be a kind of **imagination** (subjective construction) rather than observation. This is **epistemic humility** (acknowledging the limits of one's knowledge): we cannot easily know other people's intentions. But Austen uses **dramatic irony** — the reader knows Caroline did intend the injury — to push the line into a different register: Jane's humility tips into **willed blindness** (a deliberate refusal to see).",
+      secondPoint:
+        "The **collective pronoun** '**we**' is generous but evasive — Jane includes Elizabeth in the lesson, softening what is in fact her own moral creed. The modal '**must not**' carries quiet weight: this is not a preference but a duty. Jane treats charity as a **moral obligation**, not a personality trait.",
+      keyWords: [
+        { word: "Epistemic humility", def: "Acknowledging the limits of one's own knowledge or judgement" },
+        { word: "Willed blindness", def: "A chosen refusal to perceive something true and unwelcome" },
+        { word: "Dramatic irony", def: "When the reader knows something the character does not" },
+      ],
+    },
+    rad: {
+      label: "STAGNATE",
+      analysis:
+        "Even faced with concrete evidence of Caroline's manipulation, Jane refuses to reframe her view. This is Jane's **structural stasis**: she does not **regress** (her ethics remain intact) but neither does she **progress** (she fails to learn the lesson the evidence offers). Austen presents this **ambivalently** — Jane is preserved from cynicism, but also from **moral realism** (clear-eyed perception of human cruelty).",
+      keyWords: [
+        { word: "Structural stasis", def: "Remaining unchanged in a way that defines the character's role in the narrative" },
+        { word: "Moral realism", def: "Honest perception of human capacity for evil or self-interest" },
+      ],
+    },
+    technique2: {
+      title: "AUSTEN'S DOUBLE-VOICED IRONY",
+      analysis:
+        "The line operates on **two simultaneous registers**: as Jane's sincere moral teaching, and as Austen's quiet **critique** of that teaching. Austen never directly contradicts Jane — that would be too crude — but the surrounding plot structure exposes the **inadequacy** (insufficient response) of Jane's principle to the actual situation. This is Austen's **double-voiced** technique: characters speak for themselves, but the **architecture** of the novel speaks against them.",
+      secondPoint:
+        "The phrase '**so ready**' is itself a quiet **admonition** (gentle reproof): Jane suggests that Elizabeth's quickness to see malice is a **moral failing**. But Elizabeth is *right*. Austen creates a scene in which the **wiser-sounding** sister is wrong, and the **harsher-sounding** sister is right. The reader must judge between them — and that judgement is the point.",
+      keyWords: [
+        { word: "Double-voiced", def: "A literary technique where a single utterance carries both a character's meaning and the author's contrasting commentary" },
+        { word: "Admonition", def: "A gentle warning or rebuke" },
+        { word: "Inadequacy", def: "Insufficiency in proportion to what is required" },
+      ],
+    },
+    context: {
+      points: [
+        {
+          label: "WOMEN AND MORAL JUDGEMENT",
+          text: "Regency women were socially discouraged from harsh judgement — to be 'censorious' was unfeminine. Jane's principle reflects this conditioning. Austen explores the **double bind**: women trained to charity are also disarmed against the social predators (Caroline, Wickham) who exploit precisely this expectation of female generosity.",
+        },
+        {
+          label: "THE SISTERS AS MORAL POLES",
+          text: "Jane and Elizabeth are positioned as **moral poles** of feminine response: Jane represents charitable interpretation, Elizabeth represents critical interpretation. Austen does not award the moral victory to either, but argues that the **synthesis** is the true ideal — and that women must learn to **discern** even when society rewards naivety.",
+        },
+      ],
+      keyWords: [
+        { word: "Censorious", def: "Severely critical or judgemental of others" },
+        { word: "Double bind", def: "A situation in which any choice produces an unsatisfactory outcome" },
+      ],
+    },
+    wow: {
+      title: "JUDITH SHKLAR ON CRUELTY",
+      analysis:
+        "Political philosopher Judith Shklar argued in *Ordinary Vices* (1984) that **putting cruelty first** — recognising it as the worst of vices — requires the willingness to *see* it, even when civility discourages such recognition. Jane's principle, charitable as it sounds, may unintentionally **enable** cruelty by refusing to name it. Austen anticipates this insight by 170 years: the polite refusal to attribute bad intent is one of the social mechanisms by which **predatory characters** (Caroline, Wickham) operate. The novel's moral education involves learning when charity tips into complicity.",
+      keyWords: [
+        { word: "Putting cruelty first", def: "Shklar's principle that recognising cruelty as the worst vice should be the foundation of liberal ethics" },
+        { word: "Complicity", def: "Involvement, often passive, in wrongdoing" },
+      ],
+    },
+  },
+  {
+    id: 33,
+    textSlug: "pride-prejudice",
+    quote: "I am certainly the most fortunate creature that ever existed!",
+    who: "Jane Bennet",
+    act: "Chapter 55",
+    themes: ["Marriage & Economics", "Family & Reputation", "Moral Growth"],
+    keyQuote: {
+      text: '"I am certainly the most fortunate creature that ever existed!"',
+      highlight: "the most fortunate creature",
+      note: "Jane's exclamation upon her engagement to Bingley — characteristically attributing her happiness to **fortune** rather than any merit of her own. Even her joy is humble.",
+    },
+    technique1: {
+      title: "THE LANGUAGE OF FORTUNE, NOT MERIT",
+      analysis:
+        "Jane describes herself as '**fortunate**', not deserving. The vocabulary of '**fortune**' (luck, chance) **decentres** (removes from the centre) Jane's own agency in her happiness — she does not say 'I have earned this' but 'this has happened to me'. This is consistent with her character: even in joy she practises **humility** (modesty about her own worth).",
+      secondPoint:
+        "The **superlative** '**the most fortunate creature that ever existed**' is hyperbolic, but the hyperbole is **reverent** rather than self-aggrandising — it is wonder at being chosen, not pride at having achieved. The noun '**creature**' adds a quiet **theological resonance** (echo of religious ideas): Jane is one of God's creatures, blessed beyond what she imagined possible.",
+      keyWords: [
+        { word: "Decentres", def: "Removes from the central or primary position" },
+        { word: "Superlative", def: "The highest grade of comparison ('most', '-est')" },
+        { word: "Theological resonance", def: "Echoes of religious or spiritual meaning" },
+      ],
+    },
+    rad: {
+      label: "PROGRESS",
+      analysis:
+        "Jane's **progress** is not internal — she has not changed character — but **circumstantial**: she has moved from quiet suffering to fulfilled love. Austen rewards Jane's **constancy** (steadfastness): her refusal to grow bitter when Bingley left, and her refusal to abandon hope, are vindicated by his return. Jane's reward is a **moral economy** — patience answered with happiness.",
+      keyWords: [
+        { word: "Constancy", def: "Steadfastness in love or principle" },
+        { word: "Moral economy", def: "A system in which moral conduct is rewarded by appropriate outcomes" },
+      ],
+    },
+    technique2: {
+      title: "CONTRAST WITH ELIZABETH'S JOY",
+      analysis:
+        "Compare with Elizabeth's response to her own engagement: '**till this moment I never knew myself**'. Elizabeth's joy is **epistemological** (about knowledge); Jane's is **gratitudinal** (about thankfulness). Austen distinguishes two registers of happy ending: the heroine who has **learned** her way to love, and the heroine who has **endured** her way to it. Both are valid, but they are not the same.",
+      secondPoint:
+        "Jane's exclamation also **rebuts** the cynical opening of the novel — '**a single man... must be in want of a wife**'. The novel began with marriage as economic necessity; it ends with Jane experiencing marriage as **grace**. Austen's structural arc is **redemptive** (restorative): the institution mocked in Chapter 1 is, in selected cases, capable of providing genuine happiness.",
+      keyWords: [
+        { word: "Epistemological", def: "Concerning the nature of knowledge and understanding" },
+        { word: "Gratitudinal", def: "Marked by thankfulness and gratitude" },
+        { word: "Redemptive arc", def: "A narrative structure in which something flawed is restored to wholeness" },
+      ],
+    },
+    context: {
+      points: [
+        {
+          label: "THE 'LUCKY' MARRIAGE",
+          text: "Jane's marriage to Bingley resolves several Regency anxieties simultaneously: she gains **economic security** (£5,000 a year), **social elevation** (mistress of Netherfield, then her own estate), and **affectionate union** (love-based marriage). Austen presents this as the **ideal Regency outcome** — the rare alignment of love, fortune, and social respectability.",
+        },
+        {
+          label: "PROVIDENCE AND PATIENCE",
+          text: "Jane's word '**fortunate**' carries echoes of **providence** — the religious doctrine that events unfold under divine guidance. Austen, herself the daughter of an Anglican rector, often presents the resolutions of her plots as quietly **providential** (divinely ordered). Jane's patience is rewarded not arbitrarily but justly.",
+        },
+      ],
+      keyWords: [
+        { word: "Providence", def: "Divine guidance of events; the doctrine that life is shaped by a benevolent higher power" },
+        { word: "Social elevation", def: "An increase in one's social rank or status" },
+      ],
+    },
+    wow: {
+      title: "AUSTEN'S TWO MARRIAGE PLOTS",
+      analysis:
+        "Critic D. A. Miller argues in *Jane Austen, or The Secret of Style* (2003) that Austen always tells **two marriage plots simultaneously** — the **dramatic** plot of mutual transformation (Elizabeth–Darcy) and the **quiet** plot of patient constancy (Jane–Bingley). Both are valid models of marriage; neither is privileged over the other. Jane's '**fortunate**' suggests she understands her happiness as gift, not achievement, and Austen — without irony — agrees with her. Not every good marriage is a struggle for self-knowledge; some are simply the steady arrival of two **temperamentally compatible** (well-matched in character) people at the recognition they always belonged together.",
+      keyWords: [
+        { word: "Temperamentally compatible", def: "Well-suited in disposition and emotional character" },
+        { word: "Constancy plot", def: "A narrative arc in which steady fidelity, rather than dramatic change, is rewarded" },
+      ],
+    },
+  },
+
+  // ─── MR BINGLEY — 4 quotes ───
+
+  {
+    id: 34,
+    textSlug: "pride-prejudice",
+    quote: "Oh! she is the most beautiful creature I ever beheld!",
+    who: "Mr Bingley",
+    act: "Chapter 3 (Meryton Ball)",
+    themes: ["Appearance vs Reality", "Marriage & Economics", "Pride & Prejudice (Self-Knowledge)"],
+    keyQuote: {
+      text: '"Oh! she is the most beautiful creature I ever beheld!"',
+      highlight: "most beautiful creature",
+      note: "Bingley's first reaction to Jane at the Meryton ball — instant, uncritical, exclamatory. His openness is **charming** but also reveals the **superficial** basis on which his attachments form.",
+    },
+    technique1: {
+      title: "EXCLAMATORY IMPULSIVENESS",
+      analysis:
+        "The exclamation marks frame the line as **reflexive emotion** rather than considered judgement. The interjection '**Oh!**' is the linguistic mark of feeling that has bypassed thought — Bingley does not weigh; he reacts. This **impulsiveness** (acting without forethought) defines his character: where Darcy stands apart and judges, Bingley enters and feels.",
+      secondPoint:
+        "The **superlative** '**most beautiful**' and the absolute '**ever beheld**' are **hyperbolic** (exaggerated): on first sight, Bingley reaches the highest possible category of praise. There is no **gradient** of judgement, only the immediate maximum. Austen marks Bingley as a man of **strong but undiscriminating** affections — generous in feeling, weak in evaluation.",
+      keyWords: [
+        { word: "Reflexive emotion", def: "Feeling that occurs immediately without conscious deliberation" },
+        { word: "Hyperbolic", def: "Deliberately exaggerated for rhetorical effect" },
+        { word: "Undiscriminating", def: "Not making careful distinctions of quality or value" },
+      ],
+    },
+    rad: {
+      label: "STAGNATE",
+      analysis:
+        "Bingley's mode of perception does not change across the novel. He admires Jane on sight; he is talked out of her by Darcy and Caroline; he returns when permitted. Austen presents Bingley as a man of **fixed amiability** but **fluid will** — his feelings are constant, but his actions are determined by whoever has most recently spoken to him. He needs **external** correction (Darcy's eventual confession) to act on his own desires.",
+      keyWords: [
+        { word: "Amiability", def: "Friendliness; pleasant disposition" },
+        { word: "Fluid will", def: "An easily influenced or shifting decision-making capacity" },
+      ],
+    },
+    technique2: {
+      title: "FOIL TO DARCY",
+      analysis:
+        "Bingley's exclamation is set in immediate **counterpoint** (contrast) to Darcy's '**tolerable, but not handsome enough**'. Where Bingley overstates, Darcy understates; where Bingley feels, Darcy assesses. Austen places these reactions side by side to map the **affective spectrum** (range of feeling) of Regency masculinity: from **uncritical warmth** to **critical coldness**. Both extremes will require correction.",
+      secondPoint:
+        "The line also sets up the novel's parallel marriage plots. Bingley's instant attachment to Jane will track quietly through the book while Elizabeth and Darcy's painful **dialectic** (process of opposing positions resolved into truth) plays out. Austen uses Bingley's emotional **transparency** as a **structural counterweight** to Darcy's reserve.",
+      keyWords: [
+        { word: "Counterpoint", def: "A contrasting element placed alongside another for emphasis" },
+        { word: "Affective spectrum", def: "The range of emotional dispositions" },
+        { word: "Structural counterweight", def: "An element that balances another within a narrative architecture" },
+      ],
+    },
+    context: {
+      points: [
+        {
+          label: "TRADE WEALTH AT THE BALL",
+          text: "Bingley's £5,000 a year derives from **trade** (commerce), not inherited estate — his fortune is one generation old. His **affability** (friendly openness) at the Meryton ball reflects this: unlike the **landed gentry** Darcy, Bingley does not feel he must maintain aristocratic distance. New money is socially mobile; old money guards its borders.",
+        },
+        {
+          label: "ASSEMBLY ROOM CULTURE",
+          text: "The Meryton **assembly** was the public space where the **mercantile** middle classes and **landed** gentry could mix. Bingley embraces the mixing; Darcy resists it. Austen uses the assembly room as a microcosm of Regency social negotiation — and Bingley's exuberance marks him as a man comfortable in this **liminal** (in-between) space.",
+        },
+      ],
+      keyWords: [
+        { word: "Affability", def: "Friendly, easy-mannered openness" },
+        { word: "Mercantile", def: "Relating to trade and commerce" },
+        { word: "Liminal space", def: "A threshold or in-between zone where boundaries blur" },
+      ],
+    },
+    wow: {
+      title: "THE MAN OF FEELING",
+      analysis:
+        "Bingley belongs to a recognisable late-18th-century literary type — the **man of feeling** — popularised by novels like Henry Mackenzie's *The Man of Feeling* (1771), in which masculine virtue was redefined as emotional **sensibility** (capacity for refined feeling) rather than martial honour. Austen's attitude to this type is **complicated**: she values Bingley's warmth, but the novel insists that **feeling without judgement** leaves a man vulnerable to manipulation. Bingley's Regency descendants — Romantic heroes overwhelmed by sentiment — are, in Austen's view, only half-men. The other half is Darcy.",
+      keyWords: [
+        { word: "Sensibility", def: "Refined emotional responsiveness, especially as a virtue in 18th-century thought" },
+        { word: "Man of feeling", def: "A late-18th-century literary type defined by emotional openness rather than martial virtue" },
+      ],
+    },
+  },
+  {
+    id: 35,
+    textSlug: "pride-prejudice",
+    quote: "I would not be so fastidious as you are... for a kingdom!",
+    who: "Mr Bingley",
+    act: "Chapter 3 (Meryton Ball)",
+    themes: ["Class & Social Mobility", "Pride & Prejudice (Self-Knowledge)", "Appearance vs Reality"],
+    keyQuote: {
+      text: '"I would not be so fastidious as you are... for a kingdom!"',
+      highlight: "fastidious",
+      note: "Bingley's playful rebuke of Darcy at the ball — naming Darcy's fault aloud, but in the affectionate register of friendship. The first **diagnosis** of Darcy's pride in the novel comes not from Elizabeth but from Bingley.",
+    },
+    technique1: {
+      title: "AFFECTIONATE DIAGNOSIS",
+      analysis:
+        "The adjective '**fastidious**' (excessively particular) is a **precise critique** delivered in the warmest register. Bingley does not flatter or evade — he **names** Darcy's flaw — but the playful **hyperbole** ('**for a kingdom!**') frames the criticism as banter rather than rebuke. Austen establishes that Bingley sees Darcy clearly; he simply chooses to love him anyway.",
+      secondPoint:
+        "This is Austen's **definition of friendship**: the willingness to perceive a friend's faults without **flinching** (recoiling) and without **condemning**. Bingley diagnoses what Elizabeth will spend the novel learning. The reader is invited to notice that the **insider** to Darcy's life sees what the **outsider** (Elizabeth) does not.",
+      keyWords: [
+        { word: "Fastidious", def: "Very attentive to and concerned about accuracy and detail; excessively particular" },
+        { word: "Affectionate diagnosis", def: "Naming someone's fault from a position of love rather than condemnation" },
+        { word: "Banter", def: "Playful, teasing exchange between friends" },
+      ],
+    },
+    rad: {
+      label: "STAGNATE",
+      analysis:
+        "Bingley's perception is **clear-eyed** but produces no action. He sees Darcy's **fastidiousness** but does not — at this point or later — refuse Darcy's authority over his own affairs (notably, his withdrawal from Jane). Austen makes the point precisely: **insight without resolve** is morally insufficient. Bingley sees the truth; he just lets Darcy override it.",
+      keyWords: [
+        { word: "Clear-eyed", def: "Perceiving accurately and without illusion" },
+        { word: "Resolve", def: "Firm determination to act on one's perceptions or principles" },
+      ],
+    },
+    technique2: {
+      title: "DRAMATIC IRONY OF THE OUTSIDER",
+      analysis:
+        "Elizabeth overhears this exchange — but does not yet know how perceptive Bingley's view is. Austen creates **dramatic irony**: the reader, on rereading, recognises that the most accurate description of Darcy in the novel's opening pages comes from the man who knows him best. Elizabeth's later **prejudice** ignores what Bingley has already established — that Darcy's **fastidiousness** is real but **affectionate** (not malicious).",
+      secondPoint:
+        "The **conditional** structure ('**I would not be**') performs a quiet **comparison**: Bingley positions himself as Darcy's opposite. Yet the friendship persists. Austen uses the line to **prefigure** (anticipate) the novel's deeper argument: that **opposites in temperament** can love each other through **complementarity** rather than identity.",
+      keyWords: [
+        { word: "Prefigure", def: "To suggest or hint at something that will occur later" },
+        { word: "Complementarity", def: "The state of two things completing each other through difference" },
+        { word: "Conditional", def: "A grammatical construction expressing a hypothetical or dependent action" },
+      ],
+    },
+    context: {
+      points: [
+        {
+          label: "FRIENDSHIP ACROSS CLASS",
+          text: "Darcy and Bingley represent an unusual Regency friendship — **landed nobility** and **trade wealth** as intimate friends. Austen presents this as a model of **class permeability** (the possibility of crossing class boundaries through genuine affection), even as the broader society resists it. Bingley's willingness to name Darcy's fault is a sign of **equality of mind** despite **inequality of birth**.",
+        },
+        {
+          label: "REGENCY MASCULINE BANTER",
+          text: "Verbal sparring between gentlemen at assemblies was a recognised **performance of masculine wit**. But Austen distinguishes Bingley's banter from the **calculated** wit of figures like Wickham: Bingley's playfulness is **transparent**, with no hidden agenda. The **register** (level of formality and tone) tells us Bingley is honest even in jest.",
+        },
+      ],
+      keyWords: [
+        { word: "Class permeability", def: "The degree to which boundaries between classes can be crossed" },
+        { word: "Register", def: "The level of formality and tone appropriate to a particular context" },
+      ],
+    },
+    wow: {
+      title: "THE ETHICS OF CANDOUR",
+      analysis:
+        "Philosopher Bernard Williams in *Truth and Truthfulness* (2002) distinguishes between two virtues of honesty: **accuracy** (saying what is true) and **sincerity** (meaning what one says). Bingley exemplifies both: he sees Darcy accurately and speaks his perception sincerely. Austen treats this **double honesty** as the **foundation** of genuine friendship — and as the standard against which **dishonest** characters (Wickham, Caroline) are measured. The line shows that even **minor** moments in Austen carry the weight of her **moral psychology**: honesty between friends is the **structural condition** of every other good thing in the novel.",
+      keyWords: [
+        { word: "Accuracy", def: "The virtue of saying what is true" },
+        { word: "Sincerity", def: "The virtue of meaning what one says" },
+        { word: "Moral psychology", def: "The study of how moral qualities operate within individual character" },
+      ],
+    },
+  },
+  {
+    id: 36,
+    textSlug: "pride-prejudice",
+    quote: "Whatever I do is done in a hurry... and therefore if I should resolve to quit Netherfield, I should probably be off in five minutes",
+    who: "Mr Bingley",
+    act: "Chapter 10",
+    themes: ["Pride & Prejudice (Self-Knowledge)", "Appearance vs Reality", "Family & Reputation"],
+    keyQuote: {
+      text: '"Whatever I do is done in a hurry... and therefore if I should resolve to quit Netherfield, I should probably be off in five minutes"',
+      highlight: "done in a hurry",
+      note: "Bingley's self-description — disarmingly honest about his own **impetuosity** (impulsive haste). Austen plants this line as a **structural clue**: Bingley's later abrupt withdrawal from Netherfield (and from Jane) is not out of character but **predicted by him**.",
+    },
+    technique1: {
+      title: "DRAMATIC FORESHADOWING",
+      analysis:
+        "The line is a textbook example of **foreshadowing** (anticipating future events). When Bingley later abandons Netherfield in haste — abandoning Jane in the process — the reader recalls this moment. Austen uses Bingley's own self-description as the **structural seed** of the novel's central crisis. The character has **diagnosed himself** before the diagnosis becomes catastrophic.",
+      secondPoint:
+        "The **conditional construction** ('**if I should resolve... I should probably**') reveals a man who experiences his own decisions as **somewhat external** to himself — they 'happen' to him in the form of resolutions that arrive suddenly. This is not **deliberation** (careful weighing) but **succession** (one impulse following another). Austen shows that **easygoing** men can be as morally dangerous as **hard** ones, in a different register.",
+      keyWords: [
+        { word: "Foreshadowing", def: "A literary technique that hints at events to come later in the narrative" },
+        { word: "Impetuosity", def: "Acting on impulse rather than careful reflection" },
+        { word: "Deliberation", def: "Careful, slow consideration of options before acting" },
+      ],
+    },
+    rad: {
+      label: "STAGNATE",
+      analysis:
+        "Bingley does not change. He acts in haste; he is later persuaded out of his attachment to Jane in haste; he is restored to it in haste once Darcy permits it. Austen presents this as a **moral limitation** disguised as **charm**: Bingley's haste makes him **lovable** but also **manipulable**. He never develops the **deliberative capacity** that would protect his judgement from external influence.",
+      keyWords: [
+        { word: "Manipulable", def: "Easily influenced or controlled by others" },
+        { word: "Deliberative capacity", def: "The ability to weigh options carefully before deciding" },
+      ],
+    },
+    technique2: {
+      title: "COMIC SELF-AWARENESS",
+      analysis:
+        "Bingley's self-awareness is **partial**: he names his haste as a fact but does not treat it as a **fault**. The tone is **comic** rather than confessional — he shares his impulsiveness as a charming quirk, not a moral problem. Austen creates a **gap** between the character's self-perception and the reader's: what Bingley offers as **endearing trivia** the reader will retrospectively recognise as a **structural defect**.",
+      secondPoint:
+        "Compare with Darcy's eventual self-criticism: '**By you, I was properly humbled**'. Darcy treats his fault as a moral problem requiring change. Bingley treats his fault as a **personality feature**. Austen distinguishes the two **modes of self-relation**: **morally accountable** self-knowledge versus **complacent** self-knowledge. The reader is asked to notice the difference.",
+      keyWords: [
+        { word: "Comic self-awareness", def: "Recognition of one's own quirks treated as amusing rather than morally significant" },
+        { word: "Morally accountable", def: "Holding oneself responsible for one's faults and committed to change" },
+        { word: "Complacent", def: "Smugly satisfied with oneself without critical reflection" },
+      ],
+    },
+    context: {
+      points: [
+        {
+          label: "REGENCY 'AMIABLE' MASCULINITY",
+          text: "Bingley embodies the **amiable** (friendly, easygoing) gentleman that Regency society praised. But Austen subjects this ideal to **scrutiny**: amiability that lacks **firmness of character** can be a kind of **moral abdication** (giving up of responsibility). Jane will pay the price for Bingley's ease.",
+        },
+        {
+          label: "DARCY'S LATER DIAGNOSIS",
+          text: "In his letter, Darcy admits he persuaded Bingley out of Jane: 'his **easiness of temper**, his **want of resolution**, threw him entirely upon my friendship'. Darcy's words echo Bingley's self-description in this passage. Austen structures the novel so that the same **trait** is identified twice — once as charm, once as moral failing.",
+        },
+      ],
+      keyWords: [
+        { word: "Amiability", def: "Friendliness and easygoing pleasantness" },
+        { word: "Moral abdication", def: "The surrender of one's moral responsibility, often by deferring to another" },
+      ],
+    },
+    wow: {
+      title: "AKRASIA AND CHARACTER",
+      analysis:
+        "Aristotle's concept of **akrasia** (weakness of will) describes a person who knows what is right but lacks the **firmness** to act on it. Bingley is not strictly **akratic** — he does not know what is right and fail to do it; rather, he **lacks a stable centre** from which to know. Philosopher Harry Frankfurt distinguishes between **wantons** (those whose desires are unranked) and **persons** (those whose desires are organised by **second-order** reflection). Bingley hovers near the wanton: his impulses are good, but they are not **disciplined** by reflective self-government. Austen quietly insists that **good nature** without **structure of will** is not enough for moral life.",
+      keyWords: [
+        { word: "Akrasia", def: "Aristotle's term for weakness of will — knowing what is right but failing to do it" },
+        { word: "Wanton", def: "Frankfurt's term for a person whose desires are unranked by reflection" },
+        { word: "Second-order reflection", def: "The capacity to evaluate one's own desires and choose among them" },
+      ],
+    },
+  },
+  {
+    id: 37,
+    textSlug: "pride-prejudice",
+    quote: "I declare I do not know a more awful object than Darcy, on particular occasions, and in particular places; at his own house especially, and of a Sunday evening, when he has nothing to do",
+    who: "Mr Bingley",
+    act: "Chapter 11 (Netherfield)",
+    themes: ["Class & Social Mobility", "Pride & Prejudice (Self-Knowledge)", "Family & Reputation"],
+    keyQuote: {
+      text: '"I declare I do not know a more awful object than Darcy, on particular occasions, and in particular places; at his own house especially, and of a Sunday evening, when he has nothing to do"',
+      highlight: "more awful object than Darcy",
+      note: "Bingley's affectionate teasing of Darcy at Netherfield — only the man who **loves** Darcy can mock him this freely. The line reveals the texture of their friendship and humanises Darcy through Bingley's eyes.",
+    },
+    technique1: {
+      title: "TEASING AS INTIMACY",
+      analysis:
+        "Bingley's **teasing** is a marker of **deep familiarity** — only an intimate can speak this way. The escalating specificity ('**on particular occasions, and in particular places; at his own house especially, and of a Sunday evening, when he has nothing to do**') performs a small comic **crescendo** (gradual increase). Each clause narrows further until the absurd specificity (a **Sunday evening** of unoccupied gloom) becomes funny precisely because it is **observed** with such precision.",
+      secondPoint:
+        "The noun '**object**' is mock-formal: Darcy is reduced to a thing, an **awful** spectacle. But the irony cuts both ways — Bingley's mockery is **gentle** (softened by affection), and the reader senses that the man being mocked has earned the right to be teased by being **lovable enough** to be mocked. Austen uses this to **humanise** Darcy at a moment when he has been seen, by Elizabeth, only as forbidding.",
+      keyWords: [
+        { word: "Crescendo", def: "A gradual increase in intensity or specificity" },
+        { word: "Mock-formal", def: "Using formal or elevated language for comic effect" },
+        { word: "Humanise", def: "To present as relatable and human rather than imposing or distant" },
+      ],
+    },
+    rad: {
+      label: "STAGNATE",
+      analysis:
+        "Bingley's perception of Darcy does not change — he sees the same friend at the start and end of the novel. This **constancy of view** is itself a form of moral testimony: Bingley vouches for a Darcy whom Elizabeth must learn to see. Austen places Bingley as **witness**: he does not develop, but he provides the **stable reference** against which Elizabeth's misjudgement and correction can be measured.",
+      keyWords: [
+        { word: "Witness", def: "One who attests to the truth of another's character" },
+        { word: "Constancy of view", def: "Holding the same perception consistently over time" },
+      ],
+    },
+    technique2: {
+      title: "INDIRECT CHARACTERISATION",
+      analysis:
+        "Austen uses Bingley's words as **indirect characterisation** of Darcy: we learn about Darcy not from the narrator or from Darcy himself, but from the reactions of those who love him. This is **dramaturgically** (in terms of how the scene unfolds) sophisticated — the **affection** beneath the mockery tells the reader that Darcy is worth loving long before Elizabeth recognises this. Bingley's tone **leaks** information about Darcy that the surface plot conceals.",
+      secondPoint:
+        "The line also **displaces** the novel's **anxiety** about Darcy's pride into a comic register. What Elizabeth experiences as **wounding hauteur** ('not handsome enough'), Bingley experiences as **familiar gloom** to be teased. Austen invites the reader to hold both perceptions simultaneously: Darcy is **really** proud, AND Darcy is really **lovable** to those who know him. The novel will reconcile these views; for now, Bingley supplies the **second** view alone.",
+      keyWords: [
+        { word: "Indirect characterisation", def: "Revealing a character through the perceptions and reactions of others" },
+        { word: "Hauteur", def: "Haughty manner; proud aloofness" },
+        { word: "Dramaturgy", def: "The art of how a scene is structured and unfolds" },
+      ],
+    },
+    context: {
+      points: [
+        {
+          label: "SUNDAY OBSERVANCE",
+          text: "Reference to '**Sunday evening**' invokes the strict Regency **Sabbath** (day of rest), when secular activity was forbidden — no work, no cards, no public amusement. A naturally **occupied** man like Darcy would find Sundays especially **oppressive** (heavily restrictive). Bingley's joke is **culturally precise**: the Sabbath was a real source of upper-class **boredom** beneath the religious veneer.",
+        },
+        {
+          label: "MALE FRIENDSHIP IN AUSTEN",
+          text: "Austen's novels rarely depict male friendship in detail — male characters are usually seen through female perception. The Bingley–Darcy friendship is one of her **most developed** (fully realised) male bonds, and it operates as a **moral subplot**: the **integrity** of their friendship is what Darcy ultimately injures by overruling Bingley's affection for Jane, and what he must repair by releasing Bingley to choose for himself.",
+        },
+      ],
+      keyWords: [
+        { word: "Sabbath", def: "The weekly day of religious observance and rest, traditionally Sunday in Christian practice" },
+        { word: "Oppressive", def: "Heavily restrictive, weighing down on the spirit" },
+      ],
+    },
+    wow: {
+      title: "FRIENDSHIP AS MORAL EVIDENCE",
+      analysis:
+        "Aristotle in the *Nicomachean Ethics* argues that **the best friendships** are those between **virtuous** people who recognise each other's virtue. Bingley's affectionate teasing of Darcy is, in Aristotelian terms, **evidence** of Darcy's underlying worth: a fool would not retain the steady love of a generous-hearted man. Critic Wayne Booth, in *The Company We Keep* (1988), argues that fiction teaches us **moral discrimination** by inviting us to **trust** certain witnesses over others. Austen uses Bingley as a **trusted witness** to Darcy's character — a **structural counterweight** to Wickham's later defamation. The reader who weighs the testimonies correctly will arrive, with Elizabeth, at the truth.",
+      keyWords: [
+        { word: "Trusted witness", def: "A character whose perceptions the reader is invited to credit as reliable" },
+        { word: "Moral discrimination", def: "The capacity to distinguish between morally good and bad characters or actions" },
+        { word: "Structural counterweight", def: "An element placed in tension with another to balance the work's moral architecture" },
       ],
     },
   },
